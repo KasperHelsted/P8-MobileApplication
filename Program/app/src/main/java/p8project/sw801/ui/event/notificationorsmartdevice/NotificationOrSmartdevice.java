@@ -1,6 +1,9 @@
 package p8project.sw801.ui.event.notificationorsmartdevice;
 
 import android.os.Bundle;
+import android.support.annotation.Nullable;
+
+import javax.inject.Inject;
 
 import p8project.sw801.BR;
 import p8project.sw801.R;
@@ -9,11 +12,13 @@ import p8project.sw801.ui.base.BaseFragment;
 
 public class NotificationOrSmartdevice extends BaseFragment<FragmentNotificationOrSmartdeviceBinding, NotificationOrSmartdeviceViewModel> implements NotificationOrSmartdeviceNavigator {
 
-    public static final String TAG = NotificationOrSmartdevice.class.getSimpleName();
+    @Inject
     NotificationOrSmartdeviceViewModel mNotificationOrSmartdeviceViewModel;
 
+    public static final String TAG = NotificationOrSmartdevice.class.getSimpleName();
+
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mNotificationOrSmartdeviceViewModel.setNavigator(this);
     }
@@ -39,15 +44,6 @@ public class NotificationOrSmartdevice extends BaseFragment<FragmentNotification
     public NotificationOrSmartdeviceViewModel getViewModel() {
         return mNotificationOrSmartdeviceViewModel;
     }
-
-    /*
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.fragment_notification_or_smartdevice, container, false);
-        return v;
-    }
-    */
 
     @Override
     public void goBack() {

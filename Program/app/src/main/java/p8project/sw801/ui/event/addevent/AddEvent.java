@@ -2,9 +2,13 @@ package p8project.sw801.ui.event.addevent;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 
 import javax.inject.Inject;
 
+import dagger.android.AndroidInjector;
+import dagger.android.DispatchingAndroidInjector;
+import dagger.android.support.HasSupportFragmentInjector;
 import p8project.sw801.BR;
 import p8project.sw801.R;
 import p8project.sw801.databinding.ActivityAddEventBinding;
@@ -13,10 +17,12 @@ import p8project.sw801.ui.event.createeventmap.CreateEventMap;
 import p8project.sw801.ui.event.notificationorsmartdevice.NotificationOrSmartdevice;
 
 
-public class AddEvent extends BaseActivity<ActivityAddEventBinding, AddEventViewModel> implements AddEventNavigator {
+public class AddEvent extends BaseActivity<ActivityAddEventBinding, AddEventViewModel> implements AddEventNavigator, HasSupportFragmentInjector {
     @Inject
     AddEventViewModel mAddEventViewModel;
     private ActivityAddEventBinding mActivityAddEventBinding;
+    @Inject
+    DispatchingAndroidInjector<Fragment> fragmentDispatchingAndroidInjector;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,8 +63,12 @@ public class AddEvent extends BaseActivity<ActivityAddEventBinding, AddEventView
         getSupportFragmentManager()
                 .beginTransaction()
                 .disallowAddToBackStack()
-                .add(R.id.main_content, NotificationOrSmartdevice.newInstance(), NotificationOrSmartdevice.TAG)
+                .add(R.id.testkage, NotificationOrSmartdevice.newInstance(), NotificationOrSmartdevice.TAG)
                 .commit();
+    }
 
+    @Override
+    public AndroidInjector<Fragment> supportFragmentInjector() {
+        return fragmentDispatchingAndroidInjector;
     }
 }
