@@ -1,0 +1,11 @@
+*.iml
+.gradle
+Program/local.properties
+Program/gradle.properties
+.DS_Store
+Program/captures
+.externalNativeBuild
+
+Program/build
+Program/.idea/
+.idea/
