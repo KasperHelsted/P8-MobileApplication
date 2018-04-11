@@ -63,7 +63,7 @@ public class AddEvent extends BaseActivity<ActivityAddEventBinding, AddEventView
         getSupportFragmentManager()
                 .beginTransaction()
                 .disallowAddToBackStack()
-                .add(R.id.testkage, NotificationOrSmartdevice.newInstance(), NotificationOrSmartdevice.TAG)
+                .add(R.id.event_activity_layout, NotificationOrSmartdevice.newInstance(), NotificationOrSmartdevice.TAG)
                 .commit();
     }
 
