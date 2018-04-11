@@ -6,4 +6,9 @@ public interface AddEventNavigator {
     void openCreateMapActivity();
 
     void showNotificationOrSmartdevice();
+
+    void showTimePickerDialog(int i);
+
+    void submitEventClick();
+
 }
