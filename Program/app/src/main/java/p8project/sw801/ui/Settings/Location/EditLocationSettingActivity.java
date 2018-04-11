@@ -1,11 +1,9 @@
 package p8project.sw801.ui.Settings.Location;
 
 import android.app.Activity;
-import android.arch.lifecycle.ViewModelProvider;
-import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
+import android.location.Address;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.view.KeyEvent;
 import android.view.View;
@@ -15,55 +13,23 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import javax.inject.Inject;
-
-import dagger.android.AndroidInjector;
-import dagger.android.DispatchingAndroidInjector;
-import dagger.android.support.HasSupportFragmentInjector;
-import p8project.sw801.BR;
 import p8project.sw801.R;
-import p8project.sw801.databinding.ActivityEditLocationSettingBinding;
-import p8project.sw801.ui.MapsActivity;
-import p8project.sw801.ui.Settings.SettingsNavigator;
-import p8project.sw801.ui.Settings.SettingsViewModel;
-import p8project.sw801.ui.base.BaseActivity;
-
+import p8project.sw801.ui.AddEvent.CreateEventMapActivity;
 /**
  * Created by clubd on 22-03-2018.
  */
 
-public class EditLocationSettingActivity extends BaseActivity<ActivityEditLocationSettingBinding,SettingsViewModel> implements SettingsNavigator, HasSupportFragmentInjector {
-    private ActivityEditLocationSettingBinding mActivityEditLocationSettingBinding;
-    private SettingsViewModel mSettingsViewModel;
-    @Inject
-    DispatchingAndroidInjector<Fragment> fragmentDispatchingAndroidInjector;
-    @Inject
-    ViewModelProvider.Factory mViewModelFactory;
-    @Override
-    public int getBindingVariable() {
-        return BR.viewModel;
-    }
-
-    @Override
-    public int getLayoutId() {
-        return R.layout.activity_edit_location_setting;
-    }
-
-    @Override
-    public SettingsViewModel getViewModel() {
-        mSettingsViewModel = ViewModelProviders.of(this, mViewModelFactory).get(SettingsViewModel.class);
-        return mSettingsViewModel;
-    }
+public class EditLocationSettingActivity extends AppCompatActivity {
 
     private String locationSettingName;
+    private Bundle addressBundle;
+    private Address address;
+    private TextView addressTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_location_setting);
-        mSettingsViewModel.setNavigator(this);
-        mActivityEditLocationSettingBinding = getViewDataBinding();
-
         Intent i = getIntent();
         locationSettingName = i.getStringExtra(locationSettingName);
 
@@ -73,48 +39,26 @@ public class EditLocationSettingActivity extends BaseActivity<ActivityEditLocati
         final EditText editTextName = findViewById(R.id.textInputLocationName);
         editTextName.setText(locationSettingName);
 
-        editTextName.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                boolean handled = false;
-                if (actionId == EditorInfo.IME_ACTION_DONE) {
-                    //Remove focus and hide keyboard
+        addressTextView = findViewById(R.id.addLocation);
+    }
 
-                    textView.setText(editTextName.getText());
-                    findViewById(R.id.editLocationSettingLayout).requestFocus();
+    public void showMapActivity(View v){
+        Intent mapIntent = new Intent(EditLocationSettingActivity.this, CreateEventMapActivity.class);
+        startActivityForResult(mapIntent, 0);
+    }
 
-                    //Hide keyboard
-                    InputMethodManager imm = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
-                    imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
-
-                    handled = true;
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch(requestCode) {
+            case (0) : {
+                if (resultCode == Activity.RESULT_OK) {
+                    addressBundle = data.getBundleExtra("address");
+                    address = addressBundle.getParcelable("address");
+                    addressTextView.setText(address.getAddressLine(0)+ ", " + address.getAddressLine(1) + ", " + address.getAddressLine(2));
                 }
-                return handled;
+                break;
             }
-        });
-
-
-        Button confirmButton = findViewById(R.id.button_editLocationSettingConfirm);
-        confirmButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String name = editTextName.getText().toString();
-
-                //TODO change in database
-
-                finish();
-            }
-        });
-
+        }
     }
 
-    @Override
-    public AndroidInjector<Fragment> supportFragmentInjector() {
-        return fragmentDispatchingAndroidInjector;
-    }
-
-    @Override
-    public void handleError(Throwable throwable) {
-
-    }
 }
