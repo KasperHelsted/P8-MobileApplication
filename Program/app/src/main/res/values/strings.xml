@@ -1,0 +1,36 @@
+<resources>
+    <string name="app_name">Notify Me</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
+    <string name="title_activity_my_smart_device">MySmartDeviceActivity</string>
+    <string name="title_myevents">My Events</string>
+    <string name="title_mysmartdevices">My Smart Devices</string>
+    <string name="title_menuhome">Home</string>
+    <string name="title_menumyevents">My events</string>
+    <string name="title_menumysmartdevices">My smart devices</string>
+    <string name="title_menuaddsmartdevice">Add smart device</string>
+    <string name="title_menusettings">Settings</string>
+    <string name="title_menuaboutus">About us</string>
+    <string name="title_menucontactus">Contact us</string>
+    <string name="open">Open</string>
+    <string name="close">Close</string>
+    <string name="tab_text_1">Home</string>
+    <string name="tab_text_2">My Events</string>
+    <string name="txt_pushlink">Pushlink</string>
+    <string name="press_pushlink_button">Press the link button on the bridge</string>
+    <string name="tab_text_3">My Smart Devices</string>
+    <string name="connecting">Connecting ...</string>
+    <string name="search_progress">Searching ...</string>
+    <string name="button_ok">OK</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_maps">Map</string>
+    <!--Toolbar menus-->
+    <string name="clear">Clear</string>
+    <string name="cut">Cut</string>
+    <string name="copy">Copy</string>
+    <string name="paste">Paste</string>
+    <string name="delete">Delete</string>
+    <string name="share">Share</string>
+</resources>

@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+    <data>
+        <import type="android.view.View" />
+        <variable
+            name="viewModel"
+            type="p8project.sw801.ui.Settings.SettingsActivity" />
+    </data>
+    <android.support.v4.widget.DrawerLayout
+        android:id="@+id/settingsactivity"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context="sw801.remindersystem.ActivityView.Activity.SettingsActivity">
+
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <EditText
+                android:id="@+id/editText_predefinedlocationsettings"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="72dp"
+                android:clickable="true"
+                android:cursorVisible="false"
+                android:drawableRight="@drawable/ic_keyboard_arrow_right_black_18dp"
+                android:ems="10"
+                android:focusable="false"
+                android:focusableInTouchMode="false"
+                android:inputType="textPersonName"
+                android:text="Predefined location settings"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/editText_globalmute" />
+
+            <EditText
+                android:id="@+id/editText_globalmute"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:clickable="true"
+                android:cursorVisible="false"
+                android:drawableRight="@drawable/ic_keyboard_arrow_right_black_18dp"
+                android:ems="10"
+                android:focusable="false"
+                android:focusableInTouchMode="false"
+                android:inputType="textPersonName"
+                android:text="Global mute setting"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <EditText
+                android:id="@+id/editText_preferredshoppingsettings"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="72dp"
+                android:clickable="true"
+                android:cursorVisible="false"
+                android:drawableRight="@drawable/ic_keyboard_arrow_right_black_18dp"
+                android:ems="10"
+                android:focusable="false"
+                android:focusableInTouchMode="false"
+                android:inputType="textPersonName"
+                android:text="Preferred shopping settings"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/editText_predefinedlocationsettings" />
+
+        </android.support.constraint.ConstraintLayout>
+
+    </android.support.v4.widget.DrawerLayout>
+</layout>
+

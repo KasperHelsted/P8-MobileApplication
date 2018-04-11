@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+    <data>
+        <import type="android.view.View" />
+        <variable
+            name="viewModel"
+        type="p8project.sw801.ui.main.MainViewModel" />
+    </data>
+
+
+    <android.support.v4.widget.DrawerLayout
+        android:id="@+id/homeactivity"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context="p8project.sw801.ui.main.Fragments.HomeFragment">
+
+
+
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#FFFFFF">
+
+            <Button
+                android:id="@+id/button_Create"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:gravity="center"
+                android:text="Create event"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <Button
+                android:id="@+id/button_MySmartDevices"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="40dp"
+                android:gravity="center"
+                android:text="My Smart Devices"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/button_MyEvents" />
+
+            <Button
+                android:id="@+id/button_MyEvents"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="44dp"
+                android:gravity="center"
+                android:text="My Events"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/button_Create" />
+
+            <Button
+                android:id="@+id/button_settings"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="44dp"
+                android:gravity="center"
+                android:text="Settings"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/button_MySmartDevices" />
+
+        </android.support.constraint.ConstraintLayout>
+
+        <!--    &lt;!&ndash;Burger menu &ndash;&gt;
+            <android.support.design.widget.NavigationView
+                android:id="@+id/burgermenu"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="start"
+                android:background="@android:color/white"
+                app:headerLayout="@layout/burgerheader"
+                app:itemIconTint="@android:color/black"
+                app:itemTextColor="@android:color/black"
+                app:menu="@menu/drawermenu">
+            </android.support.design.widget.NavigationView>-->
+    </android.support.v4.widget.DrawerLayout>
+</layout>
