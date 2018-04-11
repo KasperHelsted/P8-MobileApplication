@@ -1,5 +1,6 @@
 package p8project.sw801.ui.event.createeventmap;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.location.Address;
@@ -10,12 +11,15 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
+import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -42,22 +46,45 @@ public class CreateEventMap extends BaseActivity<ActivityCreateEventMapBinding, 
     @Inject
     DispatchingAndroidInjector<Fragment> fragmentDispatchingAndroidInjector;
 
-    private GoogleMap gmap;
-    private static LocationManager locManager;
-    private Marker marker;
-    private static Geocoder geocoder;
+
+
     private EditText editText;
-    private Button cancelButton;
-    private Button confirmButton;
     private Address a;
+    private Geocoder geocoder;
+    private Marker marker;
+    private GoogleMap gmap;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mActivityCreateEventMapBinding = getViewDataBinding();
         mCreateEventMapViewModel.setNavigator(this);
+        editText = mActivityCreateEventMapBinding.editTextCreateEventMapAddressbar;
+        setUp();
     }
 
+    public void setUp() {
+        // Obtain the SupportMapFragment and get notified when the map is ready to be used.
+        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
+                .findFragmentById(R.id.g_map);
+        mapFragment.getMapAsync(this);
+    }
+
+    @Override
+    public void cancelButton(){
+        finish();
+    }
+    @Override
+    public void confirmButton(){
+        Intent resultIntent = new Intent();
+
+        Bundle b = new Bundle();
+        b.putParcelable("address", a);
+        resultIntent.putExtra("address", b);
+        setResult(Activity.RESULT_OK, resultIntent);
+        finish();
+    }
 
     @Override
     public int getBindingVariable() {
@@ -91,16 +118,28 @@ public class CreateEventMap extends BaseActivity<ActivityCreateEventMapBinding, 
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
+        other(googleMap);
+    }
+
+    public void other(GoogleMap googleMap){
+
+        Location location;
+
+
         gmap = googleMap;
 
         gmap.setMinZoomPreference(8);
 
         // Get current location
-        LocationManager locationManager = (LocationManager)
-                getSystemService(Context.LOCATION_SERVICE);
+        LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         Criteria criteria = new Criteria();
 
-        Location location = locationManager.getLastKnownLocation(locationManager.getBestProvider(criteria, false));
+        location = locationManager.getLastKnownLocation(locationManager.getBestProvider(criteria, false));
+
+
+        if (location == null){
+            location = mCreateEventMapViewModel.setDefaultLocation();
+        }
 
         //Set current location on map
         LatLng currentLoc = new LatLng(location.getLatitude(), location.getLongitude());
@@ -110,8 +149,12 @@ public class CreateEventMap extends BaseActivity<ActivityCreateEventMapBinding, 
 
         //Write address in textfield
         a = convertCoordinateToAddress(currentLoc);
-        editText.setText(a.getAddressLine(0) + ", " + a.getAddressLine(1) + ", " + a.getAddressLine(2));
-
+        if (a != null) {
+            editText.setText(a.getAddressLine(0) + ", " + a.getAddressLine(1) + ", " + a.getAddressLine(2));
+        }
+        else{
+            editText.setText("Geocoder timed out");
+        }
         //Current location button on map
         gmap.setMyLocationEnabled(true);
         gmap.setOnMyLocationButtonClickListener(this);
@@ -119,16 +162,23 @@ public class CreateEventMap extends BaseActivity<ActivityCreateEventMapBinding, 
 
 
         gmap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
+
             @Override
             public void onMapClick(LatLng latLng) {
                 marker.remove();
+
                 marker = gmap.addMarker(new MarkerOptions().position(latLng).title("Chosen position"));
                 a = convertCoordinateToAddress(latLng);
-                editText.setText(a.getAddressLine(0) + ", " + a.getAddressLine(1) + ", " + a.getAddressLine(2));
+
+                if (a != null) {
+                    editText.setText(a.getAddressLine(0) + ", " + a.getAddressLine(1) + ", " + a.getAddressLine(2));
+                }
+                else{
+                    editText.setText("Geocoder timed out");
+                }
             }
         });
     }
-
     private Address convertCoordinateToAddress(LatLng latLng) {
         //TODO MAKE DEFAULT ADDRESS TO RETURN TO AVOID NULL
         Address address = null;
@@ -143,6 +193,9 @@ public class CreateEventMap extends BaseActivity<ActivityCreateEventMapBinding, 
         }
         return address;
     }
+
+
+
 
     public static Intent newIntent(Context context) {
         Intent intent = new Intent(context, CreateEventMap.class);

@@ -14,7 +14,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import p8project.sw801.R;
-import p8project.sw801.ui.AddEvent.CreateEventMapActivity;
+import p8project.sw801.ui.event.createeventmap.CreateEventMap;
+
 /**
  * Created by clubd on 22-03-2018.
  */
@@ -43,7 +44,7 @@ public class EditLocationSettingActivity extends AppCompatActivity {
     }
 
     public void showMapActivity(View v){
-        Intent mapIntent = new Intent(EditLocationSettingActivity.this, CreateEventMapActivity.class);
+        Intent mapIntent = new Intent(EditLocationSettingActivity.this, CreateEventMap.class);
         startActivityForResult(mapIntent, 0);
     }
 

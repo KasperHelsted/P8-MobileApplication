@@ -10,7 +10,8 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import p8project.sw801.R;
-import p8project.sw801.ui.AddEvent.CreateEventMapActivity;
+import p8project.sw801.ui.event.createeventmap.CreateEventMap;
+
 
 /**
  * Created by clubd on 22-03-2018.
@@ -33,7 +34,7 @@ public class AddLocationSettingActivity extends AppCompatActivity {
     }
 
     public void showMapActivity(View v){
-        Intent mapIntent = new Intent(AddLocationSettingActivity.this, CreateEventMapActivity.class);
+        Intent mapIntent = new Intent(AddLocationSettingActivity.this, CreateEventMap.class);
         startActivityForResult(mapIntent, 0);
     }
 
