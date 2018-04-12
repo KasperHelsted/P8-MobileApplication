@@ -1,7 +1,6 @@
 package p8project.sw801.data.local.db.EntityHelpers;
 
 import java.util.List;
-import java.util.concurrent.Callable;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -26,95 +25,58 @@ public class PredefinedLocationHelper implements DbHelper<PredefinedLocation> {
 
     @Override
     public Observable<List<PredefinedLocation>> getAll() {
-        return Observable.fromCallable(new Callable<List<PredefinedLocation>>() {
-            @Override
-            public List<PredefinedLocation> call() throws Exception {
-                return mAppDatabase.predefinedLocationDao().getAll();
-            }
-        });
+        return Observable.fromCallable(() -> mAppDatabase.predefinedLocationDao().getAll());
     }
 
     @Override
     public Observable<PredefinedLocation> getById(final Integer id) {
-        return Observable.fromCallable(new Callable<PredefinedLocation>() {
-            @Override
-            public PredefinedLocation call() throws Exception {
-                return mAppDatabase.predefinedLocationDao().loadById(id);
-            }
-        });
+        return Observable.fromCallable(() -> mAppDatabase.predefinedLocationDao().loadById(id));
     }
 
     @Override
     public Observable<List<PredefinedLocation>> getByIds(final Integer[] ids) {
-        return Observable.fromCallable(new Callable<List<PredefinedLocation>>() {
-            @Override
-            public List<PredefinedLocation> call() throws Exception {
-                return mAppDatabase.predefinedLocationDao().loadAllByIds(ids);
-            }
-        });
+        return Observable.fromCallable(() -> mAppDatabase.predefinedLocationDao().loadAllByIds(ids));
     }
 
     @Override
     public Observable<Integer> getCount() {
-        return Observable.fromCallable(new Callable<Integer>() {
-            @Override
-            public Integer call() throws Exception {
-                return mAppDatabase.predefinedLocationDao().countPredefinedLocations();
-            }
-        });
+        return Observable.fromCallable(() -> mAppDatabase.predefinedLocationDao().countPredefinedLocations());
     }
 
     @Override
     public Observable<Boolean> isEmpty() {
-        return Observable.fromCallable(new Callable<Boolean>() {
-            @Override
-            public Boolean call() throws Exception {
-                return mAppDatabase.predefinedLocationDao().countPredefinedLocations() == 0;
-            }
-        });
+        return Observable.fromCallable(() -> mAppDatabase.predefinedLocationDao().countPredefinedLocations() == 0);
     }
 
     @Override
     public Observable<Boolean> insert(final PredefinedLocation obj) {
-        return Observable.fromCallable(new Callable<Boolean>() {
-            @Override
-            public Boolean call() throws Exception {
-                mAppDatabase.predefinedLocationDao().insert(obj);
-                return true;
-            }
+        return Observable.fromCallable(() -> {
+            mAppDatabase.predefinedLocationDao().insert(obj);
+            return true;
         });
     }
 
     @Override
     public Observable<Boolean> insertAll(final PredefinedLocation... obj) {
-        return Observable.fromCallable(new Callable<Boolean>() {
-            @Override
-            public Boolean call() throws Exception {
-                mAppDatabase.predefinedLocationDao().insertAll(obj);
-                return true;
-            }
+        return Observable.fromCallable(() -> {
+            mAppDatabase.predefinedLocationDao().insertAll(obj);
+            return true;
         });
     }
 
     @Override
     public Observable<Boolean> update(final PredefinedLocation obj) {
-        return Observable.fromCallable(new Callable<Boolean>() {
-            @Override
-            public Boolean call() throws Exception {
-                mAppDatabase.predefinedLocationDao().update(obj);
-                return true;
-            }
+        return Observable.fromCallable(() -> {
+            mAppDatabase.predefinedLocationDao().update(obj);
+            return true;
         });
     }
 
     @Override
     public Observable<Boolean> delete(final PredefinedLocation obj) {
-        return Observable.fromCallable(new Callable<Boolean>() {
-            @Override
-            public Boolean call() throws Exception {
-                mAppDatabase.predefinedLocationDao().delete(obj);
-                return true;
-            }
+        return Observable.fromCallable(() -> {
+            mAppDatabase.predefinedLocationDao().delete(obj);
+            return true;
         });
     }
 }
