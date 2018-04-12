@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
 
-    tools:context="p8project.sw801.ui.event.AddEventHue">
+    tools:context="p8project.sw801.ui.event.addeventhue.AddEventHue">
 
     <data>
 
@@ -11,7 +11,7 @@
 
         <variable
             name="viewModel"
-            type="p8project.sw801.ui.event.addevent.AddEventViewModel" />
+            type="p8project.sw801.ui.event.addeventhue.AddEventHueViewModel" />
     </data>
 
     <android.support.constraint.ConstraintLayout

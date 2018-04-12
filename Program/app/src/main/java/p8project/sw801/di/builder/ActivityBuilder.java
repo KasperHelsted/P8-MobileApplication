@@ -6,6 +6,10 @@ import p8project.sw801.ui.event.addevent.AddEvent;
 import p8project.sw801.ui.event.addevent.AddEventModule;
 import p8project.sw801.ui.event.addeventaccessory.AddEventAccessory;
 import p8project.sw801.ui.event.addeventaccessory.AddEventAccessoryModule;
+import p8project.sw801.ui.event.addeventhue.AddEventHue;
+import p8project.sw801.ui.event.addeventhue.AddEventHueModule;
+import p8project.sw801.ui.event.addeventnest.AddEventNest;
+import p8project.sw801.ui.event.addeventnest.AddEventNestModule;
 import p8project.sw801.ui.event.addeventsmartdevice.AddEventSmartDevice;
 import p8project.sw801.ui.event.addeventsmartdevice.AddEventSmartDeviceModule;
 import p8project.sw801.ui.event.createeventmap.CreateEventMap;
@@ -41,6 +45,12 @@ public abstract class ActivityBuilder {
 
     @ContributesAndroidInjector(modules = AddEventAccessoryModule.class)
     abstract AddEventAccessory bindAddEventAccessory();
+
+    @ContributesAndroidInjector(modules = AddEventHueModule.class)
+    abstract AddEventHue bindAddEventHue();
+
+    @ContributesAndroidInjector(modules = AddEventNestModule.class)
+    abstract AddEventNest bindAddEventNest();
 
     @ContributesAndroidInjector(modules = SplashActivityModule.class)
     abstract SplashActivity bindSplashActivity();
