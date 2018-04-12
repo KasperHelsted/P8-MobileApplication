@@ -10,7 +10,6 @@ import javax.inject.Inject;
 
 import io.reactivex.Observable;
 import p8project.sw801.data.local.db.DbHelper;
-import p8project.sw801.data.local.prefs.PreferencesHelper;
 
 public class AppDataManager implements DataManager {
 
@@ -20,13 +19,10 @@ public class AppDataManager implements DataManager {
 
     private final Gson mGson;
 
-    private final PreferencesHelper mPreferencesHelper;
-
     @Inject
-    public AppDataManager(Context context, DbHelper dbHelper, PreferencesHelper preferencesHelper, Gson gson) {
+    public AppDataManager(Context context, DbHelper dbHelper, Gson gson) {
         mContext = context;
         mDbHelper = dbHelper;
-        mPreferencesHelper = preferencesHelper;
         mGson = gson;
     }
 
