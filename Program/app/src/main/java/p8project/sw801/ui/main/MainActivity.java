@@ -8,9 +8,6 @@ import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.databinding.DataBindingUtil;
-import android.graphics.drawable.Animatable;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
@@ -19,30 +16,25 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 
 import javax.inject.Inject;
 
 import dagger.android.AndroidInjector;
 import dagger.android.DispatchingAndroidInjector;
 import dagger.android.support.HasSupportFragmentInjector;
-import p8project.sw801.databinding.NavHeaderMainBinding;
 import p8project.sw801.databinding.ActivityMainBinding;
-import p8project.sw801.BuildConfig;
 import p8project.sw801.ui.Settings.SettingsActivity;
 import p8project.sw801.ui.SmartDevice.AddSmartDeviceActivity;
 import p8project.sw801.ui.base.BaseActivity;
 import p8project.sw801.BR;
 import p8project.sw801.R;
-import p8project.sw801.ui.main.Fragments.HomeFragment;
-import p8project.sw801.ui.main.Fragments.MyEventsFragment;
+import p8project.sw801.ui.main.Fragments.HomeFragment.HomeFragment;
+import p8project.sw801.ui.main.Fragments.MyEventsFragment.MyEventsFragment;
 import p8project.sw801.ui.main.Fragments.MySmartDeviceFragment;
 import p8project.sw801.utils.ScreenUtils;
 
@@ -126,6 +118,7 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
         super.onCreate(savedInstanceState);
         mActivityMainBinding = getViewDataBinding();
         mMainViewModel.setNavigator(this);
+        //setupFragmentManager();
         setUp();
     }
 
@@ -150,10 +143,13 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
 
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
+
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
 
         // Set up the ViewPager with the sections adapter.
-        mViewPager = (ViewPager) findViewById(R.id.container);
+        mViewPager = (ViewPager) findViewById(R.id.main_viewpager);
+
+
         mViewPager.setAdapter(mSectionsPagerAdapter);
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
@@ -323,6 +319,14 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
 
     //--------------------------Burger menu-------------------------------------
 
+    public void setupFragmentManager(){
+        getSupportFragmentManager()
+                .beginTransaction()
+                .disallowAddToBackStack()
+                .add(R.id.main_viewpager, HomeFragment.newInstance(), HomeFragment.TAG)
+                .commit();
+    }
+
     /**
      * A {@link FragmentPagerAdapter} that returns a fragment corresponding to
      * one of the sections/tabs/pages.
@@ -376,7 +380,9 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
         }
     }
 
+
     public void ChangeToEvents(){
+
         // Create fragment and give it an argument specifying the article it should show
         MyEventsFragment newFragment = new MyEventsFragment();
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
