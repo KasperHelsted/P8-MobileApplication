@@ -34,11 +34,11 @@ import dagger.android.support.HasSupportFragmentInjector;
 import p8project.sw801.BR;
 import p8project.sw801.R;
 import p8project.sw801.databinding.ActivityAddEventBinding;
-import p8project.sw801.ui.Settings.GlobalMute.AddGlobalMuteSettingActivity;
+import p8project.sw801.ui.AddEvent.AddEventAdapter;
 import p8project.sw801.ui.base.BaseActivity;
 import p8project.sw801.ui.event.createeventmap.CreateEventMap;
 import p8project.sw801.ui.event.notificationorsmartdevice.NotificationOrSmartdevice;
-import p8project.sw801.ui.AddEvent.AddEventAdapter;
+
 
 
 public class AddEvent extends BaseActivity<ActivityAddEventBinding, AddEventViewModel> implements AddEventNavigator, HasSupportFragmentInjector {
@@ -89,6 +89,7 @@ public class AddEvent extends BaseActivity<ActivityAddEventBinding, AddEventView
                 // Showing selected spinner item
                 Toast.makeText(parent.getContext(), "Selected: " + item, Toast.LENGTH_LONG).show();
             }
+
             @Override
             public void onNothingSelected(AdapterView<?> arg0) {
                 // TODO Auto-generated method stub
@@ -103,6 +104,7 @@ public class AddEvent extends BaseActivity<ActivityAddEventBinding, AddEventView
                 // Showing selected spinner item
                 Toast.makeText(parent.getContext(), "Selected: " + item, Toast.LENGTH_LONG).show();
             }
+
             @Override
             public void onNothingSelected(AdapterView<?> arg0) {
                 // TODO Auto-generated method stub
@@ -138,7 +140,7 @@ public class AddEvent extends BaseActivity<ActivityAddEventBinding, AddEventView
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
-                if(position==4) {
+                if (position == 4) {
                     textViewTime.setVisibility(View.VISIBLE);
                     AtTime.setEnabled(true);
                     AtTime.setVisibility(View.VISIBLE);
@@ -149,21 +151,18 @@ public class AddEvent extends BaseActivity<ActivityAddEventBinding, AddEventView
                     betweenTime.setVisibility(View.VISIBLE);
                     //betweenClock.setEnabled(true);
                     //betweenClock.setVisibility(View.VISIBLE);
-                }
-                else if(position==0) {
+                } else if (position == 0) {
                     textViewTime.setVisibility(View.GONE);
                     AtTime.setEnabled(false);
                     AtTime.setVisibility(View.GONE);
                     //AtClock.setEnabled(false);
-                     //AtClock.setVisibility(View.INVISIBLE);
+                    //AtClock.setVisibility(View.INVISIBLE);
                     textViewBetweenTime.setVisibility(View.GONE);
                     betweenTime.setEnabled(false);
                     betweenTime.setVisibility(View.GONE);
                     //betweenClock.setEnabled(false);
                     //betweenClock.setVisibility(View.INVISIBLE);
-                }
-                else
-                {
+                } else {
                     textViewTime.setVisibility(View.VISIBLE);
                     AtTime.setEnabled(true);
                     AtTime.setVisibility(View.VISIBLE);
@@ -176,6 +175,7 @@ public class AddEvent extends BaseActivity<ActivityAddEventBinding, AddEventView
                     //betweenClock.setVisibility(View.INVISIBLE);
                 }
             }
+
             @Override
             public void onNothingSelected(AdapterView<?> parentView) {
                 // your code here
@@ -186,17 +186,15 @@ public class AddEvent extends BaseActivity<ActivityAddEventBinding, AddEventView
         spinnerLocation.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
-                if(position==0) {
+                if (position == 0) {
                     addressTextView.setVisibility(View.GONE);
-                }
-                else if(position ==4)
-                {
+                } else if (position == 4) {
                     //TODO OPEN NEW ACTIVITY/FRAGMENT/SPINNER AND CALL VIEWMODEL TO GET DATA
-                }
-                else{
+                } else {
                     addressTextView.setVisibility(View.VISIBLE);
                 }
             }
+
             @Override
             public void onNothingSelected(AdapterView<?> parentView) {
                 // your code here
@@ -228,7 +226,7 @@ public class AddEvent extends BaseActivity<ActivityAddEventBinding, AddEventView
     @Override
     public void openCreateMapActivity() {
         Intent intent = CreateEventMap.newIntent(AddEvent.this);
-        startActivityForResult(intent,0);
+        startActivityForResult(intent, 0);
     }
 
     @Override
@@ -247,11 +245,10 @@ public class AddEvent extends BaseActivity<ActivityAddEventBinding, AddEventView
 
     @Override
     public void showTimePickerDialog(int i) {
-        if (i == 1){
+        if (i == 1) {
             DialogFragment newFragment = new TimePickerFragment1();
-            newFragment.show(getFragmentManager(),"timepicker");
-        }
-        else{
+            newFragment.show(getFragmentManager(), "timepicker");
+        } else {
             DialogFragment newFragment = new TimePickerFragment2();
             newFragment.show(getFragmentManager(), "timePicker");
         }
@@ -301,9 +298,11 @@ public class AddEvent extends BaseActivity<ActivityAddEventBinding, AddEventView
     }
 
 
-    public void closeAddEvent(View v){finish();}
+    public void closeAddEvent(View v) {
+        finish();
+    }
 
-    private void markButton(){
+    private void markButton() {
         markedButtons = new ArrayList<Integer>();
 
         //Day buttons
@@ -324,25 +323,25 @@ public class AddEvent extends BaseActivity<ActivityAddEventBinding, AddEventView
         tSun = (ToggleButton) findViewById(R.id.tS);
 
         //Check individual items.
-        if(tMon.isChecked()){
+        if (tMon.isChecked()) {
             markedButtons.add(1);
         }
-        if(tThu.isChecked()){
+        if (tThu.isChecked()) {
             markedButtons.add(2);
         }
-        if(tWen.isChecked()){
+        if (tWen.isChecked()) {
             markedButtons.add(3);
         }
-        if(tTue.isChecked()){
+        if (tTue.isChecked()) {
             markedButtons.add(4);
         }
-        if(tFri.isChecked()){
+        if (tFri.isChecked()) {
             markedButtons.add(5);
         }
-        if(tSat.isChecked()){
+        if (tSat.isChecked()) {
             markedButtons.add(6);
         }
-        if(tSun.isChecked()){
+        if (tSun.isChecked()) {
             markedButtons.add(7);
         }
     }
@@ -350,19 +349,19 @@ public class AddEvent extends BaseActivity<ActivityAddEventBinding, AddEventView
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        switch(requestCode) {
-            case (0) : {
+        switch (requestCode) {
+            case (0): {
                 if (resultCode == Activity.RESULT_OK) {
                     addressBundle = data.getBundleExtra("address");
                     address = addressBundle.getParcelable("address");
-                    addressTextView.setText(address.getAddressLine(0)+ ", " + address.getAddressLine(1) + ", " + address.getAddressLine(2));
+                    addressTextView.setText(address.getAddressLine(0) + ", " + address.getAddressLine(1) + ", " + address.getAddressLine(2));
                 }
                 break;
             }
         }
     }
 
-    public void refreshData(){
+    public void refreshData() {
         ArrayList<String> a = new ArrayList<>();
         a.clear();
         a.addAll(addMyEvents);
@@ -378,28 +377,29 @@ public class AddEvent extends BaseActivity<ActivityAddEventBinding, AddEventView
         }
 
     }
-    public void deleteItem(int pos){
+
+    public void deleteItem(int pos) {
         addMyEvents.remove(pos);
         refreshData();
     }
 
     @Override
-    public void submitEventClick(){
-    markButton();
-    String eName = eventName.getText().toString();
-    ArrayList<Integer> weekdays = markedButtons;
-    Integer locationCondition = spinnerLocation.getSelectedItemPosition();
-    Address confirmAddress = address;
-    Integer timeCondition = spinner.getSelectedItemPosition() ;
-    Long startTime = Long.parseLong(textViewTime.getText().toString());
-    Long endTime = Long.parseLong(textViewBetweenTime.getText().toString());
-    //List<TIGGER_TYPE>
+    public void submitEventClick() {
+        markButton();
+        String eName = eventName.getText().toString();
+        ArrayList<Integer> weekdays = markedButtons;
+        Integer locationCondition = spinnerLocation.getSelectedItemPosition();
+        Address confirmAddress = address;
+        Integer timeCondition = spinner.getSelectedItemPosition();
+        Long startTime = Long.parseLong(textViewTime.getText().toString());
+        Long endTime = Long.parseLong(textViewBetweenTime.getText().toString());
+        //List<TIGGER_TYPE>
 
-    //Calling Viewmodel Still missing correct parameters
-    mAddEventViewModel.submitEventToDatabase();
+        //Calling Viewmodel Still missing correct parameters
+        mAddEventViewModel.submitEventToDatabase();
     }
 
-    private void setupBindings(){
+    private void setupBindings() {
         doThis = (LinearLayout) mActivityAddEventBinding.linearLayoutAddEvent;
         spinner = (Spinner) mActivityAddEventBinding.spinnerWhen;
         spinnerLocation = (Spinner) mActivityAddEventBinding.spinnerLocation;
@@ -407,7 +407,7 @@ public class AddEvent extends BaseActivity<ActivityAddEventBinding, AddEventView
         betweenTime = mActivityAddEventBinding.editTextTimeBetween;
         addressTextView = mActivityAddEventBinding.addLocation;
         textViewTime = mActivityAddEventBinding.textViewTime;
-        textViewBetweenTime  = mActivityAddEventBinding.textViewBetweenTime;
+        textViewBetweenTime = mActivityAddEventBinding.textViewBetweenTime;
         confirm = mActivityAddEventBinding.buttonCreateEvent;
         eventName = mActivityAddEventBinding.textInputEventName;
         addEvent = mActivityAddEventBinding.addEventTriggerStatic;
