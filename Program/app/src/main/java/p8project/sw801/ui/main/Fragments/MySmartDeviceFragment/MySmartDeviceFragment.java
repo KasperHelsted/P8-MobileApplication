@@ -3,7 +3,6 @@ package p8project.sw801.ui.main.Fragments.MySmartDeviceFragment;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,10 +13,10 @@ import java.util.ArrayList;
 
 import javax.inject.Inject;
 
-import p8project.sw801.ui.SmartDevice.AddSmartDeviceActivity;
-import p8project.sw801.R;
 import p8project.sw801.BR;
+import p8project.sw801.R;
 import p8project.sw801.databinding.ActivityMySmartDeviceBinding;
+import p8project.sw801.ui.SmartDevice.AddSmartDevice.AddSmartDeviceActivity;
 import p8project.sw801.ui.base.BaseFragment;
 
 
