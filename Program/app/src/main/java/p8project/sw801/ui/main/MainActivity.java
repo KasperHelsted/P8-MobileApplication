@@ -35,7 +35,7 @@ import p8project.sw801.BR;
 import p8project.sw801.R;
 import p8project.sw801.ui.main.Fragments.HomeFragment.HomeFragment;
 import p8project.sw801.ui.main.Fragments.MyEventsFragment.MyEventsFragment;
-import p8project.sw801.ui.main.Fragments.MySmartDeviceFragment;
+import p8project.sw801.ui.main.Fragments.MySmartDeviceFragment.MySmartDeviceFragment;
 import p8project.sw801.utils.ScreenUtils;
 
 
