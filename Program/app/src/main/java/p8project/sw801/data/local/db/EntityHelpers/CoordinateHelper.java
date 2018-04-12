@@ -27,95 +27,58 @@ public class CoordinateHelper implements DbHelper<Coordinate> {
 
     @Override
     public Observable<List<Coordinate>> getAll() {
-        return Observable.fromCallable(new Callable<List<Coordinate>>() {
-            @Override
-            public List<Coordinate> call() throws Exception {
-                return mAppDatabase.coordinateDao().getAll();
-            }
-        });
+        return Observable.fromCallable(() -> mAppDatabase.coordinateDao().getAll());
     }
 
     @Override
     public Observable<Coordinate> getById(final Integer id) {
-        return Observable.fromCallable(new Callable<Coordinate>() {
-            @Override
-            public Coordinate call() throws Exception {
-                return mAppDatabase.coordinateDao().loadById(id);
-            }
-        });
+        return Observable.fromCallable(() -> mAppDatabase.coordinateDao().loadById(id));
     }
 
     @Override
     public Observable<List<Coordinate>> getByIds(final Integer[] ids) {
-        return Observable.fromCallable(new Callable<List<Coordinate>>() {
-            @Override
-            public List<Coordinate> call() throws Exception {
-                return mAppDatabase.coordinateDao().loadAllByIds(ids);
-            }
-        });
+        return Observable.fromCallable(() -> mAppDatabase.coordinateDao().loadAllByIds(ids));
     }
 
     @Override
     public Observable<Integer> getCount() {
-        return Observable.fromCallable(new Callable<Integer>() {
-            @Override
-            public Integer call() throws Exception {
-                return mAppDatabase.coordinateDao().count();
-            }
-        });
+        return Observable.fromCallable(() -> mAppDatabase.coordinateDao().count());
     }
 
     @Override
     public Observable<Boolean> isEmpty() {
-        return Observable.fromCallable(new Callable<Boolean>() {
-            @Override
-            public Boolean call() throws Exception {
-                return mAppDatabase.coordinateDao().count() == 0;
-            }
-        });
+        return Observable.fromCallable(() -> mAppDatabase.coordinateDao().count() == 0);
     }
 
     @Override
     public Observable<Boolean> insert(final Coordinate obj) {
-        return Observable.fromCallable(new Callable<Boolean>() {
-            @Override
-            public Boolean call() throws Exception {
-                mAppDatabase.coordinateDao().insert(obj);
-                return true;
-            }
+        return Observable.fromCallable(() -> {
+            mAppDatabase.coordinateDao().insert(obj);
+            return true;
         });
     }
 
     @Override
     public Observable<Boolean> insertAll(final Coordinate... obj) {
-        return Observable.fromCallable(new Callable<Boolean>() {
-            @Override
-            public Boolean call() throws Exception {
-                mAppDatabase.coordinateDao().insertAll(obj);
-                return true;
-            }
+        return Observable.fromCallable(() -> {
+            mAppDatabase.coordinateDao().insertAll(obj);
+            return true;
         });
     }
 
     @Override
     public Observable<Boolean> update(final Coordinate obj) {
-        return Observable.fromCallable(new Callable<Boolean>() {
-            @Override
-            public Boolean call() throws Exception {
-                mAppDatabase.coordinateDao().update(obj);
-                return true;
-            }
+        return Observable.fromCallable(() -> {
+            mAppDatabase.coordinateDao().update(obj);
+            return true;
         });
     }
 
     @Override
     public Observable<Boolean> delete(final Coordinate obj) {
-        return Observable.fromCallable(new Callable<Boolean>() {
-            @Override
-            public Boolean call() throws Exception {
-                mAppDatabase.coordinateDao().delete(obj);
-                return true;
-            }
+        return Observable.fromCallable(() -> {
+            mAppDatabase.coordinateDao().delete(obj);
+            return true;
         });
     }
 }
