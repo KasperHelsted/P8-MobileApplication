@@ -4,12 +4,11 @@ import java.util.List;
 
 import io.reactivex.Observable;
 import p8project.sw801.data.local.db.DbHelper;
-import p8project.sw801.data.local.prefs.PreferencesHelper;
 
 /**
  * Created by Kasper Helsted on 4/4/2018.
  */
-public interface DataManager<T> extends DbHelper<T>, PreferencesHelper {
+public interface DataManager<T> extends DbHelper<T> {
     //CoordinateHelper
     Observable<List<T>> getAll();
 
@@ -28,6 +27,4 @@ public interface DataManager<T> extends DbHelper<T>, PreferencesHelper {
     Observable<Boolean> update(final T obj);
 
     Observable<Boolean> delete(final T obj);
-
-
 }
