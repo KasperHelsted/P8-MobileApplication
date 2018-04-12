@@ -4,7 +4,6 @@ import android.arch.lifecycle.ViewModelProvider;
 import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AppCompatActivity;
 
 import javax.inject.Inject;
 
@@ -14,7 +13,6 @@ import dagger.android.support.HasSupportFragmentInjector;
 import p8project.sw801.BR;
 import p8project.sw801.R;
 import p8project.sw801.databinding.ActivityAddGlobalMuteBinding;
-import p8project.sw801.databinding.ActivitySettingsBinding;
 import p8project.sw801.ui.Settings.SettingsNavigator;
 import p8project.sw801.ui.Settings.SettingsViewModel;
 import p8project.sw801.ui.base.BaseActivity;
@@ -25,8 +23,10 @@ import p8project.sw801.ui.base.BaseActivity;
 
 public class AddGlobalMuteSettingActivity extends BaseActivity<ActivityAddGlobalMuteBinding,SettingsViewModel> implements SettingsNavigator, HasSupportFragmentInjector {
     private ActivityAddGlobalMuteBinding mActivityAddGlobalMuteBinding;
-    private SettingsViewModel mSettingsViewModel;
+
     @Inject
+    SettingsViewModel mSettingsViewModel;
+
     DispatchingAndroidInjector<Fragment> fragmentDispatchingAndroidInjector;
     @Inject
     ViewModelProvider.Factory mViewModelFactory;
@@ -51,10 +51,7 @@ public class AddGlobalMuteSettingActivity extends BaseActivity<ActivityAddGlobal
         setContentView(R.layout.activity_add_global_mute);
         mSettingsViewModel.setNavigator(this);
         mActivityAddGlobalMuteBinding = getViewDataBinding();
-
         setTitle("Notify me - Add global mute");
-
-
     }
 
     @Override

@@ -23,10 +23,15 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.SmartDevice.EditSmartDeviceActivity" />
+        <activity android:name=".ui.SmartDevice.EditSmartDevice.EditSmartDeviceActivity" />
         <activity android:name=".ui.Settings.Shopping.ShoppingSettingActivity" />
         <activity android:name=".ui.event.addevent.AddEvent" />
         <activity android:name=".ui.event.createeventmap.CreateEventMap" />
+        <activity android:name=".ui.Settings.SettingsActivity"/>
+        <activity android:name=".ui.Settings.Location.EditLocation.EditLocationSettingActivity"/>
+        <activity android:name=".ui.Settings.Location.LocationSettingActivity"/>
+        <activity android:name=".ui.Settings.Location.AddLocation.AddLocationSettingActivity"/>
+        <activity android:name=".ui.MapsActivity"/>
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"

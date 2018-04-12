@@ -2,6 +2,12 @@ package p8project.sw801.di.builder;
 
 import dagger.Module;
 import dagger.android.ContributesAndroidInjector;
+import p8project.sw801.ui.Settings.Location.AddLocation.AddLocationSettingActivity;
+import p8project.sw801.ui.Settings.Location.AddLocation.AddLocationSettingModule;
+import p8project.sw801.ui.Settings.Location.LocationModule;
+import p8project.sw801.ui.Settings.Location.LocationSettingActivity;
+import p8project.sw801.ui.Settings.SettingsActivity;
+import p8project.sw801.ui.Settings.SettingsActivityModule;
 import p8project.sw801.ui.event.addevent.AddEvent;
 import p8project.sw801.ui.event.addevent.AddEventModule;
 import p8project.sw801.ui.event.createeventmap.CreateEventMap;
@@ -18,10 +24,20 @@ import p8project.sw801.ui.splash.SplashActivityModule;
 @Module
 public abstract class ActivityBuilder {
     @ContributesAndroidInjector(modules = {
-            MainActivityModule.class
+            MainActivityModule.class,
+            //SettingsActivityModule.class
             //AboutFragmentProvider.class
     })
     abstract MainActivity bindMainActivity();
+
+    @ContributesAndroidInjector(modules = SettingsActivityModule.class)
+    abstract SettingsActivity bindSettingsActivity();
+
+    @ContributesAndroidInjector(modules = LocationModule.class)
+    abstract LocationSettingActivity bindLocationSettingActivity();
+
+    @ContributesAndroidInjector(modules = AddLocationSettingModule.class)
+    abstract AddLocationSettingActivity bindAddLocationSettingActivity();
 
     @ContributesAndroidInjector(modules = {
             AddEventModule.class,
