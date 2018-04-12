@@ -29,6 +29,8 @@
         <activity android:name=".ui.event.createeventmap.CreateEventMap" />
         <activity android:name=".ui.event.addeventsmartdevice.AddEventSmartDevice" />
         <activity android:name=".ui.event.addeventaccessory.AddEventAccessory" />
+        <activity android:name=".ui.event.addeventhue.AddEventHue" />
+        <activity android:name=".ui.event.addeventnest.AddEventNest" />
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
