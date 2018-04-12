@@ -27,6 +27,7 @@
         <activity android:name=".ui.Settings.Shopping.ShoppingSettingActivity" />
         <activity android:name=".ui.event.addevent.AddEvent" />
         <activity android:name=".ui.event.createeventmap.CreateEventMap" />
+        <activity android:name=".ui.event.addeventsmartdevice.AddEventSmartDevice" />
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"

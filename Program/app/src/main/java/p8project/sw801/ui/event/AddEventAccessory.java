@@ -35,11 +35,11 @@ public class AddEventAccessory extends AppCompatActivity {
                 //TODO REPLACE STRING WITH OBJECT AND REPLACE IF CONDITIONS WITH VALID CONDITIONS!!
 
                 String accessory = arrayList.get(position);
-                if (accessory.equals("Hue - Smart Lights")){
+                if (accessory.equals("Hue - Smart Lights")) {
                     Intent intent = new Intent(AddEventAccessory.this, AddEventHue.class);
                     startActivityForResult(intent, 1);
                     //OPEN HUE PAGE
-                }else if(accessory.equals("Nest - Termostat")){
+                } else if (accessory.equals("Nest - Termostat")) {
                     //Open nest page
                 }
                 //MORE DEVICES POSSIBLE
@@ -47,16 +47,17 @@ public class AddEventAccessory extends AppCompatActivity {
         });
     }
 
-    private void populateList(){
+    private void populateList() {
         //TODO Change to call to viewmodel
         arrayList.add("Hue - Smart Lights");
         arrayList.add("Nest - Termostat");
-        ArrayAdapter adapter = new ArrayAdapter(this,R.layout.activity_add_event_list_layout, arrayList);
+        ArrayAdapter adapter = new ArrayAdapter(this, R.layout.activity_add_event_list_layout, arrayList);
         listView.setAdapter(adapter);
     }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == 1){
+        if (requestCode == 1) {
             Bundle result = data.getBundleExtra("key");
             Intent returnIntent = new Intent();
             returnIntent.putExtra("key", result);

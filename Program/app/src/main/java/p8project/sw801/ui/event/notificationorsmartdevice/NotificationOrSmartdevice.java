@@ -1,5 +1,6 @@
 package p8project.sw801.ui.event.notificationorsmartdevice;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 
@@ -9,6 +10,7 @@ import p8project.sw801.BR;
 import p8project.sw801.R;
 import p8project.sw801.databinding.FragmentNotificationOrSmartdeviceBinding;
 import p8project.sw801.ui.base.BaseFragment;
+import p8project.sw801.ui.event.addeventsmartdevice.AddEventSmartDevice;
 
 public class NotificationOrSmartdevice extends BaseFragment<FragmentNotificationOrSmartdeviceBinding, NotificationOrSmartdeviceViewModel> implements NotificationOrSmartdeviceNavigator {
 
@@ -48,5 +50,11 @@ public class NotificationOrSmartdevice extends BaseFragment<FragmentNotification
     @Override
     public void goBack() {
         getBaseActivity().onFragmentDetached(TAG);
+    }
+
+    @Override
+    public void openAddSmartDeviceList() {
+        Intent intent = AddEventSmartDevice.newIntent(getContext());
+        startActivityForResult(intent, 0);
     }
 }

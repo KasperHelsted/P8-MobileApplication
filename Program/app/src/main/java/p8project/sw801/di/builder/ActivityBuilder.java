@@ -4,6 +4,8 @@ import dagger.Module;
 import dagger.android.ContributesAndroidInjector;
 import p8project.sw801.ui.event.addevent.AddEvent;
 import p8project.sw801.ui.event.addevent.AddEventModule;
+import p8project.sw801.ui.event.addeventsmartdevice.AddEventSmartDevice;
+import p8project.sw801.ui.event.addeventsmartdevice.AddEventSmartDeviceModule;
 import p8project.sw801.ui.event.createeventmap.CreateEventMap;
 import p8project.sw801.ui.event.createeventmap.CreateEventMapModule;
 import p8project.sw801.ui.event.notificationorsmartdevice.NotificationOrSmartdeviceProvider;
@@ -31,6 +33,9 @@ public abstract class ActivityBuilder {
 
     @ContributesAndroidInjector(modules = CreateEventMapModule.class)
     abstract CreateEventMap bindCreateEventMap();
+
+    @ContributesAndroidInjector(modules = AddEventSmartDeviceModule.class)
+    abstract AddEventSmartDevice bindaddEventSmartDevice();
 
     @ContributesAndroidInjector(modules = SplashActivityModule.class)
     abstract SplashActivity bindSplashActivity();
