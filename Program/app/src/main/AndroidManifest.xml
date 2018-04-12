@@ -26,6 +26,7 @@
         <activity android:name=".ui.SmartDevice.EditSmartDeviceActivity" />
         <activity android:name=".ui.Settings.Shopping.ShoppingSettingActivity" />
         <activity android:name=".ui.event.addevent.AddEvent" />
+        <activity android:name=".ui.event.editevent.EditEvent" />
         <activity android:name=".ui.event.createeventmap.CreateEventMap" />
         <activity android:name=".ui.event.addeventsmartdevice.AddEventSmartDevice" />
         <activity android:name=".ui.event.addeventaccessory.AddEventAccessory" />

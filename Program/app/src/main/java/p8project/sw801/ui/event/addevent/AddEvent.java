@@ -37,6 +37,7 @@ import p8project.sw801.databinding.ActivityAddEventBinding;
 import p8project.sw801.ui.AddEvent.AddEventAdapter;
 import p8project.sw801.ui.base.BaseActivity;
 import p8project.sw801.ui.event.createeventmap.CreateEventMap;
+import p8project.sw801.ui.event.editevent.EditEvent;
 import p8project.sw801.ui.event.notificationorsmartdevice.NotificationOrSmartdevice;
 
 
@@ -225,7 +226,7 @@ public class AddEvent extends BaseActivity<ActivityAddEventBinding, AddEventView
 
     @Override
     public void openCreateMapActivity() {
-        Intent intent = CreateEventMap.newIntent(AddEvent.this);
+        Intent intent = EditEvent.newIntent(AddEvent.this);
         startActivityForResult(intent, 0);
     }
 
