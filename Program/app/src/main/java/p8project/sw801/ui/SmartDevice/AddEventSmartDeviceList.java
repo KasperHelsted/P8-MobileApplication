@@ -13,7 +13,7 @@ import java.util.ArrayList;
 
 import p8project.sw801.R;
 
-import p8project.sw801.ui.event.AddEventAccessory;
+import p8project.sw801.ui.event.addeventaccessory.AddEventAccessory;
 
 
 public class AddEventSmartDeviceList extends AppCompatActivity {
