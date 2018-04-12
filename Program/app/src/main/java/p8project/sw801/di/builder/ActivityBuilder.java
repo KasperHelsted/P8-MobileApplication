@@ -14,6 +14,8 @@ import p8project.sw801.ui.event.addeventsmartdevice.AddEventSmartDevice;
 import p8project.sw801.ui.event.addeventsmartdevice.AddEventSmartDeviceModule;
 import p8project.sw801.ui.event.createeventmap.CreateEventMap;
 import p8project.sw801.ui.event.createeventmap.CreateEventMapModule;
+import p8project.sw801.ui.event.editevent.EditEvent;
+import p8project.sw801.ui.event.editevent.EditEventModule;
 import p8project.sw801.ui.event.notificationorsmartdevice.NotificationOrSmartdeviceProvider;
 import p8project.sw801.ui.main.MainActivity;
 import p8project.sw801.ui.main.MainActivityModule;
@@ -36,6 +38,9 @@ public abstract class ActivityBuilder {
             NotificationOrSmartdeviceProvider.class
     })
     abstract AddEvent bindAddEvent();
+
+    @ContributesAndroidInjector(modules = EditEventModule.class)
+    abstract EditEvent bindEditEvent();
 
     @ContributesAndroidInjector(modules = CreateEventMapModule.class)
     abstract CreateEventMap bindCreateEventMap();
