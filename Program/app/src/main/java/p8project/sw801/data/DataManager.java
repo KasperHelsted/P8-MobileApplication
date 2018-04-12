@@ -4,39 +4,27 @@ import java.util.List;
 
 import io.reactivex.Observable;
 import p8project.sw801.data.local.db.DbHelper;
-import p8project.sw801.data.local.prefs.*;
 
 /**
  * Created by Kasper Helsted on 4/4/2018.
  */
-public interface DataManager extends DbHelper, PreferencesHelper {
+public interface DataManager<T> extends DbHelper<T> {
+    //CoordinateHelper
+    Observable<List<T>> getAll();
 
-    void setUserAsLoggedOut();
+    Observable<List<T>> getByIds(final Integer[] ids);
 
-    void updateUserInfo(
-            String accessToken,
-            Long userId,
-            LoggedInMode loggedInMode,
-            String userName,
-            String email,
-            String profilePicPath);
+    Observable<T> getById(final Integer id);
 
-    enum LoggedInMode {
+    Observable<Integer> getCount();
 
-        LOGGED_IN_MODE_LOGGED_OUT(0),
-        LOGGED_IN_MODE_GOOGLE(1),
-        LOGGED_IN_MODE_FB(2),
-        LOGGED_IN_MODE_SERVER(3);
+    Observable<Boolean> isEmpty();
 
-        private final int mType;
+    Observable<Boolean> insert(final T obj);
 
-        LoggedInMode(int type) {
-            mType = type;
-        }
+    Observable<Boolean> insertAll(final T... obj);
 
-        public int getType() {
-            return mType;
-        }
-    }
+    Observable<Boolean> update(final T obj);
 
+    Observable<Boolean> delete(final T obj);
 }

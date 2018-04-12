@@ -16,8 +16,6 @@ import p8project.sw801.data.DataManager;
 import p8project.sw801.data.local.db.AppDatabase;
 import p8project.sw801.data.local.db.AppDbHelper;
 import p8project.sw801.data.local.db.DbHelper;
-import p8project.sw801.data.local.prefs.AppPreferencesHelper;
-import p8project.sw801.data.local.prefs.PreferencesHelper;
 import p8project.sw801.di.DatabaseInfo;
 import p8project.sw801.di.PreferenceInfo;
 import p8project.sw801.utils.AppConstants;
@@ -73,12 +71,6 @@ public class AppModule {
     @PreferenceInfo
     String providePreferenceName() {
         return AppConstants.PREF_NAME;
-    }
-
-    @Provides
-    @Singleton
-    PreferencesHelper providePreferencesHelper(AppPreferencesHelper appPreferencesHelper) {
-        return appPreferencesHelper;
     }
 
     @Provides

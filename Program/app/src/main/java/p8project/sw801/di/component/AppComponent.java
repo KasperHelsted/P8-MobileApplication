@@ -16,7 +16,7 @@ import p8project.sw801.di.module.AppModule;
  * Created by Kasper Helsted on 4/4/2018.
  */
 @Singleton
-@Component(modules = {AndroidSupportInjectionModule.class,AndroidInjectionModule.class, AppModule.class, ActivityBuilder.class})
+@Component(modules = {AndroidSupportInjectionModule.class, AndroidInjectionModule.class, AppModule.class, ActivityBuilder.class})
 public interface AppComponent {
 
     void inject(MvvmApp app);
