@@ -5,12 +5,13 @@
         <import type="android.view.View" />
         <variable
             name="viewModel"
-            type="p8project.sw801.ui.event.addevent.AddEventViewModel" />
+            type="p8project.sw801.ui.event.notificationorsmartdevice.NotificationOrSmartdeviceViewModel" />
     </data>
 
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
+        android:background="@color/white"
         tools:context="p8project.sw801.ui.event.notificationorsmartdevice.NotificationOrSmartdevice">
 
         <!-- TODO: Update blank fragment layout -->
@@ -55,6 +56,7 @@
                 android:layout_marginEnd="16dp"
                 android:layout_marginStart="16dp"
                 android:text="Trigger Smart Device"
+                android:onClick="@{() -> viewModel.openAddSmartDeviceList()}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

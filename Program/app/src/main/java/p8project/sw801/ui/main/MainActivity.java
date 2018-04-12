@@ -33,9 +33,9 @@ import p8project.sw801.ui.SmartDevice.AddSmartDevice.AddSmartDeviceActivity;
 import p8project.sw801.ui.base.BaseActivity;
 import p8project.sw801.BR;
 import p8project.sw801.R;
-import p8project.sw801.ui.main.Fragments.HomeFragment;
-import p8project.sw801.ui.main.Fragments.MyEventsFragment;
-import p8project.sw801.ui.main.Fragments.MySmartDeviceFragment;
+import p8project.sw801.ui.main.Fragments.HomeFragment.HomeFragment;
+import p8project.sw801.ui.main.Fragments.MyEventsFragment.MyEventsFragment;
+import p8project.sw801.ui.main.Fragments.MySmartDeviceFragment.MySmartDeviceFragment;
 import p8project.sw801.utils.ScreenUtils;
 
 
@@ -118,6 +118,7 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
         super.onCreate(savedInstanceState);
         mActivityMainBinding = getViewDataBinding();
         mMainViewModel.setNavigator(this);
+        //setupFragmentManager();
         setUp();
     }
 
@@ -142,10 +143,13 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
 
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
+
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
 
         // Set up the ViewPager with the sections adapter.
-        mViewPager = (ViewPager) findViewById(R.id.container);
+        mViewPager = (ViewPager) findViewById(R.id.main_viewpager);
+
+
         mViewPager.setAdapter(mSectionsPagerAdapter);
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
@@ -315,6 +319,14 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
 
     //--------------------------Burger menu-------------------------------------
 
+    public void setupFragmentManager(){
+        getSupportFragmentManager()
+                .beginTransaction()
+                .disallowAddToBackStack()
+                .add(R.id.main_viewpager, HomeFragment.newInstance(), HomeFragment.TAG)
+                .commit();
+    }
+
     /**
      * A {@link FragmentPagerAdapter} that returns a fragment corresponding to
      * one of the sections/tabs/pages.
@@ -368,7 +380,9 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
         }
     }
 
+
     public void ChangeToEvents(){
+
         // Create fragment and give it an argument specifying the article it should show
         MyEventsFragment newFragment = new MyEventsFragment();
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();

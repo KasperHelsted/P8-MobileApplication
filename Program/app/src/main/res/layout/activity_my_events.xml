@@ -7,14 +7,14 @@
         <import type="android.view.View" />
         <variable
             name="viewModel"
-            type="p8project.sw801.ui.event.addevent.AddEventViewModel" />
+            type="p8project.sw801.ui.main.Fragments.MyEventsFragment.MyEventsFragmentViewModel" />
     </data>
 
     <android.support.v4.widget.DrawerLayout
         android:id="@+id/myeventsactivity"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context="p8project.sw801.ui.main.Fragments.MySmartDeviceFragment">
+        tools:context="p8project.sw801.ui.main.Fragments.MyEventsFragment.MyEventsFragment">
 
         <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
@@ -61,6 +61,7 @@
                 android:layout_height="57dp"
                 android:layout_marginEnd="16dp"
                 android:layout_marginTop="8dp"
+                android:onClick="@{() -> viewModel.addNewEvent()}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:srcCompat="@drawable/ic_add_black_18dp" />

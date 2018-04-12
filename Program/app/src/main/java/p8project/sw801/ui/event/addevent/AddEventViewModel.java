@@ -16,4 +16,20 @@ public class AddEventViewModel extends BaseViewModel<AddEventNavigator> {
     public void showNotificationOrSmartdevice() {
         getNavigator().showNotificationOrSmartdevice();
     }
+
+    public void showTimePickerDialog(int i) {
+        getNavigator().showTimePickerDialog(i);
+    }
+
+    public void submitEventClick() {
+        //CoordinateHelper
+        getDataManager().getAll();
+
+
+    }
+
+    public void submitEventToDatabase() {
+        //TODO NEED CORRECT PARAMETERS TO PASS TO DB
+    }
+
 }

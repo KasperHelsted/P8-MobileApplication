@@ -2,7 +2,7 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context="p8project.sw801.ui.event.AddEventSmartDeviceList">
+    tools:context="p8project.sw801.ui.event.addeventsmartdevice.AddEventSmartDeviceList">
 
     <data>
 
@@ -10,7 +10,7 @@
 
         <variable
             name="viewModel"
-            type="p8project.sw801.ui.event.addevent.AddEventViewModel" />
+            type="p8project.sw801.ui.event.addeventsmartdevice.AddEventSmartDeviceViewModel" />
     </data>
 
     <android.support.constraint.ConstraintLayout

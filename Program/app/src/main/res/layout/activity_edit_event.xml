@@ -1,17 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools"
+
+    tools:context="p8project.sw801.ui.event.editevent.EditEvent">
+
     <data>
+
         <import type="android.view.View" />
+
         <variable
             name="viewModel"
-            type="p8project.sw801.ui.event.EditEventActivity" />
+            type="p8project.sw801.ui.event.editevent.EditEventViewModel" />
     </data>
-<android.support.constraint.ConstraintLayout
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="sw801.remindersystem.ActivityView.Activity.EditEventActivity">
 
-</android.support.constraint.ConstraintLayout>
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    </android.support.constraint.ConstraintLayout>
 </layout>

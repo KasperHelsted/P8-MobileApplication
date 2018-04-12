@@ -15,6 +15,7 @@ import android.widget.Toast;
 import java.util.ArrayList;
 
 import p8project.sw801.R;
+import p8project.sw801.ui.event.editevent.EditEvent;
 
 /**
  * Created by cheec on 16-03-2018.
@@ -61,7 +62,7 @@ public class MyEventAdapter extends BaseAdapter {
             @Override
             public void onClick(View view) {
                 Toast.makeText(mContext, Title.get(position) +" has been renamed.", Toast.LENGTH_SHORT).show();
-                Intent editEvent = new Intent(mContext,EditEventActivity.class);
+                Intent editEvent = new Intent(mContext,EditEvent.class);
                 mContext.startActivity(editEvent);
             }
         });

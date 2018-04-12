@@ -1,18 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="p8project.sw801.ui.main.Fragment.MySmartDeviceFragment.MySmartDeviceFragment">
     <data>
         <import type="android.view.View" />
         <variable
             name="viewModel"
-            type="p8project.sw801.ui.SmartDevice.AddSmartDevice.AddSmartDeviceViewModel" />
+            type="p8project.sw801.ui.main.Fragments.MySmartDeviceFragment.MySmartDeviceFragmentViewModel" />
     </data>
     <android.support.v4.widget.DrawerLayout
         android:id="@+id/mysmartdeviceactivity"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:context="p8project.sw801.ui.main.MainActivity">
+        android:layout_height="match_parent">
+
         <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -45,6 +46,7 @@
                 android:layout_height="57dp"
                 android:layout_marginEnd="16dp"
                 android:layout_marginStart="36dp"
+                android:onClick="@{() -> viewModel.addNewSmartDevice()}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/textView_mysmartdevices"
                 app:layout_constraintTop_toBottomOf="@+id/navigation"

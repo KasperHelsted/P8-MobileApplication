@@ -26,95 +26,58 @@ public class TriggerHelper implements DbHelper<Trigger> {
 
     @Override
     public Observable<List<Trigger>> getAll() {
-        return Observable.fromCallable(new Callable<List<Trigger>>() {
-            @Override
-            public List<Trigger> call() throws Exception {
-                return mAppDatabase.triggerDao().getAll();
-            }
-        });
+        return Observable.fromCallable(() -> mAppDatabase.triggerDao().getAll());
     }
 
     @Override
     public Observable<List<Trigger>> getByIds(final Integer[] ids) {
-        return Observable.fromCallable(new Callable<List<Trigger>>() {
-            @Override
-            public List<Trigger> call() throws Exception {
-                return mAppDatabase.triggerDao().loadAllByIds(ids);
-            }
-        });
+        return Observable.fromCallable(() -> mAppDatabase.triggerDao().loadAllByIds(ids));
     }
 
     @Override
     public Observable<Trigger> getById(final Integer id) {
-        return Observable.fromCallable(new Callable<Trigger>() {
-            @Override
-            public Trigger call() throws Exception {
-                return mAppDatabase.triggerDao().loadById(id);
-            }
-        });
+        return Observable.fromCallable(() -> mAppDatabase.triggerDao().loadById(id));
     }
 
     @Override
     public Observable<Integer> getCount() {
-        return Observable.fromCallable(new Callable<Integer>() {
-            @Override
-            public Integer call() throws Exception {
-                return mAppDatabase.triggerDao().count();
-            }
-        });
+        return Observable.fromCallable(() -> mAppDatabase.triggerDao().count());
     }
 
     @Override
     public Observable<Boolean> isEmpty() {
-        return Observable.fromCallable(new Callable<Boolean>() {
-            @Override
-            public Boolean call() throws Exception {
-                return mAppDatabase.triggerDao().count() == 0;
-            }
-        });
+        return Observable.fromCallable(() -> mAppDatabase.triggerDao().count() == 0);
     }
 
     @Override
     public Observable<Boolean> insert(final Trigger obj) {
-        return Observable.fromCallable(new Callable<Boolean>() {
-            @Override
-            public Boolean call() throws Exception {
-                mAppDatabase.triggerDao().insert(obj);
-                return true;
-            }
+        return Observable.fromCallable(() -> {
+            mAppDatabase.triggerDao().insert(obj);
+            return true;
         });
     }
 
     @Override
     public Observable<Boolean> insertAll(final Trigger... obj) {
-        return Observable.fromCallable(new Callable<Boolean>() {
-            @Override
-            public Boolean call() throws Exception {
-                mAppDatabase.triggerDao().insertAll(obj);
-                return true;
-            }
+        return Observable.fromCallable(() -> {
+            mAppDatabase.triggerDao().insertAll(obj);
+            return true;
         });
     }
 
     @Override
     public Observable<Boolean> update(final Trigger obj) {
-        return Observable.fromCallable(new Callable<Boolean>() {
-            @Override
-            public Boolean call() throws Exception {
-                mAppDatabase.triggerDao().update(obj);
-                return true;
-            }
+        return Observable.fromCallable(() -> {
+            mAppDatabase.triggerDao().update(obj);
+            return true;
         });
     }
 
     @Override
     public Observable<Boolean> delete(final Trigger obj) {
-        return Observable.fromCallable(new Callable<Boolean>() {
-            @Override
-            public Boolean call() throws Exception {
-                mAppDatabase.triggerDao().delete(obj);
-                return true;
-            }
+        return Observable.fromCallable(() -> {
+            mAppDatabase.triggerDao().delete(obj);
+            return true;
         });
     }
 }

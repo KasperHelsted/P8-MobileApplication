@@ -12,4 +12,8 @@ public class NotificationOrSmartdeviceViewModel extends BaseViewModel<Notificati
     public void onNavBackClick() {
         getNavigator().goBack();
     }
+
+    public void openAddSmartDeviceList() {
+        getNavigator().openAddSmartDeviceList();
+    }
 }
