@@ -20,6 +20,7 @@ import p8project.sw801.ui.event.notificationorsmartdevice.NotificationOrSmartdev
 import p8project.sw801.ui.main.Fragments.HomeFragment.HomeFragment;
 import p8project.sw801.ui.main.Fragments.HomeFragment.HomeFragmentProvider;
 import p8project.sw801.ui.main.Fragments.MyEventsFragment.MyEventsFragmentProvider;
+import p8project.sw801.ui.main.Fragments.MySmartDeviceFragment.MySmartDeviceFragmentProvider;
 import p8project.sw801.ui.main.MainActivity;
 import p8project.sw801.ui.main.MainActivityModule;
 import p8project.sw801.ui.splash.SplashActivity;
@@ -33,7 +34,8 @@ public abstract class ActivityBuilder {
     @ContributesAndroidInjector(modules = {
             MainActivityModule.class,
             HomeFragmentProvider.class,
-            MyEventsFragmentProvider.class
+            MyEventsFragmentProvider.class,
+            MySmartDeviceFragmentProvider.class
             //AboutFragmentProvider.class
     })
     abstract MainActivity bindMainActivity();
