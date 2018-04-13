@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.CompoundButton;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -54,8 +55,8 @@ public class MyEventAdapter extends BaseAdapter {
         TextView title;
         title = (TextView) row.findViewById(R.id.textViewmyeventlist);
         title.setText(Title.get(position));
-        ImageButton edit = row.findViewById(R.id.addEventAddCondition);
-        ImageButton delete = row.findViewById(R.id.MyEventDelete);
+        ImageView edit = row.findViewById(R.id.addEventAddCondition);
+        ImageView delete = row.findViewById(R.id.MyEventDelete);
         Switch eventSwitch = row.findViewById(R.id.eventSwitch);
 
         edit.setOnClickListener(new View.OnClickListener() {
