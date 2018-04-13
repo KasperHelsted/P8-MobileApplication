@@ -1,12 +1,14 @@
 package p8project.sw801.ui.Settings.Location.AddLocation;
 
+import android.app.Activity;
 import android.arch.lifecycle.ViewModelProvider;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
+import android.location.Address;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 import javax.inject.Inject;
 
@@ -16,10 +18,8 @@ import dagger.android.support.HasSupportFragmentInjector;
 import p8project.sw801.BR;
 import p8project.sw801.R;
 import p8project.sw801.databinding.ActivityAddLocationSettingBinding;
-import p8project.sw801.ui.MapsActivity;
 import p8project.sw801.ui.base.BaseActivity;
 import p8project.sw801.ui.event.createeventmap.CreateEventMap;
-import p8project.sw801.ui.event.createeventmap.CreateEventMapViewModel;
 
 /**
  * Created by clubd on 22-03-2018.
@@ -27,7 +27,16 @@ import p8project.sw801.ui.event.createeventmap.CreateEventMapViewModel;
 
 public class AddLocationSettingActivity extends BaseActivity<ActivityAddLocationSettingBinding,AddLocationViewModel> implements AddLocationNavigator, HasSupportFragmentInjector {
     private ActivityAddLocationSettingBinding mActivityAddLocationSettingBinding;
-    private AddLocationViewModel mAddLocationViewModel;
+    @Inject
+    AddLocationViewModel mAddLocationViewModel;
+
+    private Bundle addressBundle;
+    private Address address;
+    //private TextView addLocation;
+    private TextView addressTextView;
+    private TextView nameTextView;
+    private Button confirmButton;
+
     @Inject
     DispatchingAndroidInjector<Fragment> fragmentDispatchingAndroidInjector;
     @Inject
@@ -55,7 +64,7 @@ public class AddLocationSettingActivity extends BaseActivity<ActivityAddLocation
         //setContentView(R.layout.activity_add_location_setting);
         mActivityAddLocationSettingBinding = getViewDataBinding();
         mAddLocationViewModel.setNavigator(this);
-
+        setupBindings();
         setTitle("Notify me - Add predefined location");
 
        /* final Button buttonSettings = findViewById(R.id.button_savePredefinedLocation);
@@ -70,6 +79,12 @@ public class AddLocationSettingActivity extends BaseActivity<ActivityAddLocation
 
     }
 
+    private void setupBindings() {
+        addressTextView  = mActivityAddLocationSettingBinding.addLocation;
+        confirmButton = mActivityAddLocationSettingBinding.buttonSavePredefinedLocation;
+        nameTextView = mActivityAddLocationSettingBinding.textInputGlobalMuteName;
+    }
+
     @Override
     public AndroidInjector<Fragment> supportFragmentInjector() {
         return fragmentDispatchingAndroidInjector;
@@ -82,9 +97,29 @@ public class AddLocationSettingActivity extends BaseActivity<ActivityAddLocation
 
     @Override
     public void openCreateMapActivity() {
-        System.out.println("LULKAGEMAND");
         Intent intent = CreateEventMap.newIntent(AddLocationSettingActivity.this);
-        startActivity(intent);
-        //finish();
+        startActivityForResult(intent,42);
+    }
+
+    @Override
+    public void submitLocationClick() {
+        String locName = nameTextView.getText().toString();
+        Address addressToSend = address;
+        mAddLocationViewModel.submitLocationToDatabase(locName,addressToSend);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode) {
+            case (42): {
+                if (resultCode == Activity.RESULT_OK) {
+                    addressBundle = data.getBundleExtra("address");
+                    address = addressBundle.getParcelable("address");
+                    addressTextView.setText(address.getAddressLine(0) + ", " + address.getAddressLine(1) + ", " + address.getAddressLine(2));
+                }
+                break;
+            }
+        }
     }
 }

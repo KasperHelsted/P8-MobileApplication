@@ -4,10 +4,10 @@ import android.app.Activity;
 import android.arch.lifecycle.ViewModelProvider;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
+import android.location.Address;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.KeyEvent;
-import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
@@ -23,14 +23,22 @@ import p8project.sw801.BR;
 import p8project.sw801.R;
 import p8project.sw801.databinding.ActivityEditLocationSettingBinding;
 import p8project.sw801.ui.base.BaseActivity;
+import p8project.sw801.ui.event.createeventmap.CreateEventMap;
 
 /**
  * Created by clubd on 22-03-2018.
  */
 
 public class EditLocationSettingActivity extends BaseActivity<ActivityEditLocationSettingBinding,EditLocationViewModel> implements EditLocationNavigator, HasSupportFragmentInjector {
+    private Bundle addressBundle;
+    private Address address;
+    private TextView addressTextView;
+    private TextView nameTextView;
+    private Button confirmButton;
+
     private ActivityEditLocationSettingBinding mActivityEditLocationSettingBinding;
-    private EditLocationViewModel mEditLocationViewModel;
+    @Inject
+    EditLocationViewModel mEditLocationViewModel;
     @Inject
     DispatchingAndroidInjector<Fragment> fragmentDispatchingAndroidInjector;
     @Inject
@@ -59,6 +67,8 @@ public class EditLocationSettingActivity extends BaseActivity<ActivityEditLocati
         setContentView(R.layout.activity_edit_location_setting);
         mEditLocationViewModel.setNavigator(this);
         mActivityEditLocationSettingBinding = getViewDataBinding();
+        setUpBindings();
+        
 
         Intent i = getIntent();
         locationSettingName = i.getStringExtra(locationSettingName);
@@ -88,20 +98,18 @@ public class EditLocationSettingActivity extends BaseActivity<ActivityEditLocati
                 return handled;
             }
         });
+    }
 
+    private void setUpBindings() {
+        addressTextView  = mActivityEditLocationSettingBinding.addLocation;
+        confirmButton = mActivityEditLocationSettingBinding.buttonEditLocationSettingConfirm;
+        nameTextView = mActivityEditLocationSettingBinding.textViewChangeLocation;
+    }
 
-        Button confirmButton = findViewById(R.id.button_editLocationSettingConfirm);
-        confirmButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String name = editTextName.getText().toString();
-
-                //TODO change in database
-
-                finish();
-            }
-        });
-
+    @Override
+    public void openCreateMapActivity() {
+        Intent intent = CreateEventMap.newIntent(EditLocationSettingActivity.this);
+        startActivityForResult(intent,13);
     }
 
     @Override
@@ -112,5 +120,28 @@ public class EditLocationSettingActivity extends BaseActivity<ActivityEditLocati
     @Override
     public void handleError(Throwable throwable) {
 
+    }
+
+    @Override
+    public void submitEditEventClick() {
+        String locName = nameTextView.getText().toString();
+        Address addressToSend = address;
+        mEditLocationViewModel.submitLocationToDatabase(locName,addressToSend);
+
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode) {
+            case (13): {
+                if (resultCode == Activity.RESULT_OK) {
+                    addressBundle = data.getBundleExtra("address");
+                    address = addressBundle.getParcelable("address");
+                    addressTextView.setText(address.getAddressLine(0) + ", " + address.getAddressLine(1) + ", " + address.getAddressLine(2));
+                }
+                break;
+            }
+        }
     }
 }
