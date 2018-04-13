@@ -4,12 +4,10 @@ import android.content.Context;
 
 import com.google.gson.Gson;
 
-import java.util.List;
-
 import javax.inject.Inject;
 
-import io.reactivex.Observable;
 import p8project.sw801.data.local.db.DbHelper;
+import p8project.sw801.data.local.db.EntityHelpers.CoordinateHelper;
 
 public class AppDataManager implements DataManager {
 
@@ -26,6 +24,13 @@ public class AppDataManager implements DataManager {
         mGson = gson;
     }
 
+    @Override
+    public CoordinateHelper getCoordinateHelper() {
+        return mDbHelper.delete();
+    }
+
+
+    /*
     @Override
     public Observable<List> getAll() {
         return null;
@@ -70,4 +75,5 @@ public class AppDataManager implements DataManager {
     public Observable<Boolean> delete(Object obj) {
         return null;
     }
+    */
 }
