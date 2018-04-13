@@ -1,29 +1,159 @@
 package p8project.sw801.data.local.db;
 
+
 import java.util.List;
 
 import io.reactivex.Observable;
+import p8project.sw801.data.model.db.Coordinate;
+import p8project.sw801.data.model.db.Event;
+import p8project.sw801.data.model.db.GlobalMute;
+import p8project.sw801.data.model.db.PredefinedLocation;
+import p8project.sw801.data.model.db.SmartDevice;
+import p8project.sw801.data.model.db.Trigger;
+import p8project.sw801.data.model.db.When;
 
 /**
  * Created by Kasper Helsted on 3/26/2018.
  */
 
-public interface DbHelper<T> {
-    Observable<List<T>> getAll();
+public interface DbHelper {
+    //<editor-fold desc="Coordinates">
+    Observable<List<Coordinate>> getAllCoordinates();
 
-    Observable<List<T>> getByIds(final Integer[] ids);
+    Observable<Coordinate> getCoordinateById(final Integer id);
 
-    Observable<T> getById(final Integer id);
+    Observable<List<Coordinate>> getCoordinatesById(final Integer[] ids);
 
-    Observable<Integer> getCount();
+    Observable<Integer> getCoordinateCount();
 
-    Observable<Boolean> isEmpty();
+    Observable<Boolean> isCoordinateEmpty();
 
-    Observable<Boolean> insert(final T obj);
+    Observable<Boolean> insertCoordinate(final Coordinate obj);
 
-    Observable<Boolean> insertAll(final T... obj);
+    Observable<Boolean> insertAllCoordinates(final Coordinate... obj);
 
-    Observable<Boolean> update(final T obj);
+    Observable<Boolean> updateCoordinate(final Coordinate obj);
 
-    Observable<Boolean> delete(final T obj);
+    Observable<Boolean> deleteCoordinate(final Coordinate obj);
+    //</editor-fold>
+
+    //<editor-fold desc="Events">
+    Observable<List<Event>> getAllEvents();
+
+    Observable<Event> getEventById(final Integer id);
+
+    Observable<List<Event>> getEventsByIds(final Integer[] ids);
+
+    Observable<Integer> getEventCount();
+
+    Observable<Boolean> isEventEmpty();
+
+    Observable<Boolean> insertEvent(final Event event);
+
+    Observable<Boolean> insertAllEvents(final Event... events);
+
+    Observable<Boolean> updateEvent(final Event event);
+
+    Observable<Boolean> deleteEvent(final Event event);
+    //</editor-fold>
+
+    //<editor-fold desc="GlobalMutes">
+    Observable<List<GlobalMute>> getAllGlobalMutes();
+
+    Observable<GlobalMute> getGlobalMuteById(final Integer id);
+
+    Observable<List<GlobalMute>> getGlobalMutesByIds(final Integer[] ids);
+
+    Observable<Integer> getGlobalMuteCount();
+
+    Observable<Boolean> isGlobalMuteEmpty();
+
+    Observable<Boolean> insertGlobalMute(final GlobalMute globalMute);
+
+    Observable<Boolean> insertAllGlobalMutes(final GlobalMute... globalMutes);
+
+    Observable<Boolean> updateGlobalMute(final GlobalMute globalMute);
+
+    Observable<Boolean> deleteGlobalMute(final GlobalMute globalMute);
+    //</editor-fold>
+
+    //<editor-fold desc="PredefinedLocations">
+    Observable<List<PredefinedLocation>> getAllPredefinedLocations();
+
+    Observable<PredefinedLocation> getPredefinedLocationById(final Integer id);
+
+    Observable<List<PredefinedLocation>> getPredefinedLocationsByIds(final Integer[] ids);
+
+    Observable<Integer> getPredefinedLocationCount();
+
+    Observable<Boolean> isPredefinedLocationEmpty();
+
+    Observable<Boolean> insertPredefinedLocation(final PredefinedLocation predefinedLocation);
+
+    Observable<Boolean> insertAllPredefinedLocation(final PredefinedLocation... predefinedLocations);
+
+    Observable<Boolean> updatePredefinedLocation(final PredefinedLocation predefinedLocation);
+
+    Observable<Boolean> deletePredefinedLocation(final PredefinedLocation predefinedLocation);
+    //</editor-fold>
+
+    //<editor-fold desc="SmartDevices">
+    Observable<List<SmartDevice>> getAllSmartDevices();
+
+    Observable<SmartDevice> getSmartDeviceById(final Integer id);
+
+    Observable<List<SmartDevice>> getSmartDevicesByIds(final Integer[] ids);
+
+    Observable<Integer> getSmartDeviceCount();
+
+    Observable<Boolean> isSmartDeviceEmpty();
+
+    Observable<Boolean> insertSmartDevice(final SmartDevice smartDevice);
+
+    Observable<Boolean> insertAllSmartDevices(final SmartDevice... smartDevices);
+
+    Observable<Boolean> updateSmartDevice(final SmartDevice smartDevice);
+
+    Observable<Boolean> deleteSmartDevice(final SmartDevice smartDevice);
+    //</editor-fold>
+
+    //<editor-fold desc="Triggers">
+    Observable<List<Trigger>> getAllTriggers();
+
+    Observable<Trigger> getTriggerById(final Integer id);
+
+    Observable<List<Trigger>> getTriggersByIds(final Integer[] ids);
+
+    Observable<Integer> getTriggerCount();
+
+    Observable<Boolean> isTriggerEmpty();
+
+    Observable<Boolean> insertTrigger(final Trigger trigger);
+
+    Observable<Boolean> insertAllTriggers(final Trigger... triggers);
+
+    Observable<Boolean> updateTrigger(final Trigger trigger);
+
+    Observable<Boolean> deleteTrigger(final Trigger trigger);
+    //</editor-fold>
+
+    //<editor-fold desc="When">
+    Observable<List<When>> getAllWhens();
+
+    Observable<When> getWhenById(final Integer id);
+
+    Observable<List<When>> getWhensByIds(final Integer[] ids);
+
+    Observable<Integer> getWhenCount();
+
+    Observable<Boolean> isWhenEmpty();
+
+    Observable<Boolean> insertWhen(final When when);
+
+    Observable<Boolean> insertAllWhen(final When... whens);
+
+    Observable<Boolean> updateWhen(final When when);
+
+    Observable<Boolean> deleteWhen(final When when);
+    //</editor-fold>
 }
