@@ -14,6 +14,8 @@ import p8project.sw801.ui.Settings.Location.LocationModule;
 import p8project.sw801.ui.Settings.Location.LocationSettingActivity;
 import p8project.sw801.ui.Settings.SettingsActivity;
 import p8project.sw801.ui.Settings.SettingsActivityModule;
+import p8project.sw801.ui.Settings.Shopping.ShoppingSettingActivity;
+import p8project.sw801.ui.Settings.Shopping.ShoppingSettingModule;
 import p8project.sw801.ui.event.addevent.AddEvent;
 import p8project.sw801.ui.event.addevent.AddEventModule;
 import p8project.sw801.ui.event.addeventaccessory.AddEventAccessory;
@@ -95,5 +97,8 @@ public abstract class ActivityBuilder {
 
     @ContributesAndroidInjector(modules = GlobalMuteSettingModule.class)
     abstract GlobalMuteSettingActivity bindGlobalMuteSettingActivity();
+
+    @ContributesAndroidInjector(modules = ShoppingSettingModule.class)
+    abstract ShoppingSettingActivity bindShoppingSettingActivity();
 
 }
