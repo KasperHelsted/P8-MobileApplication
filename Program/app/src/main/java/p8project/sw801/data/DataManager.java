@@ -1,4 +1,3 @@
-
 package p8project.sw801.data;
 
 import p8project.sw801.data.local.db.DbHelper;

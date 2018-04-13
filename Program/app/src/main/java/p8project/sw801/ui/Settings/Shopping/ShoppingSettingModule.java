@@ -11,10 +11,6 @@ import p8project.sw801.utils.rx.SchedulerProvider;
 
 @Module
 public class ShoppingSettingModule {
-    @Provides
-    ViewModelProvider.Factory LocationViewModelProvider(ShoppingSettingViewModel shoppingSettingViewModel) {
-        return new ViewModelProviderFactory<>(shoppingSettingViewModel);
-    }
 
     @Provides
     ShoppingSettingViewModel provideSettingsViewModel(DataManager dataManager, SchedulerProvider schedulerProvider) {
