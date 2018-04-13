@@ -1,4 +1,4 @@
-package p8project.sw801.ui.SmartDevice;
+package p8project.sw801.ui.SmartDevice.EditSmartDevice;
 
 import android.app.Activity;
 import android.arch.lifecycle.ViewModelProvider;
@@ -24,6 +24,8 @@ import dagger.android.support.HasSupportFragmentInjector;
 import p8project.sw801.BR;
 import p8project.sw801.R;
 import p8project.sw801.databinding.ActivityEditSmartDeviceBinding;
+import p8project.sw801.ui.SmartDevice.AddSmartDevice.AddSmartDeviceNavigator;
+import p8project.sw801.ui.SmartDevice.AddSmartDevice.AddSmartDeviceViewModel;
 import p8project.sw801.ui.base.BaseActivity;
 
 public class EditSmartDeviceActivity extends BaseActivity<ActivityEditSmartDeviceBinding, AddSmartDeviceViewModel> implements AddSmartDeviceNavigator, HasSupportFragmentInjector {

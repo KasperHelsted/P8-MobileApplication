@@ -5,7 +5,6 @@ import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -20,13 +19,12 @@ import dagger.android.support.HasSupportFragmentInjector;
 import p8project.sw801.BR;
 import p8project.sw801.R;
 import p8project.sw801.databinding.ActivityLocationSettingBinding;
-import p8project.sw801.ui.Settings.SettingsNavigator;
-import p8project.sw801.ui.Settings.SettingsViewModel;
+import p8project.sw801.ui.Settings.Location.AddLocation.AddLocationSettingActivity;
 import p8project.sw801.ui.base.BaseActivity;
 
-public class LocationSettingActivity extends BaseActivity<ActivityLocationSettingBinding,SettingsViewModel> implements SettingsNavigator, HasSupportFragmentInjector {
+public class LocationSettingActivity extends BaseActivity<ActivityLocationSettingBinding,LocationViewModel> implements LocationNavigator, HasSupportFragmentInjector {
     private ActivityLocationSettingBinding mActivityLocationSettingBinding;
-    private SettingsViewModel mSettingsViewModel;
+    private LocationViewModel mLocationViewModel;
     @Inject
     DispatchingAndroidInjector<Fragment> fragmentDispatchingAndroidInjector;
     @Inject
@@ -39,13 +37,13 @@ public class LocationSettingActivity extends BaseActivity<ActivityLocationSettin
 
     @Override
     public int getLayoutId() {
-        return R.layout.activity_add_location_setting;
+        return R.layout.activity_location_setting;
     }
 
     @Override
-    public SettingsViewModel getViewModel() {
-        mSettingsViewModel = ViewModelProviders.of(this, mViewModelFactory).get(SettingsViewModel.class);
-        return mSettingsViewModel;
+    public LocationViewModel getViewModel() {
+        mLocationViewModel = ViewModelProviders.of(this, mViewModelFactory).get(LocationViewModel.class);
+        return mLocationViewModel;
     }
 
     private ListView listview;
@@ -57,7 +55,7 @@ public class LocationSettingActivity extends BaseActivity<ActivityLocationSettin
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_location_setting);
         mActivityLocationSettingBinding = getViewDataBinding();
-        mSettingsViewModel.setNavigator(this);
+        mLocationViewModel.setNavigator(this);
 
         listview = (ListView) this.findViewById(R.id.listView_mylocationsettings);
 

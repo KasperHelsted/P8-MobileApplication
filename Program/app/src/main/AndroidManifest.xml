@@ -23,16 +23,25 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.SmartDevice.EditSmartDeviceActivity" />
-        <activity android:name=".ui.Settings.Shopping.ShoppingSettingActivity" />
+
         <activity android:name=".ui.event.addevent.AddEvent" />
-        <activity android:name=".ui.event.editevent.EditEvent" />
-        <activity android:name=".ui.event.createeventmap.CreateEventMap" />
-        <activity android:name=".ui.event.addeventsmartdevice.AddEventSmartDevice" />
         <activity android:name=".ui.event.addeventaccessory.AddEventAccessory" />
         <activity android:name=".ui.event.addeventhue.AddEventHue" />
         <activity android:name=".ui.event.addeventnest.AddEventNest" />
-
+        <activity android:name=".ui.event.addeventsmartdevice.AddEventSmartDevice" />
+        <activity android:name=".ui.event.createeventmap.CreateEventMap" />
+        <activity android:name=".ui.event.editevent.EditEvent" />
+        <activity android:name=".ui.MapsActivity" />
+        <activity android:name=".ui.Settings.AddGlobalMuteSetting.AddGlobalMuteSettingActivity" />
+        <activity android:name=".ui.Settings.EditGlobalMuteSetting.EditGlobalMuteSettingActivity" />
+        <activity android:name=".ui.Settings.GlobalMuteSetting.GlobalMuteSettingActivity" />
+        <activity android:name=".ui.Settings.Location.AddLocation.AddLocationSettingActivity" />
+        <activity android:name=".ui.Settings.Location.EditLocation.EditLocationSettingActivity" />
+        <activity android:name=".ui.Settings.Location.LocationSettingActivity" />
+        <activity android:name=".ui.Settings.SettingsActivity" />
+        <activity android:name=".ui.Settings.Shopping.ShoppingSettingActivity" />
+        <activity android:name=".ui.SmartDevice.EditSmartDevice.EditSmartDeviceActivity" />
+        
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />

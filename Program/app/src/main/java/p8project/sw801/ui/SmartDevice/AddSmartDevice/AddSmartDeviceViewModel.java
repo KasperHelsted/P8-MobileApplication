@@ -1,4 +1,4 @@
-package p8project.sw801.ui.SmartDevice;
+package p8project.sw801.ui.SmartDevice.AddSmartDevice;
 
 import p8project.sw801.data.DataManager;
 import p8project.sw801.ui.base.BaseViewModel;

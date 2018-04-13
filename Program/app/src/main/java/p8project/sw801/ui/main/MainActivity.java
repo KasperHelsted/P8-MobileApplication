@@ -29,7 +29,7 @@ import dagger.android.DispatchingAndroidInjector;
 import dagger.android.support.HasSupportFragmentInjector;
 import p8project.sw801.databinding.ActivityMainBinding;
 import p8project.sw801.ui.Settings.SettingsActivity;
-import p8project.sw801.ui.SmartDevice.AddSmartDeviceActivity;
+import p8project.sw801.ui.SmartDevice.AddSmartDevice.AddSmartDeviceActivity;
 import p8project.sw801.ui.base.BaseActivity;
 import p8project.sw801.BR;
 import p8project.sw801.R;

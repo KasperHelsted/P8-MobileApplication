@@ -1,10 +1,9 @@
-package p8project.sw801.ui.SmartDevice;
+package p8project.sw801.ui.SmartDevice.AddSmartDevice;
 
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -22,12 +21,16 @@ import com.philips.lighting.model.PHHueParsingError;
 
 import java.util.List;
 
+import javax.inject.Inject;
+
 import dagger.android.AndroidInjector;
+import dagger.android.DispatchingAndroidInjector;
 import dagger.android.support.HasSupportFragmentInjector;
 import p8project.sw801.BR;
 import p8project.sw801.Library.HueSharedPreferences;
 import p8project.sw801.R;
 import p8project.sw801.databinding.ActivityAddSmartDeviceBinding;
+import p8project.sw801.ui.SmartDevice.AccessPointListAdapter;
 import p8project.sw801.ui.base.BaseActivity;
 import p8project.sw801.ui.custom.PHPushlinkActivity;
 import p8project.sw801.ui.custom.PHWizardAlertDialog;
@@ -41,6 +44,8 @@ public class AddSmartDeviceActivity extends BaseActivity<ActivityAddSmartDeviceB
     private AccessPointListAdapter adapter;
     private boolean lastSearchWasIPScan = false;
     private AddSmartDeviceViewModel mSmartDeviceViewModel;
+    @Inject
+    DispatchingAndroidInjector<Fragment> fragmentDispatchingAndroidInjector;
     private ActivityAddSmartDeviceBinding mActivityAddSmartDeviceBinding;
     @Override
     public int getBindingVariable() {
@@ -298,7 +303,7 @@ public class AddSmartDeviceActivity extends BaseActivity<ActivityAddSmartDeviceB
 
     @Override
     public AndroidInjector<Fragment> supportFragmentInjector() {
-        return null;
+        return fragmentDispatchingAndroidInjector;
     }
 
     @Override

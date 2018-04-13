@@ -22,10 +22,8 @@ public class AddEventViewModel extends BaseViewModel<AddEventNavigator> {
     }
 
     public void submitEventClick() {
-        //CoordinateHelper
-        getDataManager();
-
-
+        System.out.println(getDataManager());
+        //getDataManager();
     }
 
     public void submitEventToDatabase() {

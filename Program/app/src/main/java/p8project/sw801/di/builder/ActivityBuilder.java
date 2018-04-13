@@ -2,6 +2,18 @@ package p8project.sw801.di.builder;
 
 import dagger.Module;
 import dagger.android.ContributesAndroidInjector;
+import p8project.sw801.ui.Settings.AddGlobalMuteSetting.AddGlobalMuteSettingActivity;
+import p8project.sw801.ui.Settings.AddGlobalMuteSetting.AddGlobalMuteSettingModule;
+import p8project.sw801.ui.Settings.EditGlobalMuteSetting.EditGlobalMuteSettingActivity;
+import p8project.sw801.ui.Settings.EditGlobalMuteSetting.EditGlobalMuteSettingModule;
+import p8project.sw801.ui.Settings.GlobalMuteSetting.GlobalMuteSettingActivity;
+import p8project.sw801.ui.Settings.GlobalMuteSetting.GlobalMuteSettingModule;
+import p8project.sw801.ui.Settings.Location.AddLocation.AddLocationSettingActivity;
+import p8project.sw801.ui.Settings.Location.AddLocation.AddLocationSettingModule;
+import p8project.sw801.ui.Settings.Location.LocationModule;
+import p8project.sw801.ui.Settings.Location.LocationSettingActivity;
+import p8project.sw801.ui.Settings.SettingsActivity;
+import p8project.sw801.ui.Settings.SettingsActivityModule;
 import p8project.sw801.ui.event.addevent.AddEvent;
 import p8project.sw801.ui.event.addevent.AddEventModule;
 import p8project.sw801.ui.event.addeventaccessory.AddEventAccessory;
@@ -17,7 +29,6 @@ import p8project.sw801.ui.event.createeventmap.CreateEventMapModule;
 import p8project.sw801.ui.event.editevent.EditEvent;
 import p8project.sw801.ui.event.editevent.EditEventModule;
 import p8project.sw801.ui.event.notificationorsmartdevice.NotificationOrSmartdeviceProvider;
-import p8project.sw801.ui.main.Fragments.HomeFragment.HomeFragment;
 import p8project.sw801.ui.main.Fragments.HomeFragment.HomeFragmentProvider;
 import p8project.sw801.ui.main.Fragments.MyEventsFragment.MyEventsFragmentProvider;
 import p8project.sw801.ui.main.Fragments.MySmartDeviceFragment.MySmartDeviceFragmentProvider;
@@ -36,9 +47,17 @@ public abstract class ActivityBuilder {
             HomeFragmentProvider.class,
             MyEventsFragmentProvider.class,
             MySmartDeviceFragmentProvider.class
-            //AboutFragmentProvider.class
     })
     abstract MainActivity bindMainActivity();
+
+    @ContributesAndroidInjector(modules = SettingsActivityModule.class)
+    abstract SettingsActivity bindSettingsActivity();
+
+    @ContributesAndroidInjector(modules = LocationModule.class)
+    abstract LocationSettingActivity bindLocationSettingActivity();
+
+    @ContributesAndroidInjector(modules = AddLocationSettingModule.class)
+    abstract AddLocationSettingActivity bindAddLocationSettingActivity();
 
 
     @ContributesAndroidInjector(modules = {
@@ -67,4 +86,14 @@ public abstract class ActivityBuilder {
 
     @ContributesAndroidInjector(modules = SplashActivityModule.class)
     abstract SplashActivity bindSplashActivity();
+
+    @ContributesAndroidInjector(modules = AddGlobalMuteSettingModule.class)
+    abstract AddGlobalMuteSettingActivity bindAddGlobalMuteSettingActivity();
+
+    @ContributesAndroidInjector(modules = EditGlobalMuteSettingModule.class)
+    abstract EditGlobalMuteSettingActivity bindEditGlobalMuteSettingActivity();
+
+    @ContributesAndroidInjector(modules = GlobalMuteSettingModule.class)
+    abstract GlobalMuteSettingActivity bindGlobalMuteSettingActivity();
+
 }
