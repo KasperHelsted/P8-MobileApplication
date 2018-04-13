@@ -15,6 +15,7 @@ import java.util.List;
 import p8project.sw801.data.model.Others.UserPreference;
 import p8project.sw801.data.model.db.SmartDevice;
 import p8project.sw801.R;
+import p8project.sw801.ui.SmartDevice.EditSmartDevice.EditSmartDeviceActivity;
 
 /**
  * Created by Kasper Helsted on 3/21/2018.

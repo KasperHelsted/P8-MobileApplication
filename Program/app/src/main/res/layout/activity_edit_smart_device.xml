@@ -2,12 +2,12 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context="p8project.sw801.ui.SmartDevice.EditSmartDeviceActivity">
+    tools:context="p8project.sw801.ui.SmartDevice.EditSmartDevice.EditSmartDeviceActivity">
     <data>
         <import type="android.view.View" />
         <variable
             name="viewModel"
-            type="p8project.sw801.ui.SmartDevice.EditSmartDeviceActivity" />
+            type="p8project.sw801.ui.SmartDevice.EditSmartDevice.EditSmartDeviceViewModel" />
     </data>
 <android.support.constraint.ConstraintLayout
     android:id="@+id/editSmartDeviceLayout"

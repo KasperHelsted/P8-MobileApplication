@@ -8,7 +8,7 @@
 
         <variable
             name="viewModel"
-            type="p8project.sw801.ui.Settings.SettingsViewModel" />
+            type="p8project.sw801.ui.Settings.EditGlobalMuteSetting.EditGlobalMuteSettingViewModel" />
     </data>
     <android.support.constraint.ConstraintLayout
         android:id="@+id/editGlobalMuteLayout"
@@ -16,7 +16,7 @@
         android:layout_height="match_parent"
         android:descendantFocusability="beforeDescendants"
         android:focusableInTouchMode="true"
-        tools:context="p8project.sw801.ui.Settings.GlobalMute.EditGlobalMuteSettingActivity">
+        tools:context="p8project.sw801.ui.Settings.EditGlobalMuteSetting.EditGlobalMuteSettingActivity">
 
         <TextView
             android:id="@+id/textView_editglobalmutetitle"
@@ -88,6 +88,7 @@
             android:ems="10"
             android:focusable="false"
             android:inputType="text"
+            android:onClick="@{() -> viewModel.showTimePickerDialog(1)}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/editTextTimeBetween2"
             app:layout_constraintTop_toBottomOf="@+id/textViewBetween" />
@@ -101,6 +102,7 @@
             android:ems="10"
             android:focusable="false"
             android:inputType="text"
+            android:onClick="@{() -> viewModel.showTimePickerDialog(2)}"
             app:layout_constraintEnd_toStartOf="@+id/editTextTimeBetween"
             app:layout_constraintHorizontal_bias="0.211"
             app:layout_constraintStart_toStartOf="parent"
@@ -164,6 +166,7 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="32dp"
             android:text="Confirm"
+            android:onClick="@{() -> viewModel.submitGlobalMuteChangeClick()}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.497"
             app:layout_constraintStart_toStartOf="parent"

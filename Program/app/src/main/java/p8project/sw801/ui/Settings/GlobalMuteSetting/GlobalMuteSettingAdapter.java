@@ -1,4 +1,4 @@
-package p8project.sw801.ui.Settings.GlobalMute;
+package p8project.sw801.ui.Settings.GlobalMuteSetting;
 
 import android.content.Context;
 import android.content.Intent;
@@ -13,6 +13,7 @@ import java.util.ArrayList;
 
 
 import p8project.sw801.R;
+import p8project.sw801.ui.Settings.EditGlobalMuteSetting.EditGlobalMuteSettingActivity;
 
 /**
  * Created by clubd on 20-03-2018.

@@ -3,13 +3,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
 
-    tools:context="p8project.sw801.ui.SmartDevice.AddSmartDeviceActivity">
+    tools:context="p8project.sw801.ui.SmartDevice.AddSmartDevice.AddSmartDeviceActivity">
     <data>
     <import type="android.view.View" />
 
     <variable
         name="viewModel"
-        type="p8project.sw801.ui.SmartDevice.AddSmartDeviceViewModel" />
+        type="p8project.sw801.ui.SmartDevice.AddSmartDevice.AddSmartDeviceViewModel" />
     </data>
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"

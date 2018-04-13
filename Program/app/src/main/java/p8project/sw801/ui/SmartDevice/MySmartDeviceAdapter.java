@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 import p8project.sw801.R;
+import p8project.sw801.ui.SmartDevice.EditSmartDevice.EditSmartDeviceActivity;
 
 /**
  * Created by Jakob on 16-03-2018.

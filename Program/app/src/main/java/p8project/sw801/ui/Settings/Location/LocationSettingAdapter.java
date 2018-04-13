@@ -11,7 +11,7 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 import p8project.sw801.R;
-import p8project.sw801.ui.Settings.Location.EditLocationSettingActivity;
+import p8project.sw801.ui.Settings.Location.EditLocation.EditLocationSettingActivity;
 
 /**
  * Created by clubd on 20-03-2018.

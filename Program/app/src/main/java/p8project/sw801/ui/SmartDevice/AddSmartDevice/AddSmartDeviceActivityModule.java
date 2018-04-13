@@ -1,4 +1,4 @@
-package p8project.sw801.ui.SmartDevice;
+package p8project.sw801.ui.SmartDevice.AddSmartDevice;
 
 import android.arch.lifecycle.ViewModelProvider;
 
