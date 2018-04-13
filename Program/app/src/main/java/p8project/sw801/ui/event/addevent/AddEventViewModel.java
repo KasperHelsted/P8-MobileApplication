@@ -1,6 +1,7 @@
 package p8project.sw801.ui.event.addevent;
 
 import p8project.sw801.data.DataManager;
+import p8project.sw801.data.model.db.Coordinate;
 import p8project.sw801.ui.base.BaseViewModel;
 import p8project.sw801.utils.rx.SchedulerProvider;
 
@@ -22,8 +23,29 @@ public class AddEventViewModel extends BaseViewModel<AddEventNavigator> {
     }
 
     public void submitEventClick() {
-        System.out.println(getDataManager());
-        //getDataManager();
+        /*
+        getCompositeDisposable().add(
+                getDataManager().insertCoordinate(
+                        new Coordinate(0, 0)
+                ).subscribeOn(getSchedulerProvider().io())
+                        .observeOn(getSchedulerProvider().ui())
+                        .subscribe(response -> {
+                            System.out.println("YEAH!");
+                        })
+        );
+        */
+
+        getCompositeDisposable().add(
+                getDataManager().getAllCoordinates().subscribeOn(
+                        getSchedulerProvider().io()
+                ).subscribe(coordinates -> {
+                    for (Coordinate coordinate : coordinates) {
+                        System.out.println(coordinate);
+                    }
+                }, throwable -> {
+
+                })
+        );
     }
 
     public void submitEventToDatabase() {
