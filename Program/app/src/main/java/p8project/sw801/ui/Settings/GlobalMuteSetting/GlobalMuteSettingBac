@@ -1,4 +1,4 @@
-package p8project.sw801.ui.Settings.GlobalMute;
+package p8project.sw801.ui.Settings.GlobalMuteSetting;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,9 +9,21 @@ import android.widget.ListView;
 
 import java.util.ArrayList;
 
-import p8project.sw801.R;
+import javax.inject.Inject;
 
-public class GlobalMuteSettingActivity extends AppCompatActivity {
+import p8project.sw801.BR;
+import p8project.sw801.R;
+import p8project.sw801.databinding.ActivityGlobalMuteBinding;
+
+import p8project.sw801.ui.Settings.AddGlobalMuteSetting.AddGlobalMuteSettingActivity;
+
+import p8project.sw801.ui.base.BaseActivity;
+
+public class GlobalMuteSettingActivity extends BaseActivity<ActivityGlobalMuteBinding, GlobalMuteSettingViewModel> implements GlobalMuteSettingNavigator {
+
+    @Inject
+    GlobalMuteSettingViewModel mGlobalMuteSettingViewModel;
+    private ActivityGlobalMuteBinding mActivityGlobalMuteBinding;
 
     private ListView listview;
     ArrayList<String> globalMuteSettings;
@@ -43,6 +55,26 @@ public class GlobalMuteSettingActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+    }
+
+    @Override
+    public int getBindingVariable() {
+        return BR.viewModel;
+    }
+
+    @Override
+    public int getLayoutId() {
+        return R.layout.activity_global_mute;
+    }
+
+    @Override
+    public GlobalMuteSettingViewModel getViewModel() {
+        return mGlobalMuteSettingViewModel;
+    }
+
+    @Override
+    public void handleError(Throwable throwable) {
 
     }
 }
