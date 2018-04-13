@@ -40,7 +40,6 @@ import p8project.sw801.ui.event.createeventmap.CreateEventMap;
 import p8project.sw801.ui.event.notificationorsmartdevice.NotificationOrSmartdevice;
 
 
-
 public class AddEvent extends BaseActivity<ActivityAddEventBinding, AddEventViewModel> implements AddEventNavigator, HasSupportFragmentInjector {
     @Inject
     AddEventViewModel mAddEventViewModel;
@@ -385,6 +384,8 @@ public class AddEvent extends BaseActivity<ActivityAddEventBinding, AddEventView
 
     @Override
     public void submitEventClick() {
+
+        /*
         markButton();
         String eName = eventName.getText().toString();
         ArrayList<Integer> weekdays = markedButtons;
@@ -397,6 +398,7 @@ public class AddEvent extends BaseActivity<ActivityAddEventBinding, AddEventView
 
         //Calling Viewmodel Still missing correct parameters
         mAddEventViewModel.submitEventToDatabase();
+        */
     }
 
     private void setupBindings() {
