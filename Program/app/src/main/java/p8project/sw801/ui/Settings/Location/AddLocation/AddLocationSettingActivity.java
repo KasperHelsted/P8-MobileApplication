@@ -2,9 +2,9 @@ package p8project.sw801.ui.Settings.Location.AddLocation;
 
 import android.app.Activity;
 import android.arch.lifecycle.ViewModelProvider;
-import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.location.Address;
+import android.location.Location;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.widget.Button;
@@ -32,12 +32,14 @@ public class AddLocationSettingActivity extends BaseActivity<ActivityAddLocation
     AddLocationViewModel mAddLocationViewModel;
 
     private Bundle addressBundle;
+    private Bundle locationBundle;
     private Address address;
     //private TextView addLocation;
     private TextView addressTextView;
     private TextView nameTextView;
     private Button confirmButton;
     private Coordinate coords;
+    private Location loc;
 
     @Inject
     DispatchingAndroidInjector<Fragment> fragmentDispatchingAndroidInjector;
@@ -55,15 +57,12 @@ public class AddLocationSettingActivity extends BaseActivity<ActivityAddLocation
 
     @Override
     public AddLocationViewModel getViewModel() {
-        mAddLocationViewModel = ViewModelProviders.of(this, mViewModelFactory).get(AddLocationViewModel.class);
-
         return mAddLocationViewModel;
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add_location_setting);
         mActivityAddLocationSettingBinding = getViewDataBinding();
         mAddLocationViewModel.setNavigator(this);
         setupBindings();
@@ -95,7 +94,6 @@ public class AddLocationSettingActivity extends BaseActivity<ActivityAddLocation
     @Override
     public void submitLocationClick() {
         String locName = nameTextView.getText().toString();
-        Address addressToSend = address;
         mAddLocationViewModel.submitLocationToDatabase(locName,coords);
     }
 
@@ -106,10 +104,10 @@ public class AddLocationSettingActivity extends BaseActivity<ActivityAddLocation
             case (42): {
                 if (resultCode == Activity.RESULT_OK) {
                     addressBundle = data.getBundleExtra("address");
+                    locationBundle = data.getBundleExtra("location");
                     address = addressBundle.getParcelable("address");
-                    double lat = Double.parseDouble(data.getStringExtra("latitude"));
-                    double longi = Double.parseDouble(data.getStringExtra("longitude"));
-                    coords = new Coordinate(lat,longi);
+                    loc = locationBundle.getParcelable("location");
+                    coords = new Coordinate(loc);
                     addressTextView.setText(address.getAddressLine(0) + ", " + address.getAddressLine(1) + ", " + address.getAddressLine(2));
                 }
                 break;

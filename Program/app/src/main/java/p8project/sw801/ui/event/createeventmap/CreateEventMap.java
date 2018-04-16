@@ -87,7 +87,9 @@ public class CreateEventMap extends BaseActivity<ActivityCreateEventMapBinding, 
 
         Bundle b = new Bundle();
         b.putParcelable("address", a);
+        b.putParcelable("location",location);
         resultIntent.putExtra("address", b);
+        resultIntent.putExtra("location",b);
         setResult(Activity.RESULT_OK, resultIntent);
         finish();
     }

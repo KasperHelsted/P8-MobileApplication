@@ -60,7 +60,7 @@ public class LocationSettingActivity extends BaseActivity<ActivityLocationSettin
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //Define layout to render
-        setContentView(R.layout.activity_location_setting);
+        //setContentView(R.layout.activity_location_setting);
         //Setup MVVM bindings
         mActivityLocationSettingBinding = getViewDataBinding();
         mLocationViewModel.setNavigator(this);

@@ -18,6 +18,16 @@ public class AddLocationViewModel extends BaseViewModel<AddLocationNavigator> {
     }
 
     public void submitLocationToDatabase(String locName, Coordinate address){
+
+        getCompositeDisposable().add(
+                getDataManager().insertCoordinate(
+                        address
+                ).subscribeOn(getSchedulerProvider().io())
+                        .observeOn(getSchedulerProvider().ui())
+                        .subscribe(response -> {
+                            System.out.println("YEAH!");
+                        })
+        );
         int id = address.getId();
         PredefinedLocation pref = new PredefinedLocation();
         pref.setCoordinateId(id);

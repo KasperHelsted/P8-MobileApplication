@@ -13,6 +13,7 @@ public class LocationViewModel extends BaseViewModel<LocationNavigator> {
 
     }
     public void createLocation(){
+        System.out.print("LHUL");
         getNavigator().createLocation();
     }
 }
