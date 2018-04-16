@@ -2,7 +2,6 @@ package p8project.sw801.ui.Settings.Location;
 
 import android.app.Activity;
 import android.arch.lifecycle.ViewModelProvider;
-import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -47,7 +46,6 @@ public class LocationSettingActivity extends BaseActivity<ActivityLocationSettin
 
     @Override
     public LocationViewModel getViewModel() {
-        mLocationViewModel = ViewModelProviders.of(this, mViewModelFactory).get(LocationViewModel.class);
         return mLocationViewModel;
     }
 
@@ -61,18 +59,21 @@ public class LocationSettingActivity extends BaseActivity<ActivityLocationSettin
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //Define layout to render
         setContentView(R.layout.activity_location_setting);
+        //Setup MVVM bindings
         mActivityLocationSettingBinding = getViewDataBinding();
         mLocationViewModel.setNavigator(this);
         setupBindings();
 
-        //------Creation of list of smart devices
+        //Creation of list of smart devices  --Sample code--
         locationSettings = new ArrayList<String>();
         locationSettings.add("Home sweet home");
         locationSettings.add("Work");
         locationSettings.add("Fitness");
         LocationSettingAdapter myAdapter = new LocationSettingAdapter(this, locationSettings);
         listView.setAdapter(myAdapter);
+        //// -- Sample code --
     }
     private void updateListView(){
         //ViewModel call to DB
@@ -104,6 +105,7 @@ public class LocationSettingActivity extends BaseActivity<ActivityLocationSettin
 
     @Override
     public void createLocation() {
+        System.out.println("CLICKED");
         Intent intent = new Intent(LocationSettingActivity.this, AddLocationSettingActivity.class);
         startActivityForResult(intent,2);
     }

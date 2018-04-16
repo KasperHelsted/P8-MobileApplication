@@ -17,6 +17,7 @@ import dagger.android.DispatchingAndroidInjector;
 import dagger.android.support.HasSupportFragmentInjector;
 import p8project.sw801.BR;
 import p8project.sw801.R;
+import p8project.sw801.data.model.db.Coordinate;
 import p8project.sw801.databinding.ActivityAddLocationSettingBinding;
 import p8project.sw801.ui.base.BaseActivity;
 import p8project.sw801.ui.event.createeventmap.CreateEventMap;
@@ -36,6 +37,7 @@ public class AddLocationSettingActivity extends BaseActivity<ActivityAddLocation
     private TextView addressTextView;
     private TextView nameTextView;
     private Button confirmButton;
+    private Coordinate coords;
 
     @Inject
     DispatchingAndroidInjector<Fragment> fragmentDispatchingAndroidInjector;
@@ -61,22 +63,11 @@ public class AddLocationSettingActivity extends BaseActivity<ActivityAddLocation
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //setContentView(R.layout.activity_add_location_setting);
+        setContentView(R.layout.activity_add_location_setting);
         mActivityAddLocationSettingBinding = getViewDataBinding();
         mAddLocationViewModel.setNavigator(this);
         setupBindings();
         setTitle("Notify me - Add predefined location");
-
-       /* final Button buttonSettings = findViewById(R.id.button_savePredefinedLocation);
-        buttonSettings.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(AddLocationSettingActivity.this, MapsActivity.class);
-                startActivity(intent);
-            }
-        });*/
-
-
     }
 
     private void setupBindings() {
@@ -105,7 +96,7 @@ public class AddLocationSettingActivity extends BaseActivity<ActivityAddLocation
     public void submitLocationClick() {
         String locName = nameTextView.getText().toString();
         Address addressToSend = address;
-        mAddLocationViewModel.submitLocationToDatabase(locName,addressToSend);
+        mAddLocationViewModel.submitLocationToDatabase(locName,coords);
     }
 
     @Override
@@ -116,6 +107,9 @@ public class AddLocationSettingActivity extends BaseActivity<ActivityAddLocation
                 if (resultCode == Activity.RESULT_OK) {
                     addressBundle = data.getBundleExtra("address");
                     address = addressBundle.getParcelable("address");
+                    double lat = Double.parseDouble(data.getStringExtra("latitude"));
+                    double longi = Double.parseDouble(data.getStringExtra("longitude"));
+                    coords = new Coordinate(lat,longi);
                     addressTextView.setText(address.getAddressLine(0) + ", " + address.getAddressLine(1) + ", " + address.getAddressLine(2));
                 }
                 break;
