@@ -32,30 +32,30 @@
         app:layout_constraintTop_toTopOf="parent"
         android:layout_marginRight="8dp" />
 
-    <ImageButton
+    <ImageView
         android:id="@+id/MyEventDelete"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
         android:layout_marginTop="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/addEventAddCondition"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_delete_black_18dp"
-        android:layout_marginRight="8dp" />
+        app:srcCompat="@drawable/ic_delete_black_18dp" />
 
-    <ImageButton
+    <ImageView
         android:id="@+id/addEventAddCondition"
-        android:layout_width="55dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
         android:layout_marginTop="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_border_color_black_18dp"
-        android:layout_marginRight="8dp" />
+        app:srcCompat="@drawable/ic_border_color_black_18dp" />
 
 </android.support.constraint.ConstraintLayout>
