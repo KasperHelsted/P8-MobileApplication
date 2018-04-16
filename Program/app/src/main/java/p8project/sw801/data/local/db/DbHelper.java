@@ -24,6 +24,10 @@ public interface DbHelper {
 
     Observable<List<Coordinate>> getCoordinatesById(final Integer[] ids);
 
+    Observable<Coordinate> getLast();
+
+    Observable<List<Coordinate>> getLast(Integer limit);
+
     Observable<Integer> getCoordinateCount();
 
     Observable<Boolean> isCoordinateEmpty();

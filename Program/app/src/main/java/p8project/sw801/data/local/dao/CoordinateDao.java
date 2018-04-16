@@ -24,6 +24,12 @@ public interface CoordinateDao {
     @Query("SELECT * FROM coordinate WHERE id == :coordinateId LIMIT 1")
     Coordinate loadById(Integer coordinateId);
 
+    @Query("SELECT * FROM coordinate ORDER BY coordinate.id DESC LIMIT 1")
+    Coordinate getLast();
+
+    @Query("SELECT * FROM coordinate ORDER BY coordinate.id DESC LIMIT :limit")
+    List<Coordinate> getLast(Integer limit);
+
     @Query("SELECT COUNT(*) from coordinate")
     Integer count();
 

@@ -36,6 +36,7 @@ public class ShoppingSettingActivity extends BaseActivity<ActivityShoppingSettin
         super.onCreate(savedInstanceState);
         mActivityShoppingSettingBinding = getViewDataBinding();
         mShoppingSettingViewModel.setNavigator(this);
+        setupBindings();
         setUp();
 
     }
@@ -59,9 +60,13 @@ public class ShoppingSettingActivity extends BaseActivity<ActivityShoppingSettin
     public void handleError(Throwable throwable) {
 
     }
-    private void setUp(){
+
+    private void setupBindings(){
         searchView = mActivityShoppingSettingBinding.searchView;
         listview = mActivityShoppingSettingBinding.listView;
+    }
+
+    private void setUp(){
 
         list = new ArrayList<>();
         list.add("Netto");

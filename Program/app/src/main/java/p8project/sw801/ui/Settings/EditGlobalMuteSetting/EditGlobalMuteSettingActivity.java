@@ -38,18 +38,14 @@ import p8project.sw801.ui.base.BaseActivity;
  */
 
 public class EditGlobalMuteSettingActivity extends BaseActivity<ActivityEditGlobalMuteBinding, EditGlobalMuteSettingViewModel> implements EditGlobalMuteSettingNavigator, HasSupportFragmentInjector {
-    //    @Inject
-//    DispatchingAndroidInjector<Fragment> fragmentDispatchingAndroidInjector;
+
     @Inject
     EditGlobalMuteSettingViewModel mEditGlobalMuteSettingViewModel;
     private ActivityEditGlobalMuteBinding mActivityEditGlobalMuteBinding;
 
     @Inject
     DispatchingAndroidInjector<Fragment> fragmentDispatchingAndroidInjector;
-    /*
-    @Inject
-    ViewModelProvider.Factory mViewModelFactory;
-    */
+
     private String globalSettingName;
     private TextView globalMuteName;
     static private EditText betweenTime = null;
@@ -57,45 +53,16 @@ public class EditGlobalMuteSettingActivity extends BaseActivity<ActivityEditGlob
     static private EditText comment = null;
     private Button confirm;
     private Spinner spinnerLocation;
+    private TextView textView;
+    private EditText editTextName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //setContentView(R.layout.activity_add_global_mute);
         mEditGlobalMuteSettingViewModel.setNavigator(this);
         mActivityEditGlobalMuteBinding = getViewDataBinding();
-
         setupBindings();
-
-        //final TextView textView = findViewById(R.id.textView_editglobalmutename);
-        //textView.setText(globalSettingName);
-
-        //final EditText editTextName = findViewById(R.id.textInputGlobalMuteName);
-        //editTextName.setText(globalSettingName);
-
-        spinnerLocation.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                // On selecting a spinner item
-                String item = parent.getItemAtPosition(position).toString();
-
-                // Showing selected spinner item
-                Toast.makeText(parent.getContext(), "Selected: " + item, Toast.LENGTH_LONG).show();
-            }
-            @Override
-            public void onNothingSelected(AdapterView<?> arg0) {
-                // TODO Auto-generated method stub
-            }
-        });
-
-        List<String> categoriesLocation = new ArrayList<String>();
-        categoriesLocation.add("No location chosen");
-        categoriesLocation.add("Home");
-        categoriesLocation.add("Work");
-
-        ArrayAdapter<String> dataAdapterLocation = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, categoriesLocation);
-        dataAdapterLocation.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinnerLocation.setAdapter(dataAdapterLocation);
+        setUp();
     }
 
     @Override
@@ -200,5 +167,38 @@ public class EditGlobalMuteSettingActivity extends BaseActivity<ActivityEditGlob
         betweenTime = mActivityEditGlobalMuteBinding.editTextTimeBetween;
         betweenTimeTwo = mActivityEditGlobalMuteBinding.editTextTimeBetween2;
         spinnerLocation = mActivityEditGlobalMuteBinding.spinnerLocation;
+        textView = mActivityEditGlobalMuteBinding.textViewEditglobalmutename;
+        editTextName = mActivityEditGlobalMuteBinding.textInputGlobalMuteName;
+    }
+
+    private void setUp(){
+        Intent i = getIntent();
+        globalSettingName = i.getStringExtra(globalSettingName);
+        textView.setText(globalSettingName);
+        editTextName.setText(globalSettingName);
+
+        spinnerLocation.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                // On selecting a spinner item
+                String item = parent.getItemAtPosition(position).toString();
+
+                // Showing selected spinner item
+                Toast.makeText(parent.getContext(), "Selected: " + item, Toast.LENGTH_LONG).show();
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> arg0) {
+                // TODO Auto-generated method stub
+            }
+        });
+
+        List<String> categoriesLocation = new ArrayList<String>();
+        categoriesLocation.add("No location chosen");
+        categoriesLocation.add("Home");
+        categoriesLocation.add("Work");
+
+        ArrayAdapter<String> dataAdapterLocation = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, categoriesLocation);
+        dataAdapterLocation.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerLocation.setAdapter(dataAdapterLocation);
     }
 }
