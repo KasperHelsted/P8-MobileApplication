@@ -7,7 +7,7 @@
         <import type="android.view.View" />
         <variable
             name="viewModel"
-            type="p8project.sw801.ui.Settings.SettingsViewModel"/>
+            type="p8project.sw801.ui.Settings.Shopping.ShoppingSettingViewModel"/>
     </data>
     <RelativeLayout
         android:layout_width="match_parent"
@@ -32,6 +32,10 @@
             android:layout_height="wrap_content"
             android:queryHint="Search Here"
             android:iconifiedByDefault="false"
-            android:layout_alignParentTop="true" />
+            android:layout_alignParentTop="true"/>
+            <!--
+            android:onQueryTextSubmit="@{() -> viewModel.searchSettingsSubmit()}"
+            android:onQueryTextChange="@{() -> viewModel.textSettingsChanged()}" -->
+
     </RelativeLayout>
 </layout>

@@ -9,7 +9,7 @@ import p8project.sw801.utils.rx.SchedulerProvider;
 public class GlobalMuteSettingModule {
 
     @Provides
-    GlobalMuteSettingViewModel provideLoginViewModel(DataManager dataManager, SchedulerProvider schedulerProvider) {
+    GlobalMuteSettingViewModel provideGlobalMuteSettingViewModel(DataManager dataManager, SchedulerProvider schedulerProvider) {
         return new GlobalMuteSettingViewModel(dataManager, schedulerProvider);
     }
 }

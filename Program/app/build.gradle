@@ -94,6 +94,8 @@ dependencies {
     //Hue SDK
     implementation files('src/libs/huelocalsdk.jar')
     implementation files('src/libs/huesdkresources.jar')
+
+    implementation "com.google.android.gms:play-services:$rootProject.gservices"
 }
 configurations.all {
     resolutionStrategy.force "com.android.support:support-annotations:$supportLibraryVersion"

@@ -22,10 +22,25 @@ public class AddEventViewModel extends BaseViewModel<AddEventNavigator> {
     }
 
     public void submitEventClick() {
-        //CoordinateHelper
-        getDataManager().getAll();
+        /*
+        getCompositeDisposable().add(
+                getDataManager().insertCoordinate(
+                        new Coordinate(0, 0)
+                ).subscribeOn(getSchedulerProvider().io())
+                        .observeOn(getSchedulerProvider().ui())
+                        .subscribe(response -> {
+                            System.out.println("YEAH!");
+                        })
+        );
+        */
 
-
+        getCompositeDisposable().add(
+                getDataManager().getCoordinateCount().subscribeOn(
+                        getSchedulerProvider().io()
+                ).subscribe(coordinateCount -> {
+                    System.out.println(coordinateCount);
+                })
+        );
     }
 
     public void submitEventToDatabase() {

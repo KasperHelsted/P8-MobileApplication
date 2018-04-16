@@ -3,6 +3,7 @@ package p8project.sw801.ui.event.createeventmap;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Criteria;
 import android.location.Geocoder;
@@ -10,7 +11,9 @@ import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -53,6 +56,9 @@ public class CreateEventMap extends BaseActivity<ActivityCreateEventMapBinding, 
     private Geocoder geocoder;
     private Marker marker;
     private GoogleMap gmap;
+    private Location location;
+    private static final int PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1;
+    private boolean mLocationPermissionGranted = false;
 
 
     @Override
@@ -107,33 +113,43 @@ public class CreateEventMap extends BaseActivity<ActivityCreateEventMapBinding, 
     }
 
     @Override
-    public boolean onMyLocationButtonClick() {
-        return false;
-    }
-
-    @Override
-    public void onMyLocationClick(@NonNull Location location) {
-
-    }
-
-    @Override
     public void onMapReady(GoogleMap googleMap) {
-        other(googleMap);
+        gmap = googleMap;
+        gmap.setMinZoomPreference(8);
+        getLocationPermission();
+
+        gmap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
+            @Override
+            public void onMapClick(LatLng latLng) {
+                marker.remove();
+                marker = gmap.addMarker(new MarkerOptions().position(latLng).title("Chosen position"));
+                a = convertCoordinateToAddress(latLng);
+                editText.setText(a.getAddressLine(0)+ ", " + a.getAddressLine(1) + ", " + a.getAddressLine(2));
+            }
+        });
+
     }
 
-    public void other(GoogleMap googleMap){
+    private Address convertCoordinateToAddress(LatLng latLng){
+        //TODO MAKE DEFAULT ADDRESS TO RETURN TO AVOID NULL
+        Address address = null;
+        geocoder = new Geocoder(this, Locale.getDefault());
+        double lat = latLng.latitude;
+        double lon = latLng.longitude;
+        try {
+            List<Address> addressList = geocoder.getFromLocation(lat, lon, 1);
+            address = addressList.get(0);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return address;
+    }
 
-        Location location;
-
-
-        gmap = googleMap;
-
-        gmap.setMinZoomPreference(8);
-
+    private void prepMap(){
         // Get current location
-        LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        LocationManager locationManager = (LocationManager)
+                getSystemService(Context.LOCATION_SERVICE);
         Criteria criteria = new Criteria();
-
         location = locationManager.getLastKnownLocation(locationManager.getBestProvider(criteria, false));
 
 
@@ -149,49 +165,62 @@ public class CreateEventMap extends BaseActivity<ActivityCreateEventMapBinding, 
 
         //Write address in textfield
         a = convertCoordinateToAddress(currentLoc);
-        if (a != null) {
-            editText.setText(a.getAddressLine(0) + ", " + a.getAddressLine(1) + ", " + a.getAddressLine(2));
-        }
-        else{
-            editText.setText("Geocoder timed out");
-        }
+        editText.setText(a.getAddressLine(0)+ ", " + a.getAddressLine(1) + ", " + a.getAddressLine(2));
+
         //Current location button on map
         gmap.setMyLocationEnabled(true);
         gmap.setOnMyLocationButtonClickListener(this);
         gmap.setOnMyLocationClickListener(this);
+    }
 
+    @Override
+    public void onMyLocationClick(@NonNull Location location) {
 
-        gmap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
+    }
 
-            @Override
-            public void onMapClick(LatLng latLng) {
-                marker.remove();
+    @Override
+    public boolean onMyLocationButtonClick() {
+        return false;
+    }
 
-                marker = gmap.addMarker(new MarkerOptions().position(latLng).title("Chosen position"));
-                a = convertCoordinateToAddress(latLng);
+    private void getLocationPermission() {
+        /*
+         * Request location permission, so that we can get the location of the
+         * device. The result of the permission request is handled by a callback,
+         * onRequestPermissionsResult.
+         */
+        if (ContextCompat.checkSelfPermission(this.getApplicationContext(),
+                android.Manifest.permission.ACCESS_FINE_LOCATION)
+                == PackageManager.PERMISSION_GRANTED) {
+            mLocationPermissionGranted = true;
+            prepMap();
+        } else {
+            ActivityCompat.requestPermissions(this,
+                    new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION},
+                    PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION);
+        }
+    }
 
-                if (a != null) {
-                    editText.setText(a.getAddressLine(0) + ", " + a.getAddressLine(1) + ", " + a.getAddressLine(2));
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           @NonNull String permissions[],
+                                           @NonNull int[] grantResults) {
+        mLocationPermissionGranted = false;
+        switch (requestCode) {
+            case PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION: {
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    mLocationPermissionGranted = true;
+                    prepMap();
                 }
                 else{
-                    editText.setText("Geocoder timed out");
+                    Intent resultIntent = new Intent();
+                    setResult(Activity.RESULT_CANCELED, resultIntent);
+                    finish();
                 }
             }
-        });
-    }
-    private Address convertCoordinateToAddress(LatLng latLng) {
-        //TODO MAKE DEFAULT ADDRESS TO RETURN TO AVOID NULL
-        Address address = null;
-        geocoder = new Geocoder(this, Locale.getDefault());
-        double lat = latLng.latitude;
-        double lon = latLng.longitude;
-        try {
-            List<Address> addressList = geocoder.getFromLocation(lat, lon, 1);
-            address = addressList.get(0);
-        } catch (IOException e) {
-            e.printStackTrace();
         }
-        return address;
     }
 
 
