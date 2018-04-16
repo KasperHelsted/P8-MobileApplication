@@ -34,21 +34,7 @@ public class GlobalMuteSettingActivity extends BaseActivity<ActivityGlobalMuteBi
         super.onCreate(savedInstanceState);
         mActivityGlobalMuteBinding = getViewDataBinding();
         mGlobalMuteSettingViewModel.setNavigator(this);
-
-
-
-        listview = (ListView) this.findViewById(R.id.listView_myglobalmutesettings);
-
-        //------Creation of list of smart devices
-        globalMuteSettings = new ArrayList<String>();
-        globalMuteSettings.add("Off at home");
-
-        GlobalMuteSettingAdapter myAdapter = new GlobalMuteSettingAdapter(this, globalMuteSettings);
-
-
-        listview.setAdapter(myAdapter);
-        //------Creation of list of smart devices
-
+        setUp();
     }
 
     @Override
@@ -75,5 +61,19 @@ public class GlobalMuteSettingActivity extends BaseActivity<ActivityGlobalMuteBi
     public void openAddGlobalMuteSettingActivity() {
         Intent intent = AddGlobalMuteSettingActivity.newIntent(GlobalMuteSettingActivity.this);
         startActivityForResult(intent,0);
+    }
+
+    private void setUp(){
+        listview = (ListView) this.findViewById(R.id.listView_myglobalmutesettings);
+
+        //------Creation of list of smart devices
+        globalMuteSettings = new ArrayList<String>();
+        globalMuteSettings.add("Off at home");
+
+        GlobalMuteSettingAdapter myAdapter = new GlobalMuteSettingAdapter(this, globalMuteSettings);
+
+
+        listview.setAdapter(myAdapter);
+        //------Creation of list of smart devices
     }
 }
