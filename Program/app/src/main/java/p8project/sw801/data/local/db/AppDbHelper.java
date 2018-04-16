@@ -45,6 +45,17 @@ public class AppDbHelper implements DbHelper {
     }
 
     @Override
+    public Observable<Coordinate> getLast() {
+        return Observable.fromCallable(() -> mAppDatabase.coordinateDao().getLast());
+    }
+
+    @Override
+    public Observable<List<Coordinate>> getLast(Integer limit) {
+        return Observable.fromCallable(() -> mAppDatabase.coordinateDao().getLast(limit));
+    }
+
+
+    @Override
     public Observable<Integer> getCoordinateCount() {
         return Observable.fromCallable(() -> mAppDatabase.coordinateDao().count());
     }

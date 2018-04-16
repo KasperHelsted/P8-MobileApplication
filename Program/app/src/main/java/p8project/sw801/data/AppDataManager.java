@@ -50,6 +50,16 @@ public class AppDataManager implements DataManager {
     }
 
     @Override
+    public Observable<Coordinate> getLast() {
+        return mDbHelper.getLast();
+    }
+
+    @Override
+    public Observable<List<Coordinate>> getLast(Integer limit) {
+        return mDbHelper.getLast(limit);
+    }
+
+    @Override
     public Observable<Integer> getCoordinateCount() {
         return mDbHelper.getCoordinateCount();
     }
