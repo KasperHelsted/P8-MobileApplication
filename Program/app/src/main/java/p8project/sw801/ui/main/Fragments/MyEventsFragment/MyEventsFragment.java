@@ -56,7 +56,7 @@ public class MyEventsFragment extends BaseFragment<ActivityMyEventsBinding, MyEv
 
         listview = (ListView) mActivityMyEventsBinding.listViewMyEvents;
 
-        //------Creation of list of smart devices
+        //------Creation of list of Events
         myEvents = new ArrayList<Event>();
         myEvents.addAll(mMyEventsFragmentViewModel.getEventObservableList());
         if (myEvents == null){

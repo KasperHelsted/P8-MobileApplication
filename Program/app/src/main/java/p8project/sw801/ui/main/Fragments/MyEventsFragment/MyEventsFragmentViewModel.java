@@ -17,8 +17,7 @@ import p8project.sw801.utils.rx.SchedulerProvider;
 
 
 public class MyEventsFragmentViewModel extends BaseViewModel<MyEventsFragmentNavigator> {
-    private final ObservableArrayList<Event> t = new ObservableArrayList<>();
-    private final ObservableArrayList<Trigger> triggerList = new ObservableArrayList<>();
+    private final ObservableArrayList<Event> eventArrayList = new ObservableArrayList<>();
 
     public MyEventsFragmentViewModel(DataManager dataManager, SchedulerProvider schedulerProvider) {
         super(dataManager, schedulerProvider);
@@ -56,8 +55,8 @@ public class MyEventsFragmentViewModel extends BaseViewModel<MyEventsFragmentNav
      * @param e
      */
     public void RenderList(List<Event> e){
-        t.clear();
-        t.addAll(e);
+        eventArrayList.clear();
+        eventArrayList.addAll(e);
         getNavigator().updatelist();
     }
 
@@ -66,7 +65,7 @@ public class MyEventsFragmentViewModel extends BaseViewModel<MyEventsFragmentNav
      * @return t
      */
     public ObservableList<Event> getEventObservableList() {
-        return t;
+        return eventArrayList;
     }
 
     /**
@@ -81,7 +80,7 @@ public class MyEventsFragmentViewModel extends BaseViewModel<MyEventsFragmentNav
                 .subscribe(response ->{})
         );
 
-        t.remove(event);
+        eventArrayList.remove(event);
         getNavigator().updatelist();
     }
 
