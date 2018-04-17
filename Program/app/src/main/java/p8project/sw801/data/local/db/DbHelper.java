@@ -24,6 +24,10 @@ public interface DbHelper {
 
     Observable<List<Coordinate>> getCoordinatesById(final Integer[] ids);
 
+    Observable<Coordinate> getLast();
+
+    Observable<List<Coordinate>> getLast(Integer limit);
+
     Observable<Integer> getCoordinateCount();
 
     Observable<Boolean> isCoordinateEmpty();
@@ -123,6 +127,8 @@ public interface DbHelper {
     Observable<Trigger> getTriggerById(final Integer id);
 
     Observable<List<Trigger>> getTriggersByIds(final Integer[] ids);
+
+    Observable<List<Trigger>> getTriggersByEventId(final Integer id);
 
     Observable<Integer> getTriggerCount();
 

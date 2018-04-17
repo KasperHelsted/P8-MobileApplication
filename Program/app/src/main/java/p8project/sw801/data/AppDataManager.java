@@ -50,6 +50,16 @@ public class AppDataManager implements DataManager {
     }
 
     @Override
+    public Observable<Coordinate> getLast() {
+        return mDbHelper.getLast();
+    }
+
+    @Override
+    public Observable<List<Coordinate>> getLast(Integer limit) {
+        return mDbHelper.getLast(limit);
+    }
+
+    @Override
     public Observable<Integer> getCoordinateCount() {
         return mDbHelper.getCoordinateCount();
     }
@@ -85,6 +95,7 @@ public class AppDataManager implements DataManager {
     public Observable<List<Event>> getAllEvents() {
         return mDbHelper.getAllEvents();
     }
+
 
     @Override
     public Observable<Event> getEventById(Integer id) {
@@ -272,6 +283,11 @@ public class AppDataManager implements DataManager {
     @Override
     public Observable<List<Trigger>> getAllTriggers() {
         return mDbHelper.getAllTriggers();
+    }
+
+    @Override
+    public Observable<List<Trigger>> getTriggersByEventId(Integer id){
+        return mDbHelper.getTriggersByEventId(id);
     }
 
     @Override
