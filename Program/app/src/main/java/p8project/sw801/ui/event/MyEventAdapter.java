@@ -16,7 +16,10 @@ import android.widget.Toast;
 import java.util.ArrayList;
 
 import p8project.sw801.R;
+import p8project.sw801.data.model.db.Event;
 import p8project.sw801.ui.event.editevent.EditEvent;
+import p8project.sw801.ui.main.Fragments.MyEventsFragment.MyEventsFragment;
+import p8project.sw801.ui.main.Fragments.MyEventsFragment.MyEventsFragmentViewModel;
 
 /**
  * Created by cheec on 16-03-2018.
@@ -24,12 +27,14 @@ import p8project.sw801.ui.event.editevent.EditEvent;
 
 public class MyEventAdapter extends BaseAdapter {
     private Context mContext;
-    private ArrayList<String> Title;
+    private ArrayList<Event> Title;
+    private MyEventsFragment myEventsFragment;
 
 
-    public MyEventAdapter(Context context, ArrayList<String> text1) {
+    public MyEventAdapter(Context context, ArrayList<Event> text1, MyEventsFragment m) {
         mContext = context;
         Title = text1;
+        myEventsFragment = m;
     }
 
     public int getCount() {
@@ -54,7 +59,7 @@ public class MyEventAdapter extends BaseAdapter {
         row = inflater.inflate(R.layout.myeventslistlayout, parent, false);
         TextView title;
         title = (TextView) row.findViewById(R.id.textViewmyeventlist);
-        title.setText(Title.get(position));
+        title.setText(Title.get(position).getName());
         ImageView edit = row.findViewById(R.id.addEventAddCondition);
         ImageView delete = row.findViewById(R.id.MyEventDelete);
         Switch eventSwitch = row.findViewById(R.id.eventSwitch);
@@ -71,10 +76,7 @@ public class MyEventAdapter extends BaseAdapter {
         delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(mContext, Title.get(position) +" has been deleted from the list.", Toast.LENGTH_SHORT).show();
-                Title.remove(position);
-                notifyDataSetChanged();
-
+                myEventsFragment.deleteEvent(Title.get(position));
             }
         });
 

@@ -1,6 +1,7 @@
 package p8project.sw801.ui.main.Fragments.MyEventsFragment;
 
 import android.content.Intent;
+import android.databinding.ObservableList;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -13,10 +14,12 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.inject.Inject;
 
 import p8project.sw801.BR;
+import p8project.sw801.data.model.db.Event;
 import p8project.sw801.databinding.ActivityMyEventsBinding;
 import p8project.sw801.R;
 import p8project.sw801.ui.base.BaseFragment;
@@ -32,7 +35,8 @@ public class MyEventsFragment extends BaseFragment<ActivityMyEventsBinding, MyEv
     //Setup of burger menu
     private ListView listview;
     private ActionBarDrawerToggle actionBarDrawerToggle;
-    ArrayList<String> myEvents;
+    ArrayList<Event> myEvents;
+    View view;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -40,29 +44,44 @@ public class MyEventsFragment extends BaseFragment<ActivityMyEventsBinding, MyEv
 
         super.onCreateView(inflater, container, savedInstanceState);
         mActivityMyEventsBinding  = getViewDataBinding();
-        View view = mActivityMyEventsBinding.getRoot();
+        view = mActivityMyEventsBinding.getRoot();
         mMyEventsFragmentViewModel.setNavigator(this);
-        setUp(view);
+        setUp();
         return view;
     }
 
-    private void setUp(View rootView){
 
 
-        listview = (ListView) rootView.findViewById(R.id.listViewMyEvents);
+    public void setUp(){
+
+        listview = (ListView) mActivityMyEventsBinding.listViewMyEvents;
 
         //------Creation of list of smart devices
-        myEvents = new ArrayList<String>();
-        myEvents.add("Hue");
-        myEvents.add("Nest");
+        myEvents = new ArrayList<Event>();
+        myEvents.addAll(mMyEventsFragmentViewModel.getEventObservableList());
+        if (myEvents == null){
 
-        MyEventAdapter myAdapter = new MyEventAdapter(rootView.getContext(), myEvents);
-        listview.setAdapter(myAdapter);
-        //------Creation of list of smart devices
+        }
+        else{
+            MyEventAdapter myAdapter = new MyEventAdapter(view.getContext(), myEvents, MyEventsFragment.this);
+            listview.setAdapter(myAdapter);
+            //------Creation of list of smart devices
 
 
-        ImageView add = mActivityMyEventsBinding.imageViewMyeventadd;
+            ImageView add = mActivityMyEventsBinding.imageViewMyeventadd;
+        }
 
+
+
+    }
+
+    @Override
+    public void updatelist(){
+        setUp();
+    }
+
+    public void deleteEvent(Event event){
+        mMyEventsFragmentViewModel.deleteEvent(event);
     }
 
     public void addNewEvent(){
@@ -91,4 +110,5 @@ public class MyEventsFragment extends BaseFragment<ActivityMyEventsBinding, MyEv
     public MyEventsFragmentViewModel getViewModel() {
         return mMyEventsFragmentViewModel;
     }
+
 }
