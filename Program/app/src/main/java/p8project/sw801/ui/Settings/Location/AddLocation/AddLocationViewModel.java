@@ -1,5 +1,7 @@
 package p8project.sw801.ui.Settings.Location.AddLocation;
 
+import android.database.Observable;
+
 import p8project.sw801.data.DataManager;
 import p8project.sw801.data.model.db.Coordinate;
 import p8project.sw801.data.model.db.PredefinedLocation;
@@ -16,6 +18,9 @@ public class AddLocationViewModel extends BaseViewModel<AddLocationNavigator> {
     public void submitLocationClick(){
         getNavigator().submitLocationClick();
     }
+    public void openLocationActivty(){
+        getNavigator().openLocationActivty();
+    }
 
     public void submitLocationToDatabase(String locName, Coordinate address){
 
@@ -25,12 +30,26 @@ public class AddLocationViewModel extends BaseViewModel<AddLocationNavigator> {
                 ).subscribeOn(getSchedulerProvider().io())
                         .observeOn(getSchedulerProvider().ui())
                         .subscribe(response -> {
-                            System.out.println("YEAH!");
+                            System.out.println("Coordinate submitted");
                         })
         );
-        int id = address.getId();
+        Observable<Coordinate> coordinate;
         PredefinedLocation pref = new PredefinedLocation();
-        pref.setCoordinateId(id);
+        getCompositeDisposable().add(
+                getDataManager().getLast(
+                ).subscribeOn(getSchedulerProvider().io())
+                        .observeOn(getSchedulerProvider().ui())
+                        .subscribe(response -> {
+                            if (response != null){
+                                pref.setId(response.getId());
+                            }
+                            else{
+                                pref.setId(1);
+                                System.out.println("response was null!");
+                            }
+
+                        })
+        );
         pref.setName(locName);
 
         getCompositeDisposable().add(
@@ -39,8 +58,9 @@ public class AddLocationViewModel extends BaseViewModel<AddLocationNavigator> {
                 ).subscribeOn(getSchedulerProvider().io())
                         .observeOn(getSchedulerProvider().ui())
                         .subscribe(response -> {
-                            System.out.println("YEAH!");
+                            System.out.println("Location submitted!");
                         })
         );
     }
+
 }

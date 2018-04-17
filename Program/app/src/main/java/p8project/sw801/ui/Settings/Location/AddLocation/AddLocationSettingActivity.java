@@ -19,6 +19,7 @@ import p8project.sw801.BR;
 import p8project.sw801.R;
 import p8project.sw801.data.model.db.Coordinate;
 import p8project.sw801.databinding.ActivityAddLocationSettingBinding;
+import p8project.sw801.ui.Settings.Location.LocationSettingActivity;
 import p8project.sw801.ui.base.BaseActivity;
 import p8project.sw801.ui.event.createeventmap.CreateEventMap;
 
@@ -95,6 +96,14 @@ public class AddLocationSettingActivity extends BaseActivity<ActivityAddLocation
     public void submitLocationClick() {
         String locName = nameTextView.getText().toString();
         mAddLocationViewModel.submitLocationToDatabase(locName,coords);
+        mAddLocationViewModel.openLocationActivty();
+    }
+
+    @Override
+    public void openLocationActivty()
+    {
+        Intent intent = new Intent(AddLocationSettingActivity.this, LocationSettingActivity.class);
+        startActivity(intent);
     }
 
     @Override

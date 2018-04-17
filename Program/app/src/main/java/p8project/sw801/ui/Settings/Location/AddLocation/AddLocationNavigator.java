@@ -5,4 +5,5 @@ public interface AddLocationNavigator {
 
     void openCreateMapActivity();
     void submitLocationClick();
+    void openLocationActivty();
 }

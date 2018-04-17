@@ -59,12 +59,14 @@ public class LocationSettingActivity extends BaseActivity<ActivityLocationSettin
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //Define layout to render
-        //setContentView(R.layout.activity_location_setting);
+
         //Setup MVVM bindings
         mActivityLocationSettingBinding = getViewDataBinding();
         mLocationViewModel.setNavigator(this);
         setupBindings();
+
+        //Get latest Locations and update ListView
+        updateListView();
 
         //Creation of list of smart devices  --Sample code--
         locationSettings = new ArrayList<String>();
@@ -75,8 +77,11 @@ public class LocationSettingActivity extends BaseActivity<ActivityLocationSettin
         listView.setAdapter(myAdapter);
         //// -- Sample code --
     }
+
     private void updateListView(){
+
         //ViewModel call to DB
+
         //Create list
         //Update adapter
     }
