@@ -81,17 +81,20 @@ public class MyEventAdapter extends BaseAdapter {
         });
 
 
+        eventSwitch.setChecked(Title.get(position).getActive());
+
+
         eventSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 // do something, the isChecked will be
                 // true if the switch is in the On position
                 if(isChecked==true)
                 {
-                    Toast.makeText(mContext, Title.get(position) +" has been turned on", Toast.LENGTH_SHORT).show();
+                    myEventsFragment.updateEvent(Title.get(position), isChecked);
                 }
                 if(isChecked==false)
                 {
-                    Toast.makeText(mContext, Title.get(position) +" has been turned off", Toast.LENGTH_SHORT).show();
+                    myEventsFragment.updateEvent(Title.get(position), isChecked);
                 }
             }
         });

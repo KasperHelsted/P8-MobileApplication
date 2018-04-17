@@ -84,6 +84,8 @@ public class MyEventsFragment extends BaseFragment<ActivityMyEventsBinding, MyEv
         mMyEventsFragmentViewModel.deleteEvent(event);
     }
 
+    public void updateEvent(Event event, Boolean condition) { mMyEventsFragmentViewModel.updateEvent(event, condition);}
+
     public void addNewEvent(){
         Intent intent = new Intent(this.getContext(), AddEvent.class);
         startActivity(intent);

@@ -128,6 +128,8 @@ public interface DbHelper {
 
     Observable<List<Trigger>> getTriggersByIds(final Integer[] ids);
 
+    Observable<List<Trigger>> getTriggersByEventId(final Integer id);
+
     Observable<Integer> getTriggerCount();
 
     Observable<Boolean> isTriggerEmpty();

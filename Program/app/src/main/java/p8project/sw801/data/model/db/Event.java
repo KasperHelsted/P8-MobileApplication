@@ -4,6 +4,8 @@ import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
 
+import io.reactivex.annotations.NonNull;
+
 /**
  * Created by Kasper Helsted on 3/21/2018.
  */
@@ -21,6 +23,10 @@ public class Event {
 
     @ColumnInfo(name = "AlarmId")
     private String AlarmId;
+
+    @ColumnInfo(name = "Active")
+    @NonNull
+    private Boolean active;
 
     public Integer getId() {
         return id;
@@ -53,4 +59,8 @@ public class Event {
     public void setAlarmId(String alarmID) {
         AlarmId = alarmID;
     }
+
+    public Boolean getActive() {return active;}
+
+    public void setActive(Boolean active) {this.active = active;}
 }
