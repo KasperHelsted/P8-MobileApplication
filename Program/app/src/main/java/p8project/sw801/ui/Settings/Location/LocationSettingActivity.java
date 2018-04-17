@@ -5,11 +5,13 @@ import android.arch.lifecycle.ViewModelProvider;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -18,6 +20,7 @@ import dagger.android.DispatchingAndroidInjector;
 import dagger.android.support.HasSupportFragmentInjector;
 import p8project.sw801.BR;
 import p8project.sw801.R;
+import p8project.sw801.data.model.db.PredefinedLocation;
 import p8project.sw801.databinding.ActivityLocationSettingBinding;
 import p8project.sw801.ui.Settings.Location.AddLocation.AddLocationSettingActivity;
 import p8project.sw801.ui.Settings.Location.EditLocation.EditLocationSettingActivity;
@@ -52,6 +55,7 @@ public class LocationSettingActivity extends BaseActivity<ActivityLocationSettin
     private ListView listView;
     private ImageView imageView;
     private TextView textView;
+    View view;
     //List of settings
     ArrayList<String> locationSettings;
 
@@ -64,32 +68,20 @@ public class LocationSettingActivity extends BaseActivity<ActivityLocationSettin
         mActivityLocationSettingBinding = getViewDataBinding();
         mLocationViewModel.setNavigator(this);
         setupBindings();
-
         //Get latest Locations and update ListView
         updateListView();
-
-        //Creation of list of smart devices  --Sample code--
-        locationSettings = new ArrayList<String>();
-        locationSettings.add("Home sweet home");
-        locationSettings.add("Work");
-        locationSettings.add("Fitness");
-        LocationSettingAdapter myAdapter = new LocationSettingAdapter(this, locationSettings);
-        listView.setAdapter(myAdapter);
-        //// -- Sample code --
     }
 
     private void updateListView(){
+        mLocationViewModel.getLatestPredefinedLocationData();
 
-        //ViewModel call to DB
-
-        //Create list
-        //Update adapter
     }
 
     private void setupBindings() {
         listView = mActivityLocationSettingBinding.listViewMylocationsettings;
         imageView = mActivityLocationSettingBinding.imageViewMysmartdeviceadd;
         textView = mActivityLocationSettingBinding.textViewMysmartdevices;
+        view = mActivityLocationSettingBinding.getRoot();
     }
 
     @Override
@@ -110,9 +102,14 @@ public class LocationSettingActivity extends BaseActivity<ActivityLocationSettin
 
     @Override
     public void createLocation() {
-        System.out.println("CLICKED");
         Intent intent = new Intent(LocationSettingActivity.this, AddLocationSettingActivity.class);
         startActivityForResult(intent,2);
+    }
+
+    @Override
+    public void createList(List<PredefinedLocation> predefinedLocationList) {
+        LocationSettingAdapter locationSettingAdapter = new LocationSettingAdapter(view.getContext(), (ArrayList<PredefinedLocation>) predefinedLocationList,LocationSettingActivity.this);
+        listView.setAdapter(locationSettingAdapter);
     }
 
     @Override

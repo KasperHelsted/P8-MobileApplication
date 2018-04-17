@@ -8,25 +8,30 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
+
 import p8project.sw801.R;
+import p8project.sw801.data.model.db.PredefinedLocation;
 import p8project.sw801.ui.Settings.Location.EditLocation.EditLocationSettingActivity;
 
 /**
  * Created by clubd on 20-03-2018.
  */
 
-public class LocationSettingAdapter extends BaseAdapter {
+public class  LocationSettingAdapter extends BaseAdapter {
 
     private Context mContext;
-    private ArrayList<String> Title;
-    private String locationSettingName;
+    private ArrayList<PredefinedLocation> Title;
+    private LocationSettingActivity _locationSettingActivity;
 
 
-    public LocationSettingAdapter(Context context, ArrayList<String> text1) {
+    public LocationSettingAdapter(Context context, ArrayList<PredefinedLocation> text1,LocationSettingActivity locationSettingActivity) {
         mContext = context;
         Title = text1;
+        _locationSettingActivity = locationSettingActivity;
+
     }
 
     public int getCount() {
@@ -49,19 +54,19 @@ public class LocationSettingAdapter extends BaseAdapter {
         LayoutInflater inflater = LayoutInflater.from(mContext);
         View row;
         row = inflater.inflate(R.layout.locationsettinglistlayout, parent, false);
-        final TextView title;
+        TextView title;
         title = (TextView) row.findViewById(R.id.row_textview);
-        title.setText(Title.get(position));
+        title.setText(Title.get(position).getName());
 
         //Click event for delete buttons
         ImageView delete = row.findViewById(R.id.imageView_locationsettingdelete);
         delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                PredefinedLocation predefinedLocation = Title.get(position);
+                _locationSettingActivity.mLocationViewModel.removePredefinedLocation(predefinedLocation);
                 Title.remove(position);
                 notifyDataSetChanged();
-
-                //TODO Remove from database
             }
         });
 
@@ -70,9 +75,9 @@ public class LocationSettingAdapter extends BaseAdapter {
         edit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Toast.makeText(mContext, Title.get(position) +" has been changed.", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(mContext, EditLocationSettingActivity.class);
-                intent.putExtra(locationSettingName, Title.get(position));
-
+                //intent.putExtra(locationSettingName, Title.get(position));
                 mContext.startActivity(intent);
             }
         });
