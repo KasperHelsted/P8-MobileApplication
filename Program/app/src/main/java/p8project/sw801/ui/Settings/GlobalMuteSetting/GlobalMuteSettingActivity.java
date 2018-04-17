@@ -13,11 +13,16 @@ import javax.inject.Inject;
 
 import p8project.sw801.BR;
 import p8project.sw801.R;
+import p8project.sw801.data.model.db.Event;
+import p8project.sw801.data.model.db.GlobalMute;
 import p8project.sw801.databinding.ActivityGlobalMuteBinding;
 
 import p8project.sw801.ui.Settings.AddGlobalMuteSetting.AddGlobalMuteSettingActivity;
 
 import p8project.sw801.ui.base.BaseActivity;
+import p8project.sw801.ui.event.MyEventAdapter;
+import p8project.sw801.ui.event.addevent.AddEvent;
+import p8project.sw801.ui.main.Fragments.MyEventsFragment.MyEventsFragment;
 
 public class GlobalMuteSettingActivity extends BaseActivity<ActivityGlobalMuteBinding, GlobalMuteSettingViewModel> implements GlobalMuteSettingNavigator {
 
@@ -26,7 +31,7 @@ public class GlobalMuteSettingActivity extends BaseActivity<ActivityGlobalMuteBi
     private ActivityGlobalMuteBinding mActivityGlobalMuteBinding;
 
     private ListView listview;
-    ArrayList<String> globalMuteSettings;
+    ArrayList<GlobalMute> globalMuteSettings;
 
 
     @Override
@@ -35,6 +40,14 @@ public class GlobalMuteSettingActivity extends BaseActivity<ActivityGlobalMuteBi
         mActivityGlobalMuteBinding = getViewDataBinding();
         mGlobalMuteSettingViewModel.setNavigator(this);
         setUp();
+    }
+
+    public void updatelist(){
+        setUp();
+    }
+
+    public void deleteGlobalMute(GlobalMute globalMute){
+        mGlobalMuteSettingViewModel.deleteGlobalMute(globalMute);
     }
 
     @Override
@@ -64,16 +77,19 @@ public class GlobalMuteSettingActivity extends BaseActivity<ActivityGlobalMuteBi
     }
 
     private void setUp(){
-        listview = (ListView) this.findViewById(R.id.listView_myglobalmutesettings);
+        listview = (ListView) mActivityGlobalMuteBinding.listViewMyglobalmutesettings;
 
         //------Creation of list of smart devices
-        globalMuteSettings = new ArrayList<String>();
-        globalMuteSettings.add("Off at home");
+        globalMuteSettings = new ArrayList<GlobalMute>();
+        globalMuteSettings.addAll(mGlobalMuteSettingViewModel.getGlobalMuteObservableList());
 
-        GlobalMuteSettingAdapter myAdapter = new GlobalMuteSettingAdapter(this, globalMuteSettings);
+        if (globalMuteSettings == null){
 
+        }
+        else{
+            GlobalMuteSettingAdapter myAdapter = new GlobalMuteSettingAdapter(this, globalMuteSettings);
+            listview.setAdapter(myAdapter);
+        }
 
-        listview.setAdapter(myAdapter);
-        //------Creation of list of smart devices
     }
 }
