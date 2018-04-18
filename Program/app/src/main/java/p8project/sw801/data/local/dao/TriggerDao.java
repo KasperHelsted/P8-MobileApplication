@@ -28,6 +28,9 @@ public interface TriggerDao {
     @Query("SELECT COUNT(*) from `trigger`")
     Integer count();
 
+    @Query("SELECT * FROM `trigger` WHERE eventId == :eId")
+    List<Trigger> loadAllByEventId(Integer eId);
+
     @Insert
     void insertAll(Trigger... triggers);
 
