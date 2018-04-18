@@ -13,13 +13,15 @@ public class LocationViewModel extends BaseViewModel<LocationNavigator> {
     public LocationViewModel(DataManager dataManager, SchedulerProvider schedulerProvider) {
         super(dataManager, schedulerProvider);
     }
-    public void onLocationClicked(){
-        getNavigator().onLocationClicked();
+
+    public void onLocationClicked(PredefinedLocation predefinedLocation){
+        getNavigator().onLocationClicked(predefinedLocation);
 
     }
     public void createLocation(){
         getNavigator().createLocation();
     }
+
     public void getLatestPredefinedLocationData(){
         final ObservableArrayList<PredefinedLocation> predefinedLocationList = new ObservableArrayList<>();
 

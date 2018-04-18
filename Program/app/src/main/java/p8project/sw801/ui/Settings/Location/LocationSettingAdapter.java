@@ -1,20 +1,17 @@
 package p8project.sw801.ui.Settings.Location;
 
 import android.content.Context;
-import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 
 import p8project.sw801.R;
 import p8project.sw801.data.model.db.PredefinedLocation;
-import p8project.sw801.ui.Settings.Location.EditLocation.EditLocationSettingActivity;
 
 /**
  * Created by clubd on 20-03-2018.
@@ -75,10 +72,9 @@ public class  LocationSettingAdapter extends BaseAdapter {
         edit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(mContext, Title.get(position) +" has been changed.", Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(mContext, EditLocationSettingActivity.class);
-                //intent.putExtra(locationSettingName, Title.get(position));
-                mContext.startActivity(intent);
+                PredefinedLocation predefinedLocation = Title.get(position);
+                _locationSettingActivity.mLocationViewModel.onLocationClicked(predefinedLocation);
+                notifyDataSetChanged();
             }
         });
 

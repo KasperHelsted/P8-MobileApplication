@@ -10,6 +10,8 @@ import p8project.sw801.ui.Settings.GlobalMuteSetting.GlobalMuteSettingActivity;
 import p8project.sw801.ui.Settings.GlobalMuteSetting.GlobalMuteSettingModule;
 import p8project.sw801.ui.Settings.Location.AddLocation.AddLocationSettingActivity;
 import p8project.sw801.ui.Settings.Location.AddLocation.AddLocationSettingModule;
+import p8project.sw801.ui.Settings.Location.EditLocation.EditLocationModule;
+import p8project.sw801.ui.Settings.Location.EditLocation.EditLocationSettingActivity;
 import p8project.sw801.ui.Settings.Location.LocationModule;
 import p8project.sw801.ui.Settings.Location.LocationSettingActivity;
 import p8project.sw801.ui.Settings.SettingsActivity;
@@ -67,6 +69,9 @@ public abstract class ActivityBuilder {
             NotificationOrSmartdeviceProvider.class
     })
     abstract AddEvent bindAddEvent();
+
+    @ContributesAndroidInjector(modules = EditLocationModule.class)
+    abstract EditLocationSettingActivity bindEditLocationSettingActivity();
 
     @ContributesAndroidInjector(modules = EditEventModule.class)
     abstract EditEvent bindEditEvent();

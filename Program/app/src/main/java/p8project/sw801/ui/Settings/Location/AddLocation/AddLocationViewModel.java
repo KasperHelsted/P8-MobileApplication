@@ -1,7 +1,5 @@
 package p8project.sw801.ui.Settings.Location.AddLocation;
 
-import android.database.Observable;
-
 import p8project.sw801.data.DataManager;
 import p8project.sw801.data.model.db.Coordinate;
 import p8project.sw801.data.model.db.PredefinedLocation;
@@ -22,7 +20,7 @@ public class AddLocationViewModel extends BaseViewModel<AddLocationNavigator> {
         getNavigator().openLocationActivty();
     }
 
-    public void submitLocationToDatabase(String locName, Coordinate address){
+    public void submitLocationToDatabase(String locName, Coordinate address) {
 
         getCompositeDisposable().add(
                 getDataManager().insertCoordinate(
@@ -31,34 +29,39 @@ public class AddLocationViewModel extends BaseViewModel<AddLocationNavigator> {
                         .observeOn(getSchedulerProvider().ui())
                         .subscribe(response -> {
                             System.out.println("Coordinate submitted");
+                            createPredefinedLocation(locName);
                         })
         );
-        Observable<Coordinate> coordinate;
+    }
+    private void createPredefinedLocation(String locName) {
+
         PredefinedLocation pref = new PredefinedLocation();
+
         getCompositeDisposable().add(
                 getDataManager().getLast(
                 ).subscribeOn(getSchedulerProvider().io())
                         .observeOn(getSchedulerProvider().ui())
                         .subscribe(response -> {
-                            if (response != null){
-                                pref.setId(response.getId());
-                            }
-                            else{
-                                pref.setId(1);
+                            if (response != null) {
+                                pref.setCoordinateId(response.getId());
+                                pref.setName(locName);
+                                submitLocation(pref);
+                            } else {
                                 System.out.println("response was null!");
                             }
 
                         })
         );
-        pref.setName(locName);
-
+    }
+    private void submitLocation(PredefinedLocation predefinedLocation){
         getCompositeDisposable().add(
                 getDataManager().insertPredefinedLocation(
-                        pref
+                        predefinedLocation
                 ).subscribeOn(getSchedulerProvider().io())
                         .observeOn(getSchedulerProvider().ui())
                         .subscribe(response -> {
                             System.out.println("Location submitted!");
+                            openLocationActivty();
                         })
         );
     }

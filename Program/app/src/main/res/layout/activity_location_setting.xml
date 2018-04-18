@@ -54,7 +54,6 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                android:onItemSelected="@{() -> viewModel.onLocationClicked()}"
                 app:layout_constraintTop_toBottomOf="@+id/textView_mysmartdevices" />
 
         </android.support.constraint.ConstraintLayout>

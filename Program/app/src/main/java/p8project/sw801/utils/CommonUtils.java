@@ -6,6 +6,8 @@ import android.content.Context;
 import android.content.res.AssetManager;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.location.Address;
+import android.location.Geocoder;
 import android.provider.Settings;
 import android.util.Patterns;
 
@@ -13,7 +15,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
+
 import p8project.sw801.R;
 /**
  * Created by Kasper Helsted on 4/4/2018.
@@ -61,4 +65,21 @@ public final class CommonUtils {
         progressDialog.setCanceledOnTouchOutside(false);
         return progressDialog;
     }
+    public static Address convertCoordinateToAddress(double lat, double lon, Context context){
+        //TODO MAKE DEFAULT ADDRESS TO RETURN TO AVOID NULL
+        Geocoder geocoder;
+        Address address = null;
+        geocoder = new Geocoder(context, Locale.getDefault());
+        try {
+            List<Address> addressList = geocoder.getFromLocation(lat, lon, 1);
+            address = addressList.get(0);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return address;
+    }
+    public static boolean isNullOrEmpty(String s) {
+        return s == null || s.length() == 0;
+    }
+
 }

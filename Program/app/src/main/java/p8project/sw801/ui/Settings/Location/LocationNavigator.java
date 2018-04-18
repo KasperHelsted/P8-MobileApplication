@@ -6,7 +6,7 @@ import p8project.sw801.data.model.db.PredefinedLocation;
 
 public interface LocationNavigator {
     void handleError(Throwable throwable);
-    void onLocationClicked();
+    void onLocationClicked(PredefinedLocation predefinedLocation);
     void createLocation();
     void createList(List<PredefinedLocation> predefinedLocationList);
 }

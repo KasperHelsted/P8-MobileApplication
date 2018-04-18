@@ -132,7 +132,7 @@ public class CreateEventMap extends BaseActivity<ActivityCreateEventMapBinding, 
 
     }
 
-    private Address convertCoordinateToAddress(LatLng latLng){
+    public Address convertCoordinateToAddress(LatLng latLng){
         //TODO MAKE DEFAULT ADDRESS TO RETURN TO AVOID NULL
         Address address = null;
         geocoder = new Geocoder(this, Locale.getDefault());

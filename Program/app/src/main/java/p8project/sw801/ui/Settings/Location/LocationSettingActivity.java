@@ -95,8 +95,10 @@ public class LocationSettingActivity extends BaseActivity<ActivityLocationSettin
     }
 
     @Override
-    public void onLocationClicked() {
+    public void onLocationClicked(PredefinedLocation predefinedLocation) {
         Intent intent = new Intent(LocationSettingActivity.this, EditLocationSettingActivity.class);
+        System.out.println(predefinedLocation.getId());
+        intent.putExtra("id",predefinedLocation.getId());
         startActivityForResult(intent,1);
     }
 
