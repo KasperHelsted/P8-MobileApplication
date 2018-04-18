@@ -9,4 +9,8 @@ public class AddSmartDeviceViewModel extends BaseViewModel<AddSmartDeviceNavigat
     public AddSmartDeviceViewModel(DataManager dataManager, SchedulerProvider schedulerProvider) {
         super(dataManager, schedulerProvider);
     }
+
+    public void search(){
+        getNavigator().searchForBridge();
+    }
 }

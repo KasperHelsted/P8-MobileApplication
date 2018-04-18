@@ -18,6 +18,10 @@ import p8project.sw801.ui.Settings.SettingsActivity;
 import p8project.sw801.ui.Settings.SettingsActivityModule;
 import p8project.sw801.ui.Settings.Shopping.ShoppingSettingActivity;
 import p8project.sw801.ui.Settings.Shopping.ShoppingSettingModule;
+import p8project.sw801.ui.SmartDevice.AddSmartDevice.AddSmartDeviceActivity;
+import p8project.sw801.ui.SmartDevice.AddSmartDevice.AddSmartDeviceActivityModule;
+import p8project.sw801.ui.SmartDevice.EditSmartDevice.EditSmartDeviceActivity;
+import p8project.sw801.ui.SmartDevice.EditSmartDevice.EditSmartDeviceActivityModule;
 import p8project.sw801.ui.event.addevent.AddEvent;
 import p8project.sw801.ui.event.addevent.AddEventModule;
 import p8project.sw801.ui.event.addeventaccessory.AddEventAccessory;
@@ -105,5 +109,11 @@ public abstract class ActivityBuilder {
 
     @ContributesAndroidInjector(modules = ShoppingSettingModule.class)
     abstract ShoppingSettingActivity bindShoppingSettingActivity();
+
+    @ContributesAndroidInjector(modules = EditSmartDeviceActivityModule.class)
+    abstract EditSmartDeviceActivity bindEditSmartDeviceActivity();
+
+    @ContributesAndroidInjector(modules = AddSmartDeviceActivityModule.class)
+    abstract AddSmartDeviceActivity bindAddSmartDeviceActivity();
 
 }

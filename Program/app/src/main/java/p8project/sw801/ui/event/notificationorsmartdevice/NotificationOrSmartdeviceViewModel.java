@@ -16,4 +16,6 @@ public class NotificationOrSmartdeviceViewModel extends BaseViewModel<Notificati
     public void openAddSmartDeviceList() {
         getNavigator().openAddSmartDeviceList();
     }
+
+    public void addNotificationMethod(){getNavigator().addNotification();}
 }
