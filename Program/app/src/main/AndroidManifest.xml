@@ -41,6 +41,7 @@
         <activity android:name=".ui.Settings.SettingsActivity" />
         <activity android:name=".ui.Settings.Shopping.ShoppingSettingActivity" />
         <activity android:name=".ui.SmartDevice.EditSmartDevice.EditSmartDeviceActivity" />
+        <activity android:name=".ui.SmartDevice.AddSmartDevice.AddSmartDeviceActivity"/>
         
         <meta-data
             android:name="com.google.android.geo.API_KEY"

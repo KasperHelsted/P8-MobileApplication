@@ -87,7 +87,9 @@ public class CreateEventMap extends BaseActivity<ActivityCreateEventMapBinding, 
 
         Bundle b = new Bundle();
         b.putParcelable("address", a);
+        b.putParcelable("location",location);
         resultIntent.putExtra("address", b);
+        resultIntent.putExtra("location",b);
         setResult(Activity.RESULT_OK, resultIntent);
         finish();
     }
@@ -130,7 +132,7 @@ public class CreateEventMap extends BaseActivity<ActivityCreateEventMapBinding, 
 
     }
 
-    private Address convertCoordinateToAddress(LatLng latLng){
+    public Address convertCoordinateToAddress(LatLng latLng){
         //TODO MAKE DEFAULT ADDRESS TO RETURN TO AVOID NULL
         Address address = null;
         geocoder = new Geocoder(this, Locale.getDefault());

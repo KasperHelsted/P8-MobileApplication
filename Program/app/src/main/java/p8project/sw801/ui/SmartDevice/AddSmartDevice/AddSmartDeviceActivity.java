@@ -36,17 +36,22 @@ import p8project.sw801.ui.custom.PHPushlinkActivity;
 import p8project.sw801.ui.custom.PHWizardAlertDialog;
 import p8project.sw801.ui.main.MainActivity;
 
-public class AddSmartDeviceActivity extends BaseActivity<ActivityAddSmartDeviceBinding, AddSmartDeviceViewModel> implements AddSmartDeviceNavigator, HasSupportFragmentInjector {
+public class AddSmartDeviceActivity extends BaseActivity<ActivityAddSmartDeviceBinding, AddSmartDeviceViewModel> implements AdapterView.OnItemClickListener, AddSmartDeviceNavigator, HasSupportFragmentInjector {
 
     private PHHueSDK phHueSDK;
     public static final String TAG = "NotifyUs";
     private HueSharedPreferences prefs;
     private AccessPointListAdapter adapter;
     private boolean lastSearchWasIPScan = false;
-    private AddSmartDeviceViewModel mSmartDeviceViewModel;
+
+    @Inject
+    AddSmartDeviceViewModel mSmartDeviceViewModel;
     @Inject
     DispatchingAndroidInjector<Fragment> fragmentDispatchingAndroidInjector;
     private ActivityAddSmartDeviceBinding mActivityAddSmartDeviceBinding;
+
+
+
     @Override
     public int getBindingVariable() {
         return BR.viewModel;
@@ -65,11 +70,14 @@ public class AddSmartDeviceActivity extends BaseActivity<ActivityAddSmartDeviceB
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add_smart_device);
-        setTitle("Notify me - Add event");
-        phHueSDK = PHHueSDK.create();
         mActivityAddSmartDeviceBinding = getViewDataBinding();
         mSmartDeviceViewModel.setNavigator(this);
+        setUp();
+    }
+
+    public void setUp(){
+        // https://github.com/PhilipsHue/PhilipsHueSDK-Java-MultiPlatform-Android
+        phHueSDK = PHHueSDK.create();
         phHueSDK.setAppName("NotifyUs");
         phHueSDK.setDeviceName(android.os.Build.MODEL);
         // Register the PHSDKListener to receive callbacks from the bridge.
@@ -98,6 +106,13 @@ public class AddSmartDeviceActivity extends BaseActivity<ActivityAddSmartDeviceB
         });
 
 
+
+
+
+    }
+
+    public void searchOrConnect(){
+
         // Try to automatically connect to the last known bridge.  For first time use this will be empty so a bridge search is automatically started.
         prefs = HueSharedPreferences.getInstance(getApplicationContext());
         String lastIpAddress   = prefs.getLastConnectedIPAddress();
@@ -116,9 +131,6 @@ public class AddSmartDeviceActivity extends BaseActivity<ActivityAddSmartDeviceB
         else {  // First time use, so perform a bridge search.
             doBridgeSearch();
         }
-
-
-
     }
     private PHSDKListener listener = new PHSDKListener() {
         @Override
@@ -170,7 +182,7 @@ public class AddSmartDeviceActivity extends BaseActivity<ActivityAddSmartDeviceB
         @Override
         public void onConnectionResumed(PHBridge bridge) {
             if (AddSmartDeviceActivity.this.isFinishing())
-            return;
+                return;
 
             Log.v(TAG, "onConnectionResumed" + bridge.getResourceCache().getBridgeConfiguration().getIpAddress());
             phHueSDK.getLastHeartbeat().put(bridge.getResourceCache().getBridgeConfiguration().getIpAddress(),  System.currentTimeMillis());
@@ -204,11 +216,11 @@ public class AddSmartDeviceActivity extends BaseActivity<ActivityAddSmartDeviceB
             else if (code == PHHueError.BRIDGE_NOT_RESPONDING) {
                 Log.w(TAG, "Bridge Not Responding . . . ");
                 PHWizardAlertDialog.getInstance().closeProgressDialog();
-                 AddSmartDeviceActivity.this.runOnUiThread(new Runnable() {
-                   @Override
-                 public void run() {
-                   PHWizardAlertDialog.showErrorDialog(AddSmartDeviceActivity.this, message, R.string.button_ok);
-                }
+                AddSmartDeviceActivity.this.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        PHWizardAlertDialog.showErrorDialog(AddSmartDeviceActivity.this, message, R.string.button_ok);
+                    }
                 });
 
             }
@@ -223,10 +235,10 @@ public class AddSmartDeviceActivity extends BaseActivity<ActivityAddSmartDeviceB
                 else {
                     PHWizardAlertDialog.getInstance().closeProgressDialog();
                     AddSmartDeviceActivity.this.runOnUiThread(new Runnable() {
-                      @Override
-                    public void run() {
-                      PHWizardAlertDialog.showErrorDialog(AddSmartDeviceActivity.this, message, R.string.button_ok);
-                     }
+                        @Override
+                        public void run() {
+                            PHWizardAlertDialog.showErrorDialog(AddSmartDeviceActivity.this, message, R.string.button_ok);
+                        }
                     });
                 }
 
@@ -241,21 +253,7 @@ public class AddSmartDeviceActivity extends BaseActivity<ActivityAddSmartDeviceB
             }
         }
     };
-    /**
-     * Called when option is selected.
-     *
-     * @param item the MenuItem object.
-     * @return boolean Return false to allow normal menu processing to proceed,  true to consume it here.
-     */
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.find_new_bridge:
-                doBridgeSearch();
-                break;
-        }
-        return true;
-    }
+
 
 
     @Override
@@ -267,6 +265,7 @@ public class AddSmartDeviceActivity extends BaseActivity<ActivityAddSmartDeviceB
         phHueSDK.disableAllHeartbeat();
     }
 
+    @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
         PHAccessPoint accessPoint = (PHAccessPoint) adapter.getItem(position);
@@ -293,6 +292,8 @@ public class AddSmartDeviceActivity extends BaseActivity<ActivityAddSmartDeviceB
 
     // Starting the main activity this way, prevents the PushLink Activity being shown when pressing the back button.
     public void startMainActivity() {
+
+
         Intent intent = new Intent(getApplicationContext(), MainActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -300,6 +301,8 @@ public class AddSmartDeviceActivity extends BaseActivity<ActivityAddSmartDeviceB
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK); // equal to Intent.FLAG_ACTIVITY_CLEAR_TASK which is only available from API level 11
         startActivity(intent);
     }
+
+
 
     @Override
     public AndroidInjector<Fragment> supportFragmentInjector() {
@@ -309,5 +312,9 @@ public class AddSmartDeviceActivity extends BaseActivity<ActivityAddSmartDeviceB
     @Override
     public void handleError(Throwable throwable) {
 
+    }
+    @Override
+    public void searchForBridge(){
+        searchOrConnect();
     }
 }

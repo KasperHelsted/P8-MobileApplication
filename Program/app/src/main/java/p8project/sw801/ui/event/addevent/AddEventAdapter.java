@@ -10,6 +10,8 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 import p8project.sw801.R;
+import p8project.sw801.data.model.db.Trigger;
+import p8project.sw801.ui.event.addevent.AddEvent;
 
 
 /**
@@ -18,10 +20,10 @@ import p8project.sw801.R;
 
 public class AddEventAdapter extends BaseAdapter {
     private Context mContext;
-    private ArrayList<String> Title;
+    private ArrayList<Trigger> Title;
 
 
-    public AddEventAdapter(Context context, ArrayList<String> text1) {
+    public AddEventAdapter(Context context, ArrayList<Trigger> text1) {
         mContext = context;
         Title = text1;
     }
@@ -48,14 +50,16 @@ public class AddEventAdapter extends BaseAdapter {
         row = inflater.inflate(R.layout.addeventlistlayout, parent, false);
         TextView title;
         title = (TextView) row.findViewById(R.id.addEventTrigger);
-        title.setText(Title.get(position));
 
-        //ImageButton add = row.findViewById(R.id.addEventAddCondition);
-        /*add.setOnClickListener(new View.OnClickListener() {
+        title.setText(Title.get(position).getNotificationText());
+
+        TextView t = row.findViewById(R.id.addEventTrigger);
+        t.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
+            public void onClick(View v) {
+                ((AddEvent)mContext).deleteItem(position);
             }
-        });*/
+        });
         return (row);
     }
 

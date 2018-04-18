@@ -96,6 +96,7 @@ public class AppDataManager implements DataManager {
         return mDbHelper.getAllEvents();
     }
 
+
     @Override
     public Observable<Event> getEventById(Integer id) {
         return mDbHelper.getEventById(id);
@@ -282,6 +283,11 @@ public class AppDataManager implements DataManager {
     @Override
     public Observable<List<Trigger>> getAllTriggers() {
         return mDbHelper.getAllTriggers();
+    }
+
+    @Override
+    public Observable<List<Trigger>> getTriggersByEventId(Integer id){
+        return mDbHelper.getTriggersByEventId(id);
     }
 
     @Override

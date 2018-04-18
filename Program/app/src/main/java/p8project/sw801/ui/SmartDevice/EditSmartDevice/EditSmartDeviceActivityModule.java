@@ -12,12 +12,7 @@ import p8project.sw801.utils.rx.SchedulerProvider;
 @Module
 public class EditSmartDeviceActivityModule {
     @Provides
-    ViewModelProvider.Factory EditSmartDeviceViewModelProvider(EditSmartDeviceViewModel EditSmartDeviceViewModel) {
-        return new ViewModelProviderFactory<>(EditSmartDeviceViewModel);
-    }
-
-    @Provides
-    EditSmartDeviceViewModel provideSettingsViewModel(DataManager dataManager, SchedulerProvider schedulerProvider) {
+    EditSmartDeviceViewModel provideEditSmartDeviceViewModel(DataManager dataManager, SchedulerProvider schedulerProvider) {
         return new EditSmartDeviceViewModel(dataManager, schedulerProvider);
     }
 }

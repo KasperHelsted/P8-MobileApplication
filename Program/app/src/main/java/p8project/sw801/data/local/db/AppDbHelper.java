@@ -352,6 +352,11 @@ public class AppDbHelper implements DbHelper {
     }
 
     @Override
+    public Observable<List<Trigger>> getTriggersByEventId(final Integer id) {
+        return Observable.fromCallable(() -> mAppDatabase.triggerDao().loadAllByEventId(id));
+    }
+
+    @Override
     public Observable<Integer> getTriggerCount() {
         return Observable.fromCallable(() -> mAppDatabase.triggerDao().count());
     }

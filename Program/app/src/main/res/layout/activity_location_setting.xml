@@ -40,7 +40,9 @@
                 android:layout_height="57dp"
                 android:layout_marginEnd="16dp"
                 app:layout_constraintEnd_toEndOf="parent"
+                android:onClick="@{() -> viewModel.createLocation()}"
                 app:srcCompat="@drawable/ic_add_black_18dp" />
+
 
             <ListView
                 android:id="@+id/listView_mylocationsettings"
