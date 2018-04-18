@@ -29,6 +29,9 @@ public class Trigger {
     @ColumnInfo(name = "smartDeviceId")
     private Integer smartDeviceId;
 
+    @ColumnInfo(name = "accessorieId")
+    private Integer accessorieId;
+
     @ColumnInfo(name = "notification")
     private Boolean notification;
 
@@ -73,5 +76,13 @@ public class Trigger {
 
     public void setNotificationText(String notificationText) {
         this.notificationText = notificationText;
+    }
+
+    public Integer getAccessorieId() {
+        return accessorieId;
+    }
+
+    public void setAccessorieId(Integer accessorieId) {
+        this.accessorieId = accessorieId;
     }
 }
