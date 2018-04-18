@@ -89,8 +89,7 @@
                     android:layout_height="wrap_content"
                     android:hint="Give your event a name"
                     android:importantForAutofill="noExcludeDescendants"
-                    android:text="@{viewModel.test}"
-                    android:afterTextChanged="@{viewModel.testinit}"
+                    android:text="@={viewModel.eventName}"
 
                     />
             </android.support.design.widget.TextInputLayout>

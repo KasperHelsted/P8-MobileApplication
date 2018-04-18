@@ -1,5 +1,6 @@
 package p8project.sw801.ui.event.addevent;
 
+import android.databinding.ObservableField;
 import android.text.Editable;
 import android.util.Log;
 
@@ -8,7 +9,7 @@ import p8project.sw801.ui.base.BaseViewModel;
 import p8project.sw801.utils.rx.SchedulerProvider;
 
 public class AddEventViewModel extends BaseViewModel<AddEventNavigator> {
-    public String test = "kage1240";
+    public final ObservableField<String> eventName = new ObservableField<>("kage1240");
 
     public AddEventViewModel(DataManager dataManager, SchedulerProvider schedulerProvider) {
         super(dataManager, schedulerProvider);
@@ -26,12 +27,8 @@ public class AddEventViewModel extends BaseViewModel<AddEventNavigator> {
         getNavigator().showTimePickerDialog(i);
     }
 
-    public void testinit(Editable e) {
-        this.test = e.toString();
-    }
-
     public void submitEventClick() {
-        Log.i("sw801", this.test);
+        Log.i("sw801", this.eventName.get());
 
         /*
         getCompositeDisposable().add(
