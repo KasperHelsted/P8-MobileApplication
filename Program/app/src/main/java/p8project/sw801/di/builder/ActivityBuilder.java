@@ -4,6 +4,7 @@ import dagger.Module;
 import dagger.android.ContributesAndroidInjector;
 import p8project.sw801.ui.Settings.AddGlobalMuteSetting.AddGlobalMuteSettingActivity;
 import p8project.sw801.ui.Settings.AddGlobalMuteSetting.AddGlobalMuteSettingModule;
+import p8project.sw801.ui.Settings.AddGlobalMuteSetting.Dialog.TimePickerProvider;
 import p8project.sw801.ui.Settings.EditGlobalMuteSetting.EditGlobalMuteSettingActivity;
 import p8project.sw801.ui.Settings.EditGlobalMuteSetting.EditGlobalMuteSettingModule;
 import p8project.sw801.ui.Settings.GlobalMuteSetting.GlobalMuteSettingActivity;
@@ -89,7 +90,10 @@ public abstract class ActivityBuilder {
     @ContributesAndroidInjector(modules = SplashActivityModule.class)
     abstract SplashActivity bindSplashActivity();
 
-    @ContributesAndroidInjector(modules = AddGlobalMuteSettingModule.class)
+    @ContributesAndroidInjector(modules = {
+            AddGlobalMuteSettingModule.class,
+            TimePickerProvider.class
+    })
     abstract AddGlobalMuteSettingActivity bindAddGlobalMuteSettingActivity();
 
     @ContributesAndroidInjector(modules = EditGlobalMuteSettingModule.class)

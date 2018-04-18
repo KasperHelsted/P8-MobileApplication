@@ -4,12 +4,16 @@
     xmlns:tools="http://schemas.android.com/tools"
 
     tools:context="p8project.sw801.ui.Settings.AddGlobalMuteSetting.AddGlobalMuteSettingActivity">
+
     <data>
+
         <import type="android.view.View" />
+
         <variable
             name="viewModel"
             type="p8project.sw801.ui.Settings.AddGlobalMuteSetting.AddGlobalMuteSettingViewModel" />
     </data>
+
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -23,14 +27,13 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="8dp"
             android:layout_weight="1"
+            android:gravity="center"
             android:text="Create global mute"
             android:textColor="@android:color/black"
-            android:gravity="center"
             android:textSize="30sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
-
 
 
         <TextView
@@ -52,11 +55,12 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textViewGlobalMuteName">
 
-            <android.support.design.widget.TextInputEditText
+            <EditText
                 android:id="@+id/textInputGlobalMuteName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Give your global mute a name" />
+                android:hint="Give your global mute a name"
+                android:text="@={viewModel.globulMuteName}" />
         </android.support.design.widget.TextInputLayout>
 
         <TextView
@@ -81,7 +85,8 @@
             android:ems="10"
             android:focusable="false"
             android:inputType="text"
-            android:onClick="@{() -> viewModel.showTimePickerDialog(1)}"
+            android:onClick="@{() -> viewModel.pickEndTime()}"
+            android:text="@{viewModel.endTime}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/editTextTimeBetween2"
             app:layout_constraintTop_toBottomOf="@+id/textViewBetween" />
@@ -95,7 +100,8 @@
             android:ems="10"
             android:focusable="false"
             android:inputType="text"
-            android:onClick="@{() -> viewModel.showTimePickerDialog(2)}"
+            android:onClick="@{() -> viewModel.pickStartTime()}"
+            android:text="@{viewModel.startTime}"
             app:layout_constraintEnd_toStartOf="@+id/editTextTimeBetween"
             app:layout_constraintHorizontal_bias="0.211"
             app:layout_constraintStart_toStartOf="parent"
@@ -141,12 +147,12 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="4dp"
             android:background="@drawable/edit_text_background"
-            android:padding="5dp"
-            android:hint="Enter comment here"
             android:gravity="top|left"
+            android:hint="Enter comment here"
             android:lines="10"
             android:maxLines="15"
             android:minLines="5"
+            android:padding="5dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textViewComment" />
@@ -158,8 +164,8 @@
             android:layout_marginEnd="24dp"
             android:layout_marginStart="16dp"
             android:layout_marginTop="8dp"
-            android:text="Create global mute"
-            android:onClick="@{() -> viewModel.submitGlobalMuteClick()}"
+            android:onClick="closeAddGlobalMute"
+            android:text="Cancel"
             app:layout_constraintEnd_toStartOf="@+id/buttonCancel"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/editTextComment" />
@@ -171,8 +177,8 @@
             android:layout_marginEnd="16dp"
             android:layout_marginStart="24dp"
             android:layout_marginTop="8dp"
-            android:onClick="closeAddGlobalMute"
-            android:text="Cancel"
+            android:onClick="@{() -> viewModel.submitGlobalMuteClick()}"
+            android:text="Create global mute"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/buttonCreateGlobalMute"
             app:layout_constraintTop_toBottomOf="@+id/editTextComment" />
