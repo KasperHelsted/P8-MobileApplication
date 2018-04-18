@@ -1,7 +1,5 @@
 package p8project.sw801.ui.Settings.AddGlobalMuteSetting;
 
-import android.databinding.ObservableField;
-
 import p8project.sw801.ui.base.BaseViewModel;
 
 public interface AddGlobalMuteSettingNavigator {
@@ -10,5 +8,7 @@ public interface AddGlobalMuteSettingNavigator {
 
     void showTimePickerDialog(BaseViewModel viewModel);
 
-    void submitGlobalMuteClick();
+    void sendNotification(String msg);
+
+    void finish();
 }

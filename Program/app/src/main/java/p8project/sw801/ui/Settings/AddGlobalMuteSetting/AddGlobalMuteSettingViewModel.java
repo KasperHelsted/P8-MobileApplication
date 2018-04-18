@@ -1,31 +1,50 @@
 package p8project.sw801.ui.Settings.AddGlobalMuteSetting;
 
+import android.databinding.ObservableArrayList;
 import android.databinding.ObservableField;
-import android.util.Log;
+import android.databinding.ObservableInt;
+import android.databinding.ObservableList;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.List;
+import java.util.Locale;
 
 import p8project.sw801.data.DataManager;
+import p8project.sw801.data.model.db.GlobalMute;
+import p8project.sw801.data.model.db.PredefinedLocation;
 import p8project.sw801.ui.base.BaseViewModel;
 import p8project.sw801.utils.rx.SchedulerProvider;
 
 
 public class AddGlobalMuteSettingViewModel extends BaseViewModel<AddGlobalMuteSettingNavigator> {
+    public final ObservableList<PredefinedLocation> predefinedLocations = new ObservableArrayList<>();
+
     public final ObservableField<String> globulMuteName = new ObservableField<>("");
     public final ObservableField<String> startTime = new ObservableField<>("");
     public final ObservableField<String> endTime = new ObservableField<>("");
-    public final ObservableField<List<String>> tester = new ObservableField<>();
-    private Long startTimeLong;
-    private Long endTimeLong;
+    public final ObservableInt predefinedLocation = new ObservableInt(0);
+    public final ObservableField<String> comment = new ObservableField<>("");
+
+    private Long startTimeLong = 0L;
+    private Long endTimeLong = 0L;
+
     private boolean settingStartTime = false;
 
-    protected SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm");
+    private SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm", Locale.UK);
 
 
     public AddGlobalMuteSettingViewModel(DataManager dataManager, SchedulerProvider schedulerProvider) {
         super(dataManager, schedulerProvider);
+
+        loadData();
+    }
+
+    private void loadData() {
+        getCompositeDisposable().add(
+                getDataManager().getAllPredefinedLocations().subscribeOn(
+                        getSchedulerProvider().io()
+                ).subscribe(this.predefinedLocations::addAll)
+        );
     }
 
 
@@ -55,12 +74,24 @@ public class AddGlobalMuteSettingViewModel extends BaseViewModel<AddGlobalMuteSe
     }
 
     public void submitGlobalMuteClick() {
-        Log.i("sw801.startTime", startTimeLong.toString());
-        Log.i("sw801.endTime", endTimeLong.toString());
-    }
+        setIsLoading(true);
 
-    public void submitEventToDatabase() {
-        //TODO NEED CORRECT PARAMETERS TO PASS TO DB
+        getNavigator().sendNotification("Global Mute Inserted");
+        getCompositeDisposable().add(
+                getDataManager().insertGlobalMute(
+                        new GlobalMute(
+                                globulMuteName.get(),
+                                startTimeLong,
+                                endTimeLong,
+                                predefinedLocations.get(predefinedLocation.get()).getId(),
+                                comment.get()
+                        )
+                ).subscribeOn(
+                        getSchedulerProvider().io()
+                ).subscribe(success -> {
+                    getNavigator().finish();
+                    setIsLoading(false);
+                })
+        );
     }
-
 }
