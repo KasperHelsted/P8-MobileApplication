@@ -14,11 +14,10 @@ public class HueBridge extends SmartDevice {
     @ColumnInfo(name = "deviceIP")
     private String deviceIP;
 
-    @ColumnInfo(name = "deviceToken")
-    private String deviceToken;
+    @ColumnInfo(name = "username")
+    private String username;
 
-    @ColumnInfo(name = "deviceMac")
-    private String deviceMac;
+
 
     public String getDeviceIP() {
         return deviceIP;
@@ -28,19 +27,12 @@ public class HueBridge extends SmartDevice {
         this.deviceIP = deviceIP;
     }
 
-    public String getDeviceToken() {
-        return deviceToken;
+    public String getUsername() {
+        return username;
     }
 
-    public void setDeviceToken(String deviceToken) {
-        this.deviceToken = deviceToken;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
-    public String getDeviceMac() {
-        return deviceMac;
-    }
-
-    public void setDeviceMac(String deviceMac) {
-        this.deviceMac = deviceMac;
-    }
 }
