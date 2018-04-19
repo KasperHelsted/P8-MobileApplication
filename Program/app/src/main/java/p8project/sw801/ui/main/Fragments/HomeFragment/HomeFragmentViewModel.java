@@ -9,9 +9,19 @@ public class HomeFragmentViewModel extends BaseViewModel<HomeFragmentNavigator> 
         super(dataManager, schedulerProvider);
     }
 
-    public void buttonCreateOnClick(){getNavigator().buttonCreateOnClick();}
-    public void buttonMyEventsOnClick(){getNavigator().buttonMyEventsOnClick();}
-    public void buttonMySmartDevicesOnClick(){getNavigator().buttonMySmartDevicesOnClick();}
-    public void buttonSettingsOnClick(){getNavigator().buttonSettingsOnClick();}
+    public void buttonCreateEventOnClick() {
+        getNavigator().buttonCreateEventOnClick();
+    }
 
+    public void buttonMyEventsOnClick() {
+        getNavigator().buttonMyEventsOnClick();
+    }
+
+    public void buttonMySmartDevicesOnClick() {
+        getNavigator().buttonMySmartDevicesOnClick();
+    }
+
+    public void buttonSettingsOnClick() {
+        getNavigator().buttonSettingsOnClick();
+    }
 }
