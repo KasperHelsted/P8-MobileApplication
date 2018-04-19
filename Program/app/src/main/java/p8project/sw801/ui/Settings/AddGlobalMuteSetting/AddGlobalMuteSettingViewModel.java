@@ -74,6 +74,14 @@ public class AddGlobalMuteSettingViewModel extends BaseViewModel<AddGlobalMuteSe
     }
 
     public void submitGlobalMuteClick() {
+        if (globulMuteName.get() == null || globulMuteName.get().isEmpty()) {
+            getNavigator().sendNotification("Name cannot be empty");
+            return;
+        } else if (startTimeLong == null || endTimeLong == null) {
+            getNavigator().sendNotification("Time interval must be set");
+            return;
+        }
+
         setIsLoading(true);
 
         getNavigator().sendNotification("Global Mute Inserted");
