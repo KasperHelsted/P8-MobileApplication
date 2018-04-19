@@ -101,8 +101,7 @@ public class NotificationOrSmartdevice extends BaseFragment<FragmentNotification
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == 0) {
-
+        if (data != null && requestCode == 0) {
             String jsonMyObject ="";
             Bundle result = data.getExtras();
             if (result != null) {

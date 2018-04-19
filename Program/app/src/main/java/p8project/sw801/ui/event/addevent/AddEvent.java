@@ -349,14 +349,16 @@ public class AddEvent extends BaseActivity<ActivityAddEventBinding, AddEventView
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        switch (requestCode) {
-            case (0): {
-                if (resultCode == Activity.RESULT_OK) {
-                    addressBundle = data.getBundleExtra("address");
-                    address = addressBundle.getParcelable("address");
-                    addressTextView.setText(address.getAddressLine(0) + ", " + address.getAddressLine(1) + ", " + address.getAddressLine(2));
+        if (data != null) {
+            switch (requestCode) {
+                case (0): {
+                    if (resultCode == Activity.RESULT_OK) {
+                        addressBundle = data.getBundleExtra("address");
+                        address = addressBundle.getParcelable("address");
+                        addressTextView.setText(address.getAddressLine(0) + ", " + address.getAddressLine(1) + ", " + address.getAddressLine(2));
+                    }
+                    break;
                 }
-                break;
             }
         }
     }

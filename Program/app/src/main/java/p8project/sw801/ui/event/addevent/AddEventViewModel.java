@@ -28,7 +28,6 @@ public class AddEventViewModel extends BaseViewModel<AddEventNavigator> {
     }
 
     public void submitEventClick() {
-        Log.i("sw801", this.eventName.get());
 
         /*
         getCompositeDisposable().add(
