@@ -184,6 +184,8 @@ public interface DbHelper {
     Observable<Boolean> insertNestHub(final NestHub nestHub);
     Observable<List<HueLightbulbWhite>> getHueLightsBySmartDeviceId(final Integer id);
     Observable<List<NestThermostat>> getNestThermoBySmartDeviceId(final Integer id);
+    Observable<List<HueBridge>> getAllHueBridges();
+    Observable<List<NestHub>> getAllNestHubs();
 
 
     //</editor-fold>

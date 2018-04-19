@@ -30,6 +30,12 @@ public interface AccessoriesDao {
     @Query("SELECT * FROM nestthermostat WHERE smartDeviceId == :id")
     List<NestThermostat> getNestThermoBySmartDeviceId(Integer id);
 
+    @Query("SELECT * FROM huebridge")
+    List<HueBridge> getAllHueBridges();
+
+    @Query("SELECT * FROM NestHub")
+    List<NestHub> getAllNestHubs();
+
     @Insert
     void insertAllHue(HueLightbulbWhite... hueLightbulbWhites);
 

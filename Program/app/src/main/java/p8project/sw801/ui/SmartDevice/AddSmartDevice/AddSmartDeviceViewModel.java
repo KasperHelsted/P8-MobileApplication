@@ -21,9 +21,9 @@ public class AddSmartDeviceViewModel extends BaseViewModel<AddSmartDeviceNavigat
 
     public void getBridges()
     {
-        List<SmartDevice> smartDeviceList = new ArrayList<SmartDevice>();
+        List<HueBridge> smartDeviceList = new ArrayList<>();
         getCompositeDisposable().add(
-                getDataManager().getAllSmartDevices(
+                getDataManager().getAllHueBridges(
 
                 ).subscribeOn(getSchedulerProvider().io())
                         .observeOn(getSchedulerProvider().ui())
@@ -37,7 +37,7 @@ public class AddSmartDeviceViewModel extends BaseViewModel<AddSmartDeviceNavigat
     }
     public void insertBridge(HueBridge bridge){
         getCompositeDisposable().add(
-                getDataManager().insertSmartDevice(
+                getDataManager().insertHueBridge(
                         bridge
 
                 ).subscribeOn(getSchedulerProvider().io())

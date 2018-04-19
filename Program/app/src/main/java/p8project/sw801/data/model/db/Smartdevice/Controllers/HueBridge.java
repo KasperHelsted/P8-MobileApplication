@@ -27,6 +27,10 @@ public class HueBridge{
     @ColumnInfo(name = "smartDeviceId")
     private Integer smartDeviceId;
 
+    @ColumnInfo(name = "username")
+    private String username;
+
+
     public String getDeviceIP() {
         return deviceIP;
     }
@@ -64,5 +68,13 @@ public class HueBridge{
 
     public void setSmartDeviceId(Integer smartDeviceId) {
         this.smartDeviceId = smartDeviceId;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 }

@@ -4,12 +4,15 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 
 import p8project.sw801.ui.Settings.GlobalMuteSetting.GlobalMuteSettingActivity;
 import p8project.sw801.ui.Settings.Location.LocationSettingActivity;
 import p8project.sw801.ui.Settings.Shopping.ShoppingSettingActivity;
 import p8project.sw801.R;
+import p8project.sw801.utils.NotificationUtil;
+
 public class SettingsActivity extends AppCompatActivity {
     //Implement viewmodel here
 
@@ -42,6 +45,15 @@ public class SettingsActivity extends AppCompatActivity {
         //--------------------------Burger menu-------------------------------------
 
         //----------------Rest of the code
+        NotificationUtil n = new NotificationUtil(getApplicationContext());
+
+        Button b = findViewById(R.id.buttontesting);
+        b.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                n.CreateNotification("HEY", "CONTENTTETETETET");
+            }
+        });
 
         EditText globalmute = findViewById(R.id.editText_globalmute);
         globalmute.setOnClickListener(new View.OnClickListener() {

@@ -438,6 +438,15 @@ public class AppDataManager implements DataManager {
         return mDbHelper.getNestThermoBySmartDeviceId(id);
     }
 
+    @Override
+    public Observable<List<HueBridge>> getAllHueBridges(){
+        return mDbHelper.getAllHueBridges();
+    }
+    @Override
+    public Observable<List<NestHub>> getAllNestHubs(){
+        return mDbHelper.getAllNestHubs();
+    }
+
 
 
     //</editor-fold>
