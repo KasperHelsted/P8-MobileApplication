@@ -27,12 +27,11 @@ import javax.inject.Inject;
 import dagger.android.AndroidInjector;
 import dagger.android.DispatchingAndroidInjector;
 import dagger.android.support.HasSupportFragmentInjector;
-import p8project.sw801.databinding.ActivityMainBinding;
-import p8project.sw801.ui.Settings.SettingsActivity;
-import p8project.sw801.ui.SmartDevice.AddSmartDevice.AddSmartDeviceActivity;
-import p8project.sw801.ui.base.BaseActivity;
 import p8project.sw801.BR;
 import p8project.sw801.R;
+import p8project.sw801.databinding.ActivityMainBinding;
+import p8project.sw801.ui.Settings.SettingsActivity;
+import p8project.sw801.ui.base.BaseActivity;
 import p8project.sw801.ui.main.Fragments.HomeFragment.HomeFragment;
 import p8project.sw801.ui.main.Fragments.MyEventsFragment.MyEventsFragment;
 import p8project.sw801.ui.main.Fragments.MySmartDeviceFragment.MySmartDeviceFragment;
@@ -274,8 +273,9 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
                 drawerMenu.closeDrawers();
                 break;
             case R.id.menuaddsmartdevies:
-                Intent ac = new Intent(MainActivity.this,AddSmartDeviceActivity.class);
-                startActivity(ac);
+                //Intent ac = new Intent(MainActivity.this,MySmartDeviceFragment.class);
+                //startActivity(ac);
+                ChangeToSmartDevice();
                 drawerMenu.closeDrawers();
                 break;
             case R.id.menusettings:

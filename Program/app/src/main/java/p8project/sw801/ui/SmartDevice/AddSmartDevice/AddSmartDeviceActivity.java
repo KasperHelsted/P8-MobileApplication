@@ -168,7 +168,7 @@ public class AddSmartDeviceActivity extends BaseActivity<ActivityAddSmartDeviceB
             }
             PHWizardAlertDialog.getInstance().closeProgressDialog();
             //todo: HVAD SKAL DER SKE NÅR VI HAR FORBUNDET TIL BRIDGEN?
-            //startMainActivity();
+            startMainActivity();
         }
 
         @Override
