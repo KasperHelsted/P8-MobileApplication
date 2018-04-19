@@ -5,4 +5,7 @@ public interface GlobalMuteSettingNavigator {
     void handleError(Throwable throwable);
 
     void openAddGlobalMuteSettingActivity();
+
+    void updatelist();
+
 }

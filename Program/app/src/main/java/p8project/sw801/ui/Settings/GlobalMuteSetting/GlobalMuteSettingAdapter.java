@@ -13,6 +13,7 @@ import java.util.ArrayList;
 
 
 import p8project.sw801.R;
+import p8project.sw801.data.model.db.GlobalMute;
 import p8project.sw801.ui.Settings.EditGlobalMuteSetting.EditGlobalMuteSettingActivity;
 
 /**
@@ -22,12 +23,12 @@ import p8project.sw801.ui.Settings.EditGlobalMuteSetting.EditGlobalMuteSettingAc
 public class GlobalMuteSettingAdapter extends BaseAdapter {
 
     private Context mContext;
-    private ArrayList<String> Title;
+    private ArrayList<GlobalMute> Title;
     private String globalSettingName;
 
 
-    public GlobalMuteSettingAdapter(Context context, ArrayList<String> text1) {
-        mContext = context;
+    public GlobalMuteSettingAdapter(Context context, ArrayList<GlobalMute> text1) {
+        this.mContext = context;
         Title = text1;
     }
 
@@ -53,17 +54,14 @@ public class GlobalMuteSettingAdapter extends BaseAdapter {
         row = inflater.inflate(R.layout.globalmutelistlayout, parent, false);
         final TextView title;
         title = (TextView) row.findViewById(R.id.row_textview);
-        title.setText(Title.get(position));
+        title.setText(Title.get(position).getName());
 
         //Click event for delete buttons
         ImageView delete = row.findViewById(R.id.imageView_globalmutedelete);
         delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Title.remove(position);
-                notifyDataSetChanged();
-
-                //TODO Remove from database
+                ((GlobalMuteSettingActivity) mContext).deleteGlobalMute(Title.get(position));
             }
         });
 
@@ -73,7 +71,7 @@ public class GlobalMuteSettingAdapter extends BaseAdapter {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(mContext, EditGlobalMuteSettingActivity.class);
-                intent.putExtra(globalSettingName, Title.get(position));
+                intent.putExtra(globalSettingName, Title.get(position).getName());
 
                 mContext.startActivity(intent);
             }

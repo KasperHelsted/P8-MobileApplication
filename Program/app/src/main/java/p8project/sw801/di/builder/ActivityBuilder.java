@@ -4,12 +4,15 @@ import dagger.Module;
 import dagger.android.ContributesAndroidInjector;
 import p8project.sw801.ui.Settings.AddGlobalMuteSetting.AddGlobalMuteSettingActivity;
 import p8project.sw801.ui.Settings.AddGlobalMuteSetting.AddGlobalMuteSettingModule;
+import p8project.sw801.ui.Settings.AddGlobalMuteSetting.Dialog.TimePickerProvider;
 import p8project.sw801.ui.Settings.EditGlobalMuteSetting.EditGlobalMuteSettingActivity;
 import p8project.sw801.ui.Settings.EditGlobalMuteSetting.EditGlobalMuteSettingModule;
 import p8project.sw801.ui.Settings.GlobalMuteSetting.GlobalMuteSettingActivity;
 import p8project.sw801.ui.Settings.GlobalMuteSetting.GlobalMuteSettingModule;
 import p8project.sw801.ui.Settings.Location.AddLocation.AddLocationSettingActivity;
 import p8project.sw801.ui.Settings.Location.AddLocation.AddLocationSettingModule;
+import p8project.sw801.ui.Settings.Location.EditLocation.EditLocationModule;
+import p8project.sw801.ui.Settings.Location.EditLocation.EditLocationSettingActivity;
 import p8project.sw801.ui.Settings.Location.LocationModule;
 import p8project.sw801.ui.Settings.Location.LocationSettingActivity;
 import p8project.sw801.ui.Settings.SettingsActivity;
@@ -72,6 +75,9 @@ public abstract class ActivityBuilder {
     })
     abstract AddEvent bindAddEvent();
 
+    @ContributesAndroidInjector(modules = EditLocationModule.class)
+    abstract EditLocationSettingActivity bindEditLocationSettingActivity();
+
     @ContributesAndroidInjector(modules = EditEventModule.class)
     abstract EditEvent bindEditEvent();
 
@@ -93,7 +99,10 @@ public abstract class ActivityBuilder {
     @ContributesAndroidInjector(modules = SplashActivityModule.class)
     abstract SplashActivity bindSplashActivity();
 
-    @ContributesAndroidInjector(modules = AddGlobalMuteSettingModule.class)
+    @ContributesAndroidInjector(modules = {
+            AddGlobalMuteSettingModule.class,
+            TimePickerProvider.class
+    })
     abstract AddGlobalMuteSettingActivity bindAddGlobalMuteSettingActivity();
 
     @ContributesAndroidInjector(modules = EditGlobalMuteSettingModule.class)
