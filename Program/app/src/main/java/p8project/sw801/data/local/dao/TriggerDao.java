@@ -31,6 +31,9 @@ public interface TriggerDao {
     @Query("SELECT * FROM `trigger` WHERE eventId == :eId")
     List<Trigger> loadAllByEventId(Integer eId);
 
+    @Query("SELECT * FROM `trigger` WHERE smartDeviceId = :eId")
+    List<Trigger> loadAllBySmartDeviceId(Integer eId);
+
     @Insert
     void insertAll(Trigger... triggers);
 

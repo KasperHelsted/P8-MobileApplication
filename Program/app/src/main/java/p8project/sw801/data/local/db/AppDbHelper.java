@@ -11,6 +11,11 @@ import p8project.sw801.data.model.db.Event;
 import p8project.sw801.data.model.db.GlobalMute;
 import p8project.sw801.data.model.db.PredefinedLocation;
 import p8project.sw801.data.model.db.SmartDevice;
+import p8project.sw801.data.model.db.Smartdevice.Accessories.HueLightbulbRGB;
+import p8project.sw801.data.model.db.Smartdevice.Accessories.HueLightbulbWhite;
+import p8project.sw801.data.model.db.Smartdevice.Accessories.NestThermostat;
+import p8project.sw801.data.model.db.Smartdevice.Controllers.HueBridge;
+import p8project.sw801.data.model.db.Smartdevice.Controllers.NestHub;
 import p8project.sw801.data.model.db.Trigger;
 import p8project.sw801.data.model.db.When;
 
@@ -397,6 +402,13 @@ public class AppDbHelper implements DbHelper {
             return true;
         });
     }
+
+    @Override
+    public Observable<List<Trigger>> getTriggersBySmartDeviceId(final Integer id){
+        return Observable.fromCallable(() ->mAppDatabase.triggerDao().loadAllBySmartDeviceId(id));
+    }
+
+
     //</editor-fold>
 
     //<editor-fold desc="Start When helper">
@@ -456,5 +468,79 @@ public class AppDbHelper implements DbHelper {
             return true;
         });
     }
+    //</editor-fold>
+
+    //<editor-fold desc="Accessories">
+
+    @Override
+    public Observable<List<HueLightbulbWhite>> getLightsByBridgeId(final Integer id){
+        return Observable.fromCallable(()-> mAppDatabase.accessoriesDao().getLightsByBridgeIdDB(id));
+    }
+
+    @Override
+    public Observable<List<HueLightbulbRGB>> getRGBLightsByBridgeId(final Integer id){
+        return  Observable.fromCallable(()-> mAppDatabase.accessoriesDao().getRGBLightsByBridgeIdDB(id));
+    }
+
+    @Override
+    public Observable<List<NestThermostat>> getNestByHubId(final Integer id){
+        return  Observable.fromCallable(()-> mAppDatabase.accessoriesDao().getNestByHubIdDB(id));
+    }
+
+    @Override
+    public Observable<Boolean> insertAllHueLights(final HueLightbulbWhite... hueLightbulbWhites){
+        return Observable.fromCallable(() -> {
+            mAppDatabase.accessoriesDao().insertAllHue(hueLightbulbWhites);
+            return true;
+        });
+    }
+
+    @Override
+    public Observable<Boolean> insertHueLight(final HueLightbulbWhite hueLightbulbWhite){
+        return Observable.fromCallable(() -> {
+            mAppDatabase.accessoriesDao().insertHue(hueLightbulbWhite);
+            return true;
+        });
+    }
+    @Override
+    public Observable<Boolean> insertAllNestThermos(final NestThermostat... nestThermostats){
+        return Observable.fromCallable(() -> {
+            mAppDatabase.accessoriesDao().insertAllNestThermos(nestThermostats);
+            return true;
+        });
+    }
+    @Override
+    public Observable<Boolean> insertNestThermo(final NestThermostat nestThermostat){
+        return Observable.fromCallable(() -> {
+            mAppDatabase.accessoriesDao().insertNestThermo(nestThermostat);
+            return true;
+        });
+    }
+
+    @Override
+    public Observable<Boolean> insertHueBridge(final HueBridge hueBridge){
+        return Observable.fromCallable(() -> {
+            mAppDatabase.accessoriesDao().insertHueBidge(hueBridge);
+            return true;
+        });
+    }
+    @Override
+    public Observable<Boolean> insertNestHub(final NestHub nestHub){
+        return Observable.fromCallable(() -> {
+            mAppDatabase.accessoriesDao().insertNestHub(nestHub);
+            return true;
+        });
+    }
+
+    @Override
+    public Observable<List<HueLightbulbWhite>> getHueLightsBySmartDeviceId(final Integer id){
+        return  Observable.fromCallable(()-> mAppDatabase.accessoriesDao().getHueLightsBySmartDeviceId(id));
+    }
+    @Override
+    public Observable<List<NestThermostat>> getNestThermoBySmartDeviceId(final Integer id){
+        return Observable.fromCallable(()-> mAppDatabase.accessoriesDao().getNestThermoBySmartDeviceId(id));
+    }
+
+
     //</editor-fold>
 }

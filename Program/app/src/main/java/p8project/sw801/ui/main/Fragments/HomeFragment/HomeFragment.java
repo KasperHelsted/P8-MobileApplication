@@ -2,80 +2,47 @@ package p8project.sw801.ui.main.Fragments.HomeFragment;
 
 
 import android.content.Intent;
-import android.databinding.DataBindingUtil;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 
 import javax.inject.Inject;
-import p8project.sw801.R;
+
 import p8project.sw801.BR;
-import p8project.sw801.databinding.ActivityHomeBinding;
+import p8project.sw801.R;
+import p8project.sw801.databinding.FragmentHomeBinding;
 import p8project.sw801.ui.Settings.SettingsActivity;
 import p8project.sw801.ui.base.BaseFragment;
 import p8project.sw801.ui.event.addevent.AddEvent;
 import p8project.sw801.ui.main.MainActivity;
-import dagger.android.support.AndroidSupportInjection;
 
 
-//Implements Navigationviewlistener
-public class HomeFragment extends BaseFragment<ActivityHomeBinding, HomeFragmentViewModel> implements HomeFragmentNavigator  {
-
-
+public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeFragmentViewModel> implements HomeFragmentNavigator {
     @Inject
     HomeFragmentViewModel mHomeFragmentViewModel;
-    private ActivityHomeBinding mActivityHomeBinding;
+    private FragmentHomeBinding mFragmentHomeBinding;
 
     public static final String TAG = HomeFragment.class.getSimpleName();
-    private Button buttonCreate;
-    private Button buttonMyEvents;
-    private Button buttonMySmartDevices;
-    private Button buttonSettings;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
-        mActivityHomeBinding  = getViewDataBinding();
-        View view = mActivityHomeBinding.getRoot();
+
+        mFragmentHomeBinding = getViewDataBinding();
         mHomeFragmentViewModel.setNavigator(this);
-        setUp();
+
+        View view = mFragmentHomeBinding.getRoot();
+
         return view;
     }
 
-    private void setUp(){
-
-
-        buttonCreate = mActivityHomeBinding.buttonCreate;
-        buttonMyEvents = mActivityHomeBinding.buttonMyEvents;
-        buttonMySmartDevices = mActivityHomeBinding.buttonMySmartDevices;
-        buttonSettings = mActivityHomeBinding.buttonSettings;
-
-    }
-
-    public void buttonCreateOnClick(){
-        Intent intent = new Intent(getActivity(), AddEvent.class);
-        startActivity(intent);
-    }
-    public void buttonMyEventsOnClick(){
-        ((MainActivity)getActivity()).ChangeToEvents();
-    }
-    public void buttonMySmartDevicesOnClick(){
-        ((MainActivity)getActivity()).ChangeToSmartDevice();
-    }
-    public void buttonSettingsOnClick(){
-        Intent intent = new Intent(getActivity(), SettingsActivity.class);
-        startActivity(intent);
-    }
-
-
     public static HomeFragment newInstance() {
         Bundle args = new Bundle();
+
         HomeFragment fragment = new HomeFragment();
         fragment.setArguments(args);
+
         return fragment;
     }
 
@@ -86,7 +53,7 @@ public class HomeFragment extends BaseFragment<ActivityHomeBinding, HomeFragment
 
     @Override
     public int getLayoutId() {
-        return R.layout.activity_home;
+        return R.layout.fragment_home;
     }
 
     @Override
@@ -94,4 +61,25 @@ public class HomeFragment extends BaseFragment<ActivityHomeBinding, HomeFragment
         return mHomeFragmentViewModel;
     }
 
+    @Override
+    public void buttonCreateEventOnClick() {
+        Intent intent = new Intent(getActivity(), AddEvent.class);
+        startActivity(intent);
+    }
+
+    @Override
+    public void buttonMyEventsOnClick() {
+        ((MainActivity) getActivity()).setView(1);
+    }
+
+    @Override
+    public void buttonMySmartDevicesOnClick() {
+        ((MainActivity) getActivity()).setView(2);
+    }
+
+    @Override
+    public void buttonSettingsOnClick() {
+        Intent intent = new Intent(getActivity(), SettingsActivity.class);
+        startActivity(intent);
+    }
 }

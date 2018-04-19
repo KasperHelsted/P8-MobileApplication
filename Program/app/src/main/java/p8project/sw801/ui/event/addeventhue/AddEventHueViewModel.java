@@ -8,4 +8,14 @@ public class AddEventHueViewModel extends BaseViewModel<AddEventHueNavigator> {
     public AddEventHueViewModel(DataManager dataManager, SchedulerProvider schedulerProvider) {
         super(dataManager, schedulerProvider);
     }
+
+    public void turnOnClick(){getNavigator().turnOn();}
+    public void turnOffClick(){getNavigator().turnOff();}
+    public void setBrightnessClick(){getNavigator().setBrightness();}
+
+
+
+
+
+
 }

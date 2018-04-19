@@ -9,7 +9,7 @@ import p8project.sw801.ui.base.BaseViewModel;
 import p8project.sw801.utils.rx.SchedulerProvider;
 
 public class AddEventViewModel extends BaseViewModel<AddEventNavigator> {
-    public final ObservableField<String> eventName = new ObservableField<>("kage1240");
+
 
     public AddEventViewModel(DataManager dataManager, SchedulerProvider schedulerProvider) {
         super(dataManager, schedulerProvider);
@@ -28,7 +28,6 @@ public class AddEventViewModel extends BaseViewModel<AddEventNavigator> {
     }
 
     public void submitEventClick() {
-        Log.i("sw801", this.eventName.get());
 
         /*
         getCompositeDisposable().add(
@@ -48,6 +47,7 @@ public class AddEventViewModel extends BaseViewModel<AddEventNavigator> {
                 })
         );
         */
+
     }
 
     public void submitEventToDatabase() {
