@@ -33,6 +33,7 @@ import dagger.android.DispatchingAndroidInjector;
 import dagger.android.support.HasSupportFragmentInjector;
 import p8project.sw801.BR;
 import p8project.sw801.R;
+import p8project.sw801.data.model.db.Trigger;
 import p8project.sw801.databinding.ActivityAddEventBinding;
 import p8project.sw801.ui.AddEvent.AddEventAdapter;
 import p8project.sw801.ui.base.BaseActivity;
@@ -48,7 +49,7 @@ public class AddEvent extends BaseActivity<ActivityAddEventBinding, AddEventView
     DispatchingAndroidInjector<Fragment> fragmentDispatchingAndroidInjector;
 
     private ListView listview;
-    public ArrayList<String> addMyEvents;
+    public ArrayList<Trigger> addMyEvents;
     public AddEventAdapter myAdapter;
     private Bundle addressBundle;
     private Address address;
@@ -77,7 +78,7 @@ public class AddEvent extends BaseActivity<ActivityAddEventBinding, AddEventView
         //---Calls the mark functions to mark a day in the day picker.
         markButton();
         //------Creation of list of "do this"
-        addMyEvents = new ArrayList<String>();
+        addMyEvents = new ArrayList<Trigger>();
         // Spinner click listener
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -361,7 +362,7 @@ public class AddEvent extends BaseActivity<ActivityAddEventBinding, AddEventView
     }
 
     public void refreshData() {
-        ArrayList<String> a = new ArrayList<>();
+        ArrayList<Trigger> a = new ArrayList<>();
         a.clear();
         a.addAll(addMyEvents);
 

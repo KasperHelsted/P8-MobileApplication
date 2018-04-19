@@ -4,4 +4,6 @@ public interface NotificationOrSmartdeviceNavigator {
     void goBack();
 
     void openAddSmartDeviceList();
+
+    void addNotification();
 }

@@ -6,11 +6,11 @@ package p8project.sw801.utils;
  */
 public final class AppConstants {
 
-    public static final String DB_NAME = "mindorks_mvvm.db";
+    public static final String DB_NAME = "dat_database.db";
 
     public static final long NULL_INDEX = -1L;
 
-    public static final String PREF_NAME = "mindorks_pref";
+    public static final String PREF_NAME = "pre_";
 
     public static final String STATUS_CODE_FAILED = "failed";
 

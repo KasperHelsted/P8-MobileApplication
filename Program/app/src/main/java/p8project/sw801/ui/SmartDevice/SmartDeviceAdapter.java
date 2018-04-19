@@ -1,8 +1,11 @@
 package p8project.sw801.ui.SmartDevice;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
+import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,12 +13,16 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
+
+import java.time.LocalDateTime;
 import java.util.List;
 
 import p8project.sw801.data.model.Others.UserPreference;
 import p8project.sw801.data.model.db.SmartDevice;
 import p8project.sw801.R;
 import p8project.sw801.ui.SmartDevice.EditSmartDevice.EditSmartDeviceActivity;
+import p8project.sw801.ui.main.Fragments.MySmartDeviceFragment.MySmartDeviceFragment;
 
 /**
  * Created by Kasper Helsted on 3/21/2018.
@@ -24,12 +31,13 @@ import p8project.sw801.ui.SmartDevice.EditSmartDevice.EditSmartDeviceActivity;
 public class SmartDeviceAdapter extends BaseAdapter {
     private Context mContext;
     private List<SmartDevice> smartDevices;
-    private String deviceName;
+    private MySmartDeviceFragment mySmartDeviceFragment;
 
 
-    public SmartDeviceAdapter(Context context, List<SmartDevice> smartDevices_) {
+    public SmartDeviceAdapter(Context context, List<SmartDevice> smartDevices_, MySmartDeviceFragment f) {
         mContext = context;
         smartDevices = smartDevices_;
+        mySmartDeviceFragment = f;
     }
 
     public int getCount() {
@@ -56,18 +64,14 @@ public class SmartDeviceAdapter extends BaseAdapter {
 
         final SmartDevice smartDevice = smartDevices.get(position);
 
-        title.setText(smartDevice.toString());
+        title.setText(smartDevice.getDeviceName());
 
         //Click event for delete buttons
         ImageView delete = row.findViewById(R.id.imageView_mysmartdevicedelete);
         delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                UserPreference.removeFromSmartDeviceList(
-                        mContext,
-                        smartDevice
-                );
-                notifyDataSetChanged();
+                mySmartDeviceFragment.deleteSmartDevice(smartDevice);
             }
         });
 
@@ -77,15 +81,12 @@ public class SmartDeviceAdapter extends BaseAdapter {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(mContext, EditSmartDeviceActivity.class);
-                intent.putExtra(
-                        "device_id",
-                        smartDevice.getId()
-                );
-
-                mContext.startActivity(intent);
+                intent.putExtra("device", new Gson().toJson(smartDevice));
+                mySmartDeviceFragment.startActivityForResult(intent, 1);
             }
         });
 
         return (row);
+
     }
 }

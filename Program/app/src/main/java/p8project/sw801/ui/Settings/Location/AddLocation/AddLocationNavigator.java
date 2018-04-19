@@ -4,4 +4,6 @@ public interface AddLocationNavigator {
     void handleError(Throwable throwable);
 
     void openCreateMapActivity();
+    void submitLocationClick();
+    void openLocationActivty();
 }

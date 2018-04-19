@@ -33,4 +33,8 @@
     <string name="paste">Paste</string>
     <string name="delete">Delete</string>
     <string name="share">Share</string>
+
+    <string name="setTimePicker">Vælg klokkeslæt</string>
+    <string name="anullerTimePicker">Anuller</string>
+    <string name="chooseTimePickerTime">Vælg</string>
 </resources>

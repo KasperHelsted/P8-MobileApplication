@@ -18,6 +18,10 @@ public class SmartDevice {
     @ColumnInfo(name = "active")
     private Boolean active;
 
+    //1 = Hue, 2 = Nest
+    @ColumnInfo(name = "internalIdentifier")
+    private Integer internalIdentifier;
+
     public Integer getId() {
         return id;
     }
@@ -45,4 +49,10 @@ public class SmartDevice {
     public String toString() {
         return id + ": " + deviceName;
     }
+
+    public Integer getInternalIdentifier() {return internalIdentifier;}
+
+    public void setInternalIdentifier(Integer internalIdentifier) {this.internalIdentifier = internalIdentifier;}
+
+
 }

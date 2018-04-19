@@ -2,15 +2,21 @@ package p8project.sw801.data.model.db;
 
 import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.ForeignKey;
+import android.arch.persistence.room.Index;
 import android.arch.persistence.room.PrimaryKey;
 
-import java.util.Date;
+import static android.arch.persistence.room.ForeignKey.CASCADE;
 
 /**
  * Created by Kasper Helsted on 3/21/2018.
  */
 
-@Entity
+@Entity(indices = {
+        @Index("predefinedLocationId"),
+}, foreignKeys = {
+        @ForeignKey(entity = PredefinedLocation.class, parentColumns = "id", childColumns = "predefinedLocationId", onDelete = CASCADE)
+})
 public class GlobalMute {
     @PrimaryKey(autoGenerate = true)
     private Integer id;
@@ -19,13 +25,27 @@ public class GlobalMute {
     private String name;
 
     @ColumnInfo(name = "startTime")
-    private Date startTime;
+    private Long startTime;
 
     @ColumnInfo(name = "endTime")
-    private Date endTime;
+    private Long endTime;
+
+    @ColumnInfo(name = "predefinedLocationId")
+    private Integer predefinedLocationId;
 
     @ColumnInfo(name = "note")
     private String note;
+
+    public GlobalMute() {
+    }
+
+    public GlobalMute(String name, Long startTime, Long endTime, Integer predefinedLocationId, String note) {
+        this.name = name;
+        this.startTime = startTime;
+        this.endTime = endTime;
+        this.predefinedLocationId = predefinedLocationId;
+        this.note = note;
+    }
 
     public String getName() {
         return name;
@@ -35,19 +55,19 @@ public class GlobalMute {
         this.name = name;
     }
 
-    public Date getStartTime() {
+    public Long getStartTime() {
         return startTime;
     }
 
-    public void setStartTime(Date startTime) {
+    public void setStartTime(Long startTime) {
         this.startTime = startTime;
     }
 
-    public Date getEndTime() {
+    public Long getEndTime() {
         return endTime;
     }
 
-    public void setEndTime(Date endTime) {
+    public void setEndTime(Long endTime) {
         this.endTime = endTime;
     }
 
@@ -65,5 +85,13 @@ public class GlobalMute {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public Integer getPredefinedLocationId() {
+        return predefinedLocationId;
+    }
+
+    public void setPredefinedLocationId(Integer predefinedLocationId) {
+        this.predefinedLocationId = predefinedLocationId;
     }
 }

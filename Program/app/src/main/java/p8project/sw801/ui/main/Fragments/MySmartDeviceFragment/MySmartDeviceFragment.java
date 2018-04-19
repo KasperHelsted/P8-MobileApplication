@@ -1,6 +1,7 @@
 package p8project.sw801.ui.main.Fragments.MySmartDeviceFragment;
 
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -15,8 +16,10 @@ import javax.inject.Inject;
 
 import p8project.sw801.BR;
 import p8project.sw801.R;
+import p8project.sw801.data.model.db.SmartDevice;
 import p8project.sw801.databinding.ActivityMySmartDeviceBinding;
 import p8project.sw801.ui.SmartDevice.AddSmartDevice.AddSmartDeviceActivity;
+import p8project.sw801.ui.SmartDevice.SmartDeviceAdapter;
 import p8project.sw801.ui.base.BaseFragment;
 
 
@@ -28,13 +31,15 @@ public class MySmartDeviceFragment extends BaseFragment<ActivityMySmartDeviceBin
     ArrayList<String> smartDevices;
     //Setup of burger menu
     private ListView listview;
+    ArrayList<SmartDevice> mySmartdevices;
+    View view;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
         mActivityMySmartDeviceBinding  = getViewDataBinding();
-        View view = mActivityMySmartDeviceBinding.getRoot();
+        view = mActivityMySmartDeviceBinding.getRoot();
         mMySmartDeviceFragmentViewModel.setNavigator(this);
         setUp();
         return view;
@@ -45,25 +50,16 @@ public class MySmartDeviceFragment extends BaseFragment<ActivityMySmartDeviceBin
         ImageView add = mActivityMySmartDeviceBinding.imageViewMyeventadd;
         listview = (ListView) mActivityMySmartDeviceBinding.listViewMysmartdevices;
 
-        //------Creation of list of smart devices
-//        UserPreference.getSmartDeviceList(rootView.getContext()).observe(this, new Observer<List<SmartDevice>>() {
-//            @Override
-//            public void onChanged(@Nullable List<SmartDevice> smartDevices) {
-//                SmartDeviceAdapter smartDeviceAdapter = new SmartDeviceAdapter(
-//                        rootView.getContext(),
-//                        smartDevices
-//                );
-//
-//                listview.setAdapter(smartDeviceAdapter);
-//
-//            }
-//        });
+        //------Creation of list of Events
+        mySmartdevices = new ArrayList<>();
+        mySmartdevices.addAll(mMySmartDeviceFragmentViewModel.getSmartDeviceObservableList());
+        if (mySmartdevices == null){
 
-
-        //------Creation of list of smart devices
-
-        //Add new smart device
-
+        }
+        else{
+            SmartDeviceAdapter myAdapter = new SmartDeviceAdapter(view.getContext(), mySmartdevices, MySmartDeviceFragment.this);
+            listview.setAdapter(myAdapter);
+        }
 
     }
 
@@ -77,6 +73,16 @@ public class MySmartDeviceFragment extends BaseFragment<ActivityMySmartDeviceBin
         fragment.setArguments(args);
         return fragment;
     }
+
+    @Override
+    public void updatelist(){
+        setUp();
+    }
+
+    public void deleteSmartDevice(SmartDevice sd){
+        mMySmartDeviceFragmentViewModel.deleteSmartDevice(sd);
+    }
+
 
     @Override
     public int getBindingVariable() {
@@ -93,5 +99,11 @@ public class MySmartDeviceFragment extends BaseFragment<ActivityMySmartDeviceBin
         return mMySmartDeviceFragmentViewModel;
     }
 
-    //TODO add onResume to redraw list after edit
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == Activity.RESULT_OK && requestCode == 1){
+            mMySmartDeviceFragmentViewModel.getListFromDb();
+        }
+    }
 }

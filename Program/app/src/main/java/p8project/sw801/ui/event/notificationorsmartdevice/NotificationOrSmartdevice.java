@@ -3,27 +3,54 @@ package p8project.sw801.ui.event.notificationorsmartdevice;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.EditText;
 
 import javax.inject.Inject;
 
 import p8project.sw801.BR;
 import p8project.sw801.R;
+import p8project.sw801.data.model.db.Trigger;
 import p8project.sw801.databinding.FragmentNotificationOrSmartdeviceBinding;
 import p8project.sw801.ui.base.BaseFragment;
+import p8project.sw801.ui.event.addevent.AddEvent;
 import p8project.sw801.ui.event.addeventsmartdevice.AddEventSmartDevice;
 
 public class NotificationOrSmartdevice extends BaseFragment<FragmentNotificationOrSmartdeviceBinding, NotificationOrSmartdeviceViewModel> implements NotificationOrSmartdeviceNavigator {
 
     @Inject
     NotificationOrSmartdeviceViewModel mNotificationOrSmartdeviceViewModel;
+    private FragmentNotificationOrSmartdeviceBinding mFragmentNotificationOrSmartdeviceBinding;
 
     public static final String TAG = NotificationOrSmartdevice.class.getSimpleName();
 
+    private EditText notification;
+    private AddEvent addEvent;
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        super.onCreateView(inflater, container, savedInstanceState);
+        mFragmentNotificationOrSmartdeviceBinding = getViewDataBinding();
+        View view = mFragmentNotificationOrSmartdeviceBinding.getRoot();
+        mNotificationOrSmartdeviceViewModel.setNavigator(this);
+        addEvent = (AddEvent) getActivity();
+        notification = mFragmentNotificationOrSmartdeviceBinding.editTextNotification;
+        return view;
+    }
+
+    /*
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mNotificationOrSmartdeviceViewModel.setNavigator(this);
+        mFragmentNotificationOrSmartdeviceBinding = getViewDataBinding();
+        notification = mFragmentNotificationOrSmartdeviceBinding.editTextNotification;
+        addEvent = (AddEvent) getActivity();
+
     }
+    */
 
     public static NotificationOrSmartdevice newInstance() {
         Bundle args = new Bundle();
@@ -57,4 +84,15 @@ public class NotificationOrSmartdevice extends BaseFragment<FragmentNotification
         Intent intent = AddEventSmartDevice.newIntent(getContext());
         startActivityForResult(intent, 0);
     }
+
+    @Override
+    public void addNotification() {
+            Trigger t = new Trigger();
+            t.setNotificationText(notification.getText().toString());
+            t.setNotification(false);
+            addEvent.addMyEvents.add(t);
+            addEvent.refreshData();
+            getActivity().getSupportFragmentManager().beginTransaction().remove(NotificationOrSmartdevice.this).commit();
+
+        }
 }
