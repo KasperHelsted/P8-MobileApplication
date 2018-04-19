@@ -20,7 +20,7 @@
         android:layout_height="match_parent">
 
         <android.support.v4.widget.DrawerLayout
-            android:id="@+id/drawerView"
+            android:id="@+id/maindrawermenu"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:fitsSystemWindows="true">
@@ -55,7 +55,7 @@
 
 
             </android.support.design.widget.CoordinatorLayout>
-            <!--Burger menu
+
             <android.support.design.widget.NavigationView
                 android:id="@+id/burgermenu"
                 android:layout_width="wrap_content"
@@ -68,7 +68,6 @@
                 app:menu="@menu/drawermenu">
 
             </android.support.design.widget.NavigationView>
-            -->
         </android.support.v4.widget.DrawerLayout>
     </FrameLayout>
 
