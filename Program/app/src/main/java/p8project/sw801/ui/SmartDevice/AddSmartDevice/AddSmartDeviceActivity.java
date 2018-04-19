@@ -317,14 +317,13 @@ public class AddSmartDeviceActivity extends BaseActivity<ActivityAddSmartDeviceB
     }
 
     @Override
-    public void setupBridges(List<SmartDevice> smartDeviceList) {
+    public void setupBridges(List<HueBridge> smartDeviceList) {
 
+        //TODO TIL TAF HAR ÆNDRET LISTEN SÅ DEN IKKE ER List<SmartDevice> men LIST<HueBridge>
         if (!smartDeviceList.isEmpty()){
-            for (SmartDevice bridge: smartDeviceList){
-                if(bridge.getInternalIdentifier() == 1){
-                    hueBridge = (HueBridge) bridge;
+            for (HueBridge bridge: smartDeviceList){
+                    hueBridge = bridge;
                     break;
-                }
             }
             searchOrConnect();
         }

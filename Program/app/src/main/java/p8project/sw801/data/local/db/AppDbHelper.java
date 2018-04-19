@@ -542,5 +542,16 @@ public class AppDbHelper implements DbHelper {
     }
 
 
+    @Override
+    public Observable<List<HueBridge>> getAllHueBridges(){
+        return Observable.fromCallable(()-> mAppDatabase.accessoriesDao().getAllHueBridges());
+    }
+    @Override
+    public Observable<List<NestHub>> getAllNestHubs(){
+        return Observable.fromCallable(() -> mAppDatabase.accessoriesDao().getAllNestHubs());
+    }
+
+
+
     //</editor-fold>
 }
