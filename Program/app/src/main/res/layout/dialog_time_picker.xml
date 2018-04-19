@@ -44,7 +44,7 @@
                     android:layout_gravity="center"
                     android:hour="@{viewModel.currentHour()}"
                     android:minute="@{viewModel.currentMinute()}"
-                    android:onTimeChanged="@{viewModel.setTime}"
+                    android:onTimeChanged="@{viewModel::setTime}"
                     android:layout_marginTop="20dp" />
             </LinearLayout>
 
