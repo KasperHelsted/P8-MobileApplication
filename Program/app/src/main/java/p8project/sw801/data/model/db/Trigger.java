@@ -6,6 +6,8 @@ import android.arch.persistence.room.ForeignKey;
 import android.arch.persistence.room.Index;
 import android.arch.persistence.room.PrimaryKey;
 
+import io.reactivex.annotations.Nullable;
+
 import static android.arch.persistence.room.ForeignKey.CASCADE;
 
 /**
@@ -24,6 +26,7 @@ public class Trigger {
     private Integer id;
 
     @ColumnInfo(name = "eventId")
+    @Nullable
     private Integer eventId;
 
     @ColumnInfo(name = "smartDeviceId")
@@ -37,6 +40,13 @@ public class Trigger {
 
     @ColumnInfo(name = "notificationText")
     private String notificationText;
+
+    @ColumnInfo(name = "action")
+    private Integer action;
+
+    @ColumnInfo(name = "value")
+    private Integer value;
+
 
     public Integer getId() {
         return id;
@@ -85,4 +95,32 @@ public class Trigger {
     public void setAccessorieId(Integer accessorieId) {
         this.accessorieId = accessorieId;
     }
+
+    /*Actions:
+      1. Turn on light
+      2. Turn off light
+      3. Adjust brightness + value
+      4. Turn on Thermo
+      5. Turn off Thermo
+      6. Adjust temp + value
+      */
+
+
+    public Integer getAction() {
+        return action;
+    }
+
+    public void setAction(Integer action) {
+        this.action = action;
+    }
+
+    public Integer getValue() {
+        return value;
+    }
+
+    public void setValue(Integer value) {
+        this.value = value;
+    }
+
+
 }

@@ -2,6 +2,7 @@ package p8project.sw801.data.model.db.Smartdevice.Controllers;
 
 import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.PrimaryKey;
 
 import p8project.sw801.data.model.db.SmartDevice;
 
@@ -10,7 +11,10 @@ import p8project.sw801.data.model.db.SmartDevice;
  */
 
 @Entity
-public class HueBridge extends SmartDevice {
+public class HueBridge{
+    @PrimaryKey(autoGenerate = true)
+    private Integer id;
+
     @ColumnInfo(name = "deviceIP")
     private String deviceIP;
 
@@ -19,6 +23,9 @@ public class HueBridge extends SmartDevice {
 
     @ColumnInfo(name = "deviceMac")
     private String deviceMac;
+
+    @ColumnInfo(name = "smartDeviceId")
+    private Integer smartDeviceId;
 
     public String getDeviceIP() {
         return deviceIP;
@@ -42,5 +49,20 @@ public class HueBridge extends SmartDevice {
 
     public void setDeviceMac(String deviceMac) {
         this.deviceMac = deviceMac;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+    public Integer getSmartDeviceId() {
+        return smartDeviceId;
+    }
+
+    public void setSmartDeviceId(Integer smartDeviceId) {
+        this.smartDeviceId = smartDeviceId;
     }
 }

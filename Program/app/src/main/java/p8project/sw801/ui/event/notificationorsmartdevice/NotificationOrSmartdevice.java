@@ -1,5 +1,6 @@
 package p8project.sw801.ui.event.notificationorsmartdevice;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -7,6 +8,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+
+import com.google.gson.Gson;
 
 import javax.inject.Inject;
 
@@ -93,6 +96,22 @@ public class NotificationOrSmartdevice extends BaseFragment<FragmentNotification
             addEvent.addMyEvents.add(t);
             addEvent.refreshData();
             getActivity().getSupportFragmentManager().beginTransaction().remove(NotificationOrSmartdevice.this).commit();
+    }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 0) {
+
+            String jsonMyObject ="";
+            Bundle result = data.getExtras();
+            if (result != null) {
+                jsonMyObject = result.getString("key");
+            }
+            Trigger t = new Gson().fromJson(jsonMyObject, Trigger.class);
+            addEvent.addMyEvents.add(t);
+            addEvent.refreshData();
+            getActivity().getSupportFragmentManager().beginTransaction().remove(NotificationOrSmartdevice.this).commit();
         }
+    }
 }
