@@ -1,11 +1,8 @@
 package p8project.sw801.ui.SmartDevice;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
-import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
-import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,12 +12,10 @@ import android.widget.TextView;
 
 import com.google.gson.Gson;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
-import p8project.sw801.data.model.Others.UserPreference;
-import p8project.sw801.data.model.db.SmartDevice;
 import p8project.sw801.R;
+import p8project.sw801.data.model.db.SmartDevice;
 import p8project.sw801.ui.SmartDevice.EditSmartDevice.EditSmartDeviceActivity;
 import p8project.sw801.ui.main.Fragments.MySmartDeviceFragment.MySmartDeviceFragment;
 
@@ -79,7 +74,8 @@ public class SmartDeviceAdapter extends BaseAdapter {
         ImageView edit = row.findViewById(R.id.imageView_mysmartdeviceedit);
         edit.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
+            public void onClick(View view)
+            {
                 Intent intent = new Intent(mContext, EditSmartDeviceActivity.class);
                 intent.putExtra("device", new Gson().toJson(smartDevice));
                 mySmartDeviceFragment.startActivityForResult(intent, 1);

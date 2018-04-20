@@ -8,6 +8,7 @@ import java.util.List;
 
 import p8project.sw801.data.DataManager;
 import p8project.sw801.data.model.db.SmartDevice;
+import p8project.sw801.data.model.db.Smartdevice.Controllers.HueBridge;
 import p8project.sw801.ui.base.BaseViewModel;
 import p8project.sw801.utils.rx.SchedulerProvider;
 
@@ -16,6 +17,7 @@ public class MySmartDeviceFragmentViewModel extends BaseViewModel<MySmartDeviceF
 
     public MySmartDeviceFragmentViewModel(DataManager dataManager, SchedulerProvider schedulerProvider) {
         super(dataManager, schedulerProvider);
+        //temp();
         //getListFromDb();
     }
 
@@ -61,8 +63,11 @@ public class MySmartDeviceFragmentViewModel extends BaseViewModel<MySmartDeviceF
                 ).subscribeOn(getSchedulerProvider().io())
                         .observeOn(getSchedulerProvider().ui())
                         .subscribe(response -> {
-                            if(!response.isEmpty()){
-                                smartDeviceList.addAll(response);
+                            if (response != null) {
+                                if(!response.isEmpty())
+                                {
+                                    smartDeviceList.addAll(response);
+                                }
                             }
                             createSmartdeviceList(smartDeviceList);
                         })
@@ -101,20 +106,21 @@ public class MySmartDeviceFragmentViewModel extends BaseViewModel<MySmartDeviceF
     }
 
     private void temp(){
-
-        SmartDevice e = new SmartDevice();
+        HueBridge e = new HueBridge();
         e.setActive(true);
         e.setDeviceName("Hue");
         e.setInternalIdentifier(1);
+        e.setDeviceIP("192.168.0.1");
+        e.setUsername("taffern");
 
-        SmartDevice r = new SmartDevice();
-        r.setActive(true);
-        r.setDeviceName("Nest");
-        r.setInternalIdentifier(2);
+        //SmartDevice r = new SmartDevice();
+        //r.setActive(true);
+        //r.setDeviceName("Nest");
+        //r.setInternalIdentifier(2);
 
         getCompositeDisposable().add(
                 getDataManager().insertAllSmartDevices(
-                        e,r
+                        e
                 ).subscribeOn(
                         getSchedulerProvider().io()
                 ).subscribe(response -> {

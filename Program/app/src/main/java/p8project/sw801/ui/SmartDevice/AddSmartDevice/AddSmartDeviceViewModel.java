@@ -28,7 +28,7 @@ public class AddSmartDeviceViewModel extends BaseViewModel<AddSmartDeviceNavigat
                 ).subscribeOn(getSchedulerProvider().io())
                         .observeOn(getSchedulerProvider().ui())
                         .subscribe(response -> {
-                            if(!response.isEmpty()){
+                            if(response != null && !response.isEmpty()){
                                 smartDeviceList.addAll(response);
                             }
                             getNavigator().setupBridges(smartDeviceList);
