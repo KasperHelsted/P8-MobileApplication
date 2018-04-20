@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+import com.philips.lighting.hue.listener.PHLightListener;
 import com.philips.lighting.hue.sdk.PHAccessPoint;
 import com.philips.lighting.hue.sdk.PHBridgeSearchManager;
 import com.philips.lighting.hue.sdk.PHHueSDK;
@@ -17,8 +18,11 @@ import com.philips.lighting.hue.sdk.PHSDKListener;
 import com.philips.lighting.model.PHBridge;
 import com.philips.lighting.model.PHHueError;
 import com.philips.lighting.model.PHHueParsingError;
+import com.philips.lighting.model.PHLight;
+import com.philips.lighting.model.PHLightState;
 
 import java.util.List;
+import java.util.Random;
 
 import javax.inject.Inject;
 
@@ -50,6 +54,7 @@ public class AddSmartDeviceActivity extends BaseActivity<ActivityAddSmartDeviceB
     @Inject
     DispatchingAndroidInjector<Fragment> fragmentDispatchingAndroidInjector;
     private ActivityAddSmartDeviceBinding mActivityAddSmartDeviceBinding;
+
 
 
 
@@ -167,6 +172,20 @@ public class AddSmartDeviceActivity extends BaseActivity<ActivityAddSmartDeviceB
                 hueBridge = newHueBridge;
             }
             PHWizardAlertDialog.getInstance().closeProgressDialog();
+            int i = 0;
+            while(i < 10) {
+                PHBridge hbridge = HueUtilities.phHueSDK.getSelectedBridge();
+                List<PHLight> allLights = hbridge.getResourceCache().getAllLights();
+                Random rand = new Random();
+
+                for (PHLight light : allLights) {
+                    PHLightState lightState = new PHLightState();
+                    lightState.setHue(rand.nextInt(65535));
+                    lightState.setBrightness(rand.nextInt(254));
+                    i++;
+                    hbridge.updateLightState(light, lightState, (PHLightListener) listener);
+                }
+            }
             //todo: HVAD SKAL DER SKE NÅR VI HAR FORBUNDET TIL BRIDGEN?
             //startMainActivity();
         }

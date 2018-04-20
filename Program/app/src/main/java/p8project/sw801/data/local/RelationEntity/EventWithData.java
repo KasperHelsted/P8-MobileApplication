@@ -22,4 +22,5 @@ public class EventWithData {
 
     @Relation(parentColumn = "id", entityColumn = "eventId", entity = Trigger.class)
     public List<TriggerWithSmartDevice> triggers;
+
 }

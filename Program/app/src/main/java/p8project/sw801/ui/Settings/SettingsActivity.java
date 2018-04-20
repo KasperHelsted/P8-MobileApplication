@@ -45,15 +45,6 @@ public class SettingsActivity extends AppCompatActivity {
         //--------------------------Burger menu-------------------------------------
 
         //----------------Rest of the code
-        NotificationUtil n = new NotificationUtil(getApplicationContext());
-
-        Button b = findViewById(R.id.buttontesting);
-        b.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                n.CreateNotification("HEY", "CONTENTTETETETET");
-            }
-        });
 
         EditText globalmute = findViewById(R.id.editText_globalmute);
         globalmute.setOnClickListener(new View.OnClickListener() {

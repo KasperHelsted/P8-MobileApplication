@@ -5,6 +5,7 @@ import android.text.Editable;
 import android.util.Log;
 
 import p8project.sw801.data.DataManager;
+import p8project.sw801.data.model.db.Trigger;
 import p8project.sw801.ui.base.BaseViewModel;
 import p8project.sw801.utils.rx.SchedulerProvider;
 
@@ -28,30 +29,27 @@ public class AddEventViewModel extends BaseViewModel<AddEventNavigator> {
     }
 
     public void submitEventClick() {
-
-        /*
-        getCompositeDisposable().add(
-                getDataManager().insertCoordinate(
-                        new Coordinate(0, 0)
-                ).subscribeOn(
-                        getSchedulerProvider().io()
-                ).subscribe(response -> {
-                })
-        );
-
-        getCompositeDisposable().add(
-                getDataManager().getCoordinateCount().subscribeOn(
-                        getSchedulerProvider().io()
-                ).subscribe(coordinateCount -> {
-                    System.out.println(coordinateCount);
-                })
-        );
-        */
+        getNavigator().submitEventClick();
 
     }
 
     public void submitEventToDatabase() {
         //TODO NEED CORRECT PARAMETERS TO PASS TO DB
+    }
+
+
+    public void temp(Trigger t){
+        getCompositeDisposable().add(
+                getDataManager().insertTrigger(t).subscribeOn(
+                        getSchedulerProvider().io()
+                ).observeOn(getSchedulerProvider().ui())
+                        .subscribe(list -> {
+                        })
+        );
+
+
+
+
     }
 
 }

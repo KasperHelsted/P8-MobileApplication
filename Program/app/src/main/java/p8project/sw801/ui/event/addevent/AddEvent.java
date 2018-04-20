@@ -39,6 +39,7 @@ import p8project.sw801.ui.AddEvent.AddEventAdapter;
 import p8project.sw801.ui.base.BaseActivity;
 import p8project.sw801.ui.event.createeventmap.CreateEventMap;
 import p8project.sw801.ui.event.notificationorsmartdevice.NotificationOrSmartdevice;
+import p8project.sw801.utils.NotificationUtil;
 
 
 public class AddEvent extends BaseActivity<ActivityAddEventBinding, AddEventViewModel> implements AddEventNavigator, HasSupportFragmentInjector {
@@ -387,6 +388,25 @@ public class AddEvent extends BaseActivity<ActivityAddEventBinding, AddEventView
 
     @Override
     public void submitEventClick() {
+
+        NotificationUtil n = new NotificationUtil(getApplicationContext());
+        n.CreateNotification("Name", "REHATJAAJ");
+
+        for (Trigger t:addMyEvents) {
+            t.setEventId(1);
+            mAddEventViewModel.temp(t);
+        }
+
+
+
+
+
+
+        //TODO CREATE TEMP METHOD IN VIEWMODEL TO CREATE TRIGGERS, HUELIGHT, HUEBRIDGE, SMARTDEVICE, EVENT FOR TESTING
+        //TODO TEST DATABASE CALL FOR EVENTWITHDATA
+        //TODO TEST TIMEBASEDNOTIFICATIONS CLASS
+
+
 
         /*
         markButton();
