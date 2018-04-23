@@ -9,6 +9,8 @@ public final class HueUtilities {
     public static PHHueSDK phHueSDK;
     public static final String TAG = "NotifyUs";
     private boolean lastSearchWasIPScan = false;
+    public static final String LAST_CONNECTED_USERNAME      = "NotifyUs";
+    public static final String LAST_CONNECTED_IP            = "LastConnectedIP";
 
 
     public static void setupSDK(){
