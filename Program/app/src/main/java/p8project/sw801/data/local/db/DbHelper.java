@@ -4,6 +4,7 @@ package p8project.sw801.data.local.db;
 import java.util.List;
 
 import io.reactivex.Observable;
+import p8project.sw801.data.local.RelationEntity.EventWithData;
 import p8project.sw801.data.model.db.Coordinate;
 import p8project.sw801.data.model.db.Event;
 import p8project.sw801.data.model.db.GlobalMute;
@@ -188,5 +189,10 @@ public interface DbHelper {
     Observable<List<NestHub>> getAllNestHubs();
 
 
+
+    //</editor-fold>
+
+    //<editor-fold desc="EventWithData">
+    Observable<EventWithData> getEventWithData(final Integer id);
     //</editor-fold>
 }

@@ -5,6 +5,7 @@ import android.text.Editable;
 import android.util.Log;
 
 import p8project.sw801.data.DataManager;
+import p8project.sw801.data.local.RelationEntity.EventWithData;
 import p8project.sw801.data.model.db.Trigger;
 import p8project.sw801.ui.base.BaseViewModel;
 import p8project.sw801.utils.rx.SchedulerProvider;
@@ -46,10 +47,16 @@ public class AddEventViewModel extends BaseViewModel<AddEventNavigator> {
                         .subscribe(list -> {
                         })
         );
+    }
 
-
-
-
+    public void geteventwithdata(){
+        getCompositeDisposable().add(
+                getDataManager().getEventWithData(1).subscribeOn(
+                        getSchedulerProvider().io()
+                ).subscribe(event -> {
+                    getNavigator().testerfunction(event);
+                })
+        );
     }
 
 }

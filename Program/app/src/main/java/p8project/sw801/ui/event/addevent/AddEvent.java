@@ -9,6 +9,7 @@ import android.location.Address;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.format.DateFormat;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -24,6 +25,7 @@ import android.widget.ToggleButton;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -33,6 +35,7 @@ import dagger.android.DispatchingAndroidInjector;
 import dagger.android.support.HasSupportFragmentInjector;
 import p8project.sw801.BR;
 import p8project.sw801.R;
+import p8project.sw801.data.local.RelationEntity.EventWithData;
 import p8project.sw801.data.model.db.Trigger;
 import p8project.sw801.databinding.ActivityAddEventBinding;
 import p8project.sw801.ui.AddEvent.AddEventAdapter;
@@ -40,6 +43,7 @@ import p8project.sw801.ui.base.BaseActivity;
 import p8project.sw801.ui.event.createeventmap.CreateEventMap;
 import p8project.sw801.ui.event.notificationorsmartdevice.NotificationOrSmartdevice;
 import p8project.sw801.utils.NotificationUtil;
+import p8project.sw801.utils.TimeBasedNotifications.TimeBasedNotification;
 
 
 public class AddEvent extends BaseActivity<ActivityAddEventBinding, AddEventViewModel> implements AddEventNavigator, HasSupportFragmentInjector {
@@ -389,6 +393,7 @@ public class AddEvent extends BaseActivity<ActivityAddEventBinding, AddEventView
     @Override
     public void submitEventClick() {
 
+        /*
         NotificationUtil n = new NotificationUtil(getApplicationContext());
         n.CreateNotification("Name", "REHATJAAJ");
 
@@ -396,14 +401,11 @@ public class AddEvent extends BaseActivity<ActivityAddEventBinding, AddEventView
             t.setEventId(1);
             mAddEventViewModel.temp(t);
         }
+        */
 
-
-
-
-
-
-        //TODO CREATE TEMP METHOD IN VIEWMODEL TO CREATE TRIGGERS, HUELIGHT, HUEBRIDGE, SMARTDEVICE, EVENT FOR TESTING
-        //TODO TEST DATABASE CALL FOR EVENTWITHDATA
+        mAddEventViewModel.geteventwithdata();
+        //TODO CREATE TEMP METHOD IN VIEWMODEL TO CREATE TRIGGERS, HUELIGHT, HUEBRIDGE, SMARTDEVICE, EVENT FOR TESTING - DONE
+        //TODO TEST DATABASE CALL FOR EVENTWITHDATA - TESTER
         //TODO TEST TIMEBASEDNOTIFICATIONS CLASS
 
 
@@ -422,6 +424,18 @@ public class AddEvent extends BaseActivity<ActivityAddEventBinding, AddEventView
         //Calling Viewmodel Still missing correct parameters
         mAddEventViewModel.submitEventToDatabase();
         */
+    }
+
+    //TODO DELETE THIS TESTER FUNCTION - HOLGER
+    @Override
+    public void testerfunction(EventWithData e){
+
+        TimeBasedNotification t = new TimeBasedNotification(getApplicationContext());
+        Date date = new Date();
+        long time = date.getTime()+ 60000;
+
+        t.setAlarm(time,1,e);
+
     }
 
     private void setupBindings() {

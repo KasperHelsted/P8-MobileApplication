@@ -6,6 +6,7 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 
 import io.reactivex.Observable;
+import p8project.sw801.data.local.RelationEntity.EventWithData;
 import p8project.sw801.data.model.db.Coordinate;
 import p8project.sw801.data.model.db.Event;
 import p8project.sw801.data.model.db.GlobalMute;
@@ -550,7 +551,12 @@ public class AppDbHelper implements DbHelper {
     public Observable<List<NestHub>> getAllNestHubs(){
         return Observable.fromCallable(() -> mAppDatabase.accessoriesDao().getAllNestHubs());
     }
-
+    //</editor-fold>
+    //<editor-fold desc="EventWithData">
+    @Override
+    public Observable<EventWithData> getEventWithData(final Integer id){
+        return Observable.fromCallable(() -> mAppDatabase.eventWithDataDao().getEventWithData(id));
+    }
 
 
     //</editor-fold>

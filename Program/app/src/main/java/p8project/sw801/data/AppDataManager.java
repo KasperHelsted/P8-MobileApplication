@@ -9,6 +9,7 @@ import java.util.List;
 import javax.inject.Inject;
 
 import io.reactivex.Observable;
+import p8project.sw801.data.local.RelationEntity.EventWithData;
 import p8project.sw801.data.local.db.DbHelper;
 import p8project.sw801.data.model.db.Coordinate;
 import p8project.sw801.data.model.db.Event;
@@ -446,7 +447,11 @@ public class AppDataManager implements DataManager {
     public Observable<List<NestHub>> getAllNestHubs(){
         return mDbHelper.getAllNestHubs();
     }
+    //</editor-fold>
 
+    //<editor-fold desc="EventWithData">
+    @Override
+    public Observable<EventWithData> getEventWithData(final Integer id) {return mDbHelper.getEventWithData(id);}
 
 
     //</editor-fold>
