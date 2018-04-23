@@ -11,7 +11,15 @@ import p8project.sw801.data.model.db.Event;
 import p8project.sw801.data.model.db.GlobalMute;
 import p8project.sw801.data.model.db.PredefinedLocation;
 import p8project.sw801.data.model.db.SmartDevice;
+
 import p8project.sw801.data.model.db.Store;
+
+import p8project.sw801.data.model.db.Smartdevice.Accessories.HueLightbulbRGB;
+import p8project.sw801.data.model.db.Smartdevice.Accessories.HueLightbulbWhite;
+import p8project.sw801.data.model.db.Smartdevice.Accessories.NestThermostat;
+import p8project.sw801.data.model.db.Smartdevice.Controllers.HueBridge;
+import p8project.sw801.data.model.db.Smartdevice.Controllers.NestHub;
+
 import p8project.sw801.data.model.db.Trigger;
 import p8project.sw801.data.model.db.When;
 
@@ -144,6 +152,8 @@ public interface DbHelper {
     Observable<Boolean> updateTrigger(final Trigger trigger);
 
     Observable<Boolean> deleteTrigger(final Trigger trigger);
+
+    Observable<List<Trigger>> getTriggersBySmartDeviceId(final Integer id);
     //</editor-fold>
 
     //<editor-fold desc="When">
@@ -165,6 +175,7 @@ public interface DbHelper {
 
     Observable<Boolean> deleteWhen(final When when);
     //</editor-fold>
+
 
     //<editor-fold desc="Chain">
     Observable<List<Chain>> getAllChains();
@@ -207,6 +218,25 @@ public interface DbHelper {
     Observable<Boolean> updateStore(final Store store);
 
     Observable<Boolean> deleteStore(final Store store);
+
+    //<editor-fold desc="Accessories">
+
+    Observable<List<HueLightbulbWhite>> getLightsByBridgeId(final Integer id);
+    Observable<List<HueLightbulbRGB>> getRGBLightsByBridgeId(final Integer id);
+    Observable<List<NestThermostat>> getNestByHubId(final Integer id);
+
+    Observable<Boolean> insertAllHueLights(final HueLightbulbWhite... hueLightbulbWhites);
+    Observable<Boolean> insertHueLight(final HueLightbulbWhite hueLightbulbWhite);
+    Observable<Boolean> insertAllNestThermos(final NestThermostat... nestThermostats);
+    Observable<Boolean> insertNestThermo(final NestThermostat nestThermostat);
+    Observable<Boolean> insertHueBridge(final HueBridge hueBridge);
+    Observable<Boolean> insertNestHub(final NestHub nestHub);
+    Observable<List<HueLightbulbWhite>> getHueLightsBySmartDeviceId(final Integer id);
+    Observable<List<NestThermostat>> getNestThermoBySmartDeviceId(final Integer id);
+    Observable<List<HueBridge>> getAllHueBridges();
+    Observable<List<NestHub>> getAllNestHubs();
+
+
 
     //</editor-fold>
 }

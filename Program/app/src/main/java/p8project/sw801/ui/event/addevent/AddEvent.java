@@ -349,14 +349,16 @@ public class AddEvent extends BaseActivity<ActivityAddEventBinding, AddEventView
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        switch (requestCode) {
-            case (0): {
-                if (resultCode == Activity.RESULT_OK) {
-                    addressBundle = data.getBundleExtra("address");
-                    address = addressBundle.getParcelable("address");
-                    addressTextView.setText(address.getAddressLine(0) + ", " + address.getAddressLine(1) + ", " + address.getAddressLine(2));
+        if (data != null) {
+            switch (requestCode) {
+                case (0): {
+                    if (resultCode == Activity.RESULT_OK) {
+                        addressBundle = data.getBundleExtra("address");
+                        address = addressBundle.getParcelable("address");
+                        addressTextView.setText(address.getAddressLine(0) + ", " + address.getAddressLine(1) + ", " + address.getAddressLine(2));
+                    }
+                    break;
                 }
-                break;
             }
         }
     }
@@ -415,18 +417,5 @@ public class AddEvent extends BaseActivity<ActivityAddEventBinding, AddEventView
         eventName = mActivityAddEventBinding.textInputEventName;
         addEvent = mActivityAddEventBinding.addEventTriggerStatic;
 
-        /*
-        doThis = (LinearLayout) findViewById(R.id.linearLayoutAddEvent);
-        spinner = (Spinner) findViewById(R.id.spinnerWhen);
-        spinnerLocation = (Spinner) findViewById(R.id.spinnerLocation);
-        AtTime = findViewById(R.id.editTextTime);
-        betweenTime = findViewById(R.id.editTextTimeBetween);
-        addressTextView = findViewById(R.id.addLocation);
-        textViewTime = findViewById(R.id.textViewTime);
-        textViewBetweenTime  = findViewById(R.id.textViewBetweenTime);
-        confirm = findViewById(R.id.buttonCreateEvent);
-        eventName = findViewById(R.id.textInputEventName);
-        addEvent = findViewById(R.id.addEventTriggerStatic);
-        */
     }
 }

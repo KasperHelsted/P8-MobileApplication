@@ -8,4 +8,9 @@ public class AddEventNestViewModel extends BaseViewModel<AddEventNestNavigator> 
     public AddEventNestViewModel(DataManager dataManager, SchedulerProvider schedulerProvider) {
         super(dataManager, schedulerProvider);
     }
+
+    public void turnOnClick(){getNavigator().turnOn();}
+    public void turnOffClick(){getNavigator().turnOff();}
+    public void setTempClick(){getNavigator().setTemp();}
+
 }

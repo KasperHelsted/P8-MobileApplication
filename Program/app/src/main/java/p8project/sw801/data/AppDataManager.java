@@ -16,7 +16,14 @@ import p8project.sw801.data.model.db.Event;
 import p8project.sw801.data.model.db.GlobalMute;
 import p8project.sw801.data.model.db.PredefinedLocation;
 import p8project.sw801.data.model.db.SmartDevice;
+
 import p8project.sw801.data.model.db.Store;
+import p8project.sw801.data.model.db.Smartdevice.Accessories.HueLightbulbRGB;
+import p8project.sw801.data.model.db.Smartdevice.Accessories.HueLightbulbWhite;
+import p8project.sw801.data.model.db.Smartdevice.Accessories.NestThermostat;
+import p8project.sw801.data.model.db.Smartdevice.Controllers.HueBridge;
+import p8project.sw801.data.model.db.Smartdevice.Controllers.NestHub;
+
 import p8project.sw801.data.model.db.Trigger;
 import p8project.sw801.data.model.db.When;
 
@@ -331,6 +338,11 @@ public class AppDataManager implements DataManager {
     public Observable<Boolean> deleteTrigger(Trigger trigger) {
         return mDbHelper.deleteTrigger(trigger);
     }
+
+    @Override
+    public Observable<List<Trigger>> getTriggersBySmartDeviceId(Integer id){
+        return mDbHelper.getTriggersBySmartDeviceId(id);
+    }
     //</editor-fold>
 
     //<editor-fold desc="When data manager">
@@ -479,6 +491,72 @@ public class AppDataManager implements DataManager {
         return mDbHelper.deleteStore(store);
     }
     //</editor-fold>
+
+
+    //<editor-fold desc="Accessories">
+
+    @Override
+    public Observable<List<HueLightbulbWhite>> getLightsByBridgeId(final Integer id){
+        return mDbHelper.getLightsByBridgeId(id);
+    }
+    @Override
+    public Observable<List<HueLightbulbRGB>> getRGBLightsByBridgeId(final Integer id){
+        return mDbHelper.getRGBLightsByBridgeId(id);
+    }
+    @Override
+    public Observable<List<NestThermostat>> getNestByHubId(final Integer id){
+        return mDbHelper.getNestByHubId(id);
+    }
+
+    @Override
+    public Observable<Boolean> insertAllHueLights(final HueLightbulbWhite... hueLightbulbWhites){
+        return mDbHelper.insertAllHueLights(hueLightbulbWhites);
+    }
+    @Override
+    public Observable<Boolean> insertHueLight(final HueLightbulbWhite hueLightbulbWhite){
+        return mDbHelper.insertHueLight(hueLightbulbWhite);
+    }
+    @Override
+    public Observable<Boolean> insertAllNestThermos(final NestThermostat... nestThermostats){
+        return mDbHelper.insertAllNestThermos(nestThermostats);
+    }
+    @Override
+    public Observable<Boolean> insertNestThermo(final NestThermostat nestThermostat){
+        return mDbHelper.insertNestThermo(nestThermostat);
+    }
+
+    @Override
+    public Observable<Boolean> insertHueBridge(final HueBridge hueBridge){
+        return mDbHelper.insertHueBridge(hueBridge);
+    }
+    @Override
+    public Observable<Boolean> insertNestHub(final NestHub nestHub){
+        return mDbHelper.insertNestHub(nestHub);
+    }
+
+    @Override
+    public Observable<List<HueLightbulbWhite>> getHueLightsBySmartDeviceId(final Integer id){
+        return mDbHelper.getHueLightsBySmartDeviceId(id);
+    }
+    @Override
+    public Observable<List<NestThermostat>> getNestThermoBySmartDeviceId(final Integer id){
+        return mDbHelper.getNestThermoBySmartDeviceId(id);
+    }
+
+    @Override
+    public Observable<List<HueBridge>> getAllHueBridges(){
+        return mDbHelper.getAllHueBridges();
+    }
+    @Override
+    public Observable<List<NestHub>> getAllNestHubs(){
+        return mDbHelper.getAllNestHubs();
+    }
+
+
+
+    //</editor-fold>
+
+
 
 
 }
