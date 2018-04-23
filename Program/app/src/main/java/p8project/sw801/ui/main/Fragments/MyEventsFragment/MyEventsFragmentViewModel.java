@@ -22,7 +22,7 @@ public class MyEventsFragmentViewModel extends BaseViewModel<MyEventsFragmentNav
     public MyEventsFragmentViewModel(DataManager dataManager, SchedulerProvider schedulerProvider) {
         super(dataManager, schedulerProvider);
 
-        //temp();
+        temp();
         //Creating list to render in view
         getListFromDb();
     }

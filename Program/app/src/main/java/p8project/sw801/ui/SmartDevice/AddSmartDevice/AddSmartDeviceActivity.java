@@ -57,7 +57,6 @@ public class AddSmartDeviceActivity extends BaseActivity<ActivityAddSmartDeviceB
     private HueBridge mhueBridge;
 
 
-
     @Override
     public int getBindingVariable() {
         return BR.viewModel;
@@ -86,9 +85,9 @@ public class AddSmartDeviceActivity extends BaseActivity<ActivityAddSmartDeviceB
         HueUtilities.phHueSDK.connect(lastAccessPoint);
 
 
-
         //setUp();
     }
+
     private PHSDKListener listener = new PHSDKListener() {
         @Override
         public void onAccessPointsFound(List<PHAccessPoint> accessPoint) {
@@ -120,7 +119,7 @@ public class AddSmartDeviceActivity extends BaseActivity<ActivityAddSmartDeviceB
         public void onBridgeConnected(PHBridge b, String username) {
             phHueSDK.setSelectedBridge(b);
             phHueSDK.enableHeartbeat(b, PHHueSDK.HB_INTERVAL);
-            phHueSDK.getLastHeartbeat().put(b.getResourceCache().getBridgeConfiguration() .getIpAddress(), System.currentTimeMillis());
+            phHueSDK.getLastHeartbeat().put(b.getResourceCache().getBridgeConfiguration().getIpAddress(), System.currentTimeMillis());
             mhueBridge.setUsername(username);
             mhueBridge.setDeviceIP(b.getResourceCache().getBridgeConfiguration().getIpAddress());
             PHWizardAlertDialog.getInstance().closeProgressDialog();
@@ -141,7 +140,7 @@ public class AddSmartDeviceActivity extends BaseActivity<ActivityAddSmartDeviceB
                 return;
 
             Log.v(HueUtilities.TAG, "onConnectionResumed" + bridge.getResourceCache().getBridgeConfiguration().getIpAddress());
-            phHueSDK.getLastHeartbeat().put(bridge.getResourceCache().getBridgeConfiguration().getIpAddress(),  System.currentTimeMillis());
+            phHueSDK.getLastHeartbeat().put(bridge.getResourceCache().getBridgeConfiguration().getIpAddress(), System.currentTimeMillis());
             for (int i = 0; i < phHueSDK.getDisconnectedAccessPoint().size(); i++) {
 
                 if (phHueSDK.getDisconnectedAccessPoint().get(i).getIpAddress().equals(bridge.getResourceCache().getBridgeConfiguration().getIpAddress())) {
@@ -165,11 +164,9 @@ public class AddSmartDeviceActivity extends BaseActivity<ActivityAddSmartDeviceB
 
             if (code == PHHueError.NO_CONNECTION) {
                 Log.w(HueUtilities.TAG, "On No Connection");
-            }
-            else if (code == PHHueError.AUTHENTICATION_FAILED || code==PHMessageType.PUSHLINK_AUTHENTICATION_FAILED) {
+            } else if (code == PHHueError.AUTHENTICATION_FAILED || code == PHMessageType.PUSHLINK_AUTHENTICATION_FAILED) {
                 PHWizardAlertDialog.getInstance().closeProgressDialog();
-            }
-            else if (code == PHHueError.BRIDGE_NOT_RESPONDING) {
+            } else if (code == PHHueError.BRIDGE_NOT_RESPONDING) {
                 Log.w(HueUtilities.TAG, "Bridge Not Responding . . . ");
                 PHWizardAlertDialog.getInstance().closeProgressDialog();
                 AddSmartDeviceActivity.this.runOnUiThread(new Runnable() {
@@ -179,16 +176,14 @@ public class AddSmartDeviceActivity extends BaseActivity<ActivityAddSmartDeviceB
                     }
                 });
 
-            }
-            else if (code == PHMessageType.BRIDGE_NOT_FOUND) {
+            } else if (code == PHMessageType.BRIDGE_NOT_FOUND) {
 
                 if (!lastSearchWasIPScan) {  // Perform an IP Scan (backup mechanism) if UPNP and Portal Search fails.
                     phHueSDK = PHHueSDK.getInstance();
                     PHBridgeSearchManager sm = (PHBridgeSearchManager) phHueSDK.getSDKService(PHHueSDK.SEARCH_BRIDGE);
                     sm.search(false, false, true);
-                    lastSearchWasIPScan=true;
-                }
-                else {
+                    lastSearchWasIPScan = true;
+                } else {
                     PHWizardAlertDialog.getInstance().closeProgressDialog();
                     AddSmartDeviceActivity.this.runOnUiThread(new Runnable() {
                         @Override
@@ -204,15 +199,14 @@ public class AddSmartDeviceActivity extends BaseActivity<ActivityAddSmartDeviceB
 
         @Override
         public void onParsingErrors(List<PHHueParsingError> parsingErrorsList) {
-            for (PHHueParsingError parsingError: parsingErrorsList) {
+            for (PHHueParsingError parsingError : parsingErrorsList) {
                 Log.e(HueUtilities.TAG, "ParsingError : " + parsingError.getMessage());
             }
         }
     };
 
 
-        public void setUp()
-    {
+    public void setUp() {
         phHueSDK = PHHueSDK.create();
         mSmartDeviceViewModel.getBridges();
         // Register the PHSDKListener to receive callbacks from the bridge.
@@ -241,13 +235,10 @@ public class AddSmartDeviceActivity extends BaseActivity<ActivityAddSmartDeviceB
         });
 
 
-
     }
 
-    public void searchOrConnect()
-    {
-        if (hueBridge != null && CommonUtils.isNullOrEmpty(hueBridge.getDeviceIP()))
-        {
+    public void searchOrConnect() {
+        if (hueBridge != null && CommonUtils.isNullOrEmpty(hueBridge.getDeviceIP())) {
             PHAccessPoint lastAccessPoint = new PHAccessPoint();
             lastAccessPoint.setIpAddress(hueBridge.getDeviceIP());
             lastAccessPoint.setUsername(hueBridge.getUsername());
@@ -255,13 +246,10 @@ public class AddSmartDeviceActivity extends BaseActivity<ActivityAddSmartDeviceB
                 PHWizardAlertDialog.getInstance().showProgressDialog(R.string.connecting, AddSmartDeviceActivity.this);
                 HueUtilities.phHueSDK.connect(lastAccessPoint);
             }
-        }
-        else
-            {
+        } else {
             doBridgeSearch();
         }
     }
-
 
 
     public void doBridgeSearch() {
@@ -275,14 +263,15 @@ public class AddSmartDeviceActivity extends BaseActivity<ActivityAddSmartDeviceB
     public void startMainActivity() {
         ChangeToSmartDevice();
     }
-    public void ChangeToSmartDevice(){
+
+    public void ChangeToSmartDevice() {
         // Create fragment and give it an argument specifying the article it should show
         MySmartDeviceFragment newFragment = new MySmartDeviceFragment();
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
 
         // Replace whatever is in the fragment_container view with this fragment,
         // and add the transaction to the back stack so the user can navigate back
-        transaction.replace(R.id.homeactivity, newFragment, "Smart" );
+        transaction.replace(R.id.activity_main, newFragment, "Smart");
         transaction.addToBackStack(null);
 
         // Commit the transaction
@@ -294,51 +283,41 @@ public class AddSmartDeviceActivity extends BaseActivity<ActivityAddSmartDeviceB
     }
 
     @Override
-    public AndroidInjector<Fragment> supportFragmentInjector() {
-        return fragmentDispatchingAndroidInjector;
-    }
+    public void searchForBridge() {
+        if (hueBridge != null) {
+            int i = 0;
+            while (i < 10) {
+                PHBridge hbridge = HueUtilities.phHueSDK.getSelectedBridge();
+                List<PHLight> allLights = hbridge.getResourceCache().getAllLights();
+                Random rand = new Random();
 
-    @Override
-    public void handleError(Throwable throwable) {
-
-    }
-    @Override
-    public void searchForBridge(){
-        if (hueBridge != null){
-        int i = 0;
-        while(i < 10) {
-            PHBridge hbridge = HueUtilities.phHueSDK.getSelectedBridge();
-            List<PHLight> allLights = hbridge.getResourceCache().getAllLights();
-            Random rand = new Random();
-
-            for (PHLight light : allLights) {
-                PHLightState lightState = new PHLightState();
-                lightState.setHue(rand.nextInt(65535));
-                lightState.setBrightness(rand.nextInt(254));
-                i++;
-                hbridge.updateLightState(light, lightState, (PHLightListener) listener);
+                for (PHLight light : allLights) {
+                    PHLightState lightState = new PHLightState();
+                    lightState.setHue(rand.nextInt(65535));
+                    lightState.setBrightness(rand.nextInt(254));
+                    i++;
+                    hbridge.updateLightState(light, lightState, (PHLightListener) listener);
+                }
             }
-        }
         }
         setUp();
     }
-
+/*
     @Override
     public void setupBridges(List<SmartDevice> smartDeviceList) {
-        if (smartDeviceList != null && !smartDeviceList.isEmpty()){
-            for (SmartDevice bridge: smartDeviceList)
-            {
-                if(bridge.getInternalIdentifier() == 1){
+        if (smartDeviceList != null && !smartDeviceList.isEmpty()) {
+            for (SmartDevice bridge : smartDeviceList) {
+                if (bridge.getInternalIdentifier() == 1) {
                     //hueBridge = (HueBridge) bridge;
                     //break;
                 }
             }
             searchOrConnect();
-        }
-        else{
+        } else {
             doBridgeSearch();
         }
     }
+*/
     /*
     public PHSDKListener listenerSDK = new PHSDKListener() {
         @Override
@@ -499,4 +478,29 @@ public class AddSmartDeviceActivity extends BaseActivity<ActivityAddSmartDeviceB
         HueUtilities.phHueSDK.connect(accessPoint);
     }
 
+    @Override
+    public AndroidInjector<Fragment> supportFragmentInjector() {
+        return fragmentDispatchingAndroidInjector;
+    }
+
+    @Override
+    public void handleError(Throwable throwable) {
+
+    }
+
+
+    @Override
+    public void setupBridges(List<HueBridge> smartDeviceList) {
+
+        //TODO TIL TAF HAR ÆNDRET LISTEN SÅ DEN IKKE ER List<SmartDevice> men LIST<HueBridge>
+        if (!smartDeviceList.isEmpty()) {
+            for (HueBridge bridge : smartDeviceList) {
+                hueBridge = bridge;
+                break;
+            }
+            searchOrConnect();
+        } else {
+            doBridgeSearch();
+        }
+    }
 }

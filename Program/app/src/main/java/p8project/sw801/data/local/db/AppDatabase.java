@@ -65,4 +65,6 @@ public abstract class AppDatabase extends RoomDatabase {
     public abstract TriggerDao triggerDao();
 
     public abstract WhenDao whenDao();
+
+    public abstract AccessoriesDao accessoriesDao();
 }

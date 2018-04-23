@@ -106,6 +106,7 @@ public class MySmartDeviceFragmentViewModel extends BaseViewModel<MySmartDeviceF
     }
 
     private void temp(){
+        /*
         HueBridge e = new HueBridge();
         e.setActive(true);
         e.setDeviceName("Hue");
@@ -127,7 +128,8 @@ public class MySmartDeviceFragmentViewModel extends BaseViewModel<MySmartDeviceF
                 })
         );
 
+
+
+*/
     }
-
-
 }

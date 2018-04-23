@@ -61,4 +61,7 @@ public abstract class BaseViewModel<N> extends ViewModel {
     public SchedulerProvider getSchedulerProvider() {
         return mSchedulerProvider;
     }
+
+    public void callbackTimePicker(Long l) {
+    }
 }
