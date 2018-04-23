@@ -43,6 +43,7 @@ import p8project.sw801.ui.base.BaseActivity;
 import p8project.sw801.ui.event.createeventmap.CreateEventMap;
 import p8project.sw801.ui.event.notificationorsmartdevice.NotificationOrSmartdevice;
 import p8project.sw801.utils.NotificationUtil;
+import p8project.sw801.utils.ProximityBasedNotifications.ProximityBasedNotifications;
 import p8project.sw801.utils.TimeBasedNotifications.TimeBasedNotification;
 
 
@@ -430,11 +431,22 @@ public class AddEvent extends BaseActivity<ActivityAddEventBinding, AddEventView
     @Override
     public void testerfunction(EventWithData e){
 
+        /* CREATE TIME BASED FUNCTION
+
         TimeBasedNotification t = new TimeBasedNotification(getApplicationContext());
         Date date = new Date();
         long time = date.getTime()+ 60000;
 
         t.setAlarm(time,1,e);
+        */
+
+        //Address a = address;
+        //a.setLatitude(56.6863);
+        //a.setLongitude(10.1406);
+
+
+        ProximityBasedNotifications p = new ProximityBasedNotifications(getApplicationContext());
+        p.createProximityNotification(address,1,e);
 
     }
 
