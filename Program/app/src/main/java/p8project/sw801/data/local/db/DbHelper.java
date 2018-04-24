@@ -1,6 +1,8 @@
 package p8project.sw801.data.local.db;
 
 
+import android.databinding.ObservableArrayList;
+
 import java.util.List;
 
 import io.reactivex.Observable;
@@ -61,6 +63,8 @@ public interface DbHelper {
     Observable<Integer> getEventCount();
 
     Observable<Boolean> isEventEmpty();
+
+    Observable<Event> getLastEvent();
 
     Observable<Boolean> insertEvent(final Event event);
 
@@ -146,7 +150,7 @@ public interface DbHelper {
 
     Observable<Boolean> insertTrigger(final Trigger trigger);
 
-    Observable<Boolean> insertAllTriggers(final Trigger... triggers);
+    Observable<Boolean> insertAllTriggers(final List<Trigger> triggers);
 
     Observable<Boolean> updateTrigger(final Trigger trigger);
 

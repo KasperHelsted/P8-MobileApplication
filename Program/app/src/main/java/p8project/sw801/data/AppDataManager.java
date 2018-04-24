@@ -138,6 +138,11 @@ public class AppDataManager implements DataManager {
     }
 
     @Override
+    public Observable<Event> getLastEvent() {
+        return mDbHelper.getLastEvent();
+    }
+
+    @Override
     public Observable<Boolean> updateEvent(Event event) {
         return mDbHelper.updateEvent(event);
     }
@@ -326,7 +331,7 @@ public class AppDataManager implements DataManager {
     }
 
     @Override
-    public Observable<Boolean> insertAllTriggers(Trigger... triggers) {
+    public Observable<Boolean> insertAllTriggers(List<Trigger> triggers) {
         return mDbHelper.insertAllTriggers(triggers);
     }
 
