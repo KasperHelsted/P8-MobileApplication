@@ -3,6 +3,7 @@ package p8project.sw801.data.local.RelationEntity;
 import android.arch.persistence.room.Embedded;
 import android.arch.persistence.room.Relation;
 
+import java.util.List;
 import java.util.Set;
 
 import p8project.sw801.data.model.db.Coordinate;
@@ -17,5 +18,5 @@ public class WhenWithCoordinate {
     public When when;
 
     @Relation(parentColumn = "coordinateId", entityColumn = "id", entity = Coordinate.class)
-    public Set<Coordinate> coordinate;
+    public List<Coordinate> coordinate;
 }

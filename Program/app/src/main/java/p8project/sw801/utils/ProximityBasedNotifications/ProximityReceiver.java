@@ -15,6 +15,7 @@ import java.util.List;
 
 import p8project.sw801.data.local.RelationEntity.EventWithData;
 import p8project.sw801.data.local.RelationEntity.TriggerWithSmartDevice;
+import p8project.sw801.data.local.RelationEntity.WhenWithCoordinate;
 import p8project.sw801.data.model.db.Trigger;
 import p8project.sw801.data.model.db.When;
 import p8project.sw801.utils.NotificationUtil;
@@ -41,16 +42,17 @@ public class ProximityReceiver extends BroadcastReceiver {
         }
         EventWithData eventWithData = new Gson().fromJson(jsonMyObject, EventWithData.class);
         List<TriggerWithSmartDevice> triggerWithSmartDevices = eventWithData.triggers;
+        WhenWithCoordinate whenWithCoordinate = eventWithData.whens.get(0);
+        When when = whenWithCoordinate.when;
 
 
-        //TODO CHECK WHENS FOR ENTERING OR LEAVING
-        if (entering && !posted) {
+        if (when.getLocationCondition() != 0 && when.getLocationCondition() != 3 && entering && !posted) {
             Log.i("PROXIMITY", "Entering");
             posted = true;
             for (TriggerWithSmartDevice t : triggerWithSmartDevices) {
                 triggerFunction(t.trigger, eventWithData.event.getName());
             }
-        } else if(!entering && !posted) {
+        } else if(when.getLocationCondition() == 3 && !entering && !posted) {
             posted = true;
             Log.i("PROXIMITY", "Leaving");
             for (TriggerWithSmartDevice t : triggerWithSmartDevices) {

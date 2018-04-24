@@ -14,7 +14,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 import p8project.sw801.data.local.RelationEntity.EventWithData;
-
+import p8project.sw801.data.model.db.Coordinate;
 
 
 public class ProximityBasedNotifications {
@@ -27,7 +27,7 @@ public class ProximityBasedNotifications {
         locationManager = (LocationManager) mContext.getSystemService(Context.LOCATION_SERVICE);
     }
 
-    public void createProximityNotification(Address address, int requestCode, EventWithData eventWithData) {
+    public void createProximityNotification(Coordinate coordinate, int requestCode, EventWithData eventWithData) {
 
         Integer radius = 500;
 
@@ -48,7 +48,7 @@ public class ProximityBasedNotifications {
             return;
         }
         else{
-            locationManager.addProximityAlert(address.getLatitude(), address.getLongitude(), radius, -1, pendingIntent);
+            locationManager.addProximityAlert(coordinate.getLatitude(), coordinate.getLongitude(), radius, -1, pendingIntent);
         }
 
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ", Locale.US);
