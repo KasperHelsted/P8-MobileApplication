@@ -6,11 +6,15 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 
 import io.reactivex.Observable;
+
+import p8project.sw801.data.local.RelationEntity.EventWithData;
+import p8project.sw801.data.model.db.Chain;
 import p8project.sw801.data.model.db.Coordinate;
 import p8project.sw801.data.model.db.Event;
 import p8project.sw801.data.model.db.GlobalMute;
 import p8project.sw801.data.model.db.PredefinedLocation;
 import p8project.sw801.data.model.db.SmartDevice;
+import p8project.sw801.data.model.db.Store;
 import p8project.sw801.data.model.db.Smartdevice.Accessories.HueLightbulbRGB;
 import p8project.sw801.data.model.db.Smartdevice.Accessories.HueLightbulbWhite;
 import p8project.sw801.data.model.db.Smartdevice.Accessories.NestThermostat;
@@ -468,6 +472,129 @@ public class AppDbHelper implements DbHelper {
             return true;
         });
     }
+
+    //<editor-fold desc="Start Chain helper">
+    @Override
+    public Observable<List<Chain>> getAllChains() {
+        return Observable.fromCallable(() -> mAppDatabase.chainDao().getAll());
+    }
+
+    @Override
+    public Observable<Integer> getChainCount() {
+        return Observable.fromCallable(() -> mAppDatabase.chainDao().count());
+    }
+
+    @Override
+    public Observable<List<Chain>> getActiveChains() {
+        return Observable.fromCallable(() -> mAppDatabase.chainDao().getActiveChains());
+    }
+
+    @Override
+    public Observable<List<Chain>> getChainsByIds(Integer[] ids) {
+        return Observable.fromCallable(()-> mAppDatabase.chainDao().loadAllByIds(ids));
+    }
+
+    @Override
+    public Observable<Chain> getChainById(Integer id) {
+        return Observable.fromCallable(()-> mAppDatabase.chainDao().loadById(id));
+    }
+
+    @Override
+    public Observable<Boolean> insertAllChains(List<Chain> chains) {
+        return Observable.fromCallable(()-> {
+            mAppDatabase.chainDao().insertAll(chains);
+            return true;
+        });
+    }
+
+    @Override
+    public Observable<Boolean> insertChain(Chain chain) {
+        return Observable.fromCallable(()-> {
+            mAppDatabase.chainDao().insert(chain);
+            return true;
+        });
+    }
+
+    @Override
+    public Observable<Boolean> updateChain(Chain chain) {
+        return Observable.fromCallable(()-> {
+            mAppDatabase.chainDao().update(chain);
+            return true;
+        });
+    }
+
+    @Override
+    public Observable<Boolean> deleteChain(Chain chain) {
+        return Observable.fromCallable(()-> {
+            mAppDatabase.chainDao().delete(chain);
+            return true;
+        });
+    }
+
+    //</editor-fold>
+
+    //<editor-fold desc="Start Store helper">
+    @Override
+    public Observable<List<Store>> getAllStores() {
+        return Observable.fromCallable(()-> mAppDatabase.storeDao().getAll());
+    }
+
+    @Override
+    public Observable<Integer> getStoreCount() {
+        return Observable.fromCallable(()-> mAppDatabase.storeDao().count());
+    }
+
+    @Override
+    public Observable<List<Store>> getStoresByIds(Integer[] ids) {
+        return Observable.fromCallable(()-> mAppDatabase.storeDao().loadAllByIds(ids));
+    }
+
+    @Override
+    public Observable<List<Store>> getFavoriteStores() {
+        return Observable.fromCallable(()-> mAppDatabase.storeDao().getFavoriteStores());
+    }
+
+    @Override
+    public Observable<Store> getStoreByName(String storeName) {
+        return Observable.fromCallable(()-> mAppDatabase.storeDao().getStoreByName(storeName));
+    }
+
+    @Override
+    public Observable<Store> getStoreById(Integer id) {
+        return Observable.fromCallable(()-> mAppDatabase.storeDao().loadById(id));
+    }
+
+    @Override
+    public Observable<Boolean> insertAllStores(Store... stores) {
+        return Observable.fromCallable(()-> {
+            mAppDatabase.storeDao().insertAll(stores);
+            return true;
+        });
+    }
+
+    @Override
+    public Observable<Boolean> insertStore(Store store) {
+        return Observable.fromCallable(()-> {
+            mAppDatabase.storeDao().insert(store);
+            return true;
+        });
+    }
+
+    @Override
+    public Observable<Boolean> updateStore(Store store) {
+        return Observable.fromCallable(()-> {
+            mAppDatabase.storeDao().update(store);
+            return true;
+        });
+    }
+
+    @Override
+    public Observable<Boolean> deleteStore(Store store) {
+        return Observable.fromCallable(()-> {
+            mAppDatabase.storeDao().delete(store);
+            return true;
+        });
+    }
     //</editor-fold>
 
     //<editor-fold desc="Accessories">
@@ -550,7 +677,12 @@ public class AppDbHelper implements DbHelper {
     public Observable<List<NestHub>> getAllNestHubs(){
         return Observable.fromCallable(() -> mAppDatabase.accessoriesDao().getAllNestHubs());
     }
-
+    //</editor-fold>
+    //<editor-fold desc="EventWithData">
+    @Override
+    public Observable<EventWithData> getEventWithData(final Integer id){
+        return Observable.fromCallable(() -> mAppDatabase.eventWithDataDao().getEventWithData(id));
+    }
 
 
     //</editor-fold>

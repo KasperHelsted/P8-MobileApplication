@@ -5,6 +5,14 @@ import android.text.Editable;
 import android.util.Log;
 
 import p8project.sw801.data.DataManager;
+import p8project.sw801.data.local.RelationEntity.EventWithData;
+import p8project.sw801.data.model.db.Event;
+import p8project.sw801.data.model.db.SmartDevice;
+import p8project.sw801.data.model.db.Smartdevice.Accessories.HueLightbulbWhite;
+import p8project.sw801.data.model.db.Smartdevice.Accessories.NestThermostat;
+import p8project.sw801.data.model.db.Smartdevice.Controllers.HueBridge;
+import p8project.sw801.data.model.db.Smartdevice.Controllers.NestHub;
+import p8project.sw801.data.model.db.Trigger;
 import p8project.sw801.ui.base.BaseViewModel;
 import p8project.sw801.utils.rx.SchedulerProvider;
 
@@ -13,6 +21,7 @@ public class AddEventViewModel extends BaseViewModel<AddEventNavigator> {
 
     public AddEventViewModel(DataManager dataManager, SchedulerProvider schedulerProvider) {
         super(dataManager, schedulerProvider);
+        //tempAddEvent();
     }
 
     public void showMapActivity() {
@@ -28,30 +37,173 @@ public class AddEventViewModel extends BaseViewModel<AddEventNavigator> {
     }
 
     public void submitEventClick() {
-
-        /*
-        getCompositeDisposable().add(
-                getDataManager().insertCoordinate(
-                        new Coordinate(0, 0)
-                ).subscribeOn(
-                        getSchedulerProvider().io()
-                ).subscribe(response -> {
-                })
-        );
-
-        getCompositeDisposable().add(
-                getDataManager().getCoordinateCount().subscribeOn(
-                        getSchedulerProvider().io()
-                ).subscribe(coordinateCount -> {
-                    System.out.println(coordinateCount);
-                })
-        );
-        */
+        getNavigator().submitEventClick();
 
     }
 
     public void submitEventToDatabase() {
         //TODO NEED CORRECT PARAMETERS TO PASS TO DB
+    }
+
+
+    public void temp(Trigger t){
+        getCompositeDisposable().add(
+                getDataManager().insertTrigger(t).subscribeOn(
+                        getSchedulerProvider().io()
+                ).observeOn(getSchedulerProvider().ui())
+                        .subscribe(list -> {
+                        })
+        );
+    }
+
+    public void geteventwithdata(){
+        getCompositeDisposable().add(
+                getDataManager().getEventWithData(1).subscribeOn(
+                        getSchedulerProvider().io()
+                ).subscribe(event -> {
+                    getNavigator().testerfunction(event);
+                })
+        );
+    }
+
+    private void tempAddEvent(){
+
+        Event e = new Event();
+        e.setName("1");
+        e.setAlarmId("1");
+        e.setIntentId("1");
+        e.setActive(false);
+
+        Event r = new Event();
+        r.setName("2");
+        r.setAlarmId("2");
+        r.setIntentId("2");
+        r.setActive(true);
+
+
+
+        getCompositeDisposable().add(
+                getDataManager().insertAllEvents(
+                        e,r
+                ).subscribeOn(
+                        getSchedulerProvider().io()
+                ).subscribe(response -> {
+                    tempAddSmartDevice();
+                })
+        );
+
+    }
+
+    private void tempAddSmartDevice(){
+
+        SmartDevice e = new SmartDevice();
+        e.setActive(true);
+        e.setDeviceName("Hue");
+        e.setInternalIdentifier(1);
+
+        SmartDevice r = new SmartDevice();
+        r.setActive(true);
+        r.setDeviceName("Nest");
+        r.setInternalIdentifier(2);
+
+        getCompositeDisposable().add(
+                getDataManager().insertAllSmartDevices(
+                        e,r
+                ).subscribeOn(
+                        getSchedulerProvider().io()
+                ).subscribe(response -> {
+                    Log.i("SmartDevice", "Smart devices inserted");
+                    tempHAN();
+                })
+        );
+
+    }
+
+    private void temphue(){
+
+
+        HueLightbulbWhite e = new HueLightbulbWhite();
+        e.setDeviceName("Kitchen");
+        e.setHueBridgeId(1);
+        e.setDeviceId(1);
+        e.setSmartDeviceId(1);
+        HueLightbulbWhite r = new HueLightbulbWhite();
+        r.setDeviceName("Living Room");
+        r.setHueBridgeId(1);
+        r.setDeviceId(2);
+        r.setSmartDeviceId(1);
+
+        getCompositeDisposable().add(
+                getDataManager().insertAllHueLights(
+                        e,r
+                ).subscribeOn(
+                        getSchedulerProvider().io()
+                ).subscribe(response -> {
+                })
+        );
+    }
+
+    private void tempNest(){
+        NestThermostat t = new NestThermostat();
+        t.setName("Kitchen term");
+        t.setNestHubId(1);
+        t.setDeviceId("12321");
+        t.setSmartDeviceId(2);
+        NestThermostat y = new NestThermostat();
+        y.setName("Living room term");
+        y.setNestHubId(1);
+        y.setDeviceId("123344");
+        y.setSmartDeviceId(2);
+
+        getCompositeDisposable().add(
+                getDataManager().insertAllNestThermos(
+                        t,y
+                ).subscribeOn(
+                        getSchedulerProvider().io()
+                ).subscribe(response -> {
+                    Log.i("NEST THERMO", "NEST THERMO INSERTED");
+                })
+        );
+    }
+
+    private void tempHAN(){
+
+        HueBridge h = new HueBridge();
+        NestHub n = new NestHub();
+
+        h.setDeviceIP("192.167.0.1");
+        h.setDeviceMac("123456789");
+        h.setDeviceToken("123456789");
+        h.setSmartDeviceId(1);
+
+        n.setBearerToken("123745782345yfgvgyfvdfwtyfys");
+        n.setSmartDeviceId(2);
+
+
+
+
+        getCompositeDisposable().add(
+                getDataManager().insertNestHub(
+                        n
+                ).subscribeOn(
+                        getSchedulerProvider().io()
+                ).subscribe(response -> {
+                    Log.i("nest", "NEST INSERTED");
+                    tempNest();
+                })
+        );
+
+        getCompositeDisposable().add(
+                getDataManager().insertHueBridge(
+                        h
+                ).subscribeOn(
+                        getSchedulerProvider().io()
+                ).subscribe(response -> {
+                    Log.i("Hue", "HUE INSERTED");
+                    temphue();
+                })
+        );
+
     }
 
 }

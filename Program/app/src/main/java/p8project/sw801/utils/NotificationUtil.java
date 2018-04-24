@@ -78,7 +78,7 @@ public class NotificationUtil extends ContextWrapper {
     }
 
     //SDK >= 26
-    public void createChannels() {
+    private void createChannels() {
         // create android channel
         NotificationChannel androidChannel = new NotificationChannel(ANDROID_CHANNEL_ID,
                 ANDROID_CHANNEL_NAME, NotificationManager.IMPORTANCE_DEFAULT);
