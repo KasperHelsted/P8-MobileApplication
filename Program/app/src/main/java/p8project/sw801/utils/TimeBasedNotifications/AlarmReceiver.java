@@ -34,10 +34,6 @@ public class AlarmReceiver extends BroadcastReceiver {
         //TODO CHECK WHEN AND CREATE PROXI IF NEEDED ELSE TRIGGER SMART DEVICES
 
 
-
-
-
-
         NotificationUtil n = new NotificationUtil(context);
         n.CreateNotification("TIME", "ALARM SOMETHING HEHRHERHERHERHEHR");
         Toast.makeText(context, "Alarm received!", Toast.LENGTH_LONG).show();

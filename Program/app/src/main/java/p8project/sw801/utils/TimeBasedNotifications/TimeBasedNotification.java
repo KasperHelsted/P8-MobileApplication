@@ -16,7 +16,10 @@ import java.util.List;
 import java.util.Locale;
 
 import p8project.sw801.data.local.RelationEntity.EventWithData;
+import p8project.sw801.data.local.RelationEntity.TriggerWithSmartDevice;
+import p8project.sw801.data.local.RelationEntity.WhenWithCoordinate;
 import p8project.sw801.data.model.db.Trigger;
+import p8project.sw801.data.model.db.When;
 
 public class TimeBasedNotification {
 
@@ -32,31 +35,32 @@ public class TimeBasedNotification {
     /**
      * Creates a new alarm and add it to the alarm manager
      * @param alarmTime
-     * @param requestcode
      * @param eventWithData
      */
-    public void setAlarm(long alarmTime, int requestcode, EventWithData eventWithData){
+    public void setAlarm(long alarmTime, EventWithData eventWithData){
+
+        WhenWithCoordinate whenWithCoordinate = eventWithData.whens.get(0);
+        When when = whenWithCoordinate.when;
+
+
         Intent intent = new Intent(mContext, AlarmReceiver.class);
         intent.putExtra("eventWithDate", new Gson().toJson(eventWithData));
 
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(mContext, requestcode, intent, 0);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(mContext, eventWithData.event.getId(), intent, 0);
         alarmManager.set(AlarmManager.RTC_WAKEUP, alarmTime, pendingIntent);
 
 
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ", Locale.US);
-        Log.i("Alarm", "Alarm set for: " + sdf.format(new Date(alarmTime)));
     }
 
     /**
      * Deletes an alarm from the alarm manager
-     * @param requestcode
      * @param eventWithData
      */
-    public void cancelAlarm(int requestcode, EventWithData eventWithData){
+    public void cancelAlarm(EventWithData eventWithData){
         Intent intent = new Intent(mContext, AlarmReceiver.class);
         intent.putExtra("eventWithDate", new Gson().toJson(eventWithData));
 
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(mContext, requestcode, intent, 0);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(mContext, eventWithData.event.getId(), intent, 0);
         alarmManager.cancel(pendingIntent);
 
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ", Locale.US);
