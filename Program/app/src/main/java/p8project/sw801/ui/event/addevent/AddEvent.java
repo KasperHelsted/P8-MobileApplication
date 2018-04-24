@@ -36,7 +36,9 @@ import dagger.android.support.HasSupportFragmentInjector;
 import p8project.sw801.BR;
 import p8project.sw801.R;
 import p8project.sw801.data.local.RelationEntity.EventWithData;
+import p8project.sw801.data.model.db.Event;
 import p8project.sw801.data.model.db.Trigger;
+import p8project.sw801.data.model.db.When;
 import p8project.sw801.databinding.ActivityAddEventBinding;
 import p8project.sw801.ui.AddEvent.AddEventAdapter;
 import p8project.sw801.ui.base.BaseActivity;
@@ -72,6 +74,8 @@ public class AddEvent extends BaseActivity<ActivityAddEventBinding, AddEventView
     private LinearLayout doThis;
     private Spinner spinner;
     private Spinner spinnerLocation;
+    private Event newEvent;
+    private When newWhen;
 
 
     @Override
@@ -207,6 +211,8 @@ public class AddEvent extends BaseActivity<ActivityAddEventBinding, AddEventView
             }
 
         });
+
+
     }
 
     @Override
@@ -404,7 +410,17 @@ public class AddEvent extends BaseActivity<ActivityAddEventBinding, AddEventView
         }
         */
 
-        mAddEventViewModel.geteventwithdata();
+
+        newEvent.setName(eventName.toString());
+        newEvent.setActive(true);
+
+        newWhen.setStartTime(AtTime.getDrawingTime());
+
+
+
+        mAddEventViewModel.submitEventToDatabase(newEvent,newWhen,addMyEvents);
+
+  //      mAddEventViewModel.geteventwithdata();
         //TODO CREATE TEMP METHOD IN VIEWMODEL TO CREATE TRIGGERS, HUELIGHT, HUEBRIDGE, SMARTDEVICE, EVENT FOR TESTING - DONE
         //TODO TEST DATABASE CALL FOR EVENTWITHDATA - TESTER
         //TODO TEST TIMEBASEDNOTIFICATIONS CLASS
@@ -448,6 +464,12 @@ public class AddEvent extends BaseActivity<ActivityAddEventBinding, AddEventView
         ProximityBasedNotifications p = new ProximityBasedNotifications(getApplicationContext());
         p.createProximityNotification(address,1,e);
 
+    }
+
+    @Override
+    public void submitEventToDatabase(Event event, When when, List<Trigger> trigList) {
+
+        mAddEventViewModel.submitEventToDatabase(event,when,trigList);
     }
 
     private void setupBindings() {

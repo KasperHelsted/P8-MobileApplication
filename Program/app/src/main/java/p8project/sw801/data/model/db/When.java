@@ -40,7 +40,7 @@ public class When {
     @ColumnInfo(name = "locationCondition")
     private Integer locationCondition;
     @ColumnInfo(name = "weekdays")
-    private List<Integer> weekdays;
+    private Integer weekdays;
     @ColumnInfo(name = "date")
     private Date date;
     @ColumnInfo(name = "startTime")
@@ -76,12 +76,12 @@ public class When {
         this.locationCondition = locationCondition;
     }
 
-    public List<Integer> getWeekdays() {
+    public Integer getWeekdays() {
         return weekdays;
     }
 
 
-    public void setWeekdays(List<Integer> weekdays) {
+    public void setWeekdays(Integer weekdays) {
         this.weekdays = weekdays;
     }
 

@@ -1,6 +1,9 @@
 package p8project.sw801.ui.event.addevent;
 
+import android.databinding.ObservableArrayList;
 import android.databinding.ObservableField;
+import android.databinding.ObservableInt;
+import android.databinding.ObservableList;
 import android.text.Editable;
 import android.util.Log;
 
@@ -9,21 +12,25 @@ import java.util.List;
 import p8project.sw801.data.DataManager;
 import p8project.sw801.data.local.RelationEntity.EventWithData;
 import p8project.sw801.data.model.db.Event;
+import p8project.sw801.data.model.db.PredefinedLocation;
 import p8project.sw801.data.model.db.SmartDevice;
 import p8project.sw801.data.model.db.Smartdevice.Accessories.HueLightbulbWhite;
 import p8project.sw801.data.model.db.Smartdevice.Accessories.NestThermostat;
 import p8project.sw801.data.model.db.Smartdevice.Controllers.HueBridge;
 import p8project.sw801.data.model.db.Smartdevice.Controllers.NestHub;
 import p8project.sw801.data.model.db.Trigger;
+import p8project.sw801.data.model.db.When;
 import p8project.sw801.ui.base.BaseViewModel;
 import p8project.sw801.utils.rx.SchedulerProvider;
 
 public class AddEventViewModel extends BaseViewModel<AddEventNavigator> {
 
 
+
     public AddEventViewModel(DataManager dataManager, SchedulerProvider schedulerProvider) {
         super(dataManager, schedulerProvider);
         //tempAddEvent();
+
     }
 
     public void showMapActivity() {
@@ -43,9 +50,9 @@ public class AddEventViewModel extends BaseViewModel<AddEventNavigator> {
 
     }
 
-    public void submitEventToDatabase(Event event, List<Trigger> trigList) {
+    public void submitEventToDatabase(Event event, When when, List<Trigger> trigList) {
         //TODO NEED CORRECT PARAMETERS TO PASS TO DB
-        List<Trigger> tList = trigList;
+
         Event eventId = new Event();
 
         // Save Event to DB
@@ -63,6 +70,7 @@ public class AddEventViewModel extends BaseViewModel<AddEventNavigator> {
                         .subscribe(response -> {
                             eventId.setId(response.getId());
                             saveTriggers(trigList, eventId);
+                            saveWhen(when, eventId);
                         })
         );
 
@@ -86,6 +94,16 @@ public class AddEventViewModel extends BaseViewModel<AddEventNavigator> {
         );
     }
 
+    public void saveWhen(When when, Event eventId)
+    {
+        when.setEventId(eventId.getId());
+        getCompositeDisposable().add(
+                getDataManager().insertWhen(when).subscribeOn(
+                        getSchedulerProvider().io()
+                ).observeOn(getSchedulerProvider().ui())
+                        .subscribe()
+        );
+    }
 
     public void temp(Trigger t){
         getCompositeDisposable().add(
