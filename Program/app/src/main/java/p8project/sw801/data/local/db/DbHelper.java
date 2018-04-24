@@ -4,12 +4,16 @@ package p8project.sw801.data.local.db;
 import java.util.List;
 
 import io.reactivex.Observable;
+
 import p8project.sw801.data.local.RelationEntity.EventWithData;
+import io.reactivex.internal.operators.observable.ObservableError;
+import p8project.sw801.data.model.db.Chain;
 import p8project.sw801.data.model.db.Coordinate;
 import p8project.sw801.data.model.db.Event;
 import p8project.sw801.data.model.db.GlobalMute;
 import p8project.sw801.data.model.db.PredefinedLocation;
 import p8project.sw801.data.model.db.SmartDevice;
+import p8project.sw801.data.model.db.Store;
 import p8project.sw801.data.model.db.Smartdevice.Accessories.HueLightbulbRGB;
 import p8project.sw801.data.model.db.Smartdevice.Accessories.HueLightbulbWhite;
 import p8project.sw801.data.model.db.Smartdevice.Accessories.NestThermostat;
@@ -171,6 +175,49 @@ public interface DbHelper {
     Observable<Boolean> deleteWhen(final When when);
     //</editor-fold>
 
+
+    //<editor-fold desc="Chain">
+    Observable<List<Chain>> getAllChains();
+
+    Observable<Integer> getChainCount();
+
+    Observable<List<Chain>> getActiveChains();
+
+    Observable<List<Chain>> getChainsByIds(final Integer[] ids);
+
+    Observable<Chain> getChainById(final Integer id);
+
+    Observable<Boolean> insertAllChains(final List<Chain> chains);
+
+    Observable<Boolean> insertChain(final Chain chain);
+
+    Observable<Boolean> updateChain(final Chain chain);
+
+    Observable<Boolean> deleteChain(final Chain chain);
+
+    //</editor-fold>
+
+    //<editor-fold desc="Store">
+    Observable<List<Store>> getAllStores();
+
+    Observable<Integer> getStoreCount();
+
+    Observable<List<Store>> getStoresByIds(final Integer[] ids);
+
+    Observable<List<Store>> getFavoriteStores();
+
+    Observable<Store> getStoreByName(final String storeName);
+
+    Observable<Store> getStoreById(final Integer id);
+
+    Observable<Boolean> insertAllStores(final Store... stores);
+
+    Observable<Boolean> insertStore(final Store store);
+
+    Observable<Boolean> updateStore(final Store store);
+
+    Observable<Boolean> deleteStore(final Store store);
+
     //<editor-fold desc="Accessories">
 
     Observable<List<HueLightbulbWhite>> getLightsByBridgeId(final Integer id);
@@ -190,9 +237,12 @@ public interface DbHelper {
 
 
 
+<<<<<<< HEAD
     //</editor-fold>
 
     //<editor-fold desc="EventWithData">
     Observable<EventWithData> getEventWithData(final Integer id);
+=======
+>>>>>>> master
     //</editor-fold>
 }
