@@ -28,6 +28,9 @@ public interface EventDao {
     @Query("SELECT COUNT(*) from event")
     Integer count();
 
+    @Query("SELECT * FROM event ORDER BY event.id DESC LIMIT 1")
+    Event getLastEvent();
+
     @Insert
     void insertAll(Event... events);
 

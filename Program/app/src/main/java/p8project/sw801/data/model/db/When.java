@@ -7,6 +7,7 @@ import android.arch.persistence.room.Index;
 import android.arch.persistence.room.PrimaryKey;
 
 import java.util.Date;
+import java.util.List;
 
 import static android.arch.persistence.room.ForeignKey.CASCADE;
 
@@ -34,20 +35,55 @@ public class When {
     @ColumnInfo(name = "radius")
     private Integer radius;
 
-    @ColumnInfo(name = "intCondition")
-    private Integer intCondition;
-
-    @ColumnInfo(name = "weekday")
-    private Integer weekday;
-
+    @ColumnInfo(name = "timeCondition")
+    private Integer timeCondition;
+    @ColumnInfo(name = "locationCondition")
+    private Integer locationCondition;
+    @ColumnInfo(name = "weekdays")
+    private List<Integer> weekdays;
     @ColumnInfo(name = "date")
     private Date date;
-
     @ColumnInfo(name = "startTime")
     private Long startTime;
-
     @ColumnInfo(name = "endTime")
     private Long endTime;
+
+    public Integer getTimeCondition() {
+        return timeCondition;
+    }
+
+    // Position 0 = No Time condition choosen
+    // Position 1 = Before this time
+    // Position 2 = At this time
+    // Position 3 = After this time
+    // Position 4 = Between these times
+
+    public void setTimeCondition(Integer timeCondition) {
+        this.timeCondition = timeCondition;
+    }
+
+    public Integer getLocationCondition() {
+        return locationCondition;
+    }
+
+    // Position 0 = No Location condition choosen
+    // Position 1 = At Location
+    // Position 2 = Near Location
+    // Position 3 = Leaving Location
+    // Position 4 = Predefined Location
+
+    public void setLocationCondition(Integer locationCondition) {
+        this.locationCondition = locationCondition;
+    }
+
+    public List<Integer> getWeekdays() {
+        return weekdays;
+    }
+
+
+    public void setWeekdays(List<Integer> weekdays) {
+        this.weekdays = weekdays;
+    }
 
     public Integer getId() {
         return id;
@@ -81,23 +117,6 @@ public class When {
         this.radius = radius;
     }
 
-    public Condition getCondition() {
-        return Condition.values()[intCondition];
-    }
-
-    public void setCondition(Condition condition) {
-        this.intCondition = condition.ordinal();
-    }
-
-
-    public Integer getWeekday() {
-        return weekday;
-    }
-
-    public void setWeekday(Integer weekday) {
-        this.weekday = weekday;
-    }
-
     public Date getDate() {
         return date;
     }
@@ -122,29 +141,4 @@ public class When {
         this.endTime = endTime;
     }
 
-    public Integer getIntCondition() {
-        return intCondition;
-    }
-
-    public void setIntCondition(Integer intCondition) {
-        this.intCondition = intCondition;
-    }
-
-    public enum Condition {
-        I_ARRIVE(1),
-        I_LEAVE(2),
-        I_AM_NEAR(3),
-        I_AM_AT(4),
-        NOT_AT_LOCATION(5);
-
-        private int code;
-
-        Condition(int code) {
-            this.code = code;
-        }
-
-        public int getCode() {
-            return code;
-        }
-    }
 }

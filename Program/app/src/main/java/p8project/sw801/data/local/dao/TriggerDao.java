@@ -35,7 +35,7 @@ public interface TriggerDao {
     List<Trigger> loadAllBySmartDeviceId(Integer eId);
 
     @Insert
-    void insertAll(Trigger... triggers);
+    void insertAll(List<Trigger> triggers);
 
     @Insert
     void insert(Trigger trigger);
