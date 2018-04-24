@@ -11,6 +11,7 @@ import android.widget.Toast;
 import com.google.gson.Gson;
 
 import p8project.sw801.data.local.RelationEntity.EventWithData;
+import p8project.sw801.data.model.db.When;
 import p8project.sw801.utils.NotificationUtil;
 
 public class ProximityReceiver extends BroadcastReceiver {
@@ -30,6 +31,8 @@ public class ProximityReceiver extends BroadcastReceiver {
             jsonMyObject = result.getString("eventWithDate");
         }
         EventWithData eventWithData = new Gson().fromJson(jsonMyObject, EventWithData.class);
+
+
 
         //TODO CHECK WHENS
         if (entering) {
