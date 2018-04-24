@@ -128,6 +128,12 @@ public class AppDbHelper implements DbHelper {
         return Observable.fromCallable(() -> mAppDatabase.eventDao().count());
     }
 
+
+    @Override
+    public Observable<Event> getLastEvent() {
+        return Observable.fromCallable(() -> mAppDatabase.eventDao().getLastEvent());
+    }
+
     @Override
     public Observable<Boolean> isEventEmpty() {
         return Observable.fromCallable(() -> mAppDatabase.eventDao().count() == 0);
@@ -384,7 +390,7 @@ public class AppDbHelper implements DbHelper {
     }
 
     @Override
-    public Observable<Boolean> insertAllTriggers(final Trigger... triggers) {
+    public Observable<Boolean> insertAllTriggers(final List<Trigger> triggers) {
         return Observable.fromCallable(() -> {
             mAppDatabase.triggerDao().insertAll(triggers);
             return true;
