@@ -93,6 +93,7 @@ public class NotificationOrSmartdevice extends BaseFragment<FragmentNotification
             Trigger t = new Trigger();
             t.setNotificationText(notification.getText().toString());
             t.setNotification(false);
+            t.setAction(0);
             addEvent.addMyEvents.add(t);
             addEvent.refreshData();
             getActivity().getSupportFragmentManager().beginTransaction().remove(NotificationOrSmartdevice.this).commit();
