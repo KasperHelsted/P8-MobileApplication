@@ -8,4 +8,6 @@ public interface MySmartDeviceNavigator {
     void handleError(Throwable throwable);
 
     void updateSmartDevice(List<SmartDevice> mySmartDeviceList);
+
+    void addSmartDevice();
 }
