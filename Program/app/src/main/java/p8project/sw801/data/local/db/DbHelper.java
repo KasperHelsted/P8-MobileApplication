@@ -111,6 +111,8 @@ public interface DbHelper {
 
     Observable<SmartDevice> getSmartDeviceById(final Integer id);
 
+    Observable<SmartDevice> getLastSmartDevice();
+
     Observable<List<SmartDevice>> getSmartDevicesByIds(final Integer[] ids);
 
     Observable<Integer> getSmartDeviceCount();
@@ -185,6 +187,7 @@ public interface DbHelper {
     Observable<List<HueLightbulbWhite>> getHueLightsBySmartDeviceId(final Integer id);
     Observable<List<NestThermostat>> getNestThermoBySmartDeviceId(final Integer id);
     Observable<List<HueBridge>> getAllHueBridges();
+    Observable<HueBridge> getLastHueBridge();
     Observable<List<NestHub>> getAllNestHubs();
 
 

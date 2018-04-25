@@ -249,6 +249,11 @@ public class AppDataManager implements DataManager {
     }
 
     @Override
+    public Observable<SmartDevice> getLastSmartDevice() {
+        return mDbHelper.getLastSmartDevice();
+    }
+
+    @Override
     public Observable<List<SmartDevice>> getSmartDevicesByIds(Integer[] ids) {
         return mDbHelper.getSmartDevicesByIds(ids);
     }
@@ -442,6 +447,12 @@ public class AppDataManager implements DataManager {
     public Observable<List<HueBridge>> getAllHueBridges(){
         return mDbHelper.getAllHueBridges();
     }
+
+    @Override
+    public Observable<HueBridge> getLastHueBridge() {
+        return mDbHelper.getLastHueBridge();
+    }
+
     @Override
     public Observable<List<NestHub>> getAllNestHubs(){
         return mDbHelper.getAllNestHubs();
