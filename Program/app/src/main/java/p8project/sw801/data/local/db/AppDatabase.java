@@ -26,7 +26,9 @@ import p8project.sw801.data.model.db.*;
         NestHub.class,
         NestThermostat.class,
         HueLightbulbRGB.class,
-        HueLightbulbWhite.class
+        HueLightbulbWhite.class,
+        Store.class,
+        Chain.class
 }, version = 1, exportSchema = false)
 @TypeConverters({DataTypeConverter.class})
 public abstract class AppDatabase extends RoomDatabase {
@@ -65,4 +67,12 @@ public abstract class AppDatabase extends RoomDatabase {
     public abstract TriggerDao triggerDao();
 
     public abstract WhenDao whenDao();
+
+
+    public abstract ChainDao chainDao();
+
+    public abstract StoreDao storeDao();
+
+    public abstract AccessoriesDao accessoriesDao();
+
 }

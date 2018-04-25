@@ -30,7 +30,10 @@ public class HueLightbulbWhite {
     private String deviceName;
 
     @ColumnInfo(name = "deviceId")
-    private Integer deviceId;
+    private String deviceId;
+
+    @ColumnInfo(name= "smartDeviceId")
+    private Integer smartDeviceId;
 
     public Integer getId() {
         return id;
@@ -56,11 +59,19 @@ public class HueLightbulbWhite {
         this.deviceName = deviceName;
     }
 
-    public Integer getDeviceId() {
+    public Integer getSmartDeviceId() {
+        return smartDeviceId;
+    }
+
+    public void setSmartDeviceId(Integer smartDeviceId) {
+        this.smartDeviceId = smartDeviceId;
+    }
+
+    public String getDeviceId() {
         return deviceId;
     }
 
-    public void setDeviceId(Integer deviceId) {
+    public void setDeviceId(String deviceId) {
         this.deviceId = deviceId;
     }
 }

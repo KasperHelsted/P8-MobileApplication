@@ -25,6 +25,9 @@ public interface SmartDeviceDao {
     @Query("SELECT * FROM smartdevice WHERE id == :smartDeviceId LIMIT 1")
     SmartDevice loadById(Integer smartDeviceId);
 
+    @Query("SELECT * FROM smartdevice ORDER BY smartdevice.id DESC LIMIT 1")
+    SmartDevice getLast();
+
     @Query("SELECT COUNT(*) from smartdevice")
     Integer count();
 

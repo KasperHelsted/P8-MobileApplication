@@ -6,11 +6,20 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 
 import io.reactivex.Observable;
+
+import p8project.sw801.data.local.RelationEntity.EventWithData;
+import p8project.sw801.data.model.db.Chain;
 import p8project.sw801.data.model.db.Coordinate;
 import p8project.sw801.data.model.db.Event;
 import p8project.sw801.data.model.db.GlobalMute;
 import p8project.sw801.data.model.db.PredefinedLocation;
 import p8project.sw801.data.model.db.SmartDevice;
+import p8project.sw801.data.model.db.Store;
+import p8project.sw801.data.model.db.Smartdevice.Accessories.HueLightbulbRGB;
+import p8project.sw801.data.model.db.Smartdevice.Accessories.HueLightbulbWhite;
+import p8project.sw801.data.model.db.Smartdevice.Accessories.NestThermostat;
+import p8project.sw801.data.model.db.Smartdevice.Controllers.HueBridge;
+import p8project.sw801.data.model.db.Smartdevice.Controllers.NestHub;
 import p8project.sw801.data.model.db.Trigger;
 import p8project.sw801.data.model.db.When;
 
@@ -117,6 +126,12 @@ public class AppDbHelper implements DbHelper {
     @Override
     public Observable<Integer> getEventCount() {
         return Observable.fromCallable(() -> mAppDatabase.eventDao().count());
+    }
+
+
+    @Override
+    public Observable<Event> getLastEvent() {
+        return Observable.fromCallable(() -> mAppDatabase.eventDao().getLastEvent());
     }
 
     @Override
@@ -288,6 +303,11 @@ public class AppDbHelper implements DbHelper {
     }
 
     @Override
+    public Observable<SmartDevice> getLastSmartDevice() {
+        return Observable.fromCallable(() -> mAppDatabase.smartDeviceDao().getLast());
+    }
+
+    @Override
     public Observable<List<SmartDevice>> getSmartDevicesByIds(final Integer[] ids) {
         return Observable.fromCallable(() -> mAppDatabase.smartDeviceDao().loadAllByIds(ids));
     }
@@ -375,7 +395,7 @@ public class AppDbHelper implements DbHelper {
     }
 
     @Override
-    public Observable<Boolean> insertAllTriggers(final Trigger... triggers) {
+    public Observable<Boolean> insertAllTriggers(final List<Trigger> triggers) {
         return Observable.fromCallable(() -> {
             mAppDatabase.triggerDao().insertAll(triggers);
             return true;
@@ -397,6 +417,13 @@ public class AppDbHelper implements DbHelper {
             return true;
         });
     }
+
+    @Override
+    public Observable<List<Trigger>> getTriggersBySmartDeviceId(final Integer id){
+        return Observable.fromCallable(() ->mAppDatabase.triggerDao().loadAllBySmartDeviceId(id));
+    }
+
+
     //</editor-fold>
 
     //<editor-fold desc="Start When helper">
@@ -456,5 +483,225 @@ public class AppDbHelper implements DbHelper {
             return true;
         });
     }
+
+    //<editor-fold desc="Start Chain helper">
+    @Override
+    public Observable<List<Chain>> getAllChains() {
+        return Observable.fromCallable(() -> mAppDatabase.chainDao().getAll());
+    }
+
+    @Override
+    public Observable<Integer> getChainCount() {
+        return Observable.fromCallable(() -> mAppDatabase.chainDao().count());
+    }
+
+    @Override
+    public Observable<List<Chain>> getActiveChains() {
+        return Observable.fromCallable(() -> mAppDatabase.chainDao().getActiveChains());
+    }
+
+    @Override
+    public Observable<List<Chain>> getChainsByIds(Integer[] ids) {
+        return Observable.fromCallable(()-> mAppDatabase.chainDao().loadAllByIds(ids));
+    }
+
+    @Override
+    public Observable<Chain> getChainById(Integer id) {
+        return Observable.fromCallable(()-> mAppDatabase.chainDao().loadById(id));
+    }
+
+    @Override
+    public Observable<Boolean> insertAllChains(List<Chain> chains) {
+        return Observable.fromCallable(()-> {
+            mAppDatabase.chainDao().insertAll(chains);
+            return true;
+        });
+    }
+
+    @Override
+    public Observable<Boolean> insertChain(Chain chain) {
+        return Observable.fromCallable(()-> {
+            mAppDatabase.chainDao().insert(chain);
+            return true;
+        });
+    }
+
+    @Override
+    public Observable<Boolean> updateChain(Chain chain) {
+        return Observable.fromCallable(()-> {
+            mAppDatabase.chainDao().update(chain);
+            return true;
+        });
+    }
+
+    @Override
+    public Observable<Boolean> deleteChain(Chain chain) {
+        return Observable.fromCallable(()-> {
+            mAppDatabase.chainDao().delete(chain);
+            return true;
+        });
+    }
+
+    //</editor-fold>
+
+    //<editor-fold desc="Start Store helper">
+    @Override
+    public Observable<List<Store>> getAllStores() {
+        return Observable.fromCallable(()-> mAppDatabase.storeDao().getAll());
+    }
+
+    @Override
+    public Observable<Integer> getStoreCount() {
+        return Observable.fromCallable(()-> mAppDatabase.storeDao().count());
+    }
+
+    @Override
+    public Observable<List<Store>> getStoresByIds(Integer[] ids) {
+        return Observable.fromCallable(()-> mAppDatabase.storeDao().loadAllByIds(ids));
+    }
+
+    @Override
+    public Observable<List<Store>> getFavoriteStores() {
+        return Observable.fromCallable(()-> mAppDatabase.storeDao().getFavoriteStores());
+    }
+
+    @Override
+    public Observable<Store> getStoreByName(String storeName) {
+        return Observable.fromCallable(()-> mAppDatabase.storeDao().getStoreByName(storeName));
+    }
+
+    @Override
+    public Observable<Store> getStoreById(Integer id) {
+        return Observable.fromCallable(()-> mAppDatabase.storeDao().loadById(id));
+    }
+
+    @Override
+    public Observable<Boolean> insertAllStores(Store... stores) {
+        return Observable.fromCallable(()-> {
+            mAppDatabase.storeDao().insertAll(stores);
+            return true;
+        });
+    }
+
+    @Override
+    public Observable<Boolean> insertStore(Store store) {
+        return Observable.fromCallable(()-> {
+            mAppDatabase.storeDao().insert(store);
+            return true;
+        });
+    }
+
+    @Override
+    public Observable<Boolean> updateStore(Store store) {
+        return Observable.fromCallable(()-> {
+            mAppDatabase.storeDao().update(store);
+            return true;
+        });
+    }
+
+    @Override
+    public Observable<Boolean> deleteStore(Store store) {
+        return Observable.fromCallable(()-> {
+            mAppDatabase.storeDao().delete(store);
+            return true;
+        });
+    }
+    //</editor-fold>
+
+    //<editor-fold desc="Accessories">
+
+    @Override
+    public Observable<List<HueLightbulbWhite>> getLightsByBridgeId(final Integer id){
+        return Observable.fromCallable(()-> mAppDatabase.accessoriesDao().getLightsByBridgeIdDB(id));
+    }
+
+    @Override
+    public Observable<List<HueLightbulbRGB>> getRGBLightsByBridgeId(final Integer id){
+        return  Observable.fromCallable(()-> mAppDatabase.accessoriesDao().getRGBLightsByBridgeIdDB(id));
+    }
+
+    @Override
+    public Observable<List<NestThermostat>> getNestByHubId(final Integer id){
+        return  Observable.fromCallable(()-> mAppDatabase.accessoriesDao().getNestByHubIdDB(id));
+    }
+
+    @Override
+    public Observable<Boolean> insertAllHueLights(final HueLightbulbWhite... hueLightbulbWhites){
+        return Observable.fromCallable(() -> {
+            mAppDatabase.accessoriesDao().insertAllHue(hueLightbulbWhites);
+            return true;
+        });
+    }
+
+    @Override
+    public Observable<Boolean> insertHueLight(final HueLightbulbWhite hueLightbulbWhite){
+        return Observable.fromCallable(() -> {
+            mAppDatabase.accessoriesDao().insertHue(hueLightbulbWhite);
+            return true;
+        });
+    }
+    @Override
+    public Observable<Boolean> insertAllNestThermos(final NestThermostat... nestThermostats){
+        return Observable.fromCallable(() -> {
+            mAppDatabase.accessoriesDao().insertAllNestThermos(nestThermostats);
+            return true;
+        });
+    }
+    @Override
+    public Observable<Boolean> insertNestThermo(final NestThermostat nestThermostat){
+        return Observable.fromCallable(() -> {
+            mAppDatabase.accessoriesDao().insertNestThermo(nestThermostat);
+            return true;
+        });
+    }
+
+    @Override
+    public Observable<Boolean> insertHueBridge(final HueBridge hueBridge){
+        return Observable.fromCallable(() -> {
+            mAppDatabase.accessoriesDao().insertHueBidge(hueBridge);
+            return true;
+        });
+    }
+    @Override
+    public Observable<Boolean> insertNestHub(final NestHub nestHub){
+        return Observable.fromCallable(() -> {
+            mAppDatabase.accessoriesDao().insertNestHub(nestHub);
+            return true;
+        });
+    }
+
+    @Override
+    public Observable<List<HueLightbulbWhite>> getHueLightsBySmartDeviceId(final Integer id){
+        return  Observable.fromCallable(()-> mAppDatabase.accessoriesDao().getHueLightsBySmartDeviceId(id));
+    }
+    @Override
+    public Observable<List<NestThermostat>> getNestThermoBySmartDeviceId(final Integer id){
+        return Observable.fromCallable(()-> mAppDatabase.accessoriesDao().getNestThermoBySmartDeviceId(id));
+    }
+
+
+    @Override
+    public Observable<List<HueBridge>> getAllHueBridges(){
+        return Observable.fromCallable(()-> mAppDatabase.accessoriesDao().getAllHueBridges());
+    }
+
+    @Override
+    public Observable<HueBridge> getLastHueBridge() {
+        return Observable.fromCallable(() -> mAppDatabase.accessoriesDao().getLastHueBridge());
+
+    }
+
+    @Override
+    public Observable<List<NestHub>> getAllNestHubs(){
+        return Observable.fromCallable(() -> mAppDatabase.accessoriesDao().getAllNestHubs());
+    }
+    //</editor-fold>
+    //<editor-fold desc="EventWithData">
+    @Override
+    public Observable<EventWithData> getEventWithData(final Integer id){
+        return Observable.fromCallable(() -> mAppDatabase.eventWithDataDao().getEventWithData(id));
+    }
+
+
     //</editor-fold>
 }

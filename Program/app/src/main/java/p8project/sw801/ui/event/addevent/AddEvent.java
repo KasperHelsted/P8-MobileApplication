@@ -9,6 +9,7 @@ import android.location.Address;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.format.DateFormat;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -24,6 +25,7 @@ import android.widget.ToggleButton;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -33,12 +35,16 @@ import dagger.android.DispatchingAndroidInjector;
 import dagger.android.support.HasSupportFragmentInjector;
 import p8project.sw801.BR;
 import p8project.sw801.R;
+import p8project.sw801.data.local.RelationEntity.EventWithData;
 import p8project.sw801.data.model.db.Trigger;
 import p8project.sw801.databinding.ActivityAddEventBinding;
 import p8project.sw801.ui.AddEvent.AddEventAdapter;
 import p8project.sw801.ui.base.BaseActivity;
 import p8project.sw801.ui.event.createeventmap.CreateEventMap;
 import p8project.sw801.ui.event.notificationorsmartdevice.NotificationOrSmartdevice;
+import p8project.sw801.utils.NotificationUtil;
+import p8project.sw801.utils.ProximityBasedNotifications.ProximityBasedNotifications;
+import p8project.sw801.utils.TimeBasedNotifications.TimeBasedNotification;
 
 
 public class AddEvent extends BaseActivity<ActivityAddEventBinding, AddEventViewModel> implements AddEventNavigator, HasSupportFragmentInjector {
@@ -349,14 +355,16 @@ public class AddEvent extends BaseActivity<ActivityAddEventBinding, AddEventView
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        switch (requestCode) {
-            case (0): {
-                if (resultCode == Activity.RESULT_OK) {
-                    addressBundle = data.getBundleExtra("address");
-                    address = addressBundle.getParcelable("address");
-                    addressTextView.setText(address.getAddressLine(0) + ", " + address.getAddressLine(1) + ", " + address.getAddressLine(2));
+        if (data != null) {
+            switch (requestCode) {
+                case (0): {
+                    if (resultCode == Activity.RESULT_OK) {
+                        addressBundle = data.getBundleExtra("address");
+                        address = addressBundle.getParcelable("address");
+                        addressTextView.setText(address.getAddressLine(0) + ", " + address.getAddressLine(1) + ", " + address.getAddressLine(2));
+                    }
+                    break;
                 }
-                break;
             }
         }
     }
@@ -387,6 +395,23 @@ public class AddEvent extends BaseActivity<ActivityAddEventBinding, AddEventView
     public void submitEventClick() {
 
         /*
+        NotificationUtil n = new NotificationUtil(getApplicationContext());
+        n.CreateNotification("Name", "REHATJAAJ");
+
+        for (Trigger t:addMyEvents) {
+            t.setEventId(1);
+            mAddEventViewModel.temp(t);
+        }
+        */
+
+        mAddEventViewModel.geteventwithdata();
+        //TODO CREATE TEMP METHOD IN VIEWMODEL TO CREATE TRIGGERS, HUELIGHT, HUEBRIDGE, SMARTDEVICE, EVENT FOR TESTING - DONE
+        //TODO TEST DATABASE CALL FOR EVENTWITHDATA - TESTER
+        //TODO TEST TIMEBASEDNOTIFICATIONS CLASS
+
+
+
+        /*
         markButton();
         String eName = eventName.getText().toString();
         ArrayList<Integer> weekdays = markedButtons;
@@ -402,6 +427,29 @@ public class AddEvent extends BaseActivity<ActivityAddEventBinding, AddEventView
         */
     }
 
+    //TODO DELETE THIS TESTER FUNCTION - HOLGER
+    @Override
+    public void testerfunction(EventWithData e){
+
+        /* CREATE TIME BASED FUNCTION
+
+        TimeBasedNotification t = new TimeBasedNotification(getApplicationContext());
+        Date date = new Date();
+        long time = date.getTime()+ 60000;
+
+        t.setAlarm(time,1,e);
+        */
+
+        //Coordinate a = address;
+        //a.setLatitude(56.6863);
+        //a.setLongitude(10.1406);
+
+
+        //ProximityBasedNotifications p = new ProximityBasedNotifications(getApplicationContext());
+        //p.createProximityNotification(address,1,e);
+
+    }
+
     private void setupBindings() {
         doThis = (LinearLayout) mActivityAddEventBinding.linearLayoutAddEvent;
         spinner = (Spinner) mActivityAddEventBinding.spinnerWhen;
@@ -415,18 +463,5 @@ public class AddEvent extends BaseActivity<ActivityAddEventBinding, AddEventView
         eventName = mActivityAddEventBinding.textInputEventName;
         addEvent = mActivityAddEventBinding.addEventTriggerStatic;
 
-        /*
-        doThis = (LinearLayout) findViewById(R.id.linearLayoutAddEvent);
-        spinner = (Spinner) findViewById(R.id.spinnerWhen);
-        spinnerLocation = (Spinner) findViewById(R.id.spinnerLocation);
-        AtTime = findViewById(R.id.editTextTime);
-        betweenTime = findViewById(R.id.editTextTimeBetween);
-        addressTextView = findViewById(R.id.addLocation);
-        textViewTime = findViewById(R.id.textViewTime);
-        textViewBetweenTime  = findViewById(R.id.textViewBetweenTime);
-        confirm = findViewById(R.id.buttonCreateEvent);
-        eventName = findViewById(R.id.textInputEventName);
-        addEvent = findViewById(R.id.addEventTriggerStatic);
-        */
     }
 }

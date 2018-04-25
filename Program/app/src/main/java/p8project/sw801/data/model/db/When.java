@@ -6,7 +6,16 @@ import android.arch.persistence.room.ForeignKey;
 import android.arch.persistence.room.Index;
 import android.arch.persistence.room.PrimaryKey;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import static android.arch.persistence.room.ForeignKey.CASCADE;
 
@@ -21,7 +30,7 @@ import static android.arch.persistence.room.ForeignKey.CASCADE;
         @ForeignKey(entity = Coordinate.class, parentColumns = "id", childColumns = "coordinateId", onDelete = CASCADE),
         @ForeignKey(entity = Event.class, parentColumns = "id", childColumns = "eventId", onDelete = CASCADE)
 })
-public class When {
+public class When implements Serializable {
     @PrimaryKey(autoGenerate = true)
     private Integer id;
 
@@ -34,20 +43,82 @@ public class When {
     @ColumnInfo(name = "radius")
     private Integer radius;
 
-    @ColumnInfo(name = "intCondition")
-    private Integer intCondition;
-
-    @ColumnInfo(name = "weekday")
-    private Integer weekday;
-
+    @ColumnInfo(name = "timeCondition")
+    private Integer timeCondition;
+    @ColumnInfo(name = "locationCondition")
+    private Integer locationCondition;
+    @ColumnInfo(name = "weekdays")
+    private byte[] weekdays;
     @ColumnInfo(name = "date")
     private Date date;
-
     @ColumnInfo(name = "startTime")
     private Long startTime;
-
     @ColumnInfo(name = "endTime")
     private Long endTime;
+
+    public byte[] getWeekdays() {
+        return weekdays;
+    }
+
+    public void setWeekdays(byte[] weekdays) {
+        this.weekdays = weekdays;
+    }
+
+    public void setListWeekDays(List<Integer> list) throws IOException{
+        // write to byte array
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        DataOutputStream out = new DataOutputStream(baos);
+        for (int element : list) {
+            out.writeUTF(Integer.toString(element));
+        }
+        byte[] bytes = baos.toByteArray();
+        setWeekdays(bytes);
+    }
+
+    public List<Integer> getListWeekDays() throws IOException{
+        List<Integer> l = new ArrayList<>();
+
+        byte[] bytes = getWeekdays();
+        ByteArrayInputStream bais = new ByteArrayInputStream(bytes);
+        DataInputStream in = new DataInputStream(bais);
+        while (in.available() > 0) {
+            String element = in.readUTF();
+            l.add(Integer.parseInt(element));
+
+        }
+        return l;
+    }
+
+
+    public Integer getTimeCondition() {
+        return timeCondition;
+    }
+
+    // Position 0 = No Time condition choosen
+    // Position 1 = Before this time
+    // Position 2 = At this time
+    // Position 3 = After this time
+    // Position 4 = Between these times
+
+    public void setTimeCondition(Integer timeCondition) {
+        this.timeCondition = timeCondition;
+    }
+
+    public Integer getLocationCondition() {
+        return locationCondition;
+    }
+
+    // Position 0 = No Location condition choosen
+    // Position 1 = At Location
+    // Position 2 = Near Location
+    // Position 3 = Leaving Location
+    // Position 4 = Predefined Location
+
+    public void setLocationCondition(Integer locationCondition) {
+        this.locationCondition = locationCondition;
+    }
+
+
 
     public Integer getId() {
         return id;
@@ -81,23 +152,6 @@ public class When {
         this.radius = radius;
     }
 
-    public Condition getCondition() {
-        return Condition.values()[intCondition];
-    }
-
-    public void setCondition(Condition condition) {
-        this.intCondition = condition.ordinal();
-    }
-
-
-    public Integer getWeekday() {
-        return weekday;
-    }
-
-    public void setWeekday(Integer weekday) {
-        this.weekday = weekday;
-    }
-
     public Date getDate() {
         return date;
     }
@@ -120,31 +174,5 @@ public class When {
 
     public void setEndTime(Long endTime) {
         this.endTime = endTime;
-    }
-
-    public Integer getIntCondition() {
-        return intCondition;
-    }
-
-    public void setIntCondition(Integer intCondition) {
-        this.intCondition = intCondition;
-    }
-
-    public enum Condition {
-        I_ARRIVE(1),
-        I_LEAVE(2),
-        I_AM_NEAR(3),
-        I_AM_AT(4),
-        NOT_AT_LOCATION(5);
-
-        private int code;
-
-        Condition(int code) {
-            this.code = code;
-        }
-
-        public int getCode() {
-            return code;
-        }
     }
 }

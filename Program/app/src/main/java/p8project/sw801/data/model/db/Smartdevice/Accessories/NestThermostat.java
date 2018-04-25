@@ -31,6 +31,9 @@ public class NestThermostat {
     @ColumnInfo(name = "deviceId")
     private String deviceId;
 
+    @ColumnInfo(name = "smartDeviceId")
+    private Integer smartDeviceId;
+
     public Integer getId() {
         return id;
     }
@@ -62,4 +65,13 @@ public class NestThermostat {
     public void setDeviceId(String deviceId) {
         this.deviceId = deviceId;
     }
+
+    public Integer getSmartDeviceId() {
+        return smartDeviceId;
+    }
+
+    public void setSmartDeviceId(Integer smartDeviceId) {
+        this.smartDeviceId = smartDeviceId;
+    }
+
 }

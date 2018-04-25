@@ -28,6 +28,17 @@ public class Event {
     @NonNull
     private Boolean active;
 
+    @ColumnInfo(name = "Shopping")
+    private Boolean shopping;
+    
+    public Boolean getShopping() {
+        return shopping;
+    }
+
+    public void setShopping(Boolean shopping) {
+        this.shopping = shopping;
+    }
+
     public Integer getId() {
         return id;
     }

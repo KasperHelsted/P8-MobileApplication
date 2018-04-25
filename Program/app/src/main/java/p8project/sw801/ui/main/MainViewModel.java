@@ -10,5 +10,15 @@ import p8project.sw801.utils.rx.SchedulerProvider;
 public class MainViewModel extends BaseViewModel<MainNavigator> {
     public MainViewModel(DataManager dataManager, SchedulerProvider schedulerProvider) {
         super(dataManager, schedulerProvider);
+
     }
+
+    public void buttonMyEventsOnClick() {
+        getNavigator().buttonMyEventsOnClick();
+    }
+
+    public void buttonMySmartDevicesOnClick() {
+        getNavigator().buttonMySmartDevicesOnClick();
+    }
+
 }
