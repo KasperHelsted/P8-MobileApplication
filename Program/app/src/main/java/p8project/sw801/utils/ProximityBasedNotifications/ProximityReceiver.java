@@ -25,6 +25,7 @@ public class ProximityReceiver extends BroadcastReceiver {
     private static NotificationUtil n;
     private Boolean posted = false;
 
+
     @Override
     public void onReceive(Context context, Intent intent) {
         posted = false;
@@ -49,32 +50,39 @@ public class ProximityReceiver extends BroadcastReceiver {
         if (when.getLocationCondition() != 0 && when.getLocationCondition() != 3 && entering && !posted) {
             Log.i("PROXIMITY", "Entering");
             posted = true;
-            for (TriggerWithSmartDevice t : triggerWithSmartDevices) {
-                triggerFunction(t.trigger, eventWithData.event.getName());
-            }
+            triggerFunction(triggerWithSmartDevices, eventWithData.event.getName(), context);
+
         } else if(when.getLocationCondition() == 3 && !entering && !posted) {
             posted = true;
             Log.i("PROXIMITY", "Leaving");
-            for (TriggerWithSmartDevice t : triggerWithSmartDevices) {
-                triggerFunction(t.trigger, eventWithData.event.getName());
-            }
+            triggerFunction(triggerWithSmartDevices, eventWithData.event.getName(), context);
+
         }
     }
 
-    public void triggerFunction(Trigger trigger, String eventName){
-        switch (trigger.getAction()){
-            case 0: n.CreateNotification(eventName, trigger.getNotificationText());
-            case 1: break;//TODO TRIGGER HUE LIGHT ON;
+    public void triggerFunction(List<TriggerWithSmartDevice> triggerList, String eventName, Context context){
+
+        Boolean notification = false;
+
+        for (TriggerWithSmartDevice t:triggerList) {
+            switch (t.trigger.getAction()){
+            case 0:{ n.CreateNotification(eventName, t.trigger.getNotificationText());
+            notification = true; }
+
+            case 1:  break;//TODO TRIGGER HUE LIGHT ON;
             case 2: break;//TODO TRIGGER HUE LIGHT OFF;
             case 3: break;//TODO TRIGGER HUE LIGHT BRIGHTNESS
             case 4: break;//TODO TRIGGER NEST THERMO ON
             case 5: break;//TODO TRIGGER NEST THERMO OFF
             case 6: break;//TODO CHANGE NEST THERMO TEMP
+            default: break;
+            }
         }
 
-
-
-
+        if(!notification){
+            n.CreateNotification(eventName, "");
+            notification = false;
+        }
     }
 
 

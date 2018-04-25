@@ -48,12 +48,22 @@ public class AlarmReceiver extends BroadcastReceiver {
         WhenWithCoordinate whenWithCoordinate = eventWithData.whens.get(0);
         When when = whenWithCoordinate.when;
 
+
+
+
+
+
+
+
+
+
+
+
         //IF NO LOCATION
         if (when.getLocationCondition() == 0){
             ProximityReceiver proximityReceiver = new ProximityReceiver();
-            for (TriggerWithSmartDevice t : triggerWithSmartDevices) {
-                proximityReceiver.triggerFunction(t.trigger, eventWithData.event.getName());
-            }
+                proximityReceiver.triggerFunction(triggerWithSmartDevices, eventWithData.event.getName(), context);
+
         }else {
             ProximityBasedNotifications proximityBasedNotifications = new ProximityBasedNotifications(context);
             proximityBasedNotifications.createProximityNotification(whenWithCoordinate.coordinate.get(0), eventWithData.event.getId(), eventWithData);
