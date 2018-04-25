@@ -23,6 +23,9 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
+import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -56,6 +59,7 @@ public class AddEvent extends BaseActivity<ActivityAddEventBinding, AddEventView
     @Inject
     DispatchingAndroidInjector<Fragment> fragmentDispatchingAndroidInjector;
 
+
     private ListView listview;
     public ArrayList<Trigger> addMyEvents;
     public AddEventAdapter myAdapter;
@@ -76,6 +80,8 @@ public class AddEvent extends BaseActivity<ActivityAddEventBinding, AddEventView
     private Spinner spinnerLocation;
     private Event newEvent;
     private When newWhen;
+    static private Date startDate;
+    static private Date endDate;
 
 
     @Override
@@ -269,6 +275,7 @@ public class AddEvent extends BaseActivity<ActivityAddEventBinding, AddEventView
 
     public static class TimePickerFragment1 extends DialogFragment
             implements TimePickerDialog.OnTimeSetListener {
+        protected SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm");
 
         @Override
         public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -283,13 +290,27 @@ public class AddEvent extends BaseActivity<ActivityAddEventBinding, AddEventView
         }
 
         public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-            String time = String.valueOf(hourOfDay) + ":" + String.valueOf(minute);
-            AtTime.setText(time);
+
+            try{
+                startDate = timeFormat.parse(hourOfDay + ":" + minute);
+
+                String time = String.valueOf(hourOfDay) + ":" + String.valueOf(minute);
+                AtTime.setText(time);
+
+
+            }
+            catch (ParseException e) {
+
+                }
+
+
         }
+
     }
 
     public static class TimePickerFragment2 extends DialogFragment
             implements TimePickerDialog.OnTimeSetListener {
+        protected SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm");
 
         @Override
         public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -304,8 +325,18 @@ public class AddEvent extends BaseActivity<ActivityAddEventBinding, AddEventView
         }
 
         public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-            String time = String.valueOf(hourOfDay) + ":" + String.valueOf(minute);
-            betweenTime.setText(time);
+            try{
+                endDate = timeFormat.parse(hourOfDay + ":" + minute);
+
+                String time = String.valueOf(hourOfDay) + ":" + String.valueOf(minute);
+                betweenTime.setText(time);
+
+
+            }
+            catch (ParseException e) {
+
+            }
+
         }
     }
 
@@ -409,13 +440,25 @@ public class AddEvent extends BaseActivity<ActivityAddEventBinding, AddEventView
             mAddEventViewModel.temp(t);
         }
         */
-
+        Event event = new Event();
 
         newEvent.setName(eventName.toString());
         newEvent.setActive(true);
 
-        newWhen.setStartTime(AtTime.getDrawingTime());
+        mAddEventViewModel.submitEventToDatabase(newEvent);
+        //save
+        //get event for id
 
+
+
+        newWhen.setStartTime(startDate.getTime());
+        newWhen.setEndTime(endDate.getTime());
+
+        try {
+            newWhen.setListWeekDays(markedButtons);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
 
         mAddEventViewModel.submitEventToDatabase(newEvent,newWhen,addMyEvents);

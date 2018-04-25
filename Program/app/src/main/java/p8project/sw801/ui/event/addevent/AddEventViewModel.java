@@ -50,6 +50,18 @@ public class AddEventViewModel extends BaseViewModel<AddEventNavigator> {
 
     }
 
+    public void submitEventToDatabase(Event event)
+    {
+        // Save Event to DB
+        getCompositeDisposable().add(
+                getDataManager().insertEvent(event).subscribeOn(
+                        getSchedulerProvider().io()
+                ).observeOn(getSchedulerProvider().ui())
+                        .subscribe()
+        );
+    }
+
+
     public void submitEventToDatabase(Event event, When when, List<Trigger> trigList) {
         //TODO NEED CORRECT PARAMETERS TO PASS TO DB
 
