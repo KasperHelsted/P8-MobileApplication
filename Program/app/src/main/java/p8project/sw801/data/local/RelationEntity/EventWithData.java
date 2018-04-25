@@ -24,7 +24,4 @@ public class EventWithData {
     @Relation(parentColumn = "id", entityColumn = "eventId", entity = Trigger.class)
     public List<TriggerWithSmartDevice> triggers;
 
-    @Relation(parentColumn = "smartDeviceId", entityColumn = "id", entity = SmartDevice.class)
-    public List<SmartDeviceWithData> smartDeviceWithDataList;
-
 }

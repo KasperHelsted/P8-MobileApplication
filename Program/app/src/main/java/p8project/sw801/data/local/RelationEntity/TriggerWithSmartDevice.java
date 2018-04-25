@@ -18,5 +18,5 @@ public class TriggerWithSmartDevice {
     public Trigger trigger;
 
     @Relation(parentColumn = "smartDeviceId", entityColumn = "id", entity = SmartDevice.class)
-    public List<SmartDevice> smartDevice;
+    public List<SmartDeviceWithData> smartDeviceWithDataList;
 }
