@@ -238,14 +238,9 @@ public interface DbHelper {
     Observable<List<NestThermostat>> getNestThermoBySmartDeviceId(final Integer id);
     Observable<List<HueBridge>> getAllHueBridges();
     Observable<List<NestHub>> getAllNestHubs();
-
-
-
-
     //</editor-fold>
 
     //<editor-fold desc="EventWithData">
     Observable<EventWithData> getEventWithData(final Integer id);
-
     //</editor-fold>
 }

@@ -456,13 +456,13 @@ public class AddEvent extends BaseActivity<ActivityAddEventBinding, AddEventView
         t.setAlarm(time,1,e);
         */
 
-        //Address a = address;
+        //Coordinate a = address;
         //a.setLatitude(56.6863);
         //a.setLongitude(10.1406);
 
 
-        ProximityBasedNotifications p = new ProximityBasedNotifications(getApplicationContext());
-        p.createProximityNotification(address,1,e);
+        //ProximityBasedNotifications p = new ProximityBasedNotifications(getApplicationContext());
+        //p.createProximityNotification(address,1,e);
 
     }
 

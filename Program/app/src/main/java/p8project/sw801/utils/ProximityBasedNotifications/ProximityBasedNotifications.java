@@ -4,21 +4,17 @@ import android.Manifest;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.LocationManager;
 import android.support.v4.app.ActivityCompat;
 import android.util.Log;
-
 import com.google.gson.Gson;
-
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
-
 import p8project.sw801.data.local.RelationEntity.EventWithData;
-import p8project.sw801.utils.TimeBasedNotifications.AlarmReceiver;
+import p8project.sw801.data.model.db.Coordinate;
 
 
 public class ProximityBasedNotifications {
@@ -31,7 +27,7 @@ public class ProximityBasedNotifications {
         locationManager = (LocationManager) mContext.getSystemService(Context.LOCATION_SERVICE);
     }
 
-    public void createProximityNotification(Address address, int requestCode, EventWithData eventWithData) {
+    public void createProximityNotification(Coordinate coordinate, int requestCode, EventWithData eventWithData) {
 
         Integer radius = 500;
 
@@ -52,12 +48,21 @@ public class ProximityBasedNotifications {
             return;
         }
         else{
-            locationManager.addProximityAlert(address.getLatitude(), address.getLongitude(), radius, -1, pendingIntent);
+            locationManager.addProximityAlert(coordinate.getLatitude(), coordinate.getLongitude(), radius, -1, pendingIntent);
         }
-
-
 
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ", Locale.US);
         Log.i("Alarm", "Proximity added at: " + sdf.format(new Date()));
+    }
+
+    public void cancelProximity(int requestCode, EventWithData eventWithData){
+        Intent intent = new Intent(mContext, ProximityReceiver.class);
+        intent.putExtra("eventWithDate", new Gson().toJson(eventWithData));
+
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(mContext, requestCode, intent, 0);
+        locationManager.removeProximityAlert(pendingIntent);
+
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ", Locale.US);
+        Log.i("Alarm", "Proximity deleted at: " + sdf.format(new Date()));
     }
 }

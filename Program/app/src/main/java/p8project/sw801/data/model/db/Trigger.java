@@ -97,6 +97,7 @@ public class Trigger {
     }
 
     /*Actions:
+      0. Normal Notification
       1. Turn on light
       2. Turn off light
       3. Adjust brightness + value
