@@ -23,12 +23,10 @@ import p8project.sw801.utils.NotificationUtil;
 public class ProximityReceiver extends BroadcastReceiver {
 
     private static NotificationUtil n;
-    private Boolean posted = false;
 
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        posted = false;
         n = new NotificationUtil(context);
 
         //Get entering attribute
@@ -46,14 +44,13 @@ public class ProximityReceiver extends BroadcastReceiver {
         WhenWithCoordinate whenWithCoordinate = eventWithData.whens.get(0);
         When when = whenWithCoordinate.when;
 
+        Log.i("Log", "Recieved prox alarm");
 
-        if (when.getLocationCondition() != 0 && when.getLocationCondition() != 3 && entering && !posted) {
+        if (when.getLocationCondition() != 0 && when.getLocationCondition() != 3 && entering) {
             Log.i("PROXIMITY", "Entering");
-            posted = true;
             triggerFunction(triggerWithSmartDevices, eventWithData.event.getName(), context);
 
-        } else if(when.getLocationCondition() == 3 && !entering && !posted) {
-            posted = true;
+        } else if(when.getLocationCondition() == 3 && !entering) {
             Log.i("PROXIMITY", "Leaving");
             triggerFunction(triggerWithSmartDevices, eventWithData.event.getName(), context);
 
@@ -64,6 +61,7 @@ public class ProximityReceiver extends BroadcastReceiver {
 
         Boolean notification = false;
 
+        Log.i("Log", "Triggering");
         for (TriggerWithSmartDevice t:triggerList) {
             switch (t.trigger.getAction()){
             case 0:{ n.CreateNotification(eventName, t.trigger.getNotificationText());

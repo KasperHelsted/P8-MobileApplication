@@ -49,10 +49,10 @@ public class ProximityBasedNotifications {
         }
         else{
             locationManager.addProximityAlert(coordinate.getLatitude(), coordinate.getLongitude(), radius, -1, pendingIntent);
+
+            Log.i("Alarm", "Proximity added ");
         }
 
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ", Locale.US);
-        Log.i("Alarm", "Proximity added at: " + sdf.format(new Date()));
     }
 
     public void cancelProximity(int requestCode, EventWithData eventWithData){

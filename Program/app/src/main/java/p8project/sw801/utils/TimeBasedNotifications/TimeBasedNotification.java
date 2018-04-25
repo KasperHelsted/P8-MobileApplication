@@ -39,18 +39,12 @@ public class TimeBasedNotification {
      */
     public void setAlarm(long alarmTime, EventWithData eventWithData){
 
-        WhenWithCoordinate whenWithCoordinate = eventWithData.whens.get(0);
-        When when = whenWithCoordinate.when;
-
-
         Intent intent = new Intent(mContext, AlarmReceiver.class);
         intent.putExtra("eventWithDate", new Gson().toJson(eventWithData));
-
-
-        //TODO CASES FOR WHAT TIME BASED NOTIFICATION IS CREATED
         PendingIntent pendingIntent = PendingIntent.getBroadcast(mContext, eventWithData.event.getId(), intent, 0);
         alarmManager.set(AlarmManager.RTC_WAKEUP, alarmTime, pendingIntent);
 
+        Log.i("Log", "Time based alarm made");
 
     }
 
