@@ -134,12 +134,13 @@ public final class HueUtilities {
 
         }
     };
-    public static void changeLightstate(Integer id, int hue, int brightness){
+    
+    public static void changeLightstate(String id, int hue, int brightness){
         PHBridge bridge = phHueSDK.getSelectedBridge();
         List<PHLight> allLights = bridge.getResourceCache().getAllLights();
         for (PHLight light : allLights)
         {
-            if (light.getUniqueId() == id.toString())
+            if (light.getUniqueId() == id)
             {
                 PHLightState lightState = new PHLightState();
                 lightState.setHue(hue);
