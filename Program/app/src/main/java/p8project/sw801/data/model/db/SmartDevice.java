@@ -54,5 +54,4 @@ public class SmartDevice {
 
     public void setInternalIdentifier(Integer internalIdentifier) {this.internalIdentifier = internalIdentifier;}
 
-
 }

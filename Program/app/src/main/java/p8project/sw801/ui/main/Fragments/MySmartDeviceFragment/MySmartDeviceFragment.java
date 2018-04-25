@@ -27,41 +27,30 @@ public class MySmartDeviceFragment extends BaseFragment<ActivityMySmartDeviceBin
     @Inject
     MySmartDeviceFragmentViewModel mMySmartDeviceFragmentViewModel;
     private ActivityMySmartDeviceBinding mActivityMySmartDeviceBinding;
-
-    ArrayList<String> smartDevices;
+    ArrayList<SmartDevice> mySmartdevices;
     //Setup of burger menu
     private ListView listview;
-    ArrayList<SmartDevice> mySmartdevices;
+
     View view;
+    private ImageView imageView;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
         mActivityMySmartDeviceBinding  = getViewDataBinding();
         view = mActivityMySmartDeviceBinding.getRoot();
         mMySmartDeviceFragmentViewModel.setNavigator(this);
+        imageView = mActivityMySmartDeviceBinding.imageViewMyeventadd;
+        listview = mActivityMySmartDeviceBinding.listViewMysmartdevices;
         setUp();
         return view;
 
     }
 
     private void setUp(){
-        ImageView add = mActivityMySmartDeviceBinding.imageViewMyeventadd;
-        listview = (ListView) mActivityMySmartDeviceBinding.listViewMysmartdevices;
-
-        //------Creation of list of Events
-        mySmartdevices = new ArrayList<>();
-        mySmartdevices.addAll(mMySmartDeviceFragmentViewModel.getSmartDeviceObservableList());
-        if (mySmartdevices == null){
-
-        }
-        else{
-            SmartDeviceAdapter myAdapter = new SmartDeviceAdapter(view.getContext(), mySmartdevices, MySmartDeviceFragment.this);
-            listview.setAdapter(myAdapter);
-        }
-
+        mMySmartDeviceFragmentViewModel.createSmartDevices();
     }
+
 
     public void addNewSmartDevice(){
         Intent intent = new Intent(this.getContext(), AddSmartDeviceActivity.class);
@@ -77,6 +66,12 @@ public class MySmartDeviceFragment extends BaseFragment<ActivityMySmartDeviceBin
     @Override
     public void updatelist(){
         setUp();
+    }
+
+    @Override
+    public void createListView(ArrayList<SmartDevice> smartDevices) {
+        SmartDeviceAdapter myAdapter = new SmartDeviceAdapter(view.getContext(), smartDevices, MySmartDeviceFragment.this);
+        listview.setAdapter(myAdapter);
     }
 
     public void deleteSmartDevice(SmartDevice sd){

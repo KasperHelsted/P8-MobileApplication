@@ -15,7 +15,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
-import android.view.Menu;
 import android.view.MenuItem;
 
 import javax.inject.Inject;
@@ -27,7 +26,6 @@ import p8project.sw801.BR;
 import p8project.sw801.R;
 import p8project.sw801.databinding.ActivityMainBinding;
 import p8project.sw801.ui.Settings.SettingsActivity;
-import p8project.sw801.ui.SmartDevice.AddSmartDevice.AddSmartDeviceActivity;
 import p8project.sw801.ui.base.BaseActivity;
 import p8project.sw801.ui.main.Adapters.SectionsPagerAdapter;
 
@@ -99,8 +97,9 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
                 drawerMenu.closeDrawers();
                 break;
             case R.id.menuaddsmartdevies:
-                Intent ac = new Intent(MainActivity.this,AddSmartDeviceActivity.class);
-                startActivity(ac);
+                //Intent ac = new Intent(MainActivity.this,MySmartDeviceFragment.class);
+                //startActivity(ac);
+                //ChangeToSmartDevice();
                 drawerMenu.closeDrawers();
                 break;
             case R.id.menusettings:
