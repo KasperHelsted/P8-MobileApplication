@@ -30,17 +30,7 @@ public class Event {
 
     @ColumnInfo(name = "Shopping")
     private Boolean shopping;
-    @ColumnInfo(name = "smartDeviceId")
-    private Integer smartDeviceId;
-
-    public Integer getSmartDeviceId() {
-        return smartDeviceId;
-    }
-
-    public void setSmartDeviceId(Integer smartDeviceId) {
-        this.smartDeviceId = smartDeviceId;
-    }
-
+    
     public Boolean getShopping() {
         return shopping;
     }
