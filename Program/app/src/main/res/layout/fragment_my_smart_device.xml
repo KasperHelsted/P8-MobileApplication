@@ -3,12 +3,16 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="p8project.sw801.ui.main.Fragment.MySmartDeviceFragment.MySmartDeviceFragment">
+
     <data>
+
         <import type="android.view.View" />
+
         <variable
             name="viewModel"
-            type="p8project.sw801.ui.main.Fragments.MySmartDeviceFragment.MySmartDeviceFragmentViewModel" />
+            type="p8project.sw801.ui.main.Fragments.MySmartDeviceFragment.MySmartDeviceViewModel" />
     </data>
+
     <android.support.v4.widget.DrawerLayout
         android:id="@+id/mysmartdeviceactivity"
         android:layout_width="match_parent"
@@ -18,6 +22,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="#FFFFFF">
+
             <TextView
                 android:id="@+id/textView_mysmartdevices"
                 android:layout_width="300dp"
@@ -29,6 +34,13 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/blogRecyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:adapter="@{viewModel.mySmartDevicesObservableArrayList}" />
+
+            <!--
             <ListView
                 android:id="@+id/listView_mysmartdevices"
                 android:layout_width="391dp"
@@ -39,14 +51,17 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
+            -->
 
+            <!--
+            android:onClick="@{() -> viewModel.addNewSmartDevice()}"
+            -->
             <ImageView
                 android:id="@+id/imageView_myeventadd"
                 android:layout_width="wrap_content"
                 android:layout_height="57dp"
                 android:layout_marginEnd="16dp"
                 android:layout_marginStart="36dp"
-                android:onClick="@{() -> viewModel.addNewSmartDevice()}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/textView_mysmartdevices"
                 app:layout_constraintTop_toBottomOf="@+id/navigation"
@@ -63,7 +78,6 @@
             app:headerLayout="@layout/burgerheader"
             app:itemIconTint="@android:color/black"
             app:itemTextColor="@android:color/black"
-            app:menu="@menu/drawermenu">
-        </android.support.design.widget.NavigationView>
+            app:menu="@menu/drawermenu"></android.support.design.widget.NavigationView>
     </android.support.v4.widget.DrawerLayout>
 </layout>

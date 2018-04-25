@@ -1,88 +1,42 @@
 package p8project.sw801.ui.main.Fragments.MySmartDeviceFragment;
 
-
-import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.ListView;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import javax.inject.Inject;
 
 import p8project.sw801.BR;
 import p8project.sw801.R;
 import p8project.sw801.data.model.db.SmartDevice;
-import p8project.sw801.databinding.ActivityMySmartDeviceBinding;
-import p8project.sw801.ui.SmartDevice.AddSmartDevice.AddSmartDeviceActivity;
-import p8project.sw801.ui.SmartDevice.SmartDeviceAdapter;
+import p8project.sw801.databinding.FragmentMySmartDeviceBinding;
 import p8project.sw801.ui.base.BaseFragment;
 
-
-public class MySmartDeviceFragment extends BaseFragment<ActivityMySmartDeviceBinding, MySmartDeviceFragmentViewModel> implements MySmartDeviceFragmentNavigator {
+public class MySmartDeviceFragment extends BaseFragment<FragmentMySmartDeviceBinding, MySmartDeviceViewModel> implements MySmartDeviceNavigator, MySmartDeviceAdapter.MySmartDeviceListener {
     @Inject
-    MySmartDeviceFragmentViewModel mMySmartDeviceFragmentViewModel;
-    private ActivityMySmartDeviceBinding mActivityMySmartDeviceBinding;
+    MySmartDeviceAdapter mMySmartDeviceAdapter;
+    FragmentMySmartDeviceBinding mFragmentMySmartDeviceBinding;
 
-    ArrayList<String> smartDevices;
-    //Setup of burger menu
-    private ListView listview;
-    ArrayList<SmartDevice> mySmartdevices;
-    View view;
+    @Inject
+    LinearLayoutManager mLayoutManager;
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        super.onCreateView(inflater, container, savedInstanceState);
-        mActivityMySmartDeviceBinding  = getViewDataBinding();
-        view = mActivityMySmartDeviceBinding.getRoot();
-        mMySmartDeviceFragmentViewModel.setNavigator(this);
-        setUp();
-        return view;
+    @Inject
+    MySmartDeviceViewModel mMySmartDeviceViewModel;
 
-    }
-
-    private void setUp(){
-        ImageView add = mActivityMySmartDeviceBinding.imageViewMyeventadd;
-        listview = (ListView) mActivityMySmartDeviceBinding.listViewMysmartdevices;
-
-        //------Creation of list of Events
-        mySmartdevices = new ArrayList<>();
-        mySmartdevices.addAll(mMySmartDeviceFragmentViewModel.getSmartDeviceObservableList());
-        if (mySmartdevices == null){
-
-        }
-        else{
-            SmartDeviceAdapter myAdapter = new SmartDeviceAdapter(view.getContext(), mySmartdevices, MySmartDeviceFragment.this);
-            listview.setAdapter(myAdapter);
-        }
-
-    }
-
-    public void addNewSmartDevice(){
-        Intent intent = new Intent(this.getContext(), AddSmartDeviceActivity.class);
-        startActivity(intent);
-    }
     public static MySmartDeviceFragment newInstance() {
         Bundle args = new Bundle();
+
         MySmartDeviceFragment fragment = new MySmartDeviceFragment();
         fragment.setArguments(args);
+
         return fragment;
     }
-
-    @Override
-    public void updatelist(){
-        setUp();
-    }
-
-    public void deleteSmartDevice(SmartDevice sd){
-        mMySmartDeviceFragmentViewModel.deleteSmartDevice(sd);
-    }
-
 
     @Override
     public int getBindingVariable() {
@@ -91,19 +45,62 @@ public class MySmartDeviceFragment extends BaseFragment<ActivityMySmartDeviceBin
 
     @Override
     public int getLayoutId() {
-        return R.layout.activity_my_smart_device;
+        return R.layout.fragment_my_smart_device;
+    }
+
+
+    @Override
+    public MySmartDeviceViewModel getViewModel() {
+        return mMySmartDeviceViewModel;
     }
 
     @Override
-    public MySmartDeviceFragmentViewModel getViewModel() {
-        return mMySmartDeviceFragmentViewModel;
+    public void handleError(Throwable throwable) {
+        // handle error
     }
 
     @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == Activity.RESULT_OK && requestCode == 1){
-            mMySmartDeviceFragmentViewModel.getListFromDb();
-        }
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        mMySmartDeviceViewModel.setNavigator(this);
+        mMySmartDeviceAdapter.setListener(this);
     }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        super.onCreateView(inflater, container, savedInstanceState);
+        mFragmentMySmartDeviceBinding = getViewDataBinding();
+
+        View view = mFragmentMySmartDeviceBinding.getRoot();
+        mMySmartDeviceViewModel.setNavigator(this);
+
+        setUp();
+        subscribeToLiveData();
+
+        return view;
+    }
+
+    @Override
+    public void onRetryClick() {
+        mMySmartDeviceViewModel.fetchMySmartDevices();
+    }
+
+    @Override
+    public void updateSmartDevice(List<SmartDevice> smartDeviceList) {
+        mMySmartDeviceAdapter.addItems(smartDeviceList);
+    }
+
+    private void setUp() {
+        mLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+
+        mFragmentMySmartDeviceBinding.blogRecyclerView.setLayoutManager(mLayoutManager);
+        mFragmentMySmartDeviceBinding.blogRecyclerView.setItemAnimator(new DefaultItemAnimator());
+        mFragmentMySmartDeviceBinding.blogRecyclerView.setAdapter(mMySmartDeviceAdapter);
+    }
+
+    private void subscribeToLiveData() {
+        mMySmartDeviceViewModel.getMySmartDevicesListLiveData().observe(this, smartDevices -> mMySmartDeviceViewModel.addMySmartDevicesItemsToList(smartDevices));
+    }
+
+
 }
