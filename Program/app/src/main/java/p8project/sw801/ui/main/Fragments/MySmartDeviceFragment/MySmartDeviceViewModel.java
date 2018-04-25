@@ -56,5 +56,8 @@ public class MySmartDeviceViewModel extends BaseViewModel<MySmartDeviceNavigator
         return mySmartDevicesObservableArrayList;
     }
 
+    public void addSmartDevice() {
+        getNavigator().addSmartDevice();
+    }
 
 }

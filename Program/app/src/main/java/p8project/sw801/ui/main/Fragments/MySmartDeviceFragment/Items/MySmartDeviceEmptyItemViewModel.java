@@ -28,12 +28,12 @@ public class MySmartDeviceEmptyItemViewModel {
         this.mListener = listener;
     }
 
-    public void onRetryClick() {
-        mListener.onRetryClick();
+    public void addSmartDevice() {
+        mListener.addSmartDevice();
     }
 
     public interface MySmartDeviceEmptyItemViewModelListener {
 
-        void onRetryClick();
+        void addSmartDevice();
     }
 }

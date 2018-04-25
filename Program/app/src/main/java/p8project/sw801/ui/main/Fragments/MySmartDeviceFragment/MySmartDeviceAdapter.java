@@ -79,7 +79,7 @@ public class MySmartDeviceAdapter extends RecyclerView.Adapter<BaseViewHolder> {
 
     public interface MySmartDeviceListener {
 
-        void onRetryClick();
+        void addSmartDevice();
     }
 
     public class MySmartDeviceViewHolder extends BaseViewHolder implements MySmartDeviceItemViewModel.MySmartDeviceItemViewModelListener {
@@ -125,9 +125,8 @@ public class MySmartDeviceAdapter extends RecyclerView.Adapter<BaseViewHolder> {
         }
 
         @Override
-        public void onRetryClick() {
-            System.out.println("RETRY!!!");
-            mListener.onRetryClick();
+        public void addSmartDevice() {
+            mListener.addSmartDevice();
         }
     }
 

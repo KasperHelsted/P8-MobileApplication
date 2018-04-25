@@ -95,7 +95,8 @@ dependencies {
     implementation files('src/libs/huelocalsdk.jar')
     implementation files('src/libs/huesdkresources.jar')
 
-
+    //Swipe to do stuff
+    implementation "com.daimajia.swipelayout:library:1.2.0@aar"
 }
 configurations.all {
     resolutionStrategy.force "com.android.support:support-annotations:$supportLibraryVersion"

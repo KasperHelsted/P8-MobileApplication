@@ -1,5 +1,6 @@
 package p8project.sw801.ui.main.Fragments.MySmartDeviceFragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -16,6 +17,7 @@ import p8project.sw801.BR;
 import p8project.sw801.R;
 import p8project.sw801.data.model.db.SmartDevice;
 import p8project.sw801.databinding.FragmentMySmartDeviceBinding;
+import p8project.sw801.ui.SmartDevice.AddSmartDevice.AddSmartDeviceActivity;
 import p8project.sw801.ui.base.BaseFragment;
 
 public class MySmartDeviceFragment extends BaseFragment<FragmentMySmartDeviceBinding, MySmartDeviceViewModel> implements MySmartDeviceNavigator, MySmartDeviceAdapter.MySmartDeviceListener {
@@ -81,8 +83,9 @@ public class MySmartDeviceFragment extends BaseFragment<FragmentMySmartDeviceBin
     }
 
     @Override
-    public void onRetryClick() {
-        mMySmartDeviceViewModel.fetchMySmartDevices();
+    public void addSmartDevice() {
+        Intent intent = new Intent(this.getContext(), AddSmartDeviceActivity.class);
+        startActivity(intent);
     }
 
     @Override
