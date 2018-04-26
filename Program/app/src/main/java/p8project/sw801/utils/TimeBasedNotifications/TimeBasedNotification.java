@@ -22,11 +22,20 @@ import p8project.sw801.data.local.RelationEntity.TriggerWithSmartDevice;
 import p8project.sw801.data.local.RelationEntity.WhenWithCoordinate;
 import p8project.sw801.data.model.db.Trigger;
 import p8project.sw801.data.model.db.When;
+import p8project.sw801.utils.ProximityBasedNotifications.ProximityService;
 
 public final class TimeBasedNotification {
 
+    private static TimeService ts = new TimeService();
+    private static ProximityService ps = new ProximityService();
+
 
     public static void setAlarm(Context ctx, EventWithData eventWithData){
+        Intent in = new Intent(ctx, TimeService.class);
+        ctx.startService(in);
+        Intent i = new Intent(ctx, ProximityService.class);
+        ctx.startService(i);
+
         //TaF tester
         WhenWithCoordinate time = eventWithData.whens.get(0);
         //Initialize alarmManager with the context
