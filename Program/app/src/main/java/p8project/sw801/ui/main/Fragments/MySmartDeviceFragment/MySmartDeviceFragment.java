@@ -43,8 +43,11 @@ public class MySmartDeviceFragment extends BaseFragment<FragmentMySmartDeviceBin
 
     @Override
     public void onResume() {
-        super.onResume();
         getViewModel().fetchMySmartDevices();
+
+        System.out.println("FETCH?");
+
+        super.onResume();
     }
 
     @Override
