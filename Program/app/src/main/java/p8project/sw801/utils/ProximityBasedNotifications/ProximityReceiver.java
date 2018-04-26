@@ -1,6 +1,5 @@
 package p8project.sw801.utils.ProximityBasedNotifications;
 
-import android.arch.persistence.room.Room;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -19,22 +18,14 @@ import p8project.sw801.data.local.db.AppDatabase;
 import p8project.sw801.data.model.db.Smartdevice.Accessories.HueLightbulbWhite;
 import p8project.sw801.data.model.db.Smartdevice.Controllers.HueBridge;
 import p8project.sw801.data.model.db.When;
-import p8project.sw801.utils.AppConstants;
+import p8project.sw801.ui.base.BaseService;
 import p8project.sw801.utils.HueUtilities;
 import p8project.sw801.utils.NotificationUtil;
 
 public class ProximityReceiver extends BroadcastReceiver {
 
     private static NotificationUtil n;
-
-
-    private AppDatabase getDatabase(Context context) {
-        return Room.databaseBuilder(
-                context,
-                AppDatabase.class,
-                AppConstants.DB_NAME
-        ).fallbackToDestructiveMigration().build();
-    }
+    BaseService baseService = new BaseService();
 
     @Override
     public void onReceive(Context context, Intent intent) {
@@ -51,7 +42,7 @@ public class ProximityReceiver extends BroadcastReceiver {
             jsonMyObject = result.getString("eventWithDate");
         }
 
-        AppDatabase db = this.getDatabase(context);
+        AppDatabase db = baseService.getDatabase(context);
         EventWithData eventWithData = db.eventWithDataDao().getEventWithData(
                 new Gson().fromJson(jsonMyObject, EventWithData.class).event.getId()
         );
