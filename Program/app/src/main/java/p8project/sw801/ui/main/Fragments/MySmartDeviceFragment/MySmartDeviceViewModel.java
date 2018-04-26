@@ -60,6 +60,19 @@ public class MySmartDeviceViewModel extends BaseViewModel<MySmartDeviceNavigator
         getNavigator().addSmartDevice();
     }
 
+
+    protected void deleteHueBridge(Integer id) {
+    }
+
+    protected void deleteHueLightbulbWhite(Integer id) {
+    }
+
+    protected void deleteNestHub(Integer id) {
+    }
+
+    protected void deleteNestThermostat(Integer id) {
+    }
+
     public void deleteDevice(SmartDevice smartDevice) {
         setIsLoading(true);
         getCompositeDisposable().add(getDataManager()

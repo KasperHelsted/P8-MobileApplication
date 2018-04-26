@@ -32,6 +32,10 @@ public class HueLightbulbRGB {
     @ColumnInfo(name = "deviceId")
     private Integer deviceId;
 
+    @ColumnInfo(name = "smartDeviceId")
+    private Integer smartDeviceId;
+
+
     public Integer getId() {
         return id;
     }
@@ -62,5 +66,13 @@ public class HueLightbulbRGB {
 
     public void setDeviceId(Integer deviceId) {
         this.deviceId = deviceId;
+    }
+
+    public Integer getSmartDeviceId() {
+        return smartDeviceId;
+    }
+
+    public void setSmartDeviceId(Integer smartDeviceId) {
+        this.smartDeviceId = smartDeviceId;
     }
 }
