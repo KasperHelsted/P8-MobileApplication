@@ -62,19 +62,44 @@ public class MySmartDeviceViewModel extends BaseViewModel<MySmartDeviceNavigator
 
 
     protected void deleteHueBridge(Integer id) {
+        getCompositeDisposable().add(getDataManager()
+                .deleteHueBridgeBySmartDeviceId(id)
+                .subscribeOn(getSchedulerProvider().io())
+                .subscribe());
     }
 
     protected void deleteHueLightbulbWhite(Integer id) {
+        getCompositeDisposable().add(getDataManager()
+                .deleteWhiteHueLightsBySmartDeviceId(id)
+                .subscribeOn(getSchedulerProvider().io())
+                .subscribe());
+    }
+
+    protected void deleteHueLightbulbRGB(Integer id) {
+        getCompositeDisposable().add(getDataManager()
+                .deleteRGBHueLightsBySmartDeviceId(id)
+                .subscribeOn(getSchedulerProvider().io())
+                .subscribe());
     }
 
     protected void deleteNestHub(Integer id) {
+        getCompositeDisposable().add(getDataManager()
+                .deleteNestHubBySmartDeviceId(id)
+                .subscribeOn(getSchedulerProvider().io())
+                .subscribe());
     }
 
     protected void deleteNestThermostat(Integer id) {
+        getCompositeDisposable().add(getDataManager()
+                .deleteNestThermostatBySmartDeviceId()r(id)
+                .subscribeOn(getSchedulerProvider().io())
+                .subscribe());
     }
 
     public void deleteDevice(SmartDevice smartDevice) {
         setIsLoading(true);
+        int id = smartDevice.getId();
+
         getCompositeDisposable().add(getDataManager()
                 .deleteSmartDevice(
                         smartDevice
@@ -82,6 +107,13 @@ public class MySmartDeviceViewModel extends BaseViewModel<MySmartDeviceNavigator
                 .subscribeOn(getSchedulerProvider().io())
                 .subscribe(mySmartDevices -> {
                     setIsLoading(false);
+
+                    deleteHueBridge(id);
+                    deleteHueLightbulbWhite(id);
+                    deleteHueLightbulbRGB(id);
+                    deleteNestHub(id);
+                    deleteNestThermostat(id);
+
                     fetchMySmartDevices();
                 }, throwable -> {
                     setIsLoading(false);
