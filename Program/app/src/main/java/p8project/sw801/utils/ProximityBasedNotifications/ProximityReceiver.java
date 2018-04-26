@@ -1,25 +1,25 @@
 package p8project.sw801.utils.ProximityBasedNotifications;
 
+import android.arch.persistence.room.Room;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.google.gson.Gson;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import p8project.sw801.data.local.RelationEntity.EventWithData;
 import p8project.sw801.data.local.RelationEntity.TriggerWithSmartDevice;
 import p8project.sw801.data.local.RelationEntity.WhenWithCoordinate;
+import p8project.sw801.data.local.db.AppDatabase;
 import p8project.sw801.data.model.db.Smartdevice.Accessories.HueLightbulbWhite;
 import p8project.sw801.data.model.db.Smartdevice.Controllers.HueBridge;
-import p8project.sw801.data.model.db.Trigger;
 import p8project.sw801.data.model.db.When;
+import p8project.sw801.utils.AppConstants;
 import p8project.sw801.utils.HueUtilities;
 import p8project.sw801.utils.NotificationUtil;
 
@@ -27,6 +27,14 @@ public class ProximityReceiver extends BroadcastReceiver {
 
     private static NotificationUtil n;
 
+
+    private AppDatabase getDatabase(Context context) {
+        return Room.databaseBuilder(
+                context,
+                AppDatabase.class,
+                AppConstants.DB_NAME
+        ).fallbackToDestructiveMigration().build();
+    }
 
     @Override
     public void onReceive(Context context, Intent intent) {
@@ -43,7 +51,11 @@ public class ProximityReceiver extends BroadcastReceiver {
             jsonMyObject = result.getString("eventWithDate");
         }
 
-        EventWithData eventWithData = new Gson().fromJson(jsonMyObject, EventWithData.class);
+        AppDatabase db = this.getDatabase(context);
+        EventWithData eventWithData = db.eventWithDataDao().getEventWithData(
+                new Gson().fromJson(jsonMyObject, EventWithData.class).event.getId()
+        );
+
         List<TriggerWithSmartDevice> triggerWithSmartDevices = eventWithData.triggers;
         WhenWithCoordinate whenWithCoordinate = eventWithData.whens.get(0);
         When when = whenWithCoordinate.when;
@@ -56,25 +68,24 @@ public class ProximityReceiver extends BroadcastReceiver {
             triggerFunction(triggerWithSmartDevices, eventWithData.event.getName());
 
             //If the user is leaving a location
-        } else if(when.getLocationCondition() == 3 && !entering) {
+        } else if (when.getLocationCondition() == 3 && !entering) {
             Log.i("PROXIMITY", "Leaving");
             triggerFunction(triggerWithSmartDevices, eventWithData.event.getName());
 
         }
     }
 
-    public void triggerFunction(List<TriggerWithSmartDevice> triggerList, String eventName){
+    public void triggerFunction(List<TriggerWithSmartDevice> triggerList, String eventName) {
 
         HueUtilities.setupSDK();
 
         Boolean notification = false;
 
 
-
         Log.i("Log", "Triggering");
-        for (TriggerWithSmartDevice t:triggerList) {
+        for (TriggerWithSmartDevice t : triggerList) {
             String uniqueId = "";
-            if (t.trigger.getAction() == 1 || t.trigger.getAction() == 2 || t.trigger.getAction() ==  3){
+            if (t.trigger.getAction() == 1 || t.trigger.getAction() == 2 || t.trigger.getAction() == 3) {
                 HueBridge hueBridge = t.smartDeviceWithDataList.get(0).hueBridgeList.get(0);
                 HueUtilities.connectToBridge(hueBridge);
                 try {
@@ -85,49 +96,51 @@ public class ProximityReceiver extends BroadcastReceiver {
             }
 
 
-            switch (t.trigger.getAction()){
-            case 0:
-                n.CreateNotification(eventName, t.trigger.getNotificationText());
-                notification = true;
-                break;
-            case 1:
-                for (HueLightbulbWhite lightbulbWhite: t.smartDeviceWithDataList.get(0).hueLightbulbWhiteList) {
-                    if (t.trigger.getAccessorieId() == lightbulbWhite.getId()){
-                        uniqueId = lightbulbWhite.getDeviceId();
+            switch (t.trigger.getAction()) {
+                case 0:
+                    n.CreateNotification(eventName, t.trigger.getNotificationText());
+                    notification = true;
+                    break;
+                case 1:
+                    for (HueLightbulbWhite lightbulbWhite : t.smartDeviceWithDataList.get(0).hueLightbulbWhiteList) {
+                        if (t.trigger.getAccessorieId() == lightbulbWhite.getId()) {
+                            uniqueId = lightbulbWhite.getDeviceId();
+                        }
                     }
-                }
-                HueUtilities.turnLightOn(uniqueId);
-                break;
-            case 2:
-                for (HueLightbulbWhite lightbulbWhite: t.smartDeviceWithDataList.get(0).hueLightbulbWhiteList) {
-                    if (t.trigger.getAccessorieId() == lightbulbWhite.getId()){
-                        uniqueId = lightbulbWhite.getDeviceId();
+                    HueUtilities.turnLightOn(uniqueId);
+                    break;
+                case 2:
+                    for (HueLightbulbWhite lightbulbWhite : t.smartDeviceWithDataList.get(0).hueLightbulbWhiteList) {
+                        if (t.trigger.getAccessorieId() == lightbulbWhite.getId()) {
+                            uniqueId = lightbulbWhite.getDeviceId();
+                        }
                     }
-                }
-                HueUtilities.turnLightOff(uniqueId);
-                break;
-            case 3:
-                for (HueLightbulbWhite lightbulbWhite: t.smartDeviceWithDataList.get(0).hueLightbulbWhiteList) {
-                    if (t.trigger.getAccessorieId() == lightbulbWhite.getId()){
-                        uniqueId = lightbulbWhite.getDeviceId();
+                    HueUtilities.turnLightOff(uniqueId);
+                    break;
+                case 3:
+                    for (HueLightbulbWhite lightbulbWhite : t.smartDeviceWithDataList.get(0).hueLightbulbWhiteList) {
+                        if (t.trigger.getAccessorieId() == lightbulbWhite.getId()) {
+                            uniqueId = lightbulbWhite.getDeviceId();
+                        }
                     }
-                }
-                HueUtilities.changeLightstate(uniqueId, 40000, t.trigger.getValue());
-                break;
-            case 4: break;//TODO TRIGGER NEST THERMO ON
-            case 5: break;//TODO TRIGGER NEST THERMO OFF
-            case 6: break;//TODO CHANGE NEST THERMO TEMP
-            default: break;
+                    HueUtilities.changeLightstate(uniqueId, 40000, t.trigger.getValue());
+                    break;
+                case 4:
+                    break;//TODO TRIGGER NEST THERMO ON
+                case 5:
+                    break;//TODO TRIGGER NEST THERMO OFF
+                case 6:
+                    break;//TODO CHANGE NEST THERMO TEMP
+                default:
+                    break;
             }
         }
 
-        if(!notification){
+        if (!notification) {
             n.CreateNotification(eventName, "");
             notification = false;
         }
     }
-
-
 
 
 }
