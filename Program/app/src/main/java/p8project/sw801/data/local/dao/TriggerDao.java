@@ -31,11 +31,14 @@ public interface TriggerDao {
     @Query("SELECT * FROM `trigger` WHERE eventId == :eId")
     List<Trigger> loadAllByEventId(Integer eId);
 
-    @Query("SELECT * FROM `trigger` WHERE smartDeviceId = :eId")
-    List<Trigger> loadAllBySmartDeviceId(Integer eId);
+    @Query("SELECT * FROM `trigger` WHERE smartDeviceId = :smId")
+    List<Trigger> loadAllBySmartDeviceId(Integer smId);
 
-    @Query("DELETE FROM `trigger` WHERE smartDeviceId = :eId")
-    void deleteTriggerBySmartDeviceId(Integer eId);
+    @Query("DELETE FROM `trigger` WHERE eventId = :eId")
+    void deleteTriggerByEventId(Integer eId);
+
+    @Query("DELETE FROM `trigger` WHERE smartDeviceId = :smId")
+    void deleteTriggerBySmartDeviceId(Integer smId);
 
     @Insert
     void insertAll(List<Trigger> triggers);
