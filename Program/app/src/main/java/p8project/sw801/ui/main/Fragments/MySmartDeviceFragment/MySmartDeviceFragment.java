@@ -3,6 +3,7 @@ package p8project.sw801.ui.main.Fragments.MySmartDeviceFragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
@@ -89,6 +90,28 @@ public class MySmartDeviceFragment extends BaseFragment<FragmentMySmartDeviceBin
     }
 
     @Override
+    public void deleteSmartDevice(SmartDevice smartDevice) {
+        new AlertDialog.Builder(getContext())
+                .setTitle("Delete smart device")
+                .setMessage("Do you really want to delete " + smartDevice.getDeviceName() + "?")
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .setPositiveButton(android.R.string.yes, (dialog, whichButton) -> System.out.println("DELETE THIS SMART DEVICE!"))
+                .setNegativeButton(android.R.string.no, null).show();
+    }
+
+    @Override
+    public void toggleSmartDevice(SmartDevice smartDevice) {
+        //TODO: toggle stuffers
+        System.out.println("TOGGLE");
+    }
+
+    @Override
+    public void onItemClick(SmartDevice smartDevice) {
+        //TODO: toggle stuffers
+        System.out.println("Click?");
+    }
+
+    @Override
     public void updateSmartDevice(List<SmartDevice> smartDeviceList) {
         mMySmartDeviceAdapter.addItems(smartDeviceList);
     }
@@ -96,9 +119,9 @@ public class MySmartDeviceFragment extends BaseFragment<FragmentMySmartDeviceBin
     private void setUp() {
         mLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
 
-        mFragmentMySmartDeviceBinding.blogRecyclerView.setLayoutManager(mLayoutManager);
-        mFragmentMySmartDeviceBinding.blogRecyclerView.setItemAnimator(new DefaultItemAnimator());
-        mFragmentMySmartDeviceBinding.blogRecyclerView.setAdapter(mMySmartDeviceAdapter);
+        mFragmentMySmartDeviceBinding.recyclerViewMysmartdevices.setLayoutManager(mLayoutManager);
+        mFragmentMySmartDeviceBinding.recyclerViewMysmartdevices.setItemAnimator(new DefaultItemAnimator());
+        mFragmentMySmartDeviceBinding.recyclerViewMysmartdevices.setAdapter(mMySmartDeviceAdapter);
     }
 
     private void subscribeToLiveData() {

@@ -29,19 +29,15 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:paddingBottom="10dp">
+                android:orientation="vertical">
 
-                <!--
-                    app:imageUrl="@{viewModel.imageUrl}"
-                -->
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginBottom="5dp"
                     android:layout_marginLeft="5dp"
                     android:layout_marginRight="5dp"
                     android:layout_marginTop="5dp"
-                    android:layout_marginBottom="5dp"
                     android:orientation="horizontal">
 
                     <p8project.sw801.ui.custom.RoundedImageView
@@ -50,32 +46,58 @@
                         android:layout_height="60dp"
                         android:layout_margin="5dp"
                         android:scaleType="fitCenter"
-                        tools:src="@drawable/hue" />
+                        android:src="@drawable/nest"
+                        app:imageUrl="@{viewModel.imageUrl}" />
 
                     <TextView
                         android:id="@+id/deviceName"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_toRightOf="@id/coverImageView"
-                        android:layout_marginLeft="5dp"
+                        android:layout_marginStart="5dp"
                         android:layout_marginTop="10dp"
+                        android:layout_toEndOf="@id/coverImageView"
                         android:text="@{viewModel.deviceName}"
-                        tools:text="Android MVP Architecture" />
+                        android:textSize="20sp"
+                        tools:text="SAMPLE DEVICE NAME" />
 
                     <TextView
                         android:id="@+id/deviceType"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_toRightOf="@id/coverImageView"
-                        android:layout_marginLeft="5dp"
-                        android:layout_marginTop="30dp"
-                        android:textSize="11dp"
+                        android:layout_below="@id/deviceName"
+                        android:layout_marginStart="5dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_toEndOf="@id/coverImageView"
+                        android:text="@{viewModel.deviceType}"
                         android:textColor="@color/blue_grey_light"
-                        android:text="@{viewModel.deviceName}"
-                        tools:text="Philips Hue Light Bulb White" />
+                        android:textSize="12sp"
+                        tools:text="SAMPLE TEST" />
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_alignParentEnd="true">
+
+                        <ImageView
+                            android:layout_width="25dp"
+                            android:layout_height="25dp"
+                            android:layout_marginEnd="10dp"
+                            android:layout_marginTop="12dp"
+                            android:onClick="@{() -> viewModel.toggleSmartDevice()}"
+                            app:srcCompat="@drawable/on_off_button" />
+
+                        <ImageView
+                            android:id="@+id/deleteMySmartDevice"
+                            android:layout_width="25dp"
+                            android:layout_height="25dp"
+                            android:layout_marginEnd="10dp"
+                            android:layout_marginTop="12dp"
+                            android:onClick="@{() -> viewModel.deleteSmartDevice()}"
+                            app:srcCompat="@drawable/ic_delete_black_18dp" />
+                    </LinearLayout>
+
                 </RelativeLayout>
             </LinearLayout>
         </android.support.v7.widget.CardView>
     </RelativeLayout>
-
 </layout>
