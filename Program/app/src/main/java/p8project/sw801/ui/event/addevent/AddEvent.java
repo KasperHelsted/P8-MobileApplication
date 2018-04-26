@@ -39,6 +39,7 @@ import javax.inject.Inject;
 import dagger.android.AndroidInjector;
 import dagger.android.DispatchingAndroidInjector;
 import dagger.android.support.HasSupportFragmentInjector;
+import io.reactivex.exceptions.OnErrorNotImplementedException;
 import p8project.sw801.BR;
 import p8project.sw801.R;
 import p8project.sw801.data.local.RelationEntity.EventWithData;
@@ -54,6 +55,7 @@ import p8project.sw801.ui.Settings.Location.LocationSettingActivity;
 import p8project.sw801.ui.base.BaseActivity;
 import p8project.sw801.ui.event.createeventmap.CreateEventMap;
 import p8project.sw801.ui.event.notificationorsmartdevice.NotificationOrSmartdevice;
+import p8project.sw801.utils.CommonUtils;
 import p8project.sw801.utils.NotificationUtil;
 import p8project.sw801.utils.ProximityBasedNotifications.ProximityBasedNotifications;
 import p8project.sw801.utils.TimeBasedNotifications.TimeBasedNotification;
@@ -66,7 +68,7 @@ public class AddEvent extends BaseActivity<ActivityAddEventBinding, AddEventView
     @Inject
     DispatchingAndroidInjector<Fragment> fragmentDispatchingAndroidInjector;
 
-    private PredefinedLocation location;
+    private PredefinedLocation location = null;
     public ArrayList<Trigger> addMyEvents;
     public AddEventAdapter myAdapter;
     private Bundle addressBundle;
@@ -173,7 +175,7 @@ public class AddEvent extends BaseActivity<ActivityAddEventBinding, AddEventView
                     betweenTime.setEnabled(true);
                     betweenTime.setVisibility(View.VISIBLE);
                 } else*/
-                    if (position == 0) {
+                if (position == 0) {
                     textViewTime.setVisibility(View.GONE);
                     AtTime.setEnabled(false);
                     AtTime.setVisibility(View.GONE);
@@ -214,6 +216,7 @@ public class AddEvent extends BaseActivity<ActivityAddEventBinding, AddEventView
                 // your code here
             }
         });
+        coordinate = null;
     }
 
     @Override
@@ -267,7 +270,8 @@ public class AddEvent extends BaseActivity<ActivityAddEventBinding, AddEventView
         }
 
     }
-    public void updateActiveLocation(PredefinedLocation loc){
+
+    public void updateActiveLocation(PredefinedLocation loc) {
         location = loc;
     }
 
@@ -449,14 +453,46 @@ public class AddEvent extends BaseActivity<ActivityAddEventBinding, AddEventView
         }
 
         //Make coordinate and save to DB
-        if (coordinate != null){
-            mAddEventViewModel.saveCoordinate(newWhen, addMyEvents, coordinate);
+        String locName = eventName.getText().toString();
+
+        if (coordinate != null) {
+            try {
+                if (newWhen.getListWeekDays().isEmpty()) {
+                    Toast.makeText(this, "You must set a day", Toast.LENGTH_SHORT).show();
+                }
+                if (!CommonUtils.isNullOrEmpty(locName) && coordinate.getLongitude() != 0 && coordinate != null) {
+                    mAddEventViewModel.saveCoordinate(newWhen, addMyEvents, coordinate);
+                    Toast.makeText(this, "The event has been created from coordinate", Toast.LENGTH_SHORT).show();
+                    finish();
+                } else {
+                    Toast.makeText(this, "You must specify a name", Toast.LENGTH_SHORT).show();
+                }
+            } catch (NullPointerException e) {
+                Toast.makeText(this, "You must set a location", Toast.LENGTH_SHORT).show();
+            } catch (OnErrorNotImplementedException f) {
+                Toast.makeText(this, "You must set a location", Toast.LENGTH_SHORT).show();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } else if (location != null){
+            try {
+                if (newWhen.getListWeekDays().isEmpty()) {
+                    Toast.makeText(this, "You must set a day", Toast.LENGTH_SHORT).show();
+                } else if (!CommonUtils.isNullOrEmpty(locName)) {
+                    mAddEventViewModel.submitEventToDatabase(newWhen, addMyEvents, location);
+                    Toast.makeText(this, "The event has been created from predefined location", Toast.LENGTH_SHORT).show();
+                    finish();
+                } else {
+                    Toast.makeText(this, "You must specify a name", Toast.LENGTH_SHORT).show();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
-        else{
-            mAddEventViewModel.submitEventToDatabase(newWhen,addMyEvents,location);
+        else {
+            // TODO: 26-04-2018 What if no location is set at all!
         }
-        Toast.makeText(this, "The event has been created", Toast.LENGTH_SHORT).show();
-        finish();
+
     }
 
     @Override
@@ -465,7 +501,7 @@ public class AddEvent extends BaseActivity<ActivityAddEventBinding, AddEventView
         builderSingle.setIcon(R.drawable.ic_launcher);
         builderSingle.setTitle("Please select a predefined location:");
         final ArrayList<String> names = new ArrayList<>();
-        for (PredefinedLocation predefinedLocation: predefinedLocationList){
+        for (PredefinedLocation predefinedLocation : predefinedLocationList) {
             names.add(predefinedLocation.getName());
         }
 
@@ -476,7 +512,7 @@ public class AddEvent extends BaseActivity<ActivityAddEventBinding, AddEventView
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 Intent intent = new Intent(AddEvent.this, AddLocationSettingActivity.class);
-                startActivityForResult(intent,2);
+                startActivityForResult(intent, 2);
             }
         });
 
@@ -490,8 +526,8 @@ public class AddEvent extends BaseActivity<ActivityAddEventBinding, AddEventView
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 String strName = arrayAdapter.getItem(which);
-                for (PredefinedLocation predefinedLocation: predefinedLocationList){
-                    if (predefinedLocation.getName() == strName){
+                for (PredefinedLocation predefinedLocation : predefinedLocationList) {
+                    if (predefinedLocation.getName() == strName) {
                         location = predefinedLocation;
                         break;
                     }
