@@ -134,7 +134,23 @@ public final class HueUtilities {
 
         }
     };
-    public static void changeLightstate(Integer id, int hue, int brightness){
+    public static void changeLightstate(String id, int hue, int brightness){
+        PHBridge bridge = phHueSDK.getSelectedBridge();
+        List<PHLight> allLights = bridge.getResourceCache().getAllLights();
+        for (PHLight light : allLights)
+        {
+            if (light.getUniqueId() == id)
+            {
+                PHLightState lightState = new PHLightState();
+                lightState.setHue(hue);
+                lightState.setBrightness(brightness);
+                bridge.updateLightState(light, lightState);
+            }
+
+        }
+    }
+
+    public static void turnLightOn(String id){
         PHBridge bridge = phHueSDK.getSelectedBridge();
         List<PHLight> allLights = bridge.getResourceCache().getAllLights();
         for (PHLight light : allLights)
@@ -142,8 +158,21 @@ public final class HueUtilities {
             if (light.getUniqueId() == id.toString())
             {
                 PHLightState lightState = new PHLightState();
-                lightState.setHue(hue);
-                lightState.setBrightness(brightness);
+                lightState.setOn(true);
+                bridge.updateLightState(light, lightState);
+            }
+
+        }
+    }
+    public static void turnLightOff(String id){
+        PHBridge bridge = phHueSDK.getSelectedBridge();
+        List<PHLight> allLights = bridge.getResourceCache().getAllLights();
+        for (PHLight light : allLights)
+        {
+            if (light.getUniqueId().equals(id.toString()))
+            {
+                PHLightState lightState = new PHLightState();
+                lightState.setOn(false);
                 bridge.updateLightState(light, lightState);
             }
 

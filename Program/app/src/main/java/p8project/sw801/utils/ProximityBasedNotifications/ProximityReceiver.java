@@ -16,6 +16,7 @@ import java.util.List;
 import p8project.sw801.data.local.RelationEntity.EventWithData;
 import p8project.sw801.data.local.RelationEntity.TriggerWithSmartDevice;
 import p8project.sw801.data.local.RelationEntity.WhenWithCoordinate;
+import p8project.sw801.data.model.db.Smartdevice.Accessories.HueLightbulbWhite;
 import p8project.sw801.data.model.db.Smartdevice.Controllers.HueBridge;
 import p8project.sw801.data.model.db.Trigger;
 import p8project.sw801.data.model.db.When;
@@ -41,6 +42,7 @@ public class ProximityReceiver extends BroadcastReceiver {
         if (result != null) {
             jsonMyObject = result.getString("eventWithDate");
         }
+
         EventWithData eventWithData = new Gson().fromJson(jsonMyObject, EventWithData.class);
         List<TriggerWithSmartDevice> triggerWithSmartDevices = eventWithData.triggers;
         WhenWithCoordinate whenWithCoordinate = eventWithData.whens.get(0);
@@ -67,22 +69,50 @@ public class ProximityReceiver extends BroadcastReceiver {
 
         Boolean notification = false;
 
+
+
         Log.i("Log", "Triggering");
         for (TriggerWithSmartDevice t:triggerList) {
-            HueBridge hueBridge = t.smartDeviceWithDataList.get(0).hueBridgeList.get(0);
-            HueUtilities.connectToBridge(hueBridge);
+            String uniqueId = "";
+            if (t.trigger.getAction() == 1 || t.trigger.getAction() == 2 || t.trigger.getAction() ==  3){
+                HueBridge hueBridge = t.smartDeviceWithDataList.get(0).hueBridgeList.get(0);
+                HueUtilities.connectToBridge(hueBridge);
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+
 
             switch (t.trigger.getAction()){
-            case 0:{ n.CreateNotification(eventName, t.trigger.getNotificationText());
-            notification = true; }
+            case 0:
+                n.CreateNotification(eventName, t.trigger.getNotificationText());
+                notification = true;
+                break;
             case 1:
-                HueUtilities.changeLightstate(t.trigger.getAccessorieId(), 40000, 150);
+                for (HueLightbulbWhite lightbulbWhite: t.smartDeviceWithDataList.get(0).hueLightbulbWhiteList) {
+                    if (t.trigger.getAccessorieId() == lightbulbWhite.getId()){
+                        uniqueId = lightbulbWhite.getDeviceId();
+                    }
+                }
+                HueUtilities.turnLightOn(uniqueId);
                 break;
             case 2:
-                HueUtilities.changeLightstate(t.trigger.getAccessorieId(), 0, 0) ;
+                for (HueLightbulbWhite lightbulbWhite: t.smartDeviceWithDataList.get(0).hueLightbulbWhiteList) {
+                    if (t.trigger.getAccessorieId() == lightbulbWhite.getId()){
+                        uniqueId = lightbulbWhite.getDeviceId();
+                    }
+                }
+                HueUtilities.turnLightOff(uniqueId);
                 break;
             case 3:
-                HueUtilities.changeLightstate(t.trigger.getAccessorieId(), 40000, t.trigger.getValue());
+                for (HueLightbulbWhite lightbulbWhite: t.smartDeviceWithDataList.get(0).hueLightbulbWhiteList) {
+                    if (t.trigger.getAccessorieId() == lightbulbWhite.getId()){
+                        uniqueId = lightbulbWhite.getDeviceId();
+                    }
+                }
+                HueUtilities.changeLightstate(uniqueId, 40000, t.trigger.getValue());
                 break;
             case 4: break;//TODO TRIGGER NEST THERMO ON
             case 5: break;//TODO TRIGGER NEST THERMO OFF

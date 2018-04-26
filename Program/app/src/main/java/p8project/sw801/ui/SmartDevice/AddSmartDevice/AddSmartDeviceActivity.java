@@ -147,6 +147,7 @@ public class AddSmartDeviceActivity extends BaseActivity<ActivityAddSmartDeviceB
                 HueLightbulbWhite hbw = new HueLightbulbWhite();
                 hbw.setDeviceName(pl.getName());
                 hbw.setDeviceId(pl.getUniqueId());
+                uniqueID.add(hbw);
             }
             //Transfer all data to Viewmodel
             mSmartDeviceViewModel.smartDeviceinsertHandler(sd,mhueBridge,uniqueID);
