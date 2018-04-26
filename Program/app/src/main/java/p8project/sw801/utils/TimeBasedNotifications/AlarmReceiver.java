@@ -67,7 +67,7 @@ public class AlarmReceiver extends BroadcastReceiver {
         if (when.getLocationCondition() == 0){
             ProximityReceiver proximityReceiver = new ProximityReceiver();
                 proximityReceiver.triggerFunction(triggerWithSmartDevices, eventWithData.event.getName());
-        }else if(when.getTimeCondition()== 1 && when.getStartTime() >= time){
+        }else if(when.getTimeCondition()== 1 && when.getStartHour() >= ho && when.getStartMinute() >= minute){
             Log.i("log", "Before this time received");
             ProximityBasedNotifications proximityBasedNotifications = new ProximityBasedNotifications(context);
             proximityBasedNotifications.createProximityNotification(whenWithCoordinate.coordinate.get(0), eventWithData.event.getId(), eventWithData);
@@ -75,11 +75,11 @@ public class AlarmReceiver extends BroadcastReceiver {
             Log.i("log", "At this time received");
             ProximityBasedNotifications proximityBasedNotifications = new ProximityBasedNotifications(context);
             proximityBasedNotifications.createProximityNotification(whenWithCoordinate.coordinate.get(0), eventWithData.event.getId(), eventWithData);
-        } else if(when.getTimeCondition() == 3 && when.getStartTime() <= time){
+        } else if(when.getTimeCondition() == 3 && when.getStartHour() <= ho && when.getStartMinute() <= minute){
             Log.i("log", "After this time received");
             ProximityBasedNotifications proximityBasedNotifications = new ProximityBasedNotifications(context);
             proximityBasedNotifications.createProximityNotification(whenWithCoordinate.coordinate.get(0), eventWithData.event.getId(), eventWithData);
-        } else if(when.getTimeCondition() == 4 && when.getStartTime() <= time && when.getEndTime() >= time){
+        } else if(when.getTimeCondition() == 4 && when.getStartHour() <= ho && when.getStartMinute() <= minute && when.getEndHour() >= ho && when.getEndMinute() >= minute){
             Log.i("log", "Between times received");
             ProximityBasedNotifications proximityBasedNotifications = new ProximityBasedNotifications(context);
             proximityBasedNotifications.createProximityNotification(whenWithCoordinate.coordinate.get(0), eventWithData.event.getId(), eventWithData);

@@ -1,17 +1,13 @@
 package p8project.sw801.ui.event.addevent;
 
-import android.util.Log;
-
+import java.util.ArrayList;
 import java.util.List;
 
 import p8project.sw801.data.DataManager;
+import p8project.sw801.data.model.db.Coordinate;
 import p8project.sw801.data.model.db.Event;
-import p8project.sw801.data.model.db.SmartDevice;
-import p8project.sw801.data.model.db.Smartdevice.Accessories.HueLightbulbWhite;
-import p8project.sw801.data.model.db.Smartdevice.Accessories.NestThermostat;
-import p8project.sw801.data.model.db.Smartdevice.Controllers.HueBridge;
-import p8project.sw801.data.model.db.Smartdevice.Controllers.NestHub;
 import p8project.sw801.data.model.db.Trigger;
+import p8project.sw801.data.model.db.When;
 import p8project.sw801.ui.base.BaseViewModel;
 import p8project.sw801.utils.rx.SchedulerProvider;
 
@@ -21,6 +17,7 @@ public class AddEventViewModel extends BaseViewModel<AddEventNavigator> {
     public AddEventViewModel(DataManager dataManager, SchedulerProvider schedulerProvider) {
         super(dataManager, schedulerProvider);
         //tempAddEvent();
+
     }
 
     public void showMapActivity() {
@@ -40,11 +37,8 @@ public class AddEventViewModel extends BaseViewModel<AddEventNavigator> {
 
     }
 
-    public void submitEventToDatabase(Event event, List<Trigger> trigList) {
-        //TODO NEED CORRECT PARAMETERS TO PASS TO DB
-        List<Trigger> tList = trigList;
-        Event eventId = new Event();
-
+    /*public void submitEventToDatabase(Event event)
+    {
         // Save Event to DB
         getCompositeDisposable().add(
                 getDataManager().insertEvent(event).subscribeOn(
@@ -52,7 +46,12 @@ public class AddEventViewModel extends BaseViewModel<AddEventNavigator> {
                 ).observeOn(getSchedulerProvider().ui())
                         .subscribe()
         );
+    }*/
 
+
+    public void submitEventToDatabase(When when, List<Trigger> trigList) {
+        Event eventId = new Event();
+        //Getting Last event for the ID, used to save Triggers and When associated with the event
         getCompositeDisposable().add(
                 getDataManager().getLastEvent().subscribeOn(
                         getSchedulerProvider().io()
@@ -60,17 +59,47 @@ public class AddEventViewModel extends BaseViewModel<AddEventNavigator> {
                         .subscribe(response -> {
                             eventId.setId(response.getId());
                             saveTriggers(trigList, eventId);
+                            saveWhen(when, eventId);
                         })
         );
+    }
 
+    public void saveEvent(Event event) {
+        // Save Event to DB
+        getCompositeDisposable().add(
+                getDataManager().insertEvent(event).subscribeOn(
+                        getSchedulerProvider().io()
+                ).observeOn(getSchedulerProvider().ui())
+                        .subscribe()
+        );
+    }
 
-        // Use this ID when saving Triggers and Whens
+    public void saveCoordinate(When when, List<Trigger> trigList, Coordinate coordinate) {
 
+        getCompositeDisposable().add(
+                getDataManager().insertCoordinate(coordinate).subscribeOn(
+                        getSchedulerProvider().io()
+                ).observeOn(getSchedulerProvider().ui())
+                        .subscribe(response -> {
+                            getCoordinateId(when, trigList);
+                        })
+        );
+    }
 
+    public void getCoordinateId(When when, List<Trigger> trigList) {
+        getCompositeDisposable().add(
+                getDataManager().getLast().subscribeOn(
+                        getSchedulerProvider().io()
+                ).observeOn(getSchedulerProvider().ui())
+                        .subscribe(response -> {
+                            when.setCoordinateId(response.getId());
+                            submitEventToDatabase(when, trigList);
+                        })
+        );
     }
 
     public void saveTriggers(List<Trigger> tList, Event eventId) {
-        List<Trigger> tListWithId = null;
+        List<Trigger> tListWithId = new ArrayList<>();
         for (Trigger trigger : tList) {
             trigger.setEventId(eventId.getId());
             tListWithId.add(trigger);
@@ -83,8 +112,17 @@ public class AddEventViewModel extends BaseViewModel<AddEventNavigator> {
         );
     }
 
+    public void saveWhen(When when, Event eventId) {
+        when.setEventId(eventId.getId());
+        getCompositeDisposable().add(
+                getDataManager().insertWhen(when).subscribeOn(
+                        getSchedulerProvider().io()
+                ).observeOn(getSchedulerProvider().ui())
+                        .subscribe()
+        );
+    }
 
-    public void temp(Trigger t) {
+    /*public void temp(Trigger t){
         getCompositeDisposable().add(
                 getDataManager().insertTrigger(t).subscribeOn(
                         getSchedulerProvider().io()
@@ -239,6 +277,6 @@ public class AddEventViewModel extends BaseViewModel<AddEventNavigator> {
                 })
         );
 
-    }
+    }*/
 
 }

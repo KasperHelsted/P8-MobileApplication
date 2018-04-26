@@ -17,8 +17,10 @@
         <!-- TODO: Update blank fragment layout -->
 
         <android.support.constraint.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:background="@drawable/spinner_border">
 
             <TextView
                 android:id="@+id/textViewTitle"
@@ -42,8 +44,8 @@
                 android:layout_marginEnd="16dp"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="8dp"
-                android:text="Add notification"
                 android:onClick="@{() -> viewModel.addNotificationMethod()}"
+                android:text="Add notification"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/editTextNotification" />
@@ -53,15 +55,16 @@
                 android:layout_width="150dp"
                 android:layout_height="wrap_content"
 
-                android:layout_marginBottom="32dp"
+                android:layout_marginBottom="16dp"
                 android:layout_marginEnd="16dp"
                 android:layout_marginStart="16dp"
-                android:text="Trigger Smart Device"
                 android:onClick="@{() -> viewModel.openAddSmartDeviceList()}"
+                android:text="Trigger Smart Device"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textViewOr" />
+                app:layout_constraintTop_toBottomOf="@+id/textViewOr"
+                app:layout_constraintVertical_bias="0.079" />
 
             <TextView
                 android:id="@+id/textViewAddNot"
@@ -83,8 +86,8 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="8dp"
                 android:ems="10"
-                android:inputType="textPersonName"
                 android:hint="Write a notification message"
+                android:inputType="textPersonName"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textViewAddNot" />
@@ -100,6 +103,5 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/buttonAddNotification" />
         </android.support.constraint.ConstraintLayout>
-
     </FrameLayout>
 </layout>
