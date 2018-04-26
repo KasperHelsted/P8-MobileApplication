@@ -6,6 +6,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.ListView;
 
 import java.util.ArrayList;
@@ -17,6 +18,7 @@ import p8project.sw801.R;
 import p8project.sw801.data.model.db.Event;
 import p8project.sw801.databinding.ActivityMyEventsBinding;
 import p8project.sw801.ui.base.BaseFragment;
+import p8project.sw801.ui.event.MyEventAdapter;
 import p8project.sw801.ui.event.addevent.AddEvent;
 
 public class MyEventsFragment extends BaseFragment<ActivityMyEventsBinding, MyEventsFragmentViewModel> implements MyEventsFragmentNavigator  {
@@ -51,8 +53,7 @@ public class MyEventsFragment extends BaseFragment<ActivityMyEventsBinding, MyEv
 
         //------Creation of list of Events
         myEvents = new ArrayList<Event>();
-        //myEvents.addAll(mMyEventsFragmentViewModel.getEventObservableList());
-        /*
+        myEvents.addAll(mMyEventsFragmentViewModel.getEventObservableList());
         if (myEvents == null){
 
         }
@@ -66,7 +67,6 @@ public class MyEventsFragment extends BaseFragment<ActivityMyEventsBinding, MyEv
         }
 
 
-*/
     }
     @Override
     public void updatelist(){
