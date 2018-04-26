@@ -34,6 +34,9 @@ public interface TriggerDao {
     @Query("SELECT * FROM `trigger` WHERE smartDeviceId = :eId")
     List<Trigger> loadAllBySmartDeviceId(Integer eId);
 
+    @Query("DELETE FROM `trigger` WHERE smartDeviceId = :eId")
+    void deleteTriggerBySmartDeviceId(Integer eId);
+
     @Insert
     void insertAll(List<Trigger> triggers);
 

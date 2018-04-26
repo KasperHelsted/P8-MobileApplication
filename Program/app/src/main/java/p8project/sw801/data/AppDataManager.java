@@ -328,6 +328,16 @@ public class AppDataManager implements DataManager {
     }
 
     @Override
+    public Observable<List<Trigger>> getTriggersBySmartDeviceId(Integer id) {
+        return mDbHelper.getTriggersBySmartDeviceId(id);
+    }
+
+    @Override
+    public Observable<Boolean> deleteTriggerBySmartDeviceId(Integer id) {
+        return mDbHelper.deleteTriggerBySmartDeviceId(id);
+    }
+
+    @Override
     public Observable<Boolean> insertTrigger(Trigger trigger) {
         return mDbHelper.insertTrigger(trigger);
     }
@@ -345,11 +355,6 @@ public class AppDataManager implements DataManager {
     @Override
     public Observable<Boolean> deleteTrigger(Trigger trigger) {
         return mDbHelper.deleteTrigger(trigger);
-    }
-
-    @Override
-    public Observable<List<Trigger>> getTriggersBySmartDeviceId(Integer id) {
-        return mDbHelper.getTriggersBySmartDeviceId(id);
     }
     //</editor-fold>
 

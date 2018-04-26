@@ -386,6 +386,19 @@ public class AppDbHelper implements DbHelper {
     }
 
     @Override
+    public Observable<List<Trigger>> getTriggersBySmartDeviceId(final Integer id) {
+        return Observable.fromCallable(() -> mAppDatabase.triggerDao().loadAllBySmartDeviceId(id));
+    }
+
+    @Override
+    public Observable<Boolean> deleteTriggerBySmartDeviceId(Integer id) {
+        return Observable.fromCallable(() -> {
+            mAppDatabase.triggerDao().deleteTriggerBySmartDeviceId(id);
+            return true;
+        });
+    }
+
+    @Override
     public Observable<Boolean> insertTrigger(final Trigger trigger) {
         return Observable.fromCallable(() -> {
             mAppDatabase.triggerDao().insert(trigger);
@@ -416,13 +429,6 @@ public class AppDbHelper implements DbHelper {
             return true;
         });
     }
-
-    @Override
-    public Observable<List<Trigger>> getTriggersBySmartDeviceId(final Integer id) {
-        return Observable.fromCallable(() -> mAppDatabase.triggerDao().loadAllBySmartDeviceId(id));
-    }
-
-
     //</editor-fold>
 
     //<editor-fold desc="Start When helper">

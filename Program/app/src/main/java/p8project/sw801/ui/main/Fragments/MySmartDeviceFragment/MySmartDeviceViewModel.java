@@ -56,6 +56,7 @@ public class MySmartDeviceViewModel extends BaseViewModel<MySmartDeviceNavigator
         return mySmartDevicesObservableArrayList;
     }
 
+
     public void addSmartDevice() {
         getNavigator().addSmartDevice();
     }
@@ -96,6 +97,14 @@ public class MySmartDeviceViewModel extends BaseViewModel<MySmartDeviceNavigator
                 .subscribe());
     }
 
+    protected void deleteTriggers(Integer id) {
+        getCompositeDisposable().add(getDataManager()
+                .deleteTriggerBySmartDeviceId(id)
+                .subscribeOn(getSchedulerProvider().io())
+                .subscribe());
+    }
+
+
     public void deleteDevice(SmartDevice smartDevice) {
         setIsLoading(true);
         int id = smartDevice.getId();
@@ -113,6 +122,8 @@ public class MySmartDeviceViewModel extends BaseViewModel<MySmartDeviceNavigator
                     deleteHueLightbulbRGB(id);
                     deleteNestHub(id);
                     deleteNestThermostat(id);
+
+                    deleteTriggers(id);
 
                     fetchMySmartDevices();
                 }, throwable -> {
