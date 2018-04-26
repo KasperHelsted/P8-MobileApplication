@@ -66,7 +66,7 @@ public class SmartDeviceAdapter extends BaseAdapter {
         delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mySmartDeviceFragment.deleteSmartDevice(smartDevice);
+                //mySmartDeviceFragment.deleteSmartDevice(smartDevice);
             }
         });
 
