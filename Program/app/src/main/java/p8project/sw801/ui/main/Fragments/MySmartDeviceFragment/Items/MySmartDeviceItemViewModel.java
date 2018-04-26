@@ -26,11 +26,11 @@ import p8project.sw801.data.model.db.SmartDevice;
 
 public class MySmartDeviceItemViewModel {
 
-    public final ObservableField<String> deviceName;
+    public final ObservableField<String> deviceName = new ObservableField<>();
 
-    public final ObservableField<String> active;
+    public final ObservableField<String> deviceType = new ObservableField<>();
 
-    public final ObservableField<Integer> id;
+    public final ObservableField<Integer> imageUrl = new ObservableField<>();
 
     private final MySmartDeviceItemViewModelListener mListener;
 
@@ -40,17 +40,29 @@ public class MySmartDeviceItemViewModel {
         this.mMySmartDevice = mySmartDevice;
         this.mListener = listener;
 
-        deviceName = new ObservableField<>(mySmartDevice.getDeviceName());
-        active = new ObservableField<>(mySmartDevice.getActive().toString());
-        id = new ObservableField<>(mySmartDevice.getId());
+        deviceName.set(mySmartDevice.getDeviceName());
+        deviceType.set(mySmartDevice.getSmartDeviceType());
+        imageUrl.set(mySmartDevice.getSmartDeviceImage());
     }
 
     public void onItemClick() {
         mListener.onItemClick(mMySmartDevice);
     }
 
+    public void toggleSmartDevice() {
+        mListener.toggleSmartDevice(mMySmartDevice);
+    }
+
+    public void deleteSmartDevice() {
+        mListener.deleteSmartDevice(mMySmartDevice);
+    }
+
     public interface MySmartDeviceItemViewModelListener {
 
         void onItemClick(SmartDevice smartDevice);
+
+        void toggleSmartDevice(SmartDevice smartDevice);
+
+        void deleteSmartDevice(SmartDevice smartDevice);
     }
 }

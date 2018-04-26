@@ -34,25 +34,6 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/blogRecyclerView"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                app:adapter="@{viewModel.mySmartDevicesObservableArrayList}" />
-
-            <!--
-            <ListView
-                android:id="@+id/listView_mysmartdevices"
-                android:layout_width="391dp"
-                android:layout_height="472dp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="64dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-            -->
-
             <ImageView
                 android:id="@+id/imageView_myeventadd"
                 android:layout_width="wrap_content"
@@ -63,6 +44,13 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/textView_mysmartdevices"
                 app:srcCompat="@drawable/ic_add_black_18dp" />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recyclerView_mysmartdevices"
+                android:layout_marginTop="46dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:adapter="@{viewModel.mySmartDevicesObservableArrayList}" />
         </android.support.constraint.ConstraintLayout>
 
         <!--Burger menu -->
