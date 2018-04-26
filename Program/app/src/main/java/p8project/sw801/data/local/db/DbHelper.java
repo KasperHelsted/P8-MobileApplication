@@ -98,6 +98,8 @@ public interface DbHelper {
 
     Observable<List<PredefinedLocation>> getPredefinedLocationsByIds(final Integer[] ids);
 
+    Observable<PredefinedLocation> getLastPredefinedLocation();
+
     Observable<Integer> getPredefinedLocationCount();
 
     Observable<Boolean> isPredefinedLocationEmpty();

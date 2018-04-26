@@ -134,7 +134,7 @@
                 android:background="@drawable/spinner_border"
                 android:drawableEnd="@android:drawable/ic_menu_mapmode"
                 android:gravity="center_vertical"
-                android:onClick="@{() -> viewModel.showMapActivity()}"
+                android:onClick="@{() -> viewModel.displayPredefinedLocations()}"
                 android:paddingLeft="5dp"
                 android:paddingRight="8dp"
                 android:text="At Location (Default - At no specific location)"

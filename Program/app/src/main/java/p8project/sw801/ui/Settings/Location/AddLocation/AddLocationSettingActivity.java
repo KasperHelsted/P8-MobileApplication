@@ -114,8 +114,7 @@ public class AddLocationSettingActivity extends BaseActivity<ActivityAddLocation
     @Override
     public void openLocationActivty()
     {
-        Intent intent = new Intent(AddLocationSettingActivity.this, LocationSettingActivity.class);
-        startActivity(intent);
+       finish();
     }
 
     @Override

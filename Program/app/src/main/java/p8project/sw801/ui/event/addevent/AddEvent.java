@@ -2,9 +2,11 @@ package p8project.sw801.ui.event.addevent;
 
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.app.TimePickerDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.location.Address;
 import android.os.Bundle;
@@ -42,10 +44,13 @@ import p8project.sw801.R;
 import p8project.sw801.data.local.RelationEntity.EventWithData;
 import p8project.sw801.data.model.db.Coordinate;
 import p8project.sw801.data.model.db.Event;
+import p8project.sw801.data.model.db.PredefinedLocation;
 import p8project.sw801.data.model.db.Trigger;
 import p8project.sw801.data.model.db.When;
 import p8project.sw801.databinding.ActivityAddEventBinding;
 import p8project.sw801.ui.AddEvent.AddEventAdapter;
+import p8project.sw801.ui.Settings.Location.AddLocation.AddLocationSettingActivity;
+import p8project.sw801.ui.Settings.Location.LocationSettingActivity;
 import p8project.sw801.ui.base.BaseActivity;
 import p8project.sw801.ui.event.createeventmap.CreateEventMap;
 import p8project.sw801.ui.event.notificationorsmartdevice.NotificationOrSmartdevice;
@@ -61,11 +66,12 @@ public class AddEvent extends BaseActivity<ActivityAddEventBinding, AddEventView
     @Inject
     DispatchingAndroidInjector<Fragment> fragmentDispatchingAndroidInjector;
 
+    private PredefinedLocation location;
     public ArrayList<Trigger> addMyEvents;
     public AddEventAdapter myAdapter;
     private Bundle addressBundle;
     private Address address;
-    private Coordinate coordinate;
+    private Coordinate coordinate = null;
     private TextView addressTextView;
     private TextView textViewTime;
     private TextView textViewBetweenTime;
@@ -144,7 +150,6 @@ public class AddEvent extends BaseActivity<ActivityAddEventBinding, AddEventView
         categoriesLocation.add("At location");
         categoriesLocation.add("Near Location");
         categoriesLocation.add("Leaving Location");
-        categoriesLocation.add("Predefined Location");
 
         // Creating adapter for spinner
         ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, categories);
@@ -160,14 +165,15 @@ public class AddEvent extends BaseActivity<ActivityAddEventBinding, AddEventView
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
-                if (position == 4) {
+/*                if (position == 4) {
                     textViewTime.setVisibility(View.VISIBLE);
                     AtTime.setEnabled(true);
                     AtTime.setVisibility(View.VISIBLE);
                     textViewBetweenTime.setVisibility(View.VISIBLE);
                     betweenTime.setEnabled(true);
                     betweenTime.setVisibility(View.VISIBLE);
-                } else if (position == 0) {
+                } else*/
+                    if (position == 0) {
                     textViewTime.setVisibility(View.GONE);
                     AtTime.setEnabled(false);
                     AtTime.setVisibility(View.GONE);
@@ -260,6 +266,9 @@ public class AddEvent extends BaseActivity<ActivityAddEventBinding, AddEventView
             newFragment.show(getFragmentManager(), "timePicker");
         }
 
+    }
+    public void updateActiveLocation(PredefinedLocation loc){
+        location = loc;
     }
 
     public static class TimePickerFragment1 extends DialogFragment
@@ -373,6 +382,13 @@ public class AddEvent extends BaseActivity<ActivityAddEventBinding, AddEventView
                         addressBundle = data.getBundleExtra("address");
                         address = addressBundle.getParcelable("address");
                         addressTextView.setText(address.getAddressLine(0) + ", " + address.getAddressLine(1) + ", " + address.getAddressLine(2));
+                        coordinate = new Coordinate(address.getLatitude(), address.getLongitude());
+                    }
+                    break;
+                }
+                case (2): {
+                    if (resultCode == Activity.RESULT_OK) {
+                        mAddEventViewModel.updateLocationData();
                     }
                     break;
                 }
@@ -433,11 +449,57 @@ public class AddEvent extends BaseActivity<ActivityAddEventBinding, AddEventView
         }
 
         //Make coordinate and save to DB
-        coordinate = new Coordinate(address.getLatitude(), address.getLongitude());
-        mAddEventViewModel.saveCoordinate(newWhen, addMyEvents, coordinate);
-
-
+        if (coordinate != null){
+            mAddEventViewModel.saveCoordinate(newWhen, addMyEvents, coordinate);
+        }
+        else{
+            mAddEventViewModel.submitEventToDatabase(newWhen,addMyEvents,location);
+        }
+        Toast.makeText(this, "The event has been created", Toast.LENGTH_SHORT).show();
         finish();
+    }
+
+    @Override
+    public void displayPredefinedLocations(List<PredefinedLocation> predefinedLocationList) {
+        AlertDialog.Builder builderSingle = new AlertDialog.Builder(AddEvent.this);
+        builderSingle.setIcon(R.drawable.ic_launcher);
+        builderSingle.setTitle("Please select a predefined location:");
+        final ArrayList<String> names = new ArrayList<>();
+        for (PredefinedLocation predefinedLocation: predefinedLocationList){
+            names.add(predefinedLocation.getName());
+        }
+
+        final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(AddEvent.this, android.R.layout.select_dialog_singlechoice);
+        arrayAdapter.addAll(names);
+
+        builderSingle.setNegativeButton("OR Create new predefined location", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Intent intent = new Intent(AddEvent.this, AddLocationSettingActivity.class);
+                startActivityForResult(intent,2);
+            }
+        });
+
+        builderSingle.setPositiveButton("OR select freely from map", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                openCreateMapActivity();
+            }
+        });
+        builderSingle.setAdapter(arrayAdapter, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                String strName = arrayAdapter.getItem(which);
+                for (PredefinedLocation predefinedLocation: predefinedLocationList){
+                    if (predefinedLocation.getName() == strName){
+                        location = predefinedLocation;
+                        break;
+                    }
+                }
+                addressTextView.setText(location.getName());
+            }
+        });
+        builderSingle.show();
     }
 
     private void setupBindings() {

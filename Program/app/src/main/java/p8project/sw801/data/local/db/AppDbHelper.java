@@ -247,6 +247,11 @@ public class AppDbHelper implements DbHelper {
     }
 
     @Override
+    public Observable<PredefinedLocation> getLastPredefinedLocation() {
+        return Observable.fromCallable(() -> mAppDatabase.predefinedLocationDao().getLast());
+    }
+
+    @Override
     public Observable<Integer> getPredefinedLocationCount() {
         return Observable.fromCallable(() -> mAppDatabase.predefinedLocationDao().countPredefinedLocations());
     }

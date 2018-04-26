@@ -29,6 +29,9 @@ public interface PredefinedLocationDao {
     @Query("SELECT COUNT(*) from predefinedlocation")
     Integer countPredefinedLocations();
 
+    @Query("SELECT * FROM predefinedlocation ORDER BY predefinedlocation.id DESC LIMIT 1")
+    PredefinedLocation getLast();
+
     @Insert
     void insertAll(PredefinedLocation... predefinedLocations);
 

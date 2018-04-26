@@ -35,6 +35,7 @@ import dagger.android.DispatchingAndroidInjector;
 import dagger.android.support.HasSupportFragmentInjector;
 import p8project.sw801.BR;
 import p8project.sw801.R;
+import p8project.sw801.data.model.db.PredefinedLocation;
 import p8project.sw801.data.model.db.SmartDevice;
 import p8project.sw801.data.model.db.Smartdevice.Accessories.HueLightbulbWhite;
 import p8project.sw801.data.model.db.Smartdevice.Controllers.HueBridge;
