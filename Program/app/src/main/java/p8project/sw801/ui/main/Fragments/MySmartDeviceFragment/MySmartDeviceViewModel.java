@@ -91,7 +91,7 @@ public class MySmartDeviceViewModel extends BaseViewModel<MySmartDeviceNavigator
 
     protected void deleteNestThermostat(Integer id) {
         getCompositeDisposable().add(getDataManager()
-                .deleteNestThermostatBySmartDeviceId()r(id)
+                .deleteNestThermostatBySmartDeviceId(id)
                 .subscribeOn(getSchedulerProvider().io())
                 .subscribe());
     }
