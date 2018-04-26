@@ -77,7 +77,7 @@ public class AddSmartDeviceViewModel extends BaseViewModel<AddSmartDeviceNavigat
     }
     private void getBridgeId(int smartDeviceId,List<HueLightbulbWhite> lightbulbWhiteList){
         getCompositeDisposable().add(
-                getDataManager().getLastHueBridge(
+                getDataManager().getLastInsertedHueBridge(
 
                 ).subscribeOn(getSchedulerProvider().io())
                         .observeOn(getSchedulerProvider().ui())
@@ -95,7 +95,7 @@ public class AddSmartDeviceViewModel extends BaseViewModel<AddSmartDeviceNavigat
             hbw.setSmartDeviceId(smartdeviceId);
 
             getCompositeDisposable().add(
-                    getDataManager().insertHueLight(
+                    getDataManager().insertWhiteHueLightbulb(
                             hbw
                     ).subscribeOn(getSchedulerProvider().io())
                             .observeOn(getSchedulerProvider().ui())

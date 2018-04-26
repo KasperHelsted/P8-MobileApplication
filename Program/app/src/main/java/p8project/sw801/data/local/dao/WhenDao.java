@@ -28,6 +28,9 @@ public interface WhenDao {
     @Query("SELECT COUNT(*) from `when`")
     Integer count();
 
+    @Query("DELETE FROM `when` WHERE eventId = :eId")
+    void deleteWhenByEventId(Integer eId);
+
     @Insert
     void insertAll(When... whens);
 

@@ -42,6 +42,15 @@ public class MySmartDeviceFragment extends BaseFragment<FragmentMySmartDeviceBin
     }
 
     @Override
+    public void onResume() {
+        getViewModel().fetchMySmartDevices();
+
+        System.out.println("FETCH?");
+
+        super.onResume();
+    }
+
+    @Override
     public int getBindingVariable() {
         return BR.viewModel;
     }
@@ -82,6 +91,7 @@ public class MySmartDeviceFragment extends BaseFragment<FragmentMySmartDeviceBin
 
         return view;
     }
+
 
     @Override
     public void addSmartDevice() {
