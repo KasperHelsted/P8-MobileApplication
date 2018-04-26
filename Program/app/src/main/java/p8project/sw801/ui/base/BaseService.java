@@ -8,10 +8,11 @@ import p8project.sw801.utils.AppConstants;
 
 public class BaseService {
     public AppDatabase getDatabase(Context context) {
+        //TODO REMOVE ALLOW ON MAIN WHEN BROADCAST RECEIVES ARE SERVICES
         return Room.databaseBuilder(
                 context,
                 AppDatabase.class,
                 AppConstants.DB_NAME
-        ).fallbackToDestructiveMigration().build();
+        ).fallbackToDestructiveMigration().allowMainThreadQueries().build();
     }
 }
