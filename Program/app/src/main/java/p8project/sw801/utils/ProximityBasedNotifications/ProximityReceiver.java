@@ -16,19 +16,19 @@ import java.util.List;
 import p8project.sw801.data.local.RelationEntity.EventWithData;
 import p8project.sw801.data.local.RelationEntity.TriggerWithSmartDevice;
 import p8project.sw801.data.local.RelationEntity.WhenWithCoordinate;
+import p8project.sw801.data.model.db.Smartdevice.Controllers.HueBridge;
 import p8project.sw801.data.model.db.Trigger;
 import p8project.sw801.data.model.db.When;
+import p8project.sw801.utils.HueUtilities;
 import p8project.sw801.utils.NotificationUtil;
 
 public class ProximityReceiver extends BroadcastReceiver {
 
     private static NotificationUtil n;
-    private Boolean posted = false;
 
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        posted = false;
         n = new NotificationUtil(context);
 
         //Get entering attribute
@@ -46,32 +46,44 @@ public class ProximityReceiver extends BroadcastReceiver {
         WhenWithCoordinate whenWithCoordinate = eventWithData.whens.get(0);
         When when = whenWithCoordinate.when;
 
+        Log.i("Log", "Recieved prox alarm");
 
-        if (when.getLocationCondition() != 0 && when.getLocationCondition() != 3 && entering && !posted) {
+        //If the user is entering/At a location
+        if (when.getLocationCondition() != 0 && when.getLocationCondition() != 3 && entering) {
             Log.i("PROXIMITY", "Entering");
-            posted = true;
-            triggerFunction(triggerWithSmartDevices, eventWithData.event.getName(), context);
+            triggerFunction(triggerWithSmartDevices, eventWithData.event.getName());
 
-        } else if(when.getLocationCondition() == 3 && !entering && !posted) {
-            posted = true;
+            //If the user is leaving a location
+        } else if(when.getLocationCondition() == 3 && !entering) {
             Log.i("PROXIMITY", "Leaving");
-            triggerFunction(triggerWithSmartDevices, eventWithData.event.getName(), context);
+            triggerFunction(triggerWithSmartDevices, eventWithData.event.getName());
 
         }
     }
 
-    public void triggerFunction(List<TriggerWithSmartDevice> triggerList, String eventName, Context context){
+    public void triggerFunction(List<TriggerWithSmartDevice> triggerList, String eventName){
+
+        HueUtilities.setupSDK();
 
         Boolean notification = false;
 
+        Log.i("Log", "Triggering");
         for (TriggerWithSmartDevice t:triggerList) {
+            HueBridge hueBridge = t.smartDeviceWithDataList.get(0).hueBridgeList.get(0);
+            HueUtilities.connectToBridge(hueBridge);
+
             switch (t.trigger.getAction()){
             case 0:{ n.CreateNotification(eventName, t.trigger.getNotificationText());
             notification = true; }
-
-            case 1:  break;//TODO TRIGGER HUE LIGHT ON;
-            case 2: break;//TODO TRIGGER HUE LIGHT OFF;
-            case 3: break;//TODO TRIGGER HUE LIGHT BRIGHTNESS
+            case 1:
+                HueUtilities.changeLightstate(t.trigger.getAccessorieId(), 40000, 150);
+                break;
+            case 2:
+                HueUtilities.changeLightstate(t.trigger.getAccessorieId(), 0, 0) ;
+                break;
+            case 3:
+                HueUtilities.changeLightstate(t.trigger.getAccessorieId(), 40000, t.trigger.getValue());
+                break;
             case 4: break;//TODO TRIGGER NEST THERMO ON
             case 5: break;//TODO TRIGGER NEST THERMO OFF
             case 6: break;//TODO CHANGE NEST THERMO TEMP
