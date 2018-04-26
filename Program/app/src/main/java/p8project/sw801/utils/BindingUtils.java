@@ -1,7 +1,11 @@
 package p8project.sw801.utils;
 
+import android.content.Context;
 import android.databinding.BindingAdapter;
+import android.graphics.drawable.Drawable;
+import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.widget.RecyclerView;
+import android.widget.ImageView;
 
 import java.util.List;
 
@@ -22,4 +26,12 @@ public final class BindingUtils {
         }
     }
 
+    @BindingAdapter("imageUrl")
+    public static void setImageUrl(ImageView imageView, Integer drawable) {
+        Context context = imageView.getContext();
+
+        Drawable res = ResourcesCompat.getDrawable(context.getResources(), drawable, null);
+
+        imageView.setImageDrawable(res);
+    }
 }

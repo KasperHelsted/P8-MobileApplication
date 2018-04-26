@@ -56,5 +56,23 @@ public class MySmartDeviceViewModel extends BaseViewModel<MySmartDeviceNavigator
         return mySmartDevicesObservableArrayList;
     }
 
+    public void addSmartDevice() {
+        getNavigator().addSmartDevice();
+    }
 
+    public void deleteDevice(SmartDevice smartDevice) {
+        setIsLoading(true);
+        getCompositeDisposable().add(getDataManager()
+                .deleteSmartDevice(
+                        smartDevice
+                )
+                .subscribeOn(getSchedulerProvider().io())
+                .subscribe(mySmartDevices -> {
+                    setIsLoading(false);
+                    fetchMySmartDevices();
+                }, throwable -> {
+                    setIsLoading(false);
+                    getNavigator().handleError(throwable);
+                }));
+    }
 }

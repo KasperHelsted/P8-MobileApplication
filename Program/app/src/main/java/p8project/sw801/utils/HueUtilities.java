@@ -134,6 +134,7 @@ public final class HueUtilities {
 
         }
     };
+
     public static void changeLightstate(String id, int hue, int brightness){
         PHBridge bridge = phHueSDK.getSelectedBridge();
         List<PHLight> allLights = bridge.getResourceCache().getAllLights();

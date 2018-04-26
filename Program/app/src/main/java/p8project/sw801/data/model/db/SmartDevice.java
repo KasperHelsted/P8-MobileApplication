@@ -4,6 +4,8 @@ import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
 
+import p8project.sw801.R;
+
 /**
  * Created by Kasper Helsted on 3/21/2018.
  */
@@ -50,8 +52,24 @@ public class SmartDevice {
         return id + ": " + deviceName;
     }
 
-    public Integer getInternalIdentifier() {return internalIdentifier;}
+    public Integer getInternalIdentifier() {
+        return internalIdentifier;
+    }
 
-    public void setInternalIdentifier(Integer internalIdentifier) {this.internalIdentifier = internalIdentifier;}
+    public void setInternalIdentifier(Integer internalIdentifier) {
+        this.internalIdentifier = internalIdentifier;
+    }
+
+    public String getSmartDeviceType() {
+        if (this.internalIdentifier == 1)
+            return "Philips Hue Light Bulb";
+        return "Nest Thermostat";
+    }
+
+    public Integer getSmartDeviceImage() {
+        if (this.internalIdentifier == 1)
+            return R.drawable.hue;
+        return R.drawable.nest;
+    }
 
 }
