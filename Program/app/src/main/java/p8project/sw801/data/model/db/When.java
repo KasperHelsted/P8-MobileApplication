@@ -51,10 +51,14 @@ public class When implements Serializable {
     private byte[] weekdays;
     @ColumnInfo(name = "date")
     private Date date;
-    @ColumnInfo(name = "startTime")
-    private Long startTime;
-    @ColumnInfo(name = "endTime")
-    private Long endTime;
+    @ColumnInfo(name = "startHour")
+    private int startHour;
+    @ColumnInfo(name = "startMinute")
+    private int startMinute;
+    @ColumnInfo(name = "endHour")
+    private int endHour;
+    @ColumnInfo(name = "endMinute")
+    private int endMinute;
 
     public byte[] getWeekdays() {
         return weekdays;
@@ -159,20 +163,35 @@ public class When implements Serializable {
     public void setDate(Date date) {
         this.date = date;
     }
-
-    public Long getStartTime() {
-        return startTime;
+    public int getStartHour() {
+        return startHour;
     }
 
-    public void setStartTime(Long startTime) {
-        this.startTime = startTime;
+    public void setStartHour(int startHour) {
+        this.startHour = startHour;
     }
 
-    public Long getEndTime() {
-        return endTime;
+    public int getStartMinute() {
+        return startMinute;
     }
 
-    public void setEndTime(Long endTime) {
-        this.endTime = endTime;
+    public void setStartMinute(int startMinute) {
+        this.startMinute = startMinute;
+    }
+
+    public int getEndHour() {
+        return endHour;
+    }
+
+    public void setEndHour(int endHour) {
+        this.endHour = endHour;
+    }
+
+    public int getEndMinute() {
+        return endMinute;
+    }
+
+    public void setEndMinute(int endMinute) {
+        this.endMinute = endMinute;
     }
 }
