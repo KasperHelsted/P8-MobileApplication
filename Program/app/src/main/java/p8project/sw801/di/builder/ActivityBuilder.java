@@ -40,7 +40,7 @@ import p8project.sw801.ui.event.editevent.EditEventModule;
 import p8project.sw801.ui.event.notificationorsmartdevice.NotificationOrSmartdeviceProvider;
 import p8project.sw801.ui.main.Fragments.HomeFragment.HomeFragmentProvider;
 import p8project.sw801.ui.main.Fragments.MyEventsFragment.MyEventsFragmentProvider;
-import p8project.sw801.ui.main.Fragments.MySmartDeviceFragment.MySmartDeviceFragmentProvider;
+import p8project.sw801.ui.main.Fragments.MySmartDeviceFragment.MySmartDeviceProvider;
 import p8project.sw801.ui.main.MainActivity;
 import p8project.sw801.ui.main.MainActivityModule;
 import p8project.sw801.ui.splash.SplashActivity;
@@ -55,7 +55,7 @@ public abstract class ActivityBuilder {
             MainActivityModule.class,
             HomeFragmentProvider.class,
             MyEventsFragmentProvider.class,
-            MySmartDeviceFragmentProvider.class
+            MySmartDeviceProvider.class
     })
     abstract MainActivity bindMainActivity();
 

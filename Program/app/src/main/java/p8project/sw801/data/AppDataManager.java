@@ -138,6 +138,11 @@ public class AppDataManager implements DataManager {
     }
 
     @Override
+    public Observable<Event> getLastEvent() {
+        return mDbHelper.getLastEvent();
+    }
+
+    @Override
     public Observable<Boolean> updateEvent(Event event) {
         return mDbHelper.updateEvent(event);
     }
@@ -254,6 +259,11 @@ public class AppDataManager implements DataManager {
     }
 
     @Override
+    public Observable<SmartDevice> getLastSmartDevice() {
+        return mDbHelper.getLastSmartDevice();
+    }
+
+    @Override
     public Observable<List<SmartDevice>> getSmartDevicesByIds(Integer[] ids) {
         return mDbHelper.getSmartDevicesByIds(ids);
     }
@@ -326,7 +336,7 @@ public class AppDataManager implements DataManager {
     }
 
     @Override
-    public Observable<Boolean> insertAllTriggers(Trigger... triggers) {
+    public Observable<Boolean> insertAllTriggers(List<Trigger> triggers) {
         return mDbHelper.insertAllTriggers(triggers);
     }
 
@@ -548,6 +558,12 @@ public class AppDataManager implements DataManager {
     public Observable<List<HueBridge>> getAllHueBridges(){
         return mDbHelper.getAllHueBridges();
     }
+
+    @Override
+    public Observable<HueBridge> getLastHueBridge() {
+        return mDbHelper.getLastHueBridge();
+    }
+
     @Override
     public Observable<List<NestHub>> getAllNestHubs(){
         return mDbHelper.getAllNestHubs();

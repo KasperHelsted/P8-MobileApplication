@@ -81,5 +81,67 @@ public class AddEventAccessoryViewModel extends BaseViewModel<AddEventAccessoryN
         return NestArrayList;
     }
 
+    private void tempNest(){
+        NestThermostat t = new NestThermostat();
+        t.setName("Kitchen term");
+        t.setNestHubId(1);
+        t.setDeviceId("12321");
+        t.setSmartDeviceId(2);
+        NestThermostat y = new NestThermostat();
+        y.setName("Living room term");
+        y.setNestHubId(1);
+        y.setDeviceId("123344");
+        y.setSmartDeviceId(2);
 
+        getCompositeDisposable().add(
+                getDataManager().insertAllNestThermos(
+                        t,y
+                ).subscribeOn(
+                        getSchedulerProvider().io()
+                ).subscribe(response -> {
+                    Log.i("NEST THERMO", "NEST THERMO INSERTED");
+                })
+        );
+    }
+
+
+    private void temp2(){
+
+        HueBridge h = new HueBridge();
+        NestHub n = new NestHub();
+
+        h.setDeviceIP("192.167.0.1");
+        h.setDeviceMac("123456789");
+        h.setDeviceToken("123456789");
+        h.setSmartDeviceId(1);
+
+        n.setBearerToken("123745782345yfgvgyfvdfwtyfys");
+        n.setSmartDeviceId(2);
+
+
+
+
+        getCompositeDisposable().add(
+                getDataManager().insertNestHub(
+                        n
+                ).subscribeOn(
+                        getSchedulerProvider().io()
+                ).subscribe(response -> {
+                    Log.i("nest", "NEST INSERTED");
+                    tempNest();
+                })
+        );
+
+        getCompositeDisposable().add(
+                getDataManager().insertHueBridge(
+                        h
+                ).subscribeOn(
+                        getSchedulerProvider().io()
+                ).subscribe(response -> {
+                    Log.i("Hue", "HUE INSERTED");
+                    //temphue();
+                })
+        );
+
+    }
 }

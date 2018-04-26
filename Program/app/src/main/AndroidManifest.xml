@@ -42,11 +42,9 @@
         <activity android:name=".ui.Settings.Shopping.ShoppingSettingActivity" />
         <activity android:name=".ui.SmartDevice.EditSmartDevice.EditSmartDeviceActivity" />
         <activity android:name=".ui.SmartDevice.AddSmartDevice.AddSmartDeviceActivity"/>
-
         <receiver android:name=".utils.TimeBasedNotifications.AlarmReceiver"/>
-
         <receiver android:name=".utils.ProximityBasedNotifications.ProximityReceiver"/>
-        
+        <activity android:name=".ui.custom.PHPushlinkActivity"/>
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />

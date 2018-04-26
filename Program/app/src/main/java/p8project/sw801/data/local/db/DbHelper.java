@@ -1,6 +1,8 @@
 package p8project.sw801.data.local.db;
 
 
+import android.databinding.ObservableArrayList;
+
 import java.util.List;
 
 import io.reactivex.Observable;
@@ -62,6 +64,8 @@ public interface DbHelper {
 
     Observable<Boolean> isEventEmpty();
 
+    Observable<Event> getLastEvent();
+
     Observable<Boolean> insertEvent(final Event event);
 
     Observable<Boolean> insertAllEvents(final Event... events);
@@ -116,6 +120,8 @@ public interface DbHelper {
 
     Observable<SmartDevice> getSmartDeviceById(final Integer id);
 
+    Observable<SmartDevice> getLastSmartDevice();
+
     Observable<List<SmartDevice>> getSmartDevicesByIds(final Integer[] ids);
 
     Observable<Integer> getSmartDeviceCount();
@@ -146,7 +152,7 @@ public interface DbHelper {
 
     Observable<Boolean> insertTrigger(final Trigger trigger);
 
-    Observable<Boolean> insertAllTriggers(final Trigger... triggers);
+    Observable<Boolean> insertAllTriggers(final List<Trigger> triggers);
 
     Observable<Boolean> updateTrigger(final Trigger trigger);
 
@@ -233,6 +239,7 @@ public interface DbHelper {
     Observable<List<HueLightbulbWhite>> getHueLightsBySmartDeviceId(final Integer id);
     Observable<List<NestThermostat>> getNestThermoBySmartDeviceId(final Integer id);
     Observable<List<HueBridge>> getAllHueBridges();
+    Observable<HueBridge> getLastHueBridge();
     Observable<List<NestHub>> getAllNestHubs();
     //</editor-fold>
 

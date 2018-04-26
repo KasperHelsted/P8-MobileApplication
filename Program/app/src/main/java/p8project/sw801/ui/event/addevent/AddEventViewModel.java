@@ -4,6 +4,8 @@ import android.databinding.ObservableField;
 import android.text.Editable;
 import android.util.Log;
 
+import java.util.List;
+
 import p8project.sw801.data.DataManager;
 import p8project.sw801.data.local.RelationEntity.EventWithData;
 import p8project.sw801.data.model.db.Event;
@@ -41,8 +43,47 @@ public class AddEventViewModel extends BaseViewModel<AddEventNavigator> {
 
     }
 
-    public void submitEventToDatabase() {
+    public void submitEventToDatabase(Event event, List<Trigger> trigList) {
         //TODO NEED CORRECT PARAMETERS TO PASS TO DB
+        List<Trigger> tList = trigList;
+        Event eventId = new Event();
+
+        // Save Event to DB
+        getCompositeDisposable().add(
+                getDataManager().insertEvent(event).subscribeOn(
+                        getSchedulerProvider().io()
+                ).observeOn(getSchedulerProvider().ui())
+                .subscribe()
+        );
+
+        getCompositeDisposable().add(
+                getDataManager().getLastEvent().subscribeOn(
+                        getSchedulerProvider().io()
+                ).observeOn(getSchedulerProvider().ui())
+                        .subscribe(response -> {
+                            eventId.setId(response.getId());
+                            saveTriggers(trigList, eventId);
+                        })
+        );
+
+
+        // Use this ID when saving Triggers and Whens
+
+
+    }
+    public void saveTriggers(List<Trigger> tList, Event eventId)
+    {
+        List<Trigger> tListWithId = null;
+        for (Trigger trigger : tList) {
+            trigger.setEventId(eventId.getId());
+            tListWithId.add(trigger);
+        }
+        getCompositeDisposable().add(
+                getDataManager().insertAllTriggers(tListWithId).subscribeOn(
+                        getSchedulerProvider().io()
+                ).observeOn(getSchedulerProvider().ui())
+                .subscribe()
+        );
     }
 
 
@@ -125,12 +166,12 @@ public class AddEventViewModel extends BaseViewModel<AddEventNavigator> {
         HueLightbulbWhite e = new HueLightbulbWhite();
         e.setDeviceName("Kitchen");
         e.setHueBridgeId(1);
-        e.setDeviceId(1);
+        e.setDeviceId("test123");
         e.setSmartDeviceId(1);
         HueLightbulbWhite r = new HueLightbulbWhite();
         r.setDeviceName("Living Room");
         r.setHueBridgeId(1);
-        r.setDeviceId(2);
+        r.setDeviceId("test123b");
         r.setSmartDeviceId(1);
 
         getCompositeDisposable().add(

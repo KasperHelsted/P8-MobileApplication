@@ -30,7 +30,7 @@ public class Event {
 
     @ColumnInfo(name = "Shopping")
     private Boolean shopping;
-
+    
     public Boolean getShopping() {
         return shopping;
     }

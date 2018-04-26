@@ -128,6 +128,12 @@ public class AppDbHelper implements DbHelper {
         return Observable.fromCallable(() -> mAppDatabase.eventDao().count());
     }
 
+
+    @Override
+    public Observable<Event> getLastEvent() {
+        return Observable.fromCallable(() -> mAppDatabase.eventDao().getLastEvent());
+    }
+
     @Override
     public Observable<Boolean> isEventEmpty() {
         return Observable.fromCallable(() -> mAppDatabase.eventDao().count() == 0);
@@ -297,6 +303,11 @@ public class AppDbHelper implements DbHelper {
     }
 
     @Override
+    public Observable<SmartDevice> getLastSmartDevice() {
+        return Observable.fromCallable(() -> mAppDatabase.smartDeviceDao().getLast());
+    }
+
+    @Override
     public Observable<List<SmartDevice>> getSmartDevicesByIds(final Integer[] ids) {
         return Observable.fromCallable(() -> mAppDatabase.smartDeviceDao().loadAllByIds(ids));
     }
@@ -384,7 +395,7 @@ public class AppDbHelper implements DbHelper {
     }
 
     @Override
-    public Observable<Boolean> insertAllTriggers(final Trigger... triggers) {
+    public Observable<Boolean> insertAllTriggers(final List<Trigger> triggers) {
         return Observable.fromCallable(() -> {
             mAppDatabase.triggerDao().insertAll(triggers);
             return true;
@@ -673,6 +684,13 @@ public class AppDbHelper implements DbHelper {
     public Observable<List<HueBridge>> getAllHueBridges(){
         return Observable.fromCallable(()-> mAppDatabase.accessoriesDao().getAllHueBridges());
     }
+
+    @Override
+    public Observable<HueBridge> getLastHueBridge() {
+        return Observable.fromCallable(() -> mAppDatabase.accessoriesDao().getLastHueBridge());
+
+    }
+
     @Override
     public Observable<List<NestHub>> getAllNestHubs(){
         return Observable.fromCallable(() -> mAppDatabase.accessoriesDao().getAllNestHubs());
