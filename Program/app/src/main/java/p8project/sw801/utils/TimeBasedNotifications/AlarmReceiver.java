@@ -33,6 +33,8 @@ public class AlarmReceiver extends BroadcastReceiver {
      */
     @Override
     public void onReceive(Context context, Intent intent) {
+
+        //Get data from the transfered intent
         String jsonMyObject ="";
         Bundle result = intent.getExtras();
         if (result != null) {
@@ -44,13 +46,9 @@ public class AlarmReceiver extends BroadcastReceiver {
         When when = whenWithCoordinate.when;
 
 
-        // Position 0 = No Time condition choosen
-        // Position 1 = Before this time
-        // Position 2 = At this time
-        // Position 3 = After this time
-        // Position 4 = Between these times
 
-        //Get time of day to compare
+
+        //Get time of day to compare. Are only incoded with hour and minute
         GregorianCalendar gc = new GregorianCalendar();
         int ho = gc.get(GregorianCalendar.HOUR_OF_DAY);
         int minute = gc.get(GregorianCalendar.MINUTE);
@@ -59,10 +57,16 @@ public class AlarmReceiver extends BroadcastReceiver {
         gc.add(Calendar.MINUTE, minute);
         long time = gc.getTime().getTime();
 
-        //IF NO LOCATION
+
+
+        // Position 0 = No Time condition choosen
+        // Position 1 = Before this time
+        // Position 2 = At this time
+        // Position 3 = After this time
+        // Position 4 = Between these times
         if (when.getLocationCondition() == 0){
             ProximityReceiver proximityReceiver = new ProximityReceiver();
-                proximityReceiver.triggerFunction(triggerWithSmartDevices, eventWithData.event.getName(), context);
+                proximityReceiver.triggerFunction(triggerWithSmartDevices, eventWithData.event.getName());
         }else if(when.getTimeCondition()== 1 && when.getStartTime() >= time){
             Log.i("log", "Before this time received");
             ProximityBasedNotifications proximityBasedNotifications = new ProximityBasedNotifications(context);
