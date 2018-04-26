@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import p8project.sw801.data.DataManager;
-import p8project.sw801.data.model.db.Event;
 import p8project.sw801.data.model.db.SmartDevice;
 import p8project.sw801.data.model.db.Smartdevice.Accessories.HueLightbulbWhite;
 import p8project.sw801.data.model.db.Smartdevice.Accessories.NestThermostat;
@@ -27,7 +26,7 @@ public class AddEventAccessoryViewModel extends BaseViewModel<AddEventAccessoryN
         //temp2();
     }
 
-    public void getListFromDb(SmartDevice smartDevice){
+    public void getListFromDb(SmartDevice smartDevice) {
         List<Trigger> a = new ArrayList<>();
         ArrayList<Trigger> arrayList = null;
 
@@ -35,16 +34,16 @@ public class AddEventAccessoryViewModel extends BaseViewModel<AddEventAccessoryN
         if (smartDevice.getInternalIdentifier() == 1) {
             //Fetch list from database
             getCompositeDisposable().add(
-                    getDataManager().getHueLightsBySmartDeviceId(smartDevice.getId()).subscribeOn(
+                    getDataManager().getWhiteHueLightsBySmartDeviceId(smartDevice.getId()).subscribeOn(
                             getSchedulerProvider().io()
                     ).observeOn(getSchedulerProvider().ui())
                             .subscribe(list -> {
                                 RenderListHue(list);
                             })
             );
-        }else if (smartDevice.getInternalIdentifier() == 2){
+        } else if (smartDevice.getInternalIdentifier() == 2) {
             getCompositeDisposable().add(
-                    getDataManager().getNestThermoBySmartDeviceId(smartDevice.getId()).subscribeOn(
+                    getDataManager().getNestThermostatBySmartDeviceId(smartDevice.getId()).subscribeOn(
                             getSchedulerProvider().io()
                     ).observeOn(getSchedulerProvider().ui())
                             .subscribe(list -> {
@@ -55,16 +54,17 @@ public class AddEventAccessoryViewModel extends BaseViewModel<AddEventAccessoryN
     }
 
     /**
-     *Method used to update the view by calling updatelist function from MyEventFragment
+     * Method used to update the view by calling updatelist function from MyEventFragment
+     *
      * @param e
      */
-    public void RenderListHue(List<HueLightbulbWhite> e){
+    public void RenderListHue(List<HueLightbulbWhite> e) {
         HueArrayList.clear();
         HueArrayList.addAll(e);
         getNavigator().updatelist();
     }
 
-    public void RenderListNest(List<NestThermostat> e){
+    public void RenderListNest(List<NestThermostat> e) {
         NestArrayList.clear();
         NestArrayList.addAll(e);
         getNavigator().updatelist();
@@ -72,16 +72,18 @@ public class AddEventAccessoryViewModel extends BaseViewModel<AddEventAccessoryN
 
     /**
      * Returns the observable list of events
+     *
      * @return t
      */
     public ObservableList<HueLightbulbWhite> getHueObservableList() {
         return HueArrayList;
     }
+
     public ObservableList<NestThermostat> getNestObservableList() {
         return NestArrayList;
     }
 
-    private void tempNest(){
+    private void tempNest() {
         NestThermostat t = new NestThermostat();
         t.setName("Kitchen term");
         t.setNestHubId(1);
@@ -94,8 +96,8 @@ public class AddEventAccessoryViewModel extends BaseViewModel<AddEventAccessoryN
         y.setSmartDeviceId(2);
 
         getCompositeDisposable().add(
-                getDataManager().insertAllNestThermos(
-                        t,y
+                getDataManager().insertAllNestThermostats(
+                        t, y
                 ).subscribeOn(
                         getSchedulerProvider().io()
                 ).subscribe(response -> {
@@ -105,7 +107,7 @@ public class AddEventAccessoryViewModel extends BaseViewModel<AddEventAccessoryN
     }
 
 
-    private void temp2(){
+    private void temp2() {
 
         HueBridge h = new HueBridge();
         NestHub n = new NestHub();
@@ -117,8 +119,6 @@ public class AddEventAccessoryViewModel extends BaseViewModel<AddEventAccessoryN
 
         n.setBearerToken("123745782345yfgvgyfvdfwtyfys");
         n.setSmartDeviceId(2);
-
-
 
 
         getCompositeDisposable().add(
