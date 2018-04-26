@@ -338,6 +338,11 @@ public class AppDataManager implements DataManager {
     }
 
     @Override
+    public Observable<Boolean> deleteTriggerByEventId(Integer id) {
+        return mDbHelper.deleteTriggerByEventId(id);
+    }
+
+    @Override
     public Observable<Boolean> insertTrigger(Trigger trigger) {
         return mDbHelper.insertTrigger(trigger);
     }
@@ -382,6 +387,11 @@ public class AppDataManager implements DataManager {
     @Override
     public Observable<Boolean> isWhenEmpty() {
         return mDbHelper.isWhenEmpty();
+    }
+
+    @Override
+    public Observable<Boolean> deleteWhenByEventId(Integer id) {
+        return mDbHelper.deleteWhenByEventId(id);
     }
 
     @Override

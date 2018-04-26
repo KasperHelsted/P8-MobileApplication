@@ -399,6 +399,14 @@ public class AppDbHelper implements DbHelper {
     }
 
     @Override
+    public Observable<Boolean> deleteTriggerByEventId(Integer id) {
+        return Observable.fromCallable(() -> {
+            mAppDatabase.triggerDao().deleteTriggerByEventId(id);
+            return true;
+        });
+    }
+
+    @Override
     public Observable<Boolean> insertTrigger(final Trigger trigger) {
         return Observable.fromCallable(() -> {
             mAppDatabase.triggerDao().insert(trigger);
@@ -455,6 +463,14 @@ public class AppDbHelper implements DbHelper {
     @Override
     public Observable<Boolean> isWhenEmpty() {
         return Observable.fromCallable(() -> mAppDatabase.whenDao().count() == 0);
+    }
+
+    @Override
+    public Observable<Boolean> deleteWhenByEventId(Integer id) {
+        return Observable.fromCallable(() -> {
+            mAppDatabase.whenDao().deleteWhenByEventId(id);
+            return true;
+        });
     }
 
     @Override
