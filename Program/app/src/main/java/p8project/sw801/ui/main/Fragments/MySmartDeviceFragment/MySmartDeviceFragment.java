@@ -95,7 +95,7 @@ public class MySmartDeviceFragment extends BaseFragment<FragmentMySmartDeviceBin
                 .setTitle("Delete smart device")
                 .setMessage("Do you really want to delete " + smartDevice.getDeviceName() + "?")
                 .setIcon(android.R.drawable.ic_dialog_alert)
-                .setPositiveButton(android.R.string.yes, (dialog, whichButton) -> System.out.println("DELETE THIS SMART DEVICE!"))
+                .setPositiveButton(android.R.string.yes, (dialog, whichButton) -> getViewModel().deleteDevice(smartDevice))
                 .setNegativeButton(android.R.string.no, null).show();
     }
 
