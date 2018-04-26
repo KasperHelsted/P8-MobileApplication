@@ -18,6 +18,9 @@ public interface AddEventNavigator {
 
     void submitEventClick();
 
+    void createNotifications(EventWithData eventWithData);
+
+
     /*void testerfunction(EventWithData e);
 
     void submitEventToDatabase(Event event, When when, List<Trigger> trigList);*/

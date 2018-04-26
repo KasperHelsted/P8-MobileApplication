@@ -30,7 +30,14 @@ public class Event {
 
     @ColumnInfo(name = "Shopping")
     private Boolean shopping;
-    
+
+    public int gethashcode(){
+        int hash = 1;
+        hash = hash * 17 + id;
+        hash = hash * 31 + name.hashCode();
+        return hash;
+    }
+
     public Boolean getShopping() {
         return shopping;
     }

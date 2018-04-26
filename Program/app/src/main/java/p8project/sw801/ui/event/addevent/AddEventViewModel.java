@@ -131,7 +131,9 @@ public class AddEventViewModel extends BaseViewModel<AddEventNavigator> {
                 getDataManager().insertWhen(when).subscribeOn(
                         getSchedulerProvider().io()
                 ).observeOn(getSchedulerProvider().ui())
-                        .subscribe()
+                        .subscribe(response -> {
+                            geteventwithdata(eventId);
+                        })
         );
     }
 
@@ -144,17 +146,19 @@ public class AddEventViewModel extends BaseViewModel<AddEventNavigator> {
                         })
         );
     }
+    */
 
-    public void geteventwithdata(){
+    public void geteventwithdata(Event e){
         getCompositeDisposable().add(
-                getDataManager().getEventWithData(1).subscribeOn(
+                getDataManager().getEventWithData(e.getId()).subscribeOn(
                         getSchedulerProvider().io()
                 ).subscribe(event -> {
-                    getNavigator().testerfunction(event);
+                    getNavigator().createNotifications(event);
                 })
         );
     }
 
+    /*
     private void tempAddEvent(){
 
         Event e = new Event();

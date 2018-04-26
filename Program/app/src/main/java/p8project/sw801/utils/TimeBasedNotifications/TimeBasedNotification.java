@@ -35,7 +35,11 @@ public final class TimeBasedNotification {
         Calendar calendar = Calendar.getInstance();
         //Initialize the interval for the alarm
         long intervalMillis = 0;
-        calendar.set(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH), time.when.getStartHour(), time.when.getStartMinute(), 10);
+        if (time.when.getTimeCondition() == 1){
+            calendar.set(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH), 00, 00, 10);
+        } else{
+            calendar.set(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH), time.when.getStartHour(), time.when.getStartMinute(), 10);
+        }
         List<Integer> weekdayList = null;
         try {
             weekdayList = time.when.getListWeekDays();
@@ -49,8 +53,10 @@ public final class TimeBasedNotification {
             Intent intent = new Intent(ctx,AlarmReceiver.class);
             intent.putExtra("eventWithDate", new Gson().toJson(eventWithData));
             intent.putExtra("weekDayInt",0);
-            PendingIntent sender = PendingIntent.getBroadcast(ctx, eventWithData.event.getId(), intent, PendingIntent.FLAG_CANCEL_CURRENT);
+            PendingIntent sender = PendingIntent.getBroadcast(ctx, eventWithData.event.getId(), intent, PendingIntent.FLAG_UPDATE_CURRENT);
             am.setRepeating(AlarmManager.RTC_WAKEUP,timeHelper(0,calendar.getTimeInMillis()),intervalMillis,sender);
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ", Locale.US);
+            Log.i("Alarm", "Alarm added at: " + sdf.format(new Date()));
         }
         else
         {
@@ -60,8 +66,10 @@ public final class TimeBasedNotification {
                 Intent intent = new Intent(ctx,AlarmReceiver.class);
                 intent.putExtra("eventWithDate", new Gson().toJson(eventWithData));
                 intent.putExtra("weekDayInt",day);
-                PendingIntent sender = PendingIntent.getBroadcast(ctx, eventWithData.event.getId()+day, intent, PendingIntent.FLAG_CANCEL_CURRENT);
+                PendingIntent sender = PendingIntent.getBroadcast(ctx, eventWithData.event.gethashcode()+day, intent, PendingIntent.FLAG_UPDATE_CURRENT);
                 am.setRepeating(AlarmManager.RTC_WAKEUP,timeHelper(day,calendar.getTimeInMillis()),intervalMillis,sender);
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ", Locale.GERMAN);
+                Log.i("Alarm", "Alarm added at: " + sdf.format(new Date()) + "With time:´" + sdf.format(timeHelper(day, calendar.getTimeInMillis())));
             }
         }
     }
@@ -70,7 +78,7 @@ public final class TimeBasedNotification {
      * Deletes an alarm from the alarm manager
      * @param eventWithData
      */
-    public void cancelAlarm(EventWithData eventWithData, Context ctx){
+    public static void cancelAlarm(EventWithData eventWithData, Context ctx){
         AlarmManager am = (AlarmManager) ctx.getSystemService(Context.ALARM_SERVICE);
         WhenWithCoordinate time = eventWithData.whens.get(0);
         List<Integer> weekdayList = null;
@@ -86,7 +94,7 @@ public final class TimeBasedNotification {
             Intent intent = new Intent(ctx,AlarmReceiver.class);
             intent.putExtra("eventWithDate", new Gson().toJson(eventWithData));
             intent.putExtra("weekDayInt",0);
-            PendingIntent sender = PendingIntent.getBroadcast(ctx, eventWithData.event.getId(), intent, PendingIntent.FLAG_CANCEL_CURRENT);
+            PendingIntent sender = PendingIntent.getBroadcast(ctx, eventWithData.event.gethashcode(), intent, PendingIntent.FLAG_CANCEL_CURRENT);
             am.cancel(sender);
         }
         else
