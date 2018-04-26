@@ -36,6 +36,9 @@ public interface AccessoriesDao {
     @Query("SELECT * FROM NestHub")
     List<NestHub> getAllNestHubs();
 
+    @Query("SELECT * FROM HueBridge ORDER BY HueBridge.id DESC LIMIT 1")
+    HueBridge getLastHueBridge();
+
     @Insert
     void insertAllHue(HueLightbulbWhite... hueLightbulbWhites);
 

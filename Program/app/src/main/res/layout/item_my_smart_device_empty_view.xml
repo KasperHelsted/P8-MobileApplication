@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="p8project.sw801.ui.main.Fragments.MySmartDeviceFragment.Items.MySmartDeviceEmptyItemViewModel" />
+
+    </data>
+
+    <LinearLayout
+        android:id="@+id/linearLayoutView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/imageViewEmpty"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_gravity="center"
+            app:srcCompat="@drawable/ic_rabbit" />
+
+        <!--
+            style="@style/TextStyle.Title"
+            android:text="@string/empty_screen"
+        -->
+        <TextView
+            android:id="@+id/tv_message"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="16dp"
+            android:gravity="center"
+            android:text="I could not find any smart devices yet."
+            android:textColor="@color/gray" />
+
+        <!--
+            style="@style/TextStyle.Title"
+            android:text="@string/please_retry"
+        -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="30dp"
+            android:text="Wanna add some?"
+            android:textColor="@color/gray" />
+
+        <!--
+            style="@style/Button.Primary.Quiz.Empty"
+            android:text="@string/retry"
+        -->
+        <Button
+            android:id="@+id/btn_retry"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="16dp"
+            android:onClick="@{() -> viewModel.addSmartDevice()}"
+            android:text="Click here to do so!"
+            android:textSize="20sp" />
+    </LinearLayout>
+
+</layout>

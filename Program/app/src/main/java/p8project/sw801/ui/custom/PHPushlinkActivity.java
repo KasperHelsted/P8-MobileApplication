@@ -6,6 +6,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.philips.lighting.hue.sdk.PHAccessPoint;
 import com.philips.lighting.hue.sdk.PHHueSDK;
@@ -63,7 +64,9 @@ public class PHPushlinkActivity extends Activity {
         public void onAuthenticationRequired(PHAccessPoint arg0) {}
 
         @Override
-        public void onBridgeConnected(PHBridge bridge, String username) {}
+        public void onBridgeConnected(PHBridge bridge, String username) {
+            finish();
+        }
 
         @Override
         public void onCacheUpdated(List<Integer> arg0, PHBridge bridge) {}

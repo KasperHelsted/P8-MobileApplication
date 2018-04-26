@@ -214,12 +214,12 @@ public class AddEventViewModel extends BaseViewModel<AddEventNavigator> {
         HueLightbulbWhite e = new HueLightbulbWhite();
         e.setDeviceName("Kitchen");
         e.setHueBridgeId(1);
-        e.setDeviceId(1);
+        e.setDeviceId("test123");
         e.setSmartDeviceId(1);
         HueLightbulbWhite r = new HueLightbulbWhite();
         r.setDeviceName("Living Room");
         r.setHueBridgeId(1);
-        r.setDeviceId(2);
+        r.setDeviceId("test123b");
         r.setSmartDeviceId(1);
 
         getCompositeDisposable().add(
