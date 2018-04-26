@@ -146,6 +146,10 @@ public interface DbHelper {
 
     Observable<Boolean> isTriggerEmpty();
 
+    Observable<List<Trigger>> getTriggersBySmartDeviceId(final Integer id);
+
+    Observable<Boolean> deleteTriggerBySmartDeviceId(Integer id);
+
     Observable<Boolean> insertTrigger(final Trigger trigger);
 
     Observable<Boolean> insertAllTriggers(final List<Trigger> triggers);
@@ -153,8 +157,6 @@ public interface DbHelper {
     Observable<Boolean> updateTrigger(final Trigger trigger);
 
     Observable<Boolean> deleteTrigger(final Trigger trigger);
-
-    Observable<List<Trigger>> getTriggersBySmartDeviceId(final Integer id);
     //</editor-fold>
 
     //<editor-fold desc="When">
