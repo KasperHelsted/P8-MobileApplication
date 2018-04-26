@@ -18,8 +18,8 @@ public interface AddEventNavigator {
 
     void submitEventClick();
 
-    void testerfunction(EventWithData e);
+    /*void testerfunction(EventWithData e);
 
-    void submitEventToDatabase(Event event, When when, List<Trigger> trigList);
+    void submitEventToDatabase(Event event, When when, List<Trigger> trigList);*/
 
 }

@@ -1,5 +1,6 @@
 package p8project.sw801.ui.event.addevent;
 
+
 import android.app.Activity;
 import android.app.Dialog;
 import android.app.DialogFragment;
@@ -39,6 +40,7 @@ import dagger.android.support.HasSupportFragmentInjector;
 import p8project.sw801.BR;
 import p8project.sw801.R;
 import p8project.sw801.data.local.RelationEntity.EventWithData;
+import p8project.sw801.data.model.db.Coordinate;
 import p8project.sw801.data.model.db.Event;
 import p8project.sw801.data.model.db.Trigger;
 import p8project.sw801.data.model.db.When;
@@ -59,19 +61,17 @@ public class AddEvent extends BaseActivity<ActivityAddEventBinding, AddEventView
     @Inject
     DispatchingAndroidInjector<Fragment> fragmentDispatchingAndroidInjector;
 
-
-    private ListView listview;
     public ArrayList<Trigger> addMyEvents;
     public AddEventAdapter myAdapter;
     private Bundle addressBundle;
     private Address address;
+    private Coordinate coordinate;
     private TextView addressTextView;
     private TextView textViewTime;
     private TextView textViewBetweenTime;
     private TextView addEvent;
     static private EditText AtTime = null;
     static private EditText betweenTime = null;
-    private TextView addLocation;
     private Button confirm;
     private TextView eventName;
     private ArrayList<Integer> markedButtons;
@@ -80,6 +80,10 @@ public class AddEvent extends BaseActivity<ActivityAddEventBinding, AddEventView
     private Spinner spinnerLocation;
     private Event newEvent;
     private When newWhen;
+    static private int startHour;
+    static private int startMin;
+    static private int endHour;
+    static private int endMin;
     static private Date startDate;
     static private Date endDate;
 
@@ -160,35 +164,23 @@ public class AddEvent extends BaseActivity<ActivityAddEventBinding, AddEventView
                     textViewTime.setVisibility(View.VISIBLE);
                     AtTime.setEnabled(true);
                     AtTime.setVisibility(View.VISIBLE);
-                    //AtClock.setEnabled(true);
-                    //AtClock.setVisibility(View.VISIBLE);
                     textViewBetweenTime.setVisibility(View.VISIBLE);
                     betweenTime.setEnabled(true);
                     betweenTime.setVisibility(View.VISIBLE);
-                    //betweenClock.setEnabled(true);
-                    //betweenClock.setVisibility(View.VISIBLE);
                 } else if (position == 0) {
                     textViewTime.setVisibility(View.GONE);
                     AtTime.setEnabled(false);
                     AtTime.setVisibility(View.GONE);
-                    //AtClock.setEnabled(false);
-                    //AtClock.setVisibility(View.INVISIBLE);
                     textViewBetweenTime.setVisibility(View.GONE);
                     betweenTime.setEnabled(false);
                     betweenTime.setVisibility(View.GONE);
-                    //betweenClock.setEnabled(false);
-                    //betweenClock.setVisibility(View.INVISIBLE);
                 } else {
                     textViewTime.setVisibility(View.VISIBLE);
                     AtTime.setEnabled(true);
                     AtTime.setVisibility(View.VISIBLE);
-                    //AtClock.setEnabled(true);
-                    //AtClock.setVisibility(View.VISIBLE);
                     textViewBetweenTime.setVisibility(View.GONE);
                     betweenTime.setEnabled(false);
                     betweenTime.setVisibility(View.GONE);
-                    //betweenClock.setEnabled(false);
-                    //betweenClock.setVisibility(View.INVISIBLE);
                 }
             }
 
@@ -215,10 +207,7 @@ public class AddEvent extends BaseActivity<ActivityAddEventBinding, AddEventView
             public void onNothingSelected(AdapterView<?> parentView) {
                 // your code here
             }
-
         });
-
-
     }
 
     @Override
@@ -290,22 +279,16 @@ public class AddEvent extends BaseActivity<ActivityAddEventBinding, AddEventView
         }
 
         public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-
             try{
-                startDate = timeFormat.parse(hourOfDay + ":" + minute);
-
+                startHour = hourOfDay;
+                startMin = minute;
+                //startDate = timeFormat.parse(hourOfDay + ":" + minute);
                 String time = String.valueOf(hourOfDay) + ":" + String.valueOf(minute);
                 AtTime.setText(time);
-
-
             }
             catch (ParseException e) {
-
                 }
-
-
         }
-
     }
 
     public static class TimePickerFragment2 extends DialogFragment
@@ -326,17 +309,15 @@ public class AddEvent extends BaseActivity<ActivityAddEventBinding, AddEventView
 
         public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
             try{
-                endDate = timeFormat.parse(hourOfDay + ":" + minute);
+                endHour = hourOfDay;
+                endMin = minute;
+                //endDate = timeFormat.parse(hourOfDay + ":" + minute);
 
                 String time = String.valueOf(hourOfDay) + ":" + String.valueOf(minute);
                 betweenTime.setText(time);
-
-
             }
             catch (ParseException e) {
-
             }
-
         }
     }
 
@@ -356,6 +337,7 @@ public class AddEvent extends BaseActivity<ActivityAddEventBinding, AddEventView
         ToggleButton tFri;
         ToggleButton tSat;
         ToggleButton tSun;
+
 
         tMon = (ToggleButton) findViewById(R.id.tD);
         tThu = (ToggleButton) findViewById(R.id.tL);
@@ -420,7 +402,6 @@ public class AddEvent extends BaseActivity<ActivityAddEventBinding, AddEventView
             View item = myAdapter.getView(i, null, null);
             doThis.addView(item);
         }
-
     }
 
     public void deleteItem(int pos) {
@@ -430,89 +411,41 @@ public class AddEvent extends BaseActivity<ActivityAddEventBinding, AddEventView
 
     @Override
     public void submitEventClick() {
+        newEvent = new Event();
+        newWhen = new When();
+        //TODO
+        //Crashes if any of the attributes we try to set is NULL
+        //Refreshing the MyEvent page after creating the new event
 
-        /*
-        NotificationUtil n = new NotificationUtil(getApplicationContext());
-        n.CreateNotification("Name", "REHATJAAJ");
-
-        for (Trigger t:addMyEvents) {
-            t.setEventId(1);
-            mAddEventViewModel.temp(t);
-        }
-        */
-        Event event = new Event();
-
-        newEvent.setName(eventName.toString());
+        //--Creating event--
+        newEvent.setName(eventName.getText().toString());
         newEvent.setActive(true);
+        mAddEventViewModel.saveEvent(newEvent);
 
-        mAddEventViewModel.submitEventToDatabase(newEvent);
-        //save
-        //get event for id
+        //--Creating When--
+        newWhen.setTimeCondition(spinner.getSelectedItemPosition());
+        newWhen.setLocationCondition(spinnerLocation.getSelectedItemPosition());
+        newWhen.setStartHour(startHour);
+        newWhen.setStartMinute(startMin);
+        newWhen.setEndHour(endHour);
+        newWhen.setEndMinute(endMin);
+        //newWhen.setStartTime(startDate.getTime());
+        //newWhen.setEndTime(endDate.getTime());
 
-
-
-        newWhen.setStartTime(startDate.getTime());
-        newWhen.setEndTime(endDate.getTime());
-
+        //Checking which days have been marked, and set the list of weekdays
+        markButton();
         try {
             newWhen.setListWeekDays(markedButtons);
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-
-        mAddEventViewModel.submitEventToDatabase(newEvent,newWhen,addMyEvents);
-
-  //      mAddEventViewModel.geteventwithdata();
-        //TODO CREATE TEMP METHOD IN VIEWMODEL TO CREATE TRIGGERS, HUELIGHT, HUEBRIDGE, SMARTDEVICE, EVENT FOR TESTING - DONE
-        //TODO TEST DATABASE CALL FOR EVENTWITHDATA - TESTER
-        //TODO TEST TIMEBASEDNOTIFICATIONS CLASS
+        //Make coordinate and save to DB
+        coordinate = new Coordinate(address.getLatitude(), address.getLongitude());
+        mAddEventViewModel.saveCoordinate(newWhen, addMyEvents, coordinate);
 
 
-
-        /*
-        markButton();
-        String eName = eventName.getText().toString();
-        ArrayList<Integer> weekdays = markedButtons;
-        Integer locationCondition = spinnerLocation.getSelectedItemPosition();
-        Address confirmAddress = address;
-        Integer timeCondition = spinner.getSelectedItemPosition();
-        Long startTime = Long.parseLong(textViewTime.getText().toString());
-        Long endTime = Long.parseLong(textViewBetweenTime.getText().toString());
-        //List<TIGGER_TYPE>
-
-        //Calling Viewmodel Still missing correct parameters
-        mAddEventViewModel.submitEventToDatabase();
-        */
-    }
-
-    //TODO DELETE THIS TESTER FUNCTION - HOLGER
-    @Override
-    public void testerfunction(EventWithData e){
-
-        /* CREATE TIME BASED FUNCTION
-
-        TimeBasedNotification t = new TimeBasedNotification(getApplicationContext());
-        Date date = new Date();
-        long time = date.getTime()+ 60000;
-
-        t.setAlarm(time,1,e);
-        */
-
-        //Coordinate a = address;
-        //a.setLatitude(56.6863);
-        //a.setLongitude(10.1406);
-
-
-        //ProximityBasedNotifications p = new ProximityBasedNotifications(getApplicationContext());
-        //p.createProximityNotification(address,1,e);
-
-    }
-
-    @Override
-    public void submitEventToDatabase(Event event, When when, List<Trigger> trigList) {
-
-        mAddEventViewModel.submitEventToDatabase(event,when,trigList);
+        finish();
     }
 
     private void setupBindings() {
@@ -527,6 +460,5 @@ public class AddEvent extends BaseActivity<ActivityAddEventBinding, AddEventView
         confirm = mActivityAddEventBinding.buttonCreateEvent;
         eventName = mActivityAddEventBinding.textInputEventName;
         addEvent = mActivityAddEventBinding.addEventTriggerStatic;
-
     }
 }
