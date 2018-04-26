@@ -29,76 +29,75 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:paddingBottom="30dp">
-
-                <!--<ImageView
-                    android:id="@+id/coverImageView"
-                    android:layout_width="match_parent"
-                    android:layout_height="250dp"
-                    android:scaleType="fitCenter"
-                    app:imageUrl="@{viewModel.imageUrl}"
-                    tools:src="@drawable/ic_rabbit" />-->
-
-                <!--
-                    style="@style/TextStyle.Heading"
-                -->
-                <TextView
-                    android:id="@+id/titleTextView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginRight="20dp"
-                    android:layout_marginTop="20dp"
-                    android:text="@{viewModel.deviceName}"
-                    tools:text="Android MVP Architecture" />
+                android:orientation="vertical">
 
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="10dp"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginRight="20dp"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginTop="5dp"
                     android:orientation="horizontal">
 
-                    <!--
-                        style="@style/TextStyle.Title.Sub"
-                        android:text="@{viewModel.author}"
-                    -->
-                    <TextView
-                        android:id="@+id/authorTextView"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentLeft="true"
-                        tools:text="Is the device active?" />
-                    <!--
-                        style="@style/TextStyle.Title.Sub"
-                    -->
-                    <TextView
-                        android:id="@+id/dateTextView"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
-                        android:text="@{viewModel.active}"
-                        tools:text="True/False" />
-                </RelativeLayout>
+                    <p8project.sw801.ui.custom.RoundedImageView
+                        android:id="@+id/coverImageView"
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
+                        android:layout_margin="5dp"
+                        android:scaleType="fitCenter"
+                        android:src="@drawable/nest"
+                        app:imageUrl="@{viewModel.imageUrl}" />
 
-                <!--
-                    style="@style/TextStyle.Title"
-                -->
-                <!--
-                <TextView
-                    android:id="@+id/contentTextView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginRight="20dp"
-                    android:text="@{viewModel.content}"
-                    android:textStyle="normal"
-                    tools:text="This repository contains a detailed sample app that implements MVP architecture using Dagger2, GreenDao, RxJava2, FastAndroidNetworking and PlaceholderView" />
-                -->
+                    <TextView
+                        android:id="@+id/deviceName"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="5dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_toEndOf="@id/coverImageView"
+                        android:text="@{viewModel.deviceName}"
+                        android:textSize="20sp"
+                        tools:text="SAMPLE DEVICE NAME" />
+
+                    <TextView
+                        android:id="@+id/deviceType"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/deviceName"
+                        android:layout_marginStart="5dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_toEndOf="@id/coverImageView"
+                        android:text="@{viewModel.deviceType}"
+                        android:textColor="@color/blue_grey_light"
+                        android:textSize="12sp"
+                        tools:text="SAMPLE TEST" />
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_alignParentEnd="true">
+
+                        <ImageView
+                            android:layout_width="25dp"
+                            android:layout_height="25dp"
+                            android:layout_marginEnd="10dp"
+                            android:layout_marginTop="12dp"
+                            android:onClick="@{() -> viewModel.toggleSmartDevice()}"
+                            app:srcCompat="@drawable/on_off_button" />
+
+                        <ImageView
+                            android:id="@+id/deleteMySmartDevice"
+                            android:layout_width="25dp"
+                            android:layout_height="25dp"
+                            android:layout_marginEnd="10dp"
+                            android:layout_marginTop="12dp"
+                            android:onClick="@{() -> viewModel.deleteSmartDevice()}"
+                            app:srcCompat="@drawable/ic_delete_black_18dp" />
+                    </LinearLayout>
+
+                </RelativeLayout>
             </LinearLayout>
         </android.support.v7.widget.CardView>
     </RelativeLayout>
-
 </layout>

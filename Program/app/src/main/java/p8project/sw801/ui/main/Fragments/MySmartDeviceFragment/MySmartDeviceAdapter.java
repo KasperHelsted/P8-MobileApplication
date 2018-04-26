@@ -78,8 +78,13 @@ public class MySmartDeviceAdapter extends RecyclerView.Adapter<BaseViewHolder> {
     }
 
     public interface MySmartDeviceListener {
+        void addSmartDevice();
 
-        void onRetryClick();
+        void deleteSmartDevice(SmartDevice smartDevice);
+
+        void toggleSmartDevice(SmartDevice smartDevice);
+
+        void onItemClick(SmartDevice smartDevice);
     }
 
     public class MySmartDeviceViewHolder extends BaseViewHolder implements MySmartDeviceItemViewModel.MySmartDeviceItemViewModelListener {
@@ -105,7 +110,17 @@ public class MySmartDeviceAdapter extends RecyclerView.Adapter<BaseViewHolder> {
 
         @Override
         public void onItemClick(SmartDevice smartDevice) {
-            System.out.println("CLICKED MySmartDeviceViewHolder");
+            mListener.onItemClick(smartDevice);
+        }
+
+        @Override
+        public void toggleSmartDevice(SmartDevice smartDevice) {
+            mListener.toggleSmartDevice(smartDevice);
+        }
+
+        @Override
+        public void deleteSmartDevice(SmartDevice smartDevice) {
+            mListener.deleteSmartDevice(smartDevice);
         }
     }
 
@@ -125,9 +140,8 @@ public class MySmartDeviceAdapter extends RecyclerView.Adapter<BaseViewHolder> {
         }
 
         @Override
-        public void onRetryClick() {
-            System.out.println("RETRY!!!");
-            mListener.onRetryClick();
+        public void addSmartDevice() {
+            mListener.addSmartDevice();
         }
     }
 
