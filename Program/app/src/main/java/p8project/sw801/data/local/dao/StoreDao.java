@@ -16,9 +16,6 @@ public interface StoreDao {
     @Query("SELECT * FROM store WHERE storeName==:name LIMIT 1")
     Store getStoreByName(String name);
 
-    @Query("SELECT * FROM store WHERE favorite==1")
-    List<Store> getFavoriteStores();
-
     @Query("SELECT * FROM store")
     List<Store> getAll();
 

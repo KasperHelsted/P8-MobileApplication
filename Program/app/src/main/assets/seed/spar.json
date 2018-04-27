@@ -1,0 +1,52 @@
+[
+  {
+    "storeName": "SPAR Gudhjem",
+    "latitude": 55.209586,
+    "longitude": 14.971576
+  },
+  {
+    "storeName": "SPAR Aakirkeby",
+    "latitude": 55.070728,
+    "longitude": 14.920415
+  },
+  {
+    "storeName": "SPAR Vejby",
+    "latitude": 56.081747,
+    "longitude": 12.129364
+  },
+  {
+    "storeName": "SPAR Karsemose",
+    "latitude": 55.992617,
+    "longitude": 12.034768
+  },
+  {
+    "storeName": "SPAR Karreb\u00e6ksminde",
+    "latitude": 55.178052,
+    "longitude": 11.645976
+  },
+  {
+    "storeName": "SPAR Kastrup",
+    "latitude": 55.615991,
+    "longitude": 12.585746
+  },
+  {
+    "storeName": "SPAR Tik\u00f8b",
+    "latitude": 56.018517,
+    "longitude": 12.452408
+  },
+  {
+    "storeName": "SPAR Borup",
+    "latitude": 55.493542,
+    "longitude": 11.972685
+  },
+  {
+    "storeName": "SPAR Jyderup",
+    "latitude": 55.663755,
+    "longitude": 11.410347
+  },
+  {
+    "storeName": "SPAR Br\u00f8nsh\u00f8j",
+    "latitude": 55.718864,
+    "longitude": 12.481163
+  }
+]

@@ -1,0 +1,52 @@
+[
+  {
+    "storeName": "Bilka Tilst",
+    "latitude": 56.182413,
+    "longitude": 10.104849
+  },
+  {
+    "storeName": "Bilka Skalborg",
+    "latitude": 57.004687,
+    "longitude": 9.876099
+  },
+  {
+    "storeName": "Bilka Hundige",
+    "latitude": 55.5972696,
+    "longitude": 12.3247286
+  },
+  {
+    "storeName": "Bilka Odense",
+    "latitude": 55.377061,
+    "longitude": 10.4319659
+  },
+  {
+    "storeName": "Bilka Ish\u00c3\u00b8j",
+    "latitude": 55.614364,
+    "longitude": 12.354551
+  },
+  {
+    "storeName": "Bilka Slagelse",
+    "latitude": 55.391056,
+    "longitude": 11.353619
+  },
+  {
+    "storeName": "Bilka N\u00c3\u00a6stved",
+    "latitude": 55.2537348,
+    "longitude": 11.7748111
+  },
+  {
+    "storeName": "Bilka Holstebro",
+    "latitude": 56.377216,
+    "longitude": 8.621478
+  },
+  {
+    "storeName": "Bilka Esbjerg",
+    "latitude": 55.511108,
+    "longitude": 8.456269
+  },
+  {
+    "storeName": "Bilka Vejle",
+    "latitude": 55.724723,
+    "longitude": 9.581144
+  }
+]

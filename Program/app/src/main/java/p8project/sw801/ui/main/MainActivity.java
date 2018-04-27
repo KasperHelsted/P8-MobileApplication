@@ -56,10 +56,12 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
 
         initializeViewPager();
         drawer();
+
+        mMainViewModel.firstRunSeeding();
     }
     //--------------------------Burger menu-------------------------------------
 
-    public void drawer(){
+    public void drawer() {
 
 
         mDrawer = findViewById(R.id.maindrawermenu);
@@ -75,8 +77,8 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
 
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item){
-        if(actionBarDrawerToggle.onOptionsItemSelected(item)){
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (actionBarDrawerToggle.onOptionsItemSelected(item)) {
             return true;
         }
         return super.onOptionsItemSelected(item);
@@ -87,7 +89,7 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
         int id = item.getItemId();
         Intent intent = null;
         DrawerLayout drawerMenu = findViewById(R.id.maindrawermenu);
-        switch (id){
+        switch (id) {
             case R.id.menumyevent:
                 buttonMyEventsOnClick();
                 drawerMenu.closeDrawers();
@@ -113,7 +115,7 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
                 alertDialogabout.setMessage("This application have been created by group SW801f18 at Aalborg University");
                 alertDialogabout.setIcon(R.drawable.ic_dashboard_black_24dp);
 
-                alertDialogabout.setButton(Dialog.BUTTON_NEUTRAL,"OK", new DialogInterface.OnClickListener() {
+                alertDialogabout.setButton(Dialog.BUTTON_NEUTRAL, "OK", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         return;
                     }
@@ -126,7 +128,7 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
                 alertDialogcontact.setMessage("We can be contacted on email: sw801f18@cs.aau.dk");
                 alertDialogcontact.setIcon(R.drawable.ic_dashboard_black_24dp);
 
-                alertDialogcontact.setButton(Dialog.BUTTON_NEUTRAL,"OK", new DialogInterface.OnClickListener() {
+                alertDialogcontact.setButton(Dialog.BUTTON_NEUTRAL, "OK", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         return;
                     }
@@ -134,7 +136,7 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
                 alertDialogcontact.show();
                 break;
         }
-        if (intent == null){
+        if (intent == null) {
             return false;
         }
         startActivity(intent);
@@ -211,7 +213,6 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
 
             }
         });
-
     }
 
     @Override
