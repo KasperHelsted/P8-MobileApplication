@@ -583,11 +583,6 @@ public class AppDbHelper implements DbHelper {
     }
 
     @Override
-    public Observable<List<Store>> getFavoriteStores() {
-        return Observable.fromCallable(() -> mAppDatabase.storeDao().getFavoriteStores());
-    }
-
-    @Override
     public Observable<Store> getStoreByName(String storeName) {
         return Observable.fromCallable(() -> mAppDatabase.storeDao().getStoreByName(storeName));
     }

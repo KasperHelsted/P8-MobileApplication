@@ -480,11 +480,6 @@ public class AppDataManager implements DataManager {
     }
 
     @Override
-    public Observable<List<Store>> getFavoriteStores() {
-        return mDbHelper.getFavoriteStores();
-    }
-
-    @Override
     public Observable<Store> getStoreByName(String storeName) {
         return mDbHelper.getStoreByName(storeName);
     }

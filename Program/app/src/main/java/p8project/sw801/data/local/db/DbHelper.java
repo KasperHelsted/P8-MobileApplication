@@ -211,8 +211,6 @@ public interface DbHelper {
 
     Observable<List<Store>> getStoresByIds(final Integer[] ids);
 
-    Observable<List<Store>> getFavoriteStores();
-
     Observable<Store> getStoreByName(final String storeName);
 
     Observable<Store> getStoreById(final Integer id);

@@ -7,7 +7,9 @@ import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
@@ -50,6 +52,8 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        firstRunSeeding();
+
         super.onCreate(savedInstanceState);
         mActivityMainBinding = getViewDataBinding();
         mMainViewModel.setNavigator(this);
@@ -59,7 +63,17 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
     }
     //--------------------------Burger menu-------------------------------------
 
-    public void drawer(){
+    private void firstRunSeeding() {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+
+        if (!prefs.getBoolean("firstTime", false)) {
+
+            //TODO: https://stackoverflow.com/questions/15061653/run-a-piece-of-code-only-once-when-an-application-is-installed?utm_medium=organic&utm_source=google_rich_qa&utm_campaign=google_rich_qa
+
+        }
+    }
+
+    public void drawer() {
 
 
         mDrawer = findViewById(R.id.maindrawermenu);
@@ -75,8 +89,8 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
 
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item){
-        if(actionBarDrawerToggle.onOptionsItemSelected(item)){
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (actionBarDrawerToggle.onOptionsItemSelected(item)) {
             return true;
         }
         return super.onOptionsItemSelected(item);
@@ -87,7 +101,7 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
         int id = item.getItemId();
         Intent intent = null;
         DrawerLayout drawerMenu = findViewById(R.id.maindrawermenu);
-        switch (id){
+        switch (id) {
             case R.id.menumyevent:
                 buttonMyEventsOnClick();
                 drawerMenu.closeDrawers();
@@ -113,7 +127,7 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
                 alertDialogabout.setMessage("This application have been created by group SW801f18 at Aalborg University");
                 alertDialogabout.setIcon(R.drawable.ic_dashboard_black_24dp);
 
-                alertDialogabout.setButton(Dialog.BUTTON_NEUTRAL,"OK", new DialogInterface.OnClickListener() {
+                alertDialogabout.setButton(Dialog.BUTTON_NEUTRAL, "OK", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         return;
                     }
@@ -126,7 +140,7 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
                 alertDialogcontact.setMessage("We can be contacted on email: sw801f18@cs.aau.dk");
                 alertDialogcontact.setIcon(R.drawable.ic_dashboard_black_24dp);
 
-                alertDialogcontact.setButton(Dialog.BUTTON_NEUTRAL,"OK", new DialogInterface.OnClickListener() {
+                alertDialogcontact.setButton(Dialog.BUTTON_NEUTRAL, "OK", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         return;
                     }
@@ -134,7 +148,7 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
                 alertDialogcontact.show();
                 break;
         }
-        if (intent == null){
+        if (intent == null) {
             return false;
         }
         startActivity(intent);

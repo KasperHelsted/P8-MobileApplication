@@ -25,19 +25,7 @@ public class MyEventsFragmentViewModel extends BaseViewModel<MyEventsFragmentNav
      * Calls the addNewEvent function from MyEventFragment
      */
     public void addNewEvent() {
-        Event e = new Event();
-        e.setName("TESTER");
-        e.setActive(true);
-
-        getCompositeDisposable().add(
-                getDataManager().insertEvent(
-                        e
-                ).subscribeOn(getSchedulerProvider().io()).subscribe(test -> {
-                    fetchFromDatabase();
-                })
-        );
-
-        //getNavigator().addNewEvent();
+        getNavigator().addNewEvent();
     }
 
     /**

@@ -1,0 +1,257 @@
+[
+  {
+    "storeName": "Aalborg S\u00c3\u02dc",
+    "latitude": 57.02377,
+    "longitude": 9.94273
+  },
+  {
+    "storeName": "N\u00c3\u00b8rresundby",
+    "latitude": 57.06319,
+    "longitude": 9.91034
+  },
+  {
+    "storeName": "Aalborg SV",
+    "latitude": 57.01344,
+    "longitude": 9.89601
+  },
+  {
+    "storeName": "Br\u00c3\u00b8nderslev",
+    "latitude": 57.26412,
+    "longitude": 9.94998
+  },
+  {
+    "storeName": "S\u00c3\u00a6by",
+    "latitude": 57.33328,
+    "longitude": 10.50329
+  },
+  {
+    "storeName": "Hj\u00c3\u00b8rring",
+    "latitude": 57.45606,
+    "longitude": 9.97843
+  },
+  {
+    "storeName": "Hobro",
+    "latitude": 56.64537,
+    "longitude": 9.79317
+  },
+  {
+    "storeName": "Frederikshavn",
+    "latitude": 57.44717,
+    "longitude": 10.51375
+  },
+  {
+    "storeName": "Randers",
+    "latitude": 56.46104,
+    "longitude": 10.02583
+  },
+  {
+    "storeName": "Randers S\u00c3\u02dc",
+    "latitude": 56.42732,
+    "longitude": 10.06014
+  },
+  {
+    "storeName": "Nyk\u00c3\u00b8bing Mors",
+    "latitude": 56.79541,
+    "longitude": 8.85608
+  },
+  {
+    "storeName": "Viborg",
+    "latitude": 56.44444,
+    "longitude": 9.39079
+  },
+  {
+    "storeName": "Thisted",
+    "latitude": 56.95895,
+    "longitude": 8.71196
+  },
+  {
+    "storeName": "Skive",
+    "latitude": 56.56325,
+    "longitude": 9.03018
+  },
+  {
+    "storeName": "Skagen",
+    "latitude": 57.72248,
+    "longitude": 10.58251
+  },
+  {
+    "storeName": "Gren\u00c3\u00a5",
+    "latitude": 56.41416,
+    "longitude": 10.88659
+  },
+  {
+    "storeName": "\u00c3\u2026rhus N",
+    "latitude": 56.20019,
+    "longitude": 10.18313
+  },
+  {
+    "storeName": "Risskov",
+    "latitude": 56.20241,
+    "longitude": 10.24585
+  },
+  {
+    "storeName": "\u00c3\u2026rhus V",
+    "latitude": 56.16902,
+    "longitude": 10.16104
+  },
+  {
+    "storeName": "Brabrand",
+    "latitude": 56.15406,
+    "longitude": 10.13602
+  },
+  {
+    "storeName": "Silkeborg",
+    "latitude": 56.18603,
+    "longitude": 9.54815
+  },
+  {
+    "storeName": "Viby J",
+    "latitude": 56.12212,
+    "longitude": 10.16991
+  },
+  {
+    "storeName": "Struer",
+    "latitude": 56.48669,
+    "longitude": 8.58353
+  },
+  {
+    "storeName": "Skanderborg",
+    "latitude": 56.03883,
+    "longitude": 9.91388
+  },
+  {
+    "storeName": "Ikast",
+    "latitude": 56.13758,
+    "longitude": 9.14543
+  },
+  {
+    "storeName": "Holstebro",
+    "latitude": 56.34994,
+    "longitude": 8.62457
+  },
+  {
+    "storeName": "Herning",
+    "latitude": 56.14475,
+    "longitude": 8.99199
+  },
+  {
+    "storeName": "Odder",
+    "latitude": 55.96823,
+    "longitude": 10.14883
+  },
+  {
+    "storeName": "Horsens",
+    "latitude": 55.85888,
+    "longitude": 9.85176
+  },
+  {
+    "storeName": "Horsens (Syd)",
+    "latitude": 55.84736,
+    "longitude": 9.82414
+  },
+  {
+    "storeName": "Vejle",
+    "latitude": 55.72072,
+    "longitude": 9.56031
+  },
+  {
+    "storeName": "Ringk\u00c3\u00b8bing",
+    "latitude": 56.08543,
+    "longitude": 8.27818
+  },
+  {
+    "storeName": "Vejle",
+    "latitude": 55.68703,
+    "longitude": 9.55432
+  },
+  {
+    "storeName": "Skjern",
+    "latitude": 55.93532,
+    "longitude": 8.50646
+  },
+  {
+    "storeName": "Grindsted",
+    "latitude": 55.75965,
+    "longitude": 8.91986
+  },
+  {
+    "storeName": "Nyk\u00c3\u00b8bing Sj\u00c3\u00a6lland",
+    "latitude": 55.92128,
+    "longitude": 11.67127
+  },
+  {
+    "storeName": "Fredericia",
+    "latitude": 55.56949,
+    "longitude": 9.71884
+  },
+  {
+    "storeName": "Kalundborg",
+    "latitude": 55.67867,
+    "longitude": 11.09935
+  },
+  {
+    "storeName": "Frederiksv\u00c3\u00a6rk",
+    "latitude": 55.97914,
+    "longitude": 12.01879
+  },
+  {
+    "storeName": "Middelfart",
+    "latitude": 55.4982,
+    "longitude": 9.75858
+  },
+  {
+    "storeName": "Kolding",
+    "latitude": 55.5034,
+    "longitude": 9.45915
+  },
+  {
+    "storeName": "Helsinge",
+    "latitude": 56.0229,
+    "longitude": 12.19538
+  },
+  {
+    "storeName": "Kolding",
+    "latitude": 55.47177,
+    "longitude": 9.46916
+  },
+  {
+    "storeName": "Holb\u00c3\u00a6k",
+    "latitude": 55.70414,
+    "longitude": 11.70738
+  },
+  {
+    "storeName": "Vejen",
+    "latitude": 55.48306,
+    "longitude": 9.14693
+  },
+  {
+    "storeName": "Odense C",
+    "latitude": 55.4144,
+    "longitude": 10.3677
+  },
+  {
+    "storeName": "Frederikssund",
+    "latitude": 55.83502,
+    "longitude": 12.06317
+  },
+  {
+    "storeName": "Odense V",
+    "latitude": 55.39472,
+    "longitude": 10.34619
+  },
+  {
+    "storeName": "Odense C",
+    "latitude": 55.39655,
+    "longitude": 10.38308
+  },
+  {
+    "storeName": "Varde",
+    "latitude": 55.6257,
+    "longitude": 8.46334
+  },
+  {
+    "storeName": "Odense S\u00c3\u02dc",
+    "latitude": 55.39245,
+    "longitude": 10.43553
+  }
+]
