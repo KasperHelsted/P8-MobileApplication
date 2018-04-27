@@ -36,7 +36,7 @@ public final class TimeBasedNotification {
         Intent i = new Intent(ctx, ProximityService.class);
         ctx.startService(i);
 
-        //TaF tester
+        
         WhenWithCoordinate time = eventWithData.whens.get(0);
         //Initialize alarmManager with the context
         AlarmManager am = (AlarmManager) ctx.getSystemService(Context.ALARM_SERVICE);
