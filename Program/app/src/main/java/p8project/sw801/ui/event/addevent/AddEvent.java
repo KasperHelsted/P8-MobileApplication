@@ -489,8 +489,39 @@ public class AddEvent extends BaseActivity<ActivityAddEventBinding, AddEventView
                 e.printStackTrace();
             }
         }
-        else {
-            // TODO: 26-04-2018 What if no location is set at all!
+        else if(spinnerLocation.getSelectedItemPosition() == 0 && spinner.getSelectedItemPosition() == 0){
+            Toast.makeText(this, "You must set either set time or location", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        else if (spinnerLocation.getSelectedItemPosition() == 0 && spinner.getSelectedItemPosition() != 0){
+            try{
+            if (!CommonUtils.isNullOrEmpty(locName) && !newWhen.getListWeekDays().isEmpty()){
+                Toast.makeText(this, "You must set a day", Toast.LENGTH_SHORT).show();
+                mAddEventViewModel.submitEventToDatabase(newWhen, addMyEvents, location);
+                Toast.makeText(this, "Created a location only event", Toast.LENGTH_SHORT).show();
+                finish();
+            }else{
+                Toast.makeText(this, "You must specify a name AND a day", Toast.LENGTH_SHORT).show();
+            }
+            }
+            catch (IOException e){
+                e.printStackTrace();
+            }
+        }
+        else if(spinner.getSelectedItemPosition() == 0 && spinnerLocation.getSelectedItemPosition() != 0){
+            try{
+                if (!CommonUtils.isNullOrEmpty(locName) && !newWhen.getListWeekDays().isEmpty()){
+                    Toast.makeText(this, "You must set a day", Toast.LENGTH_SHORT).show();
+                    mAddEventViewModel.submitEventToDatabase(newWhen, addMyEvents, location);
+                    Toast.makeText(this, "Created a time only event", Toast.LENGTH_SHORT).show();
+                    finish();
+                }else{
+                    Toast.makeText(this, "You must specify a name AND a day", Toast.LENGTH_SHORT).show();
+                }
+            }
+            catch (IOException e){
+                e.printStackTrace();
+            }
         }
 
     }
