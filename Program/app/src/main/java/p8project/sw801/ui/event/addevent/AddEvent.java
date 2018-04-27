@@ -516,7 +516,7 @@ public class AddEvent extends BaseActivity<ActivityAddEventBinding, AddEventView
                 e.printStackTrace();
             }
         }
-        else if(spinner.getSelectedItemPosition() == 0 && spinnerLocation.getSelectedItemPosition() != 0){
+        else if(spinner.getSelectedItemPosition() != 0 && spinnerLocation.getSelectedItemPosition() == 0){
             try{
                 if (!CommonUtils.isNullOrEmpty(locName) && !newWhen.getListWeekDays().isEmpty()){
                     Toast.makeText(this, "You must set a day", Toast.LENGTH_SHORT).show();
