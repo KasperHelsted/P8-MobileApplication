@@ -9,6 +9,7 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -17,14 +18,19 @@ import java.util.List;
 import p8project.sw801.data.local.RelationEntity.EventWithData;
 import p8project.sw801.data.local.RelationEntity.TriggerWithSmartDevice;
 import p8project.sw801.data.local.RelationEntity.WhenWithCoordinate;
+import p8project.sw801.data.local.db.AppDatabase;
 import p8project.sw801.data.model.db.Coordinate;
+import p8project.sw801.data.model.db.GlobalMute;
 import p8project.sw801.data.model.db.Trigger;
 import p8project.sw801.data.model.db.When;
+import p8project.sw801.ui.base.BaseService;
 import p8project.sw801.utils.NotificationUtil;
 import p8project.sw801.utils.ProximityBasedNotifications.ProximityBasedNotifications;
 import p8project.sw801.utils.ProximityBasedNotifications.ProximityReceiver;
 
 public class AlarmReceiver extends BroadcastReceiver {
+
+    BaseService baseService = new BaseService();
 
     /**
      * Method called when an alarm is triggered
@@ -40,7 +46,13 @@ public class AlarmReceiver extends BroadcastReceiver {
         if (result != null) {
             jsonMyObject = result.getString("eventWithDate");
         }
-        EventWithData eventWithData = new Gson().fromJson(jsonMyObject, EventWithData.class);
+
+        AppDatabase db = baseService.getDatabase(context);
+        EventWithData eventWithData = db.eventWithDataDao().getEventWithData(
+                new Gson().fromJson(jsonMyObject, EventWithData.class).event.getId()
+        );
+        List<GlobalMute> globalMuteList = db.globalMuteDao().getAll();
+
         List<TriggerWithSmartDevice> triggerWithSmartDevices = eventWithData.triggers;
         WhenWithCoordinate whenWithCoordinate = eventWithData.whens.get(0);
         When when = whenWithCoordinate.when;
@@ -48,7 +60,8 @@ public class AlarmReceiver extends BroadcastReceiver {
 
 
 
-        //Get time of day to compare. Are only incoded with hour and minute
+
+        //Get time of day to compare. Are only encoded with hour and minute
         GregorianCalendar gc = new GregorianCalendar();
         int ho = gc.get(GregorianCalendar.HOUR_OF_DAY);
         int minute = gc.get(GregorianCalendar.MINUTE);
@@ -64,25 +77,31 @@ public class AlarmReceiver extends BroadcastReceiver {
         // Position 2 = At this time
         // Position 3 = After this time
         // Position 4 = Between these times
-        if (when.getLocationCondition() == 0){
-            ProximityReceiver proximityReceiver = new ProximityReceiver();
+
+        ProximityReceiver proximityReceiver = new ProximityReceiver();
+
+        if (eventWithData.event.getActive() && !proximityReceiver.globalMuted(globalMuteList, time)) {
+            if (when.getLocationCondition() == 0) {
                 proximityReceiver.triggerFunction(triggerWithSmartDevices, eventWithData.event.getName());
-        }else if(when.getTimeCondition()== 1 && when.getStartHour() >= ho && when.getStartMinute() >= minute){
-            Log.i("log", "Before this time received");
-            ProximityBasedNotifications proximityBasedNotifications = new ProximityBasedNotifications(context);
-            proximityBasedNotifications.createProximityNotification(whenWithCoordinate.coordinate.get(0), eventWithData.event.getId(), eventWithData);
-        } else if(when.getTimeCondition() == 2){
-            Log.i("log", "At this time received");
-            ProximityBasedNotifications proximityBasedNotifications = new ProximityBasedNotifications(context);
-            proximityBasedNotifications.createProximityNotification(whenWithCoordinate.coordinate.get(0), eventWithData.event.getId(), eventWithData);
-        } else if(when.getTimeCondition() == 3 && when.getStartHour() <= ho && when.getStartMinute() <= minute){
-            Log.i("log", "After this time received");
-            ProximityBasedNotifications proximityBasedNotifications = new ProximityBasedNotifications(context);
-            proximityBasedNotifications.createProximityNotification(whenWithCoordinate.coordinate.get(0), eventWithData.event.getId(), eventWithData);
-        } else if(when.getTimeCondition() == 4 && when.getStartHour() <= ho && when.getStartMinute() <= minute && when.getEndHour() >= ho && when.getEndMinute() >= minute){
-            Log.i("log", "Between times received");
-            ProximityBasedNotifications proximityBasedNotifications = new ProximityBasedNotifications(context);
-            proximityBasedNotifications.createProximityNotification(whenWithCoordinate.coordinate.get(0), eventWithData.event.getId(), eventWithData);
+            } else if (when.getTimeCondition() == 1 && when.getStartHour() >= ho && when.getStartMinute() >= minute) {
+                Log.i("log", "Before this time received");
+                ProximityBasedNotifications proximityBasedNotifications = new ProximityBasedNotifications(context);
+                proximityBasedNotifications.createProximityNotification(whenWithCoordinate.coordinate.get(0), eventWithData.event.getId(), eventWithData);
+            } else if (when.getTimeCondition() == 2) {
+                Log.i("log", "At this time received");
+                ProximityBasedNotifications proximityBasedNotifications = new ProximityBasedNotifications(context);
+                proximityBasedNotifications.createProximityNotification(whenWithCoordinate.coordinate.get(0), eventWithData.event.getId(), eventWithData);
+            } else if (when.getTimeCondition() == 3 && when.getStartHour() <= ho && when.getStartMinute() <= minute) {
+                Log.i("log", "After this time received");
+                ProximityBasedNotifications proximityBasedNotifications = new ProximityBasedNotifications(context);
+                proximityBasedNotifications.createProximityNotification(whenWithCoordinate.coordinate.get(0), eventWithData.event.getId(), eventWithData);
+            } else if (when.getTimeCondition() == 4 && when.getStartHour() <= ho && when.getStartMinute() <= minute && when.getEndHour() >= ho && when.getEndMinute() >= minute) {
+                Log.i("log", "Between times received");
+                ProximityBasedNotifications proximityBasedNotifications = new ProximityBasedNotifications(context);
+                proximityBasedNotifications.createProximityNotification(whenWithCoordinate.coordinate.get(0), eventWithData.event.getId(), eventWithData);
+            }
         }
     }
+
+
 }

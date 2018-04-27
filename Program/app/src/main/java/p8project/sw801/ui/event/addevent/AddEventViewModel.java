@@ -1,25 +1,12 @@
 package p8project.sw801.ui.event.addevent;
 
-import android.databinding.ObservableArrayList;
-import android.databinding.ObservableField;
-import android.databinding.ObservableInt;
-import android.databinding.ObservableList;
-import android.text.Editable;
-import android.util.Log;
-
 import java.util.ArrayList;
 import java.util.List;
 
 import p8project.sw801.data.DataManager;
-import p8project.sw801.data.local.RelationEntity.EventWithData;
 import p8project.sw801.data.model.db.Coordinate;
 import p8project.sw801.data.model.db.Event;
 import p8project.sw801.data.model.db.PredefinedLocation;
-import p8project.sw801.data.model.db.SmartDevice;
-import p8project.sw801.data.model.db.Smartdevice.Accessories.HueLightbulbWhite;
-import p8project.sw801.data.model.db.Smartdevice.Accessories.NestThermostat;
-import p8project.sw801.data.model.db.Smartdevice.Controllers.HueBridge;
-import p8project.sw801.data.model.db.Smartdevice.Controllers.NestHub;
 import p8project.sw801.data.model.db.Trigger;
 import p8project.sw801.data.model.db.When;
 import p8project.sw801.ui.base.BaseViewModel;
@@ -28,15 +15,27 @@ import p8project.sw801.utils.rx.SchedulerProvider;
 public class AddEventViewModel extends BaseViewModel<AddEventNavigator> {
 
 
-
     public AddEventViewModel(DataManager dataManager, SchedulerProvider schedulerProvider) {
         super(dataManager, schedulerProvider);
         //tempAddEvent();
 
     }
 
-    public void showMapActivity() {
-        getNavigator().openCreateMapActivity();
+    public void displayPredefinedLocations(){
+        List<PredefinedLocation> predefinedLocationList = new ArrayList<>();
+        getCompositeDisposable().add(
+                getDataManager().getAllPredefinedLocations().subscribeOn(
+                        getSchedulerProvider().io()
+                ).observeOn(getSchedulerProvider().ui())
+                        .subscribe(response -> {
+                            if (response == null){
+                                throw new NullPointerException("DENNE ER NULL");
+                            }
+                            predefinedLocationList.addAll(response);
+                            getNavigator().displayPredefinedLocations(predefinedLocationList);
+                        })
+        );
+
     }
 
     public void showNotificationOrSmartdevice() {
@@ -52,6 +51,18 @@ public class AddEventViewModel extends BaseViewModel<AddEventNavigator> {
 
     }
 
+    public void updateLocationData(){
+        getCompositeDisposable().add(
+                getDataManager().getLastPredefinedLocation().subscribeOn(
+                        getSchedulerProvider().io()
+                ).observeOn(getSchedulerProvider().ui())
+                        .subscribe(response -> {
+                            getNavigator().updateActiveLocation(response);
+                        })
+        );
+
+    }
+
     /*public void submitEventToDatabase(Event event)
     {
         // Save Event to DB
@@ -64,7 +75,10 @@ public class AddEventViewModel extends BaseViewModel<AddEventNavigator> {
     }*/
 
 
-    public void submitEventToDatabase(When when, List<Trigger> trigList) {
+    public void submitEventToDatabase(When when, List<Trigger> trigList,PredefinedLocation pred) {
+        if (pred != null){
+            when.setCoordinateId(pred.getCoordinateId());
+        }
         Event eventId = new Event();
         //Getting Last event for the ID, used to save Triggers and When associated with the event
         getCompositeDisposable().add(
@@ -78,7 +92,8 @@ public class AddEventViewModel extends BaseViewModel<AddEventNavigator> {
                         })
         );
     }
-    public void saveEvent(Event event){
+
+    public void saveEvent(Event event) {
         // Save Event to DB
         getCompositeDisposable().add(
                 getDataManager().insertEvent(event).subscribeOn(
@@ -89,13 +104,13 @@ public class AddEventViewModel extends BaseViewModel<AddEventNavigator> {
     }
 
     public void saveCoordinate(When when, List<Trigger> trigList, Coordinate coordinate) {
-
         getCompositeDisposable().add(
                 getDataManager().insertCoordinate(coordinate).subscribeOn(
                         getSchedulerProvider().io()
                 ).observeOn(getSchedulerProvider().ui())
-                        .subscribe(response ->{
-                            getCoordinateId(when, trigList);})
+                        .subscribe(response -> {
+                            getCoordinateId(when, trigList);
+                        })
         );
     }
 
@@ -106,12 +121,13 @@ public class AddEventViewModel extends BaseViewModel<AddEventNavigator> {
                 ).observeOn(getSchedulerProvider().ui())
                         .subscribe(response -> {
                             when.setCoordinateId(response.getId());
-                            submitEventToDatabase(when, trigList);
+                            submitEventToDatabase(when, trigList, null);
                         })
         );
     }
 
-    public void saveTriggers(List<Trigger> tList, Event eventId) {
+    public void saveTriggers(List<Trigger> tList, Event eventId)
+    {
         List<Trigger> tListWithId = new ArrayList<>();
         for (Trigger trigger : tList) {
             trigger.setEventId(eventId.getId());
@@ -131,7 +147,9 @@ public class AddEventViewModel extends BaseViewModel<AddEventNavigator> {
                 getDataManager().insertWhen(when).subscribeOn(
                         getSchedulerProvider().io()
                 ).observeOn(getSchedulerProvider().ui())
-                        .subscribe()
+                        .subscribe(response -> {
+                            geteventwithdata(eventId);
+                        })
         );
     }
 
@@ -144,18 +162,24 @@ public class AddEventViewModel extends BaseViewModel<AddEventNavigator> {
                         })
         );
     }
+    */
 
-    public void geteventwithdata(){
+
+    public void geteventwithdata(Event e){
         getCompositeDisposable().add(
-                getDataManager().getEventWithData(1).subscribeOn(
+                getDataManager().getEventWithData(e.getId()).subscribeOn(
                         getSchedulerProvider().io()
                 ).subscribe(event -> {
-                    getNavigator().testerfunction(event);
+                    getNavigator().createNotifications(event);
                 })
         );
     }
 
+    /*
     private void tempAddEvent(){
+=======
+    private void tempAddEvent() {
+>>>>>>> master
 
         Event e = new Event();
         e.setName("1");
@@ -170,10 +194,9 @@ public class AddEventViewModel extends BaseViewModel<AddEventNavigator> {
         r.setActive(true);
 
 
-
         getCompositeDisposable().add(
                 getDataManager().insertAllEvents(
-                        e,r
+                        e, r
                 ).subscribeOn(
                         getSchedulerProvider().io()
                 ).subscribe(response -> {
@@ -183,7 +206,7 @@ public class AddEventViewModel extends BaseViewModel<AddEventNavigator> {
 
     }
 
-    private void tempAddSmartDevice(){
+    private void tempAddSmartDevice() {
 
         SmartDevice e = new SmartDevice();
         e.setActive(true);
@@ -197,7 +220,7 @@ public class AddEventViewModel extends BaseViewModel<AddEventNavigator> {
 
         getCompositeDisposable().add(
                 getDataManager().insertAllSmartDevices(
-                        e,r
+                        e, r
                 ).subscribeOn(
                         getSchedulerProvider().io()
                 ).subscribe(response -> {
@@ -208,7 +231,7 @@ public class AddEventViewModel extends BaseViewModel<AddEventNavigator> {
 
     }
 
-    private void temphue(){
+    private void temphue() {
 
 
         HueLightbulbWhite e = new HueLightbulbWhite();
@@ -223,8 +246,8 @@ public class AddEventViewModel extends BaseViewModel<AddEventNavigator> {
         r.setSmartDeviceId(1);
 
         getCompositeDisposable().add(
-                getDataManager().insertAllHueLights(
-                        e,r
+                getDataManager().insertAllWhiteHueLightbulbs(
+                        e, r
                 ).subscribeOn(
                         getSchedulerProvider().io()
                 ).subscribe(response -> {
@@ -232,7 +255,7 @@ public class AddEventViewModel extends BaseViewModel<AddEventNavigator> {
         );
     }
 
-    private void tempNest(){
+    private void tempNest() {
         NestThermostat t = new NestThermostat();
         t.setName("Kitchen term");
         t.setNestHubId(1);
@@ -245,8 +268,8 @@ public class AddEventViewModel extends BaseViewModel<AddEventNavigator> {
         y.setSmartDeviceId(2);
 
         getCompositeDisposable().add(
-                getDataManager().insertAllNestThermos(
-                        t,y
+                getDataManager().insertAllNestThermostats(
+                        t, y
                 ).subscribeOn(
                         getSchedulerProvider().io()
                 ).subscribe(response -> {
@@ -255,7 +278,7 @@ public class AddEventViewModel extends BaseViewModel<AddEventNavigator> {
         );
     }
 
-    private void tempHAN(){
+    private void tempHAN() {
 
         HueBridge h = new HueBridge();
         NestHub n = new NestHub();
@@ -267,8 +290,6 @@ public class AddEventViewModel extends BaseViewModel<AddEventNavigator> {
 
         n.setBearerToken("123745782345yfgvgyfvdfwtyfys");
         n.setSmartDeviceId(2);
-
-
 
 
         getCompositeDisposable().add(

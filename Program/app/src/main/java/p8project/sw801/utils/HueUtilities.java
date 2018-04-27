@@ -140,7 +140,7 @@ public final class HueUtilities {
         List<PHLight> allLights = bridge.getResourceCache().getAllLights();
         for (PHLight light : allLights)
         {
-            if (light.getUniqueId() == id)
+            if (light.getUniqueId().equals(id))
             {
                 PHLightState lightState = new PHLightState();
                 lightState.setHue(hue);
@@ -156,7 +156,7 @@ public final class HueUtilities {
         List<PHLight> allLights = bridge.getResourceCache().getAllLights();
         for (PHLight light : allLights)
         {
-            if (light.getUniqueId() == id.toString())
+            if (light.getUniqueId().equals( id.toString()))
             {
                 PHLightState lightState = new PHLightState();
                 lightState.setOn(true);

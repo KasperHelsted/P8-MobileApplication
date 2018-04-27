@@ -2,9 +2,11 @@ package p8project.sw801.ui.event.addevent;
 
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.app.TimePickerDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.location.Address;
 import android.os.Bundle;
@@ -37,18 +39,23 @@ import javax.inject.Inject;
 import dagger.android.AndroidInjector;
 import dagger.android.DispatchingAndroidInjector;
 import dagger.android.support.HasSupportFragmentInjector;
+import io.reactivex.exceptions.OnErrorNotImplementedException;
 import p8project.sw801.BR;
 import p8project.sw801.R;
 import p8project.sw801.data.local.RelationEntity.EventWithData;
 import p8project.sw801.data.model.db.Coordinate;
 import p8project.sw801.data.model.db.Event;
+import p8project.sw801.data.model.db.PredefinedLocation;
 import p8project.sw801.data.model.db.Trigger;
 import p8project.sw801.data.model.db.When;
 import p8project.sw801.databinding.ActivityAddEventBinding;
 import p8project.sw801.ui.AddEvent.AddEventAdapter;
+import p8project.sw801.ui.Settings.Location.AddLocation.AddLocationSettingActivity;
+import p8project.sw801.ui.Settings.Location.LocationSettingActivity;
 import p8project.sw801.ui.base.BaseActivity;
 import p8project.sw801.ui.event.createeventmap.CreateEventMap;
 import p8project.sw801.ui.event.notificationorsmartdevice.NotificationOrSmartdevice;
+import p8project.sw801.utils.CommonUtils;
 import p8project.sw801.utils.NotificationUtil;
 import p8project.sw801.utils.ProximityBasedNotifications.ProximityBasedNotifications;
 import p8project.sw801.utils.TimeBasedNotifications.TimeBasedNotification;
@@ -61,11 +68,12 @@ public class AddEvent extends BaseActivity<ActivityAddEventBinding, AddEventView
     @Inject
     DispatchingAndroidInjector<Fragment> fragmentDispatchingAndroidInjector;
 
+    private PredefinedLocation location = null;
     public ArrayList<Trigger> addMyEvents;
     public AddEventAdapter myAdapter;
     private Bundle addressBundle;
     private Address address;
-    private Coordinate coordinate;
+    private Coordinate coordinate = null;
     private TextView addressTextView;
     private TextView textViewTime;
     private TextView textViewBetweenTime;
@@ -86,6 +94,7 @@ public class AddEvent extends BaseActivity<ActivityAddEventBinding, AddEventView
     static private int endMin;
     static private Date startDate;
     static private Date endDate;
+    private Button cancel;
 
 
     @Override
@@ -144,7 +153,6 @@ public class AddEvent extends BaseActivity<ActivityAddEventBinding, AddEventView
         categoriesLocation.add("At location");
         categoriesLocation.add("Near Location");
         categoriesLocation.add("Leaving Location");
-        categoriesLocation.add("Predefined Location");
 
         // Creating adapter for spinner
         ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, categories);
@@ -160,14 +168,15 @@ public class AddEvent extends BaseActivity<ActivityAddEventBinding, AddEventView
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
-                if (position == 4) {
+/*                if (position == 4) {
                     textViewTime.setVisibility(View.VISIBLE);
                     AtTime.setEnabled(true);
                     AtTime.setVisibility(View.VISIBLE);
                     textViewBetweenTime.setVisibility(View.VISIBLE);
                     betweenTime.setEnabled(true);
                     betweenTime.setVisibility(View.VISIBLE);
-                } else if (position == 0) {
+                } else*/
+                if (position == 0) {
                     textViewTime.setVisibility(View.GONE);
                     AtTime.setEnabled(false);
                     AtTime.setVisibility(View.GONE);
@@ -208,6 +217,7 @@ public class AddEvent extends BaseActivity<ActivityAddEventBinding, AddEventView
                 // your code here
             }
         });
+        coordinate = null;
     }
 
     @Override
@@ -238,11 +248,18 @@ public class AddEvent extends BaseActivity<ActivityAddEventBinding, AddEventView
 
     @Override
     public void showNotificationOrSmartdevice() {
+
         getSupportFragmentManager()
                 .beginTransaction()
                 .disallowAddToBackStack()
-                .add(R.id.event_activity_layout, NotificationOrSmartdevice.newInstance(), NotificationOrSmartdevice.TAG)
+                .add(R.id.placementfragment, NotificationOrSmartdevice.newInstance(), NotificationOrSmartdevice.TAG)
                 .commit();
+    }
+
+    @Override
+    public void onBackPressed() {
+            super.onBackPressed();
+
     }
 
     @Override
@@ -262,6 +279,10 @@ public class AddEvent extends BaseActivity<ActivityAddEventBinding, AddEventView
 
     }
 
+    public void updateActiveLocation(PredefinedLocation loc) {
+        location = loc;
+    }
+
     public static class TimePickerFragment1 extends DialogFragment
             implements TimePickerDialog.OnTimeSetListener {
         protected SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm");
@@ -279,15 +300,11 @@ public class AddEvent extends BaseActivity<ActivityAddEventBinding, AddEventView
         }
 
         public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-            try{
-                startHour = hourOfDay;
-                startMin = minute;
-                //startDate = timeFormat.parse(hourOfDay + ":" + minute);
-                String time = String.valueOf(hourOfDay) + ":" + String.valueOf(minute);
-                AtTime.setText(time);
-            }
-            catch (ParseException e) {
-                }
+            startHour = hourOfDay;
+            startMin = minute;
+            //startDate = timeFormat.parse(hourOfDay + ":" + minute);
+            String time = String.valueOf(hourOfDay) + ":" + String.valueOf(minute);
+            AtTime.setText(time);
         }
     }
 
@@ -308,16 +325,12 @@ public class AddEvent extends BaseActivity<ActivityAddEventBinding, AddEventView
         }
 
         public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-            try{
-                endHour = hourOfDay;
-                endMin = minute;
-                //endDate = timeFormat.parse(hourOfDay + ":" + minute);
+            endHour = hourOfDay;
+            endMin = minute;
+            //endDate = timeFormat.parse(hourOfDay + ":" + minute);
 
-                String time = String.valueOf(hourOfDay) + ":" + String.valueOf(minute);
-                betweenTime.setText(time);
-            }
-            catch (ParseException e) {
-            }
+            String time = String.valueOf(hourOfDay) + ":" + String.valueOf(minute);
+            betweenTime.setText(time);
         }
     }
 
@@ -349,25 +362,25 @@ public class AddEvent extends BaseActivity<ActivityAddEventBinding, AddEventView
 
         //Check individual items.
         if (tMon.isChecked()) {
-            markedButtons.add(1);
-        }
-        if (tThu.isChecked()) {
             markedButtons.add(2);
         }
-        if (tWen.isChecked()) {
+        if (tThu.isChecked()) {
             markedButtons.add(3);
         }
-        if (tTue.isChecked()) {
+        if (tWen.isChecked()) {
             markedButtons.add(4);
         }
-        if (tFri.isChecked()) {
+        if (tTue.isChecked()) {
             markedButtons.add(5);
         }
-        if (tSat.isChecked()) {
+        if (tFri.isChecked()) {
             markedButtons.add(6);
         }
-        if (tSun.isChecked()) {
+        if (tSat.isChecked()) {
             markedButtons.add(7);
+        }
+        if (tSun.isChecked()) {
+            markedButtons.add(1);
         }
     }
 
@@ -381,6 +394,13 @@ public class AddEvent extends BaseActivity<ActivityAddEventBinding, AddEventView
                         addressBundle = data.getBundleExtra("address");
                         address = addressBundle.getParcelable("address");
                         addressTextView.setText(address.getAddressLine(0) + ", " + address.getAddressLine(1) + ", " + address.getAddressLine(2));
+                        coordinate = new Coordinate(address.getLatitude(), address.getLongitude());
+                    }
+                    break;
+                }
+                case (2): {
+                    if (resultCode == Activity.RESULT_OK) {
+                        mAddEventViewModel.updateLocationData();
                     }
                     break;
                 }
@@ -441,12 +461,129 @@ public class AddEvent extends BaseActivity<ActivityAddEventBinding, AddEventView
         }
 
         //Make coordinate and save to DB
-        coordinate = new Coordinate(address.getLatitude(), address.getLongitude());
-        mAddEventViewModel.saveCoordinate(newWhen, addMyEvents, coordinate);
+        String locName = eventName.getText().toString();
 
+        if (coordinate != null) {
+            try {
+                if (newWhen.getListWeekDays().isEmpty()) {
+                    Toast.makeText(this, "You must set a day", Toast.LENGTH_SHORT).show();
+                }
+                if (!CommonUtils.isNullOrEmpty(locName) && coordinate.getLongitude() != 0 && coordinate != null) {
+                    mAddEventViewModel.saveCoordinate(newWhen, addMyEvents, coordinate);
+                    Toast.makeText(this, "The event has been created from coordinate", Toast.LENGTH_SHORT).show();
+                    finish();
+                } else {
+                    Toast.makeText(this, "You must specify a name", Toast.LENGTH_SHORT).show();
+                }
+            } catch (NullPointerException e) {
+                Toast.makeText(this, "You must set a location", Toast.LENGTH_SHORT).show();
+            } catch (OnErrorNotImplementedException f) {
+                Toast.makeText(this, "You must set a location", Toast.LENGTH_SHORT).show();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } else if (location != null){
+            try {
+                if (newWhen.getListWeekDays().isEmpty()) {
+                    Toast.makeText(this, "You must set a day", Toast.LENGTH_SHORT).show();
+                } else if (!CommonUtils.isNullOrEmpty(locName)) {
+                    mAddEventViewModel.submitEventToDatabase(newWhen, addMyEvents, location);
+                    Toast.makeText(this, "The event has been created from predefined location", Toast.LENGTH_SHORT).show();
+                    finish();
+                } else {
+                    Toast.makeText(this, "You must specify a name", Toast.LENGTH_SHORT).show();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        else if(spinnerLocation.getSelectedItemPosition() == 0 && spinner.getSelectedItemPosition() == 0){
+            Toast.makeText(this, "You must set either set time or location", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        else if (spinnerLocation.getSelectedItemPosition() == 0 && spinner.getSelectedItemPosition() != 0){
+            try{
+            if (!CommonUtils.isNullOrEmpty(locName) && !newWhen.getListWeekDays().isEmpty()){
+                Toast.makeText(this, "You must set a day", Toast.LENGTH_SHORT).show();
+                mAddEventViewModel.submitEventToDatabase(newWhen, addMyEvents, location);
+                Toast.makeText(this, "Created a location only event", Toast.LENGTH_SHORT).show();
+                finish();
+            }else{
+                Toast.makeText(this, "You must specify a name AND a day", Toast.LENGTH_SHORT).show();
+            }
+            }
+            catch (IOException e){
+                e.printStackTrace();
+            }
+        }
+        else if(spinner.getSelectedItemPosition() != 0 && spinnerLocation.getSelectedItemPosition() == 0){
+            try{
+                if (!CommonUtils.isNullOrEmpty(locName) && !newWhen.getListWeekDays().isEmpty()){
+                    Toast.makeText(this, "You must set a day", Toast.LENGTH_SHORT).show();
+                    mAddEventViewModel.submitEventToDatabase(newWhen, addMyEvents, location);
+                    Toast.makeText(this, "Created a time only event", Toast.LENGTH_SHORT).show();
+                    finish();
+                }else{
+                    Toast.makeText(this, "You must specify a name AND a day", Toast.LENGTH_SHORT).show();
+                }
+            }
+            catch (IOException e){
+                e.printStackTrace();
+            }
+        }
 
-        finish();
     }
+
+    @Override
+    public void displayPredefinedLocations(List<PredefinedLocation> predefinedLocationList) {
+        AlertDialog.Builder builderSingle = new AlertDialog.Builder(AddEvent.this);
+        builderSingle.setIcon(R.drawable.ic_launcher);
+        builderSingle.setTitle("Please select a predefined location:");
+        final ArrayList<String> names = new ArrayList<>();
+        for (PredefinedLocation predefinedLocation : predefinedLocationList) {
+            names.add(predefinedLocation.getName());
+        }
+
+        final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(AddEvent.this, android.R.layout.select_dialog_singlechoice);
+        arrayAdapter.addAll(names);
+
+        builderSingle.setNegativeButton("OR Create new predefined location", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Intent intent = new Intent(AddEvent.this, AddLocationSettingActivity.class);
+                startActivityForResult(intent, 2);
+            }
+        });
+
+        builderSingle.setPositiveButton("OR select freely from map", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                openCreateMapActivity();
+            }
+        });
+        builderSingle.setAdapter(arrayAdapter, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                String strName = arrayAdapter.getItem(which);
+                for (PredefinedLocation predefinedLocation : predefinedLocationList) {
+                    if (predefinedLocation.getName() == strName) {
+                        location = predefinedLocation;
+                        break;
+                    }
+                }
+                addressTextView.setText(location.getName());
+            }
+        });
+        builderSingle.show();
+    }
+
+    @Override
+    public void createNotifications(EventWithData eventWithData){
+
+        TimeBasedNotification.setAlarm(getApplicationContext(), eventWithData);
+    }
+
+
 
     private void setupBindings() {
         doThis = (LinearLayout) mActivityAddEventBinding.linearLayoutAddEvent;
@@ -460,5 +597,6 @@ public class AddEvent extends BaseActivity<ActivityAddEventBinding, AddEventView
         confirm = mActivityAddEventBinding.buttonCreateEvent;
         eventName = mActivityAddEventBinding.textInputEventName;
         addEvent = mActivityAddEventBinding.addEventTriggerStatic;
+        cancel = mActivityAddEventBinding.buttonCancel;
     }
 }

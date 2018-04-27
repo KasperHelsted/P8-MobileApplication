@@ -3,6 +3,7 @@ package p8project.sw801.ui.main.Fragments.MyEventsFragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,7 +22,7 @@ import p8project.sw801.ui.base.BaseFragment;
 import p8project.sw801.ui.event.MyEventAdapter;
 import p8project.sw801.ui.event.addevent.AddEvent;
 
-public class MyEventsFragment extends BaseFragment<ActivityMyEventsBinding, MyEventsFragmentViewModel> implements MyEventsFragmentNavigator  {
+public class MyEventsFragment extends BaseFragment<ActivityMyEventsBinding, MyEventsFragmentViewModel> implements MyEventsFragmentNavigator {
 
     @Inject
     MyEventsFragmentViewModel mMyEventsFragmentViewModel;
@@ -34,30 +35,35 @@ public class MyEventsFragment extends BaseFragment<ActivityMyEventsBinding, MyEv
     View view;
 
     @Override
+    public void onResume() {
+        getViewModel().fetchFromDatabase();
+
+        super.onResume();
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
         super.onCreateView(inflater, container, savedInstanceState);
-        mActivityMyEventsBinding  = getViewDataBinding();
+        mActivityMyEventsBinding = getViewDataBinding();
         view = mActivityMyEventsBinding.getRoot();
         mMyEventsFragmentViewModel.setNavigator(this);
         setUp();
         return view;
     }
-
-
-
+	
     public void setUp(){
+
 
         listview = (ListView) mActivityMyEventsBinding.listViewMyEvents;
 
         //------Creation of list of Events
         myEvents = new ArrayList<Event>();
         myEvents.addAll(mMyEventsFragmentViewModel.getEventObservableList());
-        if (myEvents == null){
+        if (myEvents == null) {
 
-        }
-        else{
+        } else {
             MyEventAdapter myAdapter = new MyEventAdapter(view.getContext(), myEvents, MyEventsFragment.this);
             listview.setAdapter(myAdapter);
             //------Creation of list of smart devices
@@ -68,18 +74,27 @@ public class MyEventsFragment extends BaseFragment<ActivityMyEventsBinding, MyEv
 
 
     }
+
     @Override
-    public void updatelist(){
+    public void updatelist() {
         setUp();
     }
 
-    public void deleteEvent(Event event){
-        mMyEventsFragmentViewModel.deleteEvent(event);
+    @Override
+    public void deleteEvent(Event event) {
+        new AlertDialog.Builder(getContext())
+                .setTitle("Delete event")
+                .setMessage("Do you really want to delete the event: " + event.getName() + "?")
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .setPositiveButton(android.R.string.yes, (dialog, whichButton) -> getViewModel().deleteEventFromDatabase(event))
+                .setNegativeButton(android.R.string.no, null).show();
     }
 
-    public void updateEvent(Event event, Boolean condition) { mMyEventsFragmentViewModel.updateEvent(event, condition);}
+    public void updateEvent(Event event, Boolean condition) {
+        getViewModel().updateEvent(event, condition);
+    }
 
-    public void addNewEvent(){
+    public void addNewEvent() {
         Intent intent = new Intent(this.getContext(), AddEvent.class);
         startActivity(intent);
     }
@@ -105,5 +120,7 @@ public class MyEventsFragment extends BaseFragment<ActivityMyEventsBinding, MyEv
     public MyEventsFragmentViewModel getViewModel() {
         return mMyEventsFragmentViewModel;
     }
+
+
 
 }

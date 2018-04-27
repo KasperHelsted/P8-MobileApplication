@@ -1,5 +1,7 @@
 package p8project.sw801.ui.SmartDevice.AddSmartDevice;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -33,6 +35,7 @@ import dagger.android.DispatchingAndroidInjector;
 import dagger.android.support.HasSupportFragmentInjector;
 import p8project.sw801.BR;
 import p8project.sw801.R;
+import p8project.sw801.data.model.db.PredefinedLocation;
 import p8project.sw801.data.model.db.SmartDevice;
 import p8project.sw801.data.model.db.Smartdevice.Accessories.HueLightbulbWhite;
 import p8project.sw801.data.model.db.Smartdevice.Controllers.HueBridge;
@@ -195,13 +198,6 @@ public class AddSmartDeviceActivity extends BaseActivity<ActivityAddSmartDeviceB
             } else if (code == PHHueError.BRIDGE_NOT_RESPONDING) {
                 Log.w(HueUtilities.TAG, "Bridge Not Responding . . . ");
                 PHWizardAlertDialog.getInstance().closeProgressDialog();
-                AddSmartDeviceActivity.this.runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        PHWizardAlertDialog.showErrorDialog(AddSmartDeviceActivity.this, message, R.string.button_ok);
-                    }
-                });
-
             } else if (code == PHMessageType.BRIDGE_NOT_FOUND) {
 
                 if (!lastSearchWasIPScan) {  // Perform an IP Scan (backup mechanism) if UPNP and Portal Search fails.
@@ -299,7 +295,25 @@ public class AddSmartDeviceActivity extends BaseActivity<ActivityAddSmartDeviceB
             for (HueBridge bridge : smartDeviceList)
             {
                 mhueBridge = bridge;
-                Toast.makeText(getApplicationContext(), "An existing bridge already exists", Toast.LENGTH_SHORT).show();
+                DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        switch (which){
+                            case DialogInterface.BUTTON_POSITIVE:
+                                doBridgeSearch();
+                                break;
+
+                            case DialogInterface.BUTTON_NEGATIVE:
+                                Toast.makeText(getApplicationContext(), "Canceled bridge search", Toast.LENGTH_SHORT).show();
+                                PHWizardAlertDialog.getInstance().closeProgressDialog();
+                                finish();
+                                break;
+                        }
+                    }
+                };
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setMessage("An existing bridge already exists.\nDo you wish to search for new bridges anyway?").setPositiveButton("Yes", dialogClickListener)
+                        .setNegativeButton("No", dialogClickListener).show();
                 break;
             }
             searchOrConnect();

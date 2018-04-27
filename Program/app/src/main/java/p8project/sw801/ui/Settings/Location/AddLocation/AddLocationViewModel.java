@@ -16,9 +16,11 @@ public class AddLocationViewModel extends BaseViewModel<AddLocationNavigator> {
     public void submitLocationClick(){
         getNavigator().submitLocationClick();
     }
-    public void openLocationActivty(){
+    public void openLocationActivty()
+    {
         getNavigator().openLocationActivty();
     }
+
 
     public void submitLocationToDatabase(String locName, Coordinate address) {
 

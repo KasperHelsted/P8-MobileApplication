@@ -1,26 +1,22 @@
 package p8project.sw801.data.local.db;
 
 
-import android.databinding.ObservableArrayList;
-
 import java.util.List;
 
 import io.reactivex.Observable;
-
 import p8project.sw801.data.local.RelationEntity.EventWithData;
-import io.reactivex.internal.operators.observable.ObservableError;
 import p8project.sw801.data.model.db.Chain;
 import p8project.sw801.data.model.db.Coordinate;
 import p8project.sw801.data.model.db.Event;
 import p8project.sw801.data.model.db.GlobalMute;
 import p8project.sw801.data.model.db.PredefinedLocation;
 import p8project.sw801.data.model.db.SmartDevice;
-import p8project.sw801.data.model.db.Store;
 import p8project.sw801.data.model.db.Smartdevice.Accessories.HueLightbulbRGB;
 import p8project.sw801.data.model.db.Smartdevice.Accessories.HueLightbulbWhite;
 import p8project.sw801.data.model.db.Smartdevice.Accessories.NestThermostat;
 import p8project.sw801.data.model.db.Smartdevice.Controllers.HueBridge;
 import p8project.sw801.data.model.db.Smartdevice.Controllers.NestHub;
+import p8project.sw801.data.model.db.Store;
 import p8project.sw801.data.model.db.Trigger;
 import p8project.sw801.data.model.db.When;
 
@@ -102,6 +98,8 @@ public interface DbHelper {
 
     Observable<List<PredefinedLocation>> getPredefinedLocationsByIds(final Integer[] ids);
 
+    Observable<PredefinedLocation> getLastPredefinedLocation();
+
     Observable<Integer> getPredefinedLocationCount();
 
     Observable<Boolean> isPredefinedLocationEmpty();
@@ -150,6 +148,12 @@ public interface DbHelper {
 
     Observable<Boolean> isTriggerEmpty();
 
+    Observable<List<Trigger>> getTriggersBySmartDeviceId(final Integer id);
+
+    Observable<Boolean> deleteTriggerBySmartDeviceId(Integer id);
+
+    Observable<Boolean> deleteTriggerByEventId(Integer id);
+
     Observable<Boolean> insertTrigger(final Trigger trigger);
 
     Observable<Boolean> insertAllTriggers(final List<Trigger> triggers);
@@ -157,8 +161,6 @@ public interface DbHelper {
     Observable<Boolean> updateTrigger(final Trigger trigger);
 
     Observable<Boolean> deleteTrigger(final Trigger trigger);
-
-    Observable<List<Trigger>> getTriggersBySmartDeviceId(final Integer id);
     //</editor-fold>
 
     //<editor-fold desc="When">
@@ -172,6 +174,8 @@ public interface DbHelper {
 
     Observable<Boolean> isWhenEmpty();
 
+    Observable<Boolean> deleteWhenByEventId(Integer id);
+
     Observable<Boolean> insertWhen(final When when);
 
     Observable<Boolean> insertAllWhen(final When... whens);
@@ -180,7 +184,6 @@ public interface DbHelper {
 
     Observable<Boolean> deleteWhen(final When when);
     //</editor-fold>
-
 
     //<editor-fold desc="Chain">
     Observable<List<Chain>> getAllChains();
@@ -223,27 +226,93 @@ public interface DbHelper {
     Observable<Boolean> updateStore(final Store store);
 
     Observable<Boolean> deleteStore(final Store store);
-
-    //<editor-fold desc="Accessories">
-
-    Observable<List<HueLightbulbWhite>> getLightsByBridgeId(final Integer id);
-    Observable<List<HueLightbulbRGB>> getRGBLightsByBridgeId(final Integer id);
-    Observable<List<NestThermostat>> getNestByHubId(final Integer id);
-
-    Observable<Boolean> insertAllHueLights(final HueLightbulbWhite... hueLightbulbWhites);
-    Observable<Boolean> insertHueLight(final HueLightbulbWhite hueLightbulbWhite);
-    Observable<Boolean> insertAllNestThermos(final NestThermostat... nestThermostats);
-    Observable<Boolean> insertNestThermo(final NestThermostat nestThermostat);
-    Observable<Boolean> insertHueBridge(final HueBridge hueBridge);
-    Observable<Boolean> insertNestHub(final NestHub nestHub);
-    Observable<List<HueLightbulbWhite>> getHueLightsBySmartDeviceId(final Integer id);
-    Observable<List<NestThermostat>> getNestThermoBySmartDeviceId(final Integer id);
-    Observable<List<HueBridge>> getAllHueBridges();
-    Observable<HueBridge> getLastHueBridge();
-    Observable<List<NestHub>> getAllNestHubs();
     //</editor-fold>
 
     //<editor-fold desc="EventWithData">
     Observable<EventWithData> getEventWithData(final Integer id);
+    //</editor-fold>
+
+    //<editor-fold desc="Hue Bridge">
+    Observable<List<HueBridge>> getAllHueBridges();
+
+    Observable<HueBridge> getLastInsertedHueBridge();
+
+    Observable<List<HueBridge>> getAllHueBridgesBySmartDeviceId(Integer id);
+
+    Observable<Boolean> deleteHueBridgeBySmartDeviceId(Integer id);
+
+    Observable<Boolean> insertAllHueBridges(HueBridge... hueBridges);
+
+    Observable<Boolean> insertHueBridge(HueBridge hueBridge);
+
+    Observable<Boolean> updateHueBridge(HueBridge hueBridge);
+
+    Observable<Boolean> deleteHueBridge(HueBridge hueBridge);
+    //</editor-fold>
+
+    //<editor-fold desc="Hue Light Bulb RGB">
+    Observable<List<HueLightbulbRGB>> getRGBLightsByBridgeId(Integer id);
+
+    Observable<List<HueLightbulbRGB>> getRGBHueLightsBySmartDeviceId(Integer id);
+
+    Observable<Boolean> deleteRGBHueLightsBySmartDeviceId(Integer id);
+
+    Observable<Boolean> insertAllRGBHueLightbulbs(HueLightbulbRGB... hueLightbulbRGBS);
+
+    Observable<Boolean> insertRGBHueLightbulb(HueLightbulbRGB hueLightbulbRGB);
+
+    Observable<Boolean> updateRGBHueLightbulb(HueLightbulbRGB hueLightbulbRGB);
+
+    Observable<Boolean> deleteRGBHueLightbulb(HueLightbulbRGB hueLightbulbRGB);
+    //</editor-fold>
+
+    //<editor-fold desc="Hue Light Bulb White">
+    Observable<List<HueLightbulbWhite>> getWhiteLightsByBridgeId(Integer id);
+
+    Observable<List<HueLightbulbWhite>> getWhiteHueLightsBySmartDeviceId(Integer id);
+
+    Observable<Boolean> deleteWhiteHueLightsBySmartDeviceId(Integer id);
+
+    Observable<Boolean> insertAllWhiteHueLightbulbs(HueLightbulbWhite... hueLightbulbWhites);
+
+    Observable<Boolean> insertWhiteHueLightbulb(HueLightbulbWhite hueLightbulbWhite);
+
+    Observable<Boolean> updateWhiteHueLightbulb(HueLightbulbWhite hueLightbulbWhite);
+
+    Observable<Boolean> deleteWhiteHueLightbulb(HueLightbulbWhite hueLightbulbWhite);
+    //</editor-fold>
+
+    //<editor-fold desc="Nest Hub">
+    Observable<List<NestHub>> getAllNestHubs();
+
+    Observable<NestHub> getLastInsertedNestHub();
+
+    Observable<List<NestHub>> getAllNestHubsBySmartDeviceId(Integer id);
+
+    Observable<Boolean> deleteNestHubBySmartDeviceId(Integer id);
+
+    Observable<Boolean> insertAllNestHubs(NestHub... nestHubs);
+
+    Observable<Boolean> insertNestHub(NestHub nestHub);
+
+    Observable<Boolean> updateNestHub(NestHub nestHub);
+
+    Observable<Boolean> deleteNestHub(NestHub nestHub);
+    //</editor-fold>
+
+    //<editor-fold desc="Nest Thermostat">
+    Observable<List<NestThermostat>> getThermostatByHubId(Integer id);
+
+    Observable<List<NestThermostat>> getNestThermostatBySmartDeviceId(Integer id);
+
+    Observable<Boolean> deleteNestThermostatBySmartDeviceId(Integer id);
+
+    Observable<Boolean> insertAllNestThermostats(NestThermostat... nestThermostats);
+
+    Observable<Boolean> insertNestThermostat(NestThermostat nestThermostat);
+
+    Observable<Boolean> updateNestThermostat(NestThermostat nestThermostat);
+
+    Observable<Boolean> deleteNestThermostat(NestThermostat nestThermostat);
     //</editor-fold>
 }

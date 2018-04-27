@@ -98,7 +98,7 @@ public class AddLocationSettingActivity extends BaseActivity<ActivityAddLocation
     public void submitLocationClick() {
         String locName = nameTextView.getText().toString();
         try{
-            if (!CommonUtils.isNullOrEmpty(locName)& coords.getLongitude() != 0 && coords !=null){
+            if (!CommonUtils.isNullOrEmpty(locName)&& coords.getLongitude() != 0 && coords !=null){
                 mAddLocationViewModel.submitLocationToDatabase(locName,coords);
             }
             else {
@@ -114,8 +114,7 @@ public class AddLocationSettingActivity extends BaseActivity<ActivityAddLocation
     @Override
     public void openLocationActivty()
     {
-        Intent intent = new Intent(AddLocationSettingActivity.this, LocationSettingActivity.class);
-        startActivity(intent);
+       finish();
     }
 
     @Override

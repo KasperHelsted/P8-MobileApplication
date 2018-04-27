@@ -17,19 +17,16 @@ import p8project.sw801.data.model.db.Event;
 import p8project.sw801.data.model.db.GlobalMute;
 import p8project.sw801.data.model.db.PredefinedLocation;
 import p8project.sw801.data.model.db.SmartDevice;
-
-import p8project.sw801.data.model.db.Store;
 import p8project.sw801.data.model.db.Smartdevice.Accessories.HueLightbulbRGB;
 import p8project.sw801.data.model.db.Smartdevice.Accessories.HueLightbulbWhite;
 import p8project.sw801.data.model.db.Smartdevice.Accessories.NestThermostat;
 import p8project.sw801.data.model.db.Smartdevice.Controllers.HueBridge;
 import p8project.sw801.data.model.db.Smartdevice.Controllers.NestHub;
-
+import p8project.sw801.data.model.db.Store;
 import p8project.sw801.data.model.db.Trigger;
 import p8project.sw801.data.model.db.When;
 
 public class AppDataManager implements DataManager {
-
     private final Context mContext;
 
     private final DbHelper mDbHelper;
@@ -217,6 +214,11 @@ public class AppDataManager implements DataManager {
     }
 
     @Override
+    public Observable<PredefinedLocation> getLastPredefinedLocation() {
+        return mDbHelper.getLastPredefinedLocation();
+    }
+
+    @Override
     public Observable<Integer> getPredefinedLocationCount() {
         return mDbHelper.getPredefinedLocationCount();
     }
@@ -306,7 +308,7 @@ public class AppDataManager implements DataManager {
     }
 
     @Override
-    public Observable<List<Trigger>> getTriggersByEventId(Integer id){
+    public Observable<List<Trigger>> getTriggersByEventId(Integer id) {
         return mDbHelper.getTriggersByEventId(id);
     }
 
@@ -331,6 +333,21 @@ public class AppDataManager implements DataManager {
     }
 
     @Override
+    public Observable<List<Trigger>> getTriggersBySmartDeviceId(Integer id) {
+        return mDbHelper.getTriggersBySmartDeviceId(id);
+    }
+
+    @Override
+    public Observable<Boolean> deleteTriggerBySmartDeviceId(Integer id) {
+        return mDbHelper.deleteTriggerBySmartDeviceId(id);
+    }
+
+    @Override
+    public Observable<Boolean> deleteTriggerByEventId(Integer id) {
+        return mDbHelper.deleteTriggerByEventId(id);
+    }
+
+    @Override
     public Observable<Boolean> insertTrigger(Trigger trigger) {
         return mDbHelper.insertTrigger(trigger);
     }
@@ -348,11 +365,6 @@ public class AppDataManager implements DataManager {
     @Override
     public Observable<Boolean> deleteTrigger(Trigger trigger) {
         return mDbHelper.deleteTrigger(trigger);
-    }
-
-    @Override
-    public Observable<List<Trigger>> getTriggersBySmartDeviceId(Integer id){
-        return mDbHelper.getTriggersBySmartDeviceId(id);
     }
     //</editor-fold>
 
@@ -383,6 +395,11 @@ public class AppDataManager implements DataManager {
     }
 
     @Override
+    public Observable<Boolean> deleteWhenByEventId(Integer id) {
+        return mDbHelper.deleteWhenByEventId(id);
+    }
+
+    @Override
     public Observable<Boolean> insertWhen(When when) {
         return mDbHelper.insertWhen(when);
     }
@@ -401,9 +418,9 @@ public class AppDataManager implements DataManager {
     public Observable<Boolean> deleteWhen(When when) {
         return mDbHelper.deleteWhen(when);
     }
+    //</editor-fold>
 
-
-    //<editor-fold desc="Start Chain helper">
+    //<editor-fold desc="Start Chain data manager">
     @Override
     public Observable<List<Chain>> getAllChains() {
         return mDbHelper.getAllChains();
@@ -451,7 +468,7 @@ public class AppDataManager implements DataManager {
 
     //</editor-fold>
 
-    //<editor-fold desc="Start Store helper">
+    //<editor-fold desc="Start Store data manager">
     @Override
     public Observable<List<Store>> getAllStores() {
         return mDbHelper.getAllStores();
@@ -503,81 +520,205 @@ public class AppDataManager implements DataManager {
     }
     //</editor-fold>
 
+    //<editor-fold desc="EventWithData data manager">
+    @Override
+    public Observable<EventWithData> getEventWithData(final Integer id) {
+        return mDbHelper.getEventWithData(id);
+    }
+    //</editor-fold>
 
-    //<editor-fold desc="Accessories">
-
+    //<editor-fold desc="Hue Bridge data manager">
     @Override
-    public Observable<List<HueLightbulbWhite>> getLightsByBridgeId(final Integer id){
-        return mDbHelper.getLightsByBridgeId(id);
-    }
-    @Override
-    public Observable<List<HueLightbulbRGB>> getRGBLightsByBridgeId(final Integer id){
-        return mDbHelper.getRGBLightsByBridgeId(id);
-    }
-    @Override
-    public Observable<List<NestThermostat>> getNestByHubId(final Integer id){
-        return mDbHelper.getNestByHubId(id);
-    }
-
-    @Override
-    public Observable<Boolean> insertAllHueLights(final HueLightbulbWhite... hueLightbulbWhites){
-        return mDbHelper.insertAllHueLights(hueLightbulbWhites);
-    }
-    @Override
-    public Observable<Boolean> insertHueLight(final HueLightbulbWhite hueLightbulbWhite){
-        return mDbHelper.insertHueLight(hueLightbulbWhite);
-    }
-    @Override
-    public Observable<Boolean> insertAllNestThermos(final NestThermostat... nestThermostats){
-        return mDbHelper.insertAllNestThermos(nestThermostats);
-    }
-    @Override
-    public Observable<Boolean> insertNestThermo(final NestThermostat nestThermostat){
-        return mDbHelper.insertNestThermo(nestThermostat);
-    }
-
-    @Override
-    public Observable<Boolean> insertHueBridge(final HueBridge hueBridge){
-        return mDbHelper.insertHueBridge(hueBridge);
-    }
-    @Override
-    public Observable<Boolean> insertNestHub(final NestHub nestHub){
-        return mDbHelper.insertNestHub(nestHub);
-    }
-
-    @Override
-    public Observable<List<HueLightbulbWhite>> getHueLightsBySmartDeviceId(final Integer id){
-        return mDbHelper.getHueLightsBySmartDeviceId(id);
-    }
-    @Override
-    public Observable<List<NestThermostat>> getNestThermoBySmartDeviceId(final Integer id){
-        return mDbHelper.getNestThermoBySmartDeviceId(id);
-    }
-
-    @Override
-    public Observable<List<HueBridge>> getAllHueBridges(){
+    public Observable<List<HueBridge>> getAllHueBridges() {
         return mDbHelper.getAllHueBridges();
     }
 
     @Override
-    public Observable<HueBridge> getLastHueBridge() {
-        return mDbHelper.getLastHueBridge();
+    public Observable<HueBridge> getLastInsertedHueBridge() {
+        return mDbHelper.getLastInsertedHueBridge();
     }
 
     @Override
-    public Observable<List<NestHub>> getAllNestHubs(){
+    public Observable<List<HueBridge>> getAllHueBridgesBySmartDeviceId(Integer id) {
+        return mDbHelper.getAllHueBridgesBySmartDeviceId(id);
+    }
+
+    @Override
+    public Observable<Boolean> deleteHueBridgeBySmartDeviceId(Integer id) {
+        return mDbHelper.deleteHueBridgeBySmartDeviceId(id);
+    }
+
+    @Override
+    public Observable<Boolean> insertAllHueBridges(HueBridge... hueBridges) {
+        return mDbHelper.insertAllHueBridges(hueBridges);
+    }
+
+    @Override
+    public Observable<Boolean> insertHueBridge(HueBridge hueBridge) {
+        return mDbHelper.insertHueBridge(hueBridge);
+    }
+
+    @Override
+    public Observable<Boolean> updateHueBridge(HueBridge hueBridge) {
+        return mDbHelper.updateHueBridge(hueBridge);
+    }
+
+    @Override
+    public Observable<Boolean> deleteHueBridge(HueBridge hueBridge) {
+        return mDbHelper.deleteHueBridge(hueBridge);
+    }
+    //</editor-fold>
+
+    //<editor-fold desc="Hue Light Bulb RGB data manager">
+    @Override
+    public Observable<List<HueLightbulbRGB>> getRGBLightsByBridgeId(Integer id) {
+        return mDbHelper.getRGBLightsByBridgeId(id);
+    }
+
+    @Override
+    public Observable<List<HueLightbulbRGB>> getRGBHueLightsBySmartDeviceId(Integer id) {
+        return mDbHelper.getRGBHueLightsBySmartDeviceId(id);
+    }
+
+    @Override
+    public Observable<Boolean> deleteRGBHueLightsBySmartDeviceId(Integer id) {
+        return mDbHelper.deleteRGBHueLightsBySmartDeviceId(id);
+    }
+
+    @Override
+    public Observable<Boolean> insertAllRGBHueLightbulbs(HueLightbulbRGB... hueLightbulbRGBS) {
+        return mDbHelper.insertAllRGBHueLightbulbs(hueLightbulbRGBS);
+    }
+
+    @Override
+    public Observable<Boolean> insertRGBHueLightbulb(HueLightbulbRGB hueLightbulbRGB) {
+        return mDbHelper.insertRGBHueLightbulb(hueLightbulbRGB);
+    }
+
+    @Override
+    public Observable<Boolean> updateRGBHueLightbulb(HueLightbulbRGB hueLightbulbRGB) {
+        return mDbHelper.updateRGBHueLightbulb(hueLightbulbRGB);
+    }
+
+    @Override
+    public Observable<Boolean> deleteRGBHueLightbulb(HueLightbulbRGB hueLightbulbRGB) {
+        return mDbHelper.deleteRGBHueLightbulb(hueLightbulbRGB);
+    }
+    //</editor-fold>
+
+    //<editor-fold desc="Hue Light Bulb White data manager">
+    @Override
+    public Observable<List<HueLightbulbWhite>> getWhiteLightsByBridgeId(Integer id) {
+        return mDbHelper.getWhiteLightsByBridgeId(id);
+    }
+
+    @Override
+    public Observable<List<HueLightbulbWhite>> getWhiteHueLightsBySmartDeviceId(Integer id) {
+        return mDbHelper.getWhiteHueLightsBySmartDeviceId(id);
+    }
+
+    @Override
+    public Observable<Boolean> deleteWhiteHueLightsBySmartDeviceId(Integer id) {
+        return mDbHelper.deleteWhiteHueLightsBySmartDeviceId(id);
+    }
+
+    @Override
+    public Observable<Boolean> insertAllWhiteHueLightbulbs(HueLightbulbWhite... hueLightbulbWhites) {
+        return mDbHelper.insertAllWhiteHueLightbulbs(hueLightbulbWhites);
+    }
+
+    @Override
+    public Observable<Boolean> insertWhiteHueLightbulb(HueLightbulbWhite hueLightbulbWhite) {
+        return mDbHelper.insertWhiteHueLightbulb(hueLightbulbWhite);
+    }
+
+    @Override
+    public Observable<Boolean> updateWhiteHueLightbulb(HueLightbulbWhite hueLightbulbWhite) {
+        return mDbHelper.updateWhiteHueLightbulb(hueLightbulbWhite);
+    }
+
+    @Override
+    public Observable<Boolean> deleteWhiteHueLightbulb(HueLightbulbWhite hueLightbulbWhite) {
+        return mDbHelper.deleteWhiteHueLightbulb(hueLightbulbWhite);
+    }
+    //</editor-fold>
+
+    //<editor-fold desc="Nest Hub data manager">
+    @Override
+    public Observable<List<NestHub>> getAllNestHubs() {
         return mDbHelper.getAllNestHubs();
     }
-    //</editor-fold>
 
-    //<editor-fold desc="EventWithData">
     @Override
-    public Observable<EventWithData> getEventWithData(final Integer id) {return mDbHelper.getEventWithData(id);}
+    public Observable<NestHub> getLastInsertedNestHub() {
+        return mDbHelper.getLastInsertedNestHub();
+    }
 
+    @Override
+    public Observable<List<NestHub>> getAllNestHubsBySmartDeviceId(Integer id) {
+        return mDbHelper.getAllNestHubsBySmartDeviceId(id);
+    }
 
+    @Override
+    public Observable<Boolean> deleteNestHubBySmartDeviceId(Integer id) {
+        return mDbHelper.deleteNestHubBySmartDeviceId(id);
+    }
+
+    @Override
+    public Observable<Boolean> insertAllNestHubs(NestHub... nestHubs) {
+        return mDbHelper.insertAllNestHubs(nestHubs);
+    }
+
+    @Override
+    public Observable<Boolean> insertNestHub(NestHub nestHub) {
+        return mDbHelper.insertNestHub(nestHub);
+    }
+
+    @Override
+    public Observable<Boolean> updateNestHub(NestHub nestHub) {
+        return mDbHelper.updateNestHub(nestHub);
+    }
+
+    @Override
+    public Observable<Boolean> deleteNestHub(NestHub nestHub) {
+        return mDbHelper.deleteNestHub(nestHub);
+    }
     //</editor-fold>
 
+    //<editor-fold desc="Nest Thermostat data manager">
+    @Override
+    public Observable<List<NestThermostat>> getThermostatByHubId(Integer id) {
+        return mDbHelper.getThermostatByHubId(id);
+    }
 
+    @Override
+    public Observable<List<NestThermostat>> getNestThermostatBySmartDeviceId(Integer id) {
+        return mDbHelper.getNestThermostatBySmartDeviceId(id);
+    }
 
+    @Override
+    public Observable<Boolean> deleteNestThermostatBySmartDeviceId(Integer id) {
+        return mDbHelper.deleteNestThermostatBySmartDeviceId(id);
+    }
 
+    @Override
+    public Observable<Boolean> insertAllNestThermostats(NestThermostat... nestThermostats) {
+        return mDbHelper.insertAllNestThermostats(nestThermostats);
+    }
+
+    @Override
+    public Observable<Boolean> insertNestThermostat(NestThermostat nestThermostat) {
+        return mDbHelper.insertNestThermostat(nestThermostat);
+    }
+
+    @Override
+    public Observable<Boolean> updateNestThermostat(NestThermostat nestThermostat) {
+        return mDbHelper.updateNestThermostat(nestThermostat);
+    }
+
+    @Override
+    public Observable<Boolean> deleteNestThermostat(NestThermostat nestThermostat) {
+        return mDbHelper.deleteNestThermostat(nestThermostat);
+    }
+    //</editor-fold>
 }
