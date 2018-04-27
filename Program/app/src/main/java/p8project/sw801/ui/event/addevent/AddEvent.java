@@ -281,6 +281,7 @@ public class AddEvent extends BaseActivity<ActivityAddEventBinding, AddEventView
 
     public void updateActiveLocation(PredefinedLocation loc) {
         location = loc;
+
     }
 
     public static class TimePickerFragment1 extends DialogFragment
@@ -400,7 +401,15 @@ public class AddEvent extends BaseActivity<ActivityAddEventBinding, AddEventView
                 }
                 case (2): {
                     if (resultCode == Activity.RESULT_OK) {
-                        mAddEventViewModel.updateLocationData();
+                        int id = data.getIntExtra("predId",0);
+                        String name = data.getStringExtra("predName");
+                        int coordId = data.getIntExtra("predCoordId",0);
+                        PredefinedLocation predefinedLocation = new PredefinedLocation();
+                        predefinedLocation.setName(name);
+                        predefinedLocation.setId(id);
+                        predefinedLocation.setCoordinateId(coordId);
+                        updateActiveLocation(predefinedLocation);
+                        addressTextView.setText(location.getName());
                     }
                     break;
                 }

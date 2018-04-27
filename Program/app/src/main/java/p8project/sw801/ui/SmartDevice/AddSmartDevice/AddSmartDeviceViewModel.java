@@ -7,6 +7,7 @@ import p8project.sw801.data.DataManager;
 import p8project.sw801.data.model.db.SmartDevice;
 import p8project.sw801.data.model.db.Smartdevice.Accessories.HueLightbulbWhite;
 import p8project.sw801.data.model.db.Smartdevice.Controllers.HueBridge;
+import p8project.sw801.data.model.db.Smartdevice.Controllers.NestHub;
 import p8project.sw801.ui.base.BaseViewModel;
 import p8project.sw801.utils.rx.SchedulerProvider;
 
@@ -16,8 +17,28 @@ public class AddSmartDeviceViewModel extends BaseViewModel<AddSmartDeviceNavigat
         super(dataManager, schedulerProvider);
     }
 
-    public void search(){
+    public void searchBridge(){
         getNavigator().searchForBridge();
+    }
+    public void searchNest(List<NestHub> nestHubs){getNavigator().searchForNest(nestHubs);}
+
+    public void NestExists(){
+        List<NestHub> nestHubs = null;
+        getCompositeDisposable().add(
+                getDataManager().getAllNestHubs(
+
+                ).subscribeOn(getSchedulerProvider().io())
+                        .observeOn(getSchedulerProvider().ui())
+                        .subscribe(response -> {
+                            if (response != null && !response.isEmpty()){
+                                nestHubs.addAll(response);
+                                searchNest(nestHubs);
+                            }
+                            else{
+                                searchNest(null);
+                            }
+                        })
+        );
     }
 
     public void smartDeviceinsertHandler(SmartDevice smartDevice, HueBridge hueBridge, List<HueLightbulbWhite> lightbulbWhiteList){

@@ -40,6 +40,7 @@ public class EditLocationSettingActivity extends BaseActivity<ActivityEditLocati
     private Button confirmButton;
     private Coordinate coords;
     private Location loc;
+    private PredefinedLocation predLoc;
 
     private ActivityEditLocationSettingBinding mActivityEditLocationSettingBinding;
     @Inject
@@ -84,6 +85,7 @@ public class EditLocationSettingActivity extends BaseActivity<ActivityEditLocati
         if (predefinedLocation != null){
             nameTextView.setText(predefinedLocation.getName());
             coords = coordinate;
+            predLoc = predefinedLocation;
             Address add = CommonUtils.convertCoordinateToAddress(coordinate.getLatitude(),coordinate.getLatitude(),this);
             addressTextView.setText(add.getAddressLine(0) + ", " + add.getAddressLine(1) + ", " + add.getAddressLine(2));
         }
@@ -96,8 +98,7 @@ public class EditLocationSettingActivity extends BaseActivity<ActivityEditLocati
 
     @Override
     public void openLocationActivty() {
-        Intent intent = new Intent(EditLocationSettingActivity.this, LocationSettingActivity.class);
-        startActivity(intent);
+        finish();
 
     }
 
@@ -124,12 +125,11 @@ public class EditLocationSettingActivity extends BaseActivity<ActivityEditLocati
     }
 
     @Override
-    public void submitEditEventClick() {
-        String locName = nameTextView.getText().toString();
+    public void submitEditLocationClick() {
         try{
+            String locName = nameTextView.getText().toString();
             if (!CommonUtils.isNullOrEmpty(locName) && coords.getLongitude() != 0){
-                mEditLocationViewModel.updatePredefinedLoc(coords, locName);
-                mEditLocationViewModel.openLocationActivty();
+                mEditLocationViewModel.updatePredefinedLoc(coords, locName,predLoc);
             }
             else {
                 Toast.makeText(this, "You must specify a name", Toast.LENGTH_SHORT).show();

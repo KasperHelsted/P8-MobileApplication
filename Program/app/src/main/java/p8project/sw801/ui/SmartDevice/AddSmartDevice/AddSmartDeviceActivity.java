@@ -1,5 +1,6 @@
 package p8project.sw801.ui.SmartDevice.AddSmartDevice;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -12,7 +13,7 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import com.philips.lighting.hue.listener.PHLightListener;
+import com.nestlabs.sdk.NestAuthActivity;
 import com.philips.lighting.hue.sdk.PHAccessPoint;
 import com.philips.lighting.hue.sdk.PHBridgeSearchManager;
 import com.philips.lighting.hue.sdk.PHHueSDK;
@@ -22,11 +23,9 @@ import com.philips.lighting.model.PHBridge;
 import com.philips.lighting.model.PHHueError;
 import com.philips.lighting.model.PHHueParsingError;
 import com.philips.lighting.model.PHLight;
-import com.philips.lighting.model.PHLightState;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 import javax.inject.Inject;
 
@@ -35,10 +34,10 @@ import dagger.android.DispatchingAndroidInjector;
 import dagger.android.support.HasSupportFragmentInjector;
 import p8project.sw801.BR;
 import p8project.sw801.R;
-import p8project.sw801.data.model.db.PredefinedLocation;
 import p8project.sw801.data.model.db.SmartDevice;
 import p8project.sw801.data.model.db.Smartdevice.Accessories.HueLightbulbWhite;
 import p8project.sw801.data.model.db.Smartdevice.Controllers.HueBridge;
+import p8project.sw801.data.model.db.Smartdevice.Controllers.NestHub;
 import p8project.sw801.databinding.ActivityAddSmartDeviceBinding;
 import p8project.sw801.ui.SmartDevice.AccessPointListAdapter;
 import p8project.sw801.ui.base.BaseActivity;
@@ -63,7 +62,8 @@ public class AddSmartDeviceActivity extends BaseActivity<ActivityAddSmartDeviceB
     private ActivityAddSmartDeviceBinding mActivityAddSmartDeviceBinding;
     //Initializting a bridge object for null checking
     private HueBridge mhueBridge= null;
-    private Button searchButton;
+    private Button searchBridge;
+    private Button searchNest;
     private ListView brigdeListview;
 
 
@@ -96,7 +96,9 @@ public class AddSmartDeviceActivity extends BaseActivity<ActivityAddSmartDeviceB
 
         //ViewBindings
         brigdeListview = mActivityAddSmartDeviceBinding.bridgeList;
-        searchButton = mActivityAddSmartDeviceBinding.findNewBridge;
+        searchBridge = mActivityAddSmartDeviceBinding.findNewBridge;
+        searchNest = mActivityAddSmartDeviceBinding.findNewNest;
+
 
         //Register a SDK listener for actions related to connection
         phHueSDK.getNotificationManager().registerSDKListener(phsdkListener);
@@ -322,4 +324,30 @@ public class AddSmartDeviceActivity extends BaseActivity<ActivityAddSmartDeviceB
             doBridgeSearch();
         }
     }
+
+    @Override
+    public void searchForNest(List<NestHub> nestHubs) {
+        //Toast.makeText(this, "OMEGALUL", Toast.LENGTH_SHORT).show();
+        Intent intent = new Intent(AddSmartDeviceActivity.this, NestAuthActivity.class);
+        startActivityForResult(intent,123);
+
+       /* if (nestHubs == null){
+            Toast.makeText(this, "NULL", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(AddSmartDeviceActivity.this, NestAuthActivity.class);
+            startActivity(intent);
+        }else {
+            Toast.makeText(this, "NOT NULL", Toast.LENGTH_SHORT).show();
+            NestHub nestHub;
+            for (NestHub nest : nestHubs){
+                nestHub = nest;
+            }
+
+        }*/
+    }
+    private void launchAuthFlow(Activity activity, int requestCode) {
+        final Intent authFlowIntent = new Intent(activity, NestAuthActivity.class);
+        //authFlowIntent.putExtra(KEY_CLIENT_METADATA, oauth2Config);
+        activity.startActivityForResult(authFlowIntent, requestCode);
+    }
+
 }

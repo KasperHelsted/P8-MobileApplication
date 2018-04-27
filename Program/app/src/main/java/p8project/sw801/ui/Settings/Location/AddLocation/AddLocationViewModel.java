@@ -16,9 +16,9 @@ public class AddLocationViewModel extends BaseViewModel<AddLocationNavigator> {
     public void submitLocationClick(){
         getNavigator().submitLocationClick();
     }
-    public void openLocationActivty()
+    public void openLocationActivty(PredefinedLocation pred)
     {
-        getNavigator().openLocationActivty();
+        getNavigator().openLocationActivty(pred);
     }
 
 
@@ -63,7 +63,17 @@ public class AddLocationViewModel extends BaseViewModel<AddLocationNavigator> {
                         .observeOn(getSchedulerProvider().ui())
                         .subscribe(response -> {
                             System.out.println("Location submitted!");
-                            openLocationActivty();
+                            getLastLocation();
+                        })
+        );
+    }
+    private void getLastLocation(){
+        getCompositeDisposable().add(
+                getDataManager().getLastPredefinedLocation(
+                ).subscribeOn(getSchedulerProvider().io())
+                        .observeOn(getSchedulerProvider().ui())
+                        .subscribe(response -> {
+                            openLocationActivty(response);
                         })
         );
     }
