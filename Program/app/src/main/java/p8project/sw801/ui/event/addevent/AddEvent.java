@@ -94,6 +94,7 @@ public class AddEvent extends BaseActivity<ActivityAddEventBinding, AddEventView
     static private int endMin;
     static private Date startDate;
     static private Date endDate;
+    private Button cancel;
 
 
     @Override
@@ -247,11 +248,18 @@ public class AddEvent extends BaseActivity<ActivityAddEventBinding, AddEventView
 
     @Override
     public void showNotificationOrSmartdevice() {
+
         getSupportFragmentManager()
                 .beginTransaction()
                 .disallowAddToBackStack()
-                .add(R.id.event_activity_layout, NotificationOrSmartdevice.newInstance(), NotificationOrSmartdevice.TAG)
+                .add(R.id.placementfragment, NotificationOrSmartdevice.newInstance(), NotificationOrSmartdevice.TAG)
                 .commit();
+    }
+
+    @Override
+    public void onBackPressed() {
+            super.onBackPressed();
+
     }
 
     @Override
@@ -544,6 +552,8 @@ public class AddEvent extends BaseActivity<ActivityAddEventBinding, AddEventView
         TimeBasedNotification.setAlarm(getApplicationContext(), eventWithData);
     }
 
+
+
     private void setupBindings() {
         doThis = (LinearLayout) mActivityAddEventBinding.linearLayoutAddEvent;
         spinner = (Spinner) mActivityAddEventBinding.spinnerWhen;
@@ -556,5 +566,6 @@ public class AddEvent extends BaseActivity<ActivityAddEventBinding, AddEventView
         confirm = mActivityAddEventBinding.buttonCreateEvent;
         eventName = mActivityAddEventBinding.textInputEventName;
         addEvent = mActivityAddEventBinding.addEventTriggerStatic;
+        cancel = mActivityAddEventBinding.buttonCancel;
     }
 }
