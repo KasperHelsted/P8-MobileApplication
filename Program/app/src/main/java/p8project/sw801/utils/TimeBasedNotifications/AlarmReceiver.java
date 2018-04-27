@@ -82,8 +82,14 @@ public class AlarmReceiver extends BroadcastReceiver {
 
         if (eventWithData.event.getActive() && !proximityReceiver.globalMuted(globalMuteList, time)) {
             if (when.getLocationCondition() == 0) {
-                proximityReceiver.triggerFunction(triggerWithSmartDevices, eventWithData.event.getName());
-            } else if (when.getTimeCondition() == 1 && when.getStartHour() >= ho && when.getStartMinute() >= minute) {
+                proximityReceiver.triggerFunction(triggerWithSmartDevices, eventWithData.event.getName(), context);
+                Log.i("log", "Time only received");
+            }else if(when.getTimeCondition() == 0){
+                Log.i("log", "Proximity only received");
+                ProximityBasedNotifications proximityBasedNotifications = new ProximityBasedNotifications(context);
+                proximityBasedNotifications.createProximityNotification(whenWithCoordinate.coordinate.get(0), eventWithData.event.getId(), eventWithData);
+            }
+            else if (when.getTimeCondition() == 1 && when.getStartHour() >= ho && when.getStartMinute() >= minute) {
                 Log.i("log", "Before this time received");
                 ProximityBasedNotifications proximityBasedNotifications = new ProximityBasedNotifications(context);
                 proximityBasedNotifications.createProximityNotification(whenWithCoordinate.coordinate.get(0), eventWithData.event.getId(), eventWithData);

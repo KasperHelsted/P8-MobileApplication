@@ -168,7 +168,95 @@ public class ProximityReceiver extends BroadcastReceiver {
         }
 
         if (!notification) {
-            n.CreateNotification(eventName, "");
+            n.CreateNotification(eventName, "Notification");
+            notification = false;
+        }
+    }
+
+    public void triggerFunction(List<TriggerWithSmartDevice> triggerList, String eventName, Context context) {
+
+        NotificationUtil notificationUtil = new NotificationUtil(context);
+        HueUtilities.setupSDK();
+
+        Boolean notification = false;
+        HueBridge hueBridge = new HueBridge();
+
+        Log.i("Log", "Triggering");
+        for (TriggerWithSmartDevice t : triggerList) {
+            String uniqueId = "";
+            if (t.trigger.getAction() == 1 || t.trigger.getAction() == 2 || t.trigger.getAction() == 3) {
+
+                if (hueBridge.getDeviceIP() != t.smartDeviceWithDataList.get(0).hueBridgeList.get(0).getDeviceIP()){
+                    hueBridge = t.smartDeviceWithDataList.get(0).hueBridgeList.get(0);
+                    HueUtilities.connectToBridge(hueBridge);
+                }
+
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+
+
+            switch (t.trigger.getAction()) {
+                case 0:
+                    notificationUtil.CreateNotification(eventName, t.trigger.getNotificationText());
+                    notification = true;
+                    break;
+                case 1:
+                    for (HueLightbulbWhite lightbulbWhite : t.smartDeviceWithDataList.get(0).hueLightbulbWhiteList) {
+                        if (t.trigger.getAccessorieId() == lightbulbWhite.getId()) {
+                            uniqueId = lightbulbWhite.getDeviceId();
+                        }
+                    }
+
+                    HueUtilities.turnLightOn(uniqueId);
+                    try {
+                        Thread.sleep(1000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    break;
+                case 2:
+                    for (HueLightbulbWhite lightbulbWhite : t.smartDeviceWithDataList.get(0).hueLightbulbWhiteList) {
+                        if (t.trigger.getAccessorieId() == lightbulbWhite.getId()) {
+                            uniqueId = lightbulbWhite.getDeviceId();
+                        }
+                    }
+                    HueUtilities.turnLightOff(uniqueId);
+                    try {
+                        Thread.sleep(1000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    break;
+                case 3:
+                    for (HueLightbulbWhite lightbulbWhite : t.smartDeviceWithDataList.get(0).hueLightbulbWhiteList) {
+                        if (t.trigger.getAccessorieId() == lightbulbWhite.getId()) {
+                            uniqueId = lightbulbWhite.getDeviceId();
+                        }
+                    }
+                    HueUtilities.changeLightstate(uniqueId, 40000, t.trigger.getValue());
+                    try {
+                        Thread.sleep(1000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    break;
+                case 4:
+                    break;//TODO TRIGGER NEST THERMO ON
+                case 5:
+                    break;//TODO TRIGGER NEST THERMO OFF
+                case 6:
+                    break;//TODO CHANGE NEST THERMO TEMP
+                default:
+                    break;
+            }
+        }
+
+        if (!notification) {
+            notificationUtil.CreateNotification(eventName, "Notification");
             notification = false;
         }
     }
