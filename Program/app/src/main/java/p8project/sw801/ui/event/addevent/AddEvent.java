@@ -354,25 +354,25 @@ public class AddEvent extends BaseActivity<ActivityAddEventBinding, AddEventView
 
         //Check individual items.
         if (tMon.isChecked()) {
-            markedButtons.add(1);
-        }
-        if (tThu.isChecked()) {
             markedButtons.add(2);
         }
-        if (tWen.isChecked()) {
+        if (tThu.isChecked()) {
             markedButtons.add(3);
         }
-        if (tTue.isChecked()) {
+        if (tWen.isChecked()) {
             markedButtons.add(4);
         }
-        if (tFri.isChecked()) {
+        if (tTue.isChecked()) {
             markedButtons.add(5);
         }
-        if (tSat.isChecked()) {
+        if (tFri.isChecked()) {
             markedButtons.add(6);
         }
-        if (tSun.isChecked()) {
+        if (tSat.isChecked()) {
             markedButtons.add(7);
+        }
+        if (tSun.isChecked()) {
+            markedButtons.add(1);
         }
     }
 
@@ -536,6 +536,12 @@ public class AddEvent extends BaseActivity<ActivityAddEventBinding, AddEventView
             }
         });
         builderSingle.show();
+    }
+
+    @Override
+    public void createNotifications(EventWithData eventWithData){
+
+        TimeBasedNotification.setAlarm(getApplicationContext(), eventWithData);
     }
 
     private void setupBindings() {

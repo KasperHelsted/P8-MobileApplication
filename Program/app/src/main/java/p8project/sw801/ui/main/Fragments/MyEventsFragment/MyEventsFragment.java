@@ -52,9 +52,9 @@ public class MyEventsFragment extends BaseFragment<ActivityMyEventsBinding, MyEv
         setUp();
         return view;
     }
+	
+    public void setUp(){
 
-
-    public void setUp() {
 
         listview = (ListView) mActivityMyEventsBinding.listViewMyEvents;
 
@@ -120,5 +120,7 @@ public class MyEventsFragment extends BaseFragment<ActivityMyEventsBinding, MyEv
     public MyEventsFragmentViewModel getViewModel() {
         return mMyEventsFragmentViewModel;
     }
+
+
 
 }
