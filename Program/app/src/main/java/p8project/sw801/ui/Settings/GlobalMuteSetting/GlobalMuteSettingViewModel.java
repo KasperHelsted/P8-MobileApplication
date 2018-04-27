@@ -29,7 +29,7 @@ public class GlobalMuteSettingViewModel extends BaseViewModel<GlobalMuteSettingN
         return t;
     }
 
-    private void getListFromDb() {
+    public void getListFromDb() {
         List<GlobalMute> a = new ArrayList<>();
         ArrayList<GlobalMute> arrayList = null;
 

@@ -24,7 +24,7 @@ public class GlobalMuteSettingAdapter extends BaseAdapter {
 
     private Context mContext;
     private ArrayList<GlobalMute> Title;
-    private String globalSettingName;
+    private Integer globalSettingName;
 
 
     public GlobalMuteSettingAdapter(Context context, ArrayList<GlobalMute> text1) {
@@ -71,8 +71,7 @@ public class GlobalMuteSettingAdapter extends BaseAdapter {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(mContext, EditGlobalMuteSettingActivity.class);
-                intent.putExtra(globalSettingName, Title.get(position).getName());
-
+                intent.putExtra("id", Title.get(position).getId());
                 mContext.startActivity(intent);
             }
         });
