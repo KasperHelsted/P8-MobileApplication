@@ -188,6 +188,8 @@ public interface DbHelper {
 
     Observable<Integer> getChainCount();
 
+    Observable<Chain> getChainbyName(String brandName);
+
     Observable<List<Chain>> getActiveChains();
 
     Observable<List<Chain>> getChainsByIds(final Integer[] ids);

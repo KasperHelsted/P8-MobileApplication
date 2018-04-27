@@ -7,9 +7,7 @@ import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
@@ -52,26 +50,16 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        firstRunSeeding();
-
         super.onCreate(savedInstanceState);
         mActivityMainBinding = getViewDataBinding();
         mMainViewModel.setNavigator(this);
 
         initializeViewPager();
         drawer();
+
+        mMainViewModel.firstRunSeeding();
     }
     //--------------------------Burger menu-------------------------------------
-
-    private void firstRunSeeding() {
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-
-        if (!prefs.getBoolean("firstTime", false)) {
-
-            //TODO: https://stackoverflow.com/questions/15061653/run-a-piece-of-code-only-once-when-an-application-is-installed?utm_medium=organic&utm_source=google_rich_qa&utm_campaign=google_rich_qa
-
-        }
-    }
 
     public void drawer() {
 
@@ -225,7 +213,6 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
 
             }
         });
-
     }
 
     @Override

@@ -427,6 +427,11 @@ public class AppDataManager implements DataManager {
     }
 
     @Override
+    public Observable<Chain> getChainbyName(String brandName) {
+        return mDbHelper.getChainbyName(brandName);
+    }
+
+    @Override
     public Observable<List<Chain>> getActiveChains() {
         return mDbHelper.getActiveChains();
     }

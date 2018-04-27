@@ -518,6 +518,11 @@ public class AppDbHelper implements DbHelper {
     }
 
     @Override
+    public Observable<Chain> getChainbyName(String brandName) {
+        return Observable.fromCallable(() -> mAppDatabase.chainDao().byChainName(brandName));
+    }
+
+    @Override
     public Observable<List<Chain>> getActiveChains() {
         return Observable.fromCallable(() -> mAppDatabase.chainDao().getActiveChains());
     }
