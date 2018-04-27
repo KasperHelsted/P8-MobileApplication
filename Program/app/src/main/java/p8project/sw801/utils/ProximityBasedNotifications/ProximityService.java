@@ -7,15 +7,17 @@ import android.support.annotation.Nullable;
 
 public class ProximityService extends Service {
 
-    public static ProximityReceiver proximityReceiver;
+    public static ProximityReceiver proximityReceiver = null;
 
     @Override
     public void onCreate() {
-        proximityReceiver = new ProximityReceiver();
     }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
+        if (proximityReceiver == null){
+            proximityReceiver = new ProximityReceiver();
+        }
         return START_NOT_STICKY;
     }
 
