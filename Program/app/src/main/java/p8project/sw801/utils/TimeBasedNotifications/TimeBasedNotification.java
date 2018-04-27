@@ -4,7 +4,6 @@ import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
-import android.os.Build;
 import android.util.Log;
 
 import com.google.gson.Gson;
@@ -18,65 +17,71 @@ import java.util.List;
 import java.util.Locale;
 
 import p8project.sw801.data.local.RelationEntity.EventWithData;
-import p8project.sw801.data.local.RelationEntity.TriggerWithSmartDevice;
 import p8project.sw801.data.local.RelationEntity.WhenWithCoordinate;
-import p8project.sw801.data.model.db.Trigger;
-import p8project.sw801.data.model.db.When;
+import p8project.sw801.data.local.db.AppDatabase;
+import p8project.sw801.ui.base.BaseService;
 import p8project.sw801.utils.ProximityBasedNotifications.ProximityService;
 
 public final class TimeBasedNotification {
     private static TimeService ts = new TimeService();
     private static ProximityService ps = new ProximityService();
+    private static BaseService baseService = new BaseService();
 
-    public static void setAlarm(Context ctx, EventWithData eventWithData){
+    public static void setAlarm(Context ctx, EventWithData e){
 
         Intent in = new Intent(ctx, TimeService.class);
         ctx.startService(in);
         Intent i = new Intent(ctx, ProximityService.class);
         ctx.startService(i);
 
-        WhenWithCoordinate time = eventWithData.whens.get(0);
-        //Initialize alarmManager with the context
-        AlarmManager am = (AlarmManager) ctx.getSystemService(Context.ALARM_SERVICE);
-        //Get instance of the calendar
-        Calendar calendar = Calendar.getInstance();
-        //Initialize the interval for the alarm
-        long intervalMillis = 0;
-        if (time.when.getTimeCondition() == 1 || time.when.getTimeCondition() == 0){
-            calendar.set(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH), calendar.get(Calendar.HOUR_OF_DAY + 1), 00, 30);
-        } else{
-            calendar.set(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH), time.when.getStartHour(), time.when.getStartMinute(), 00);
-        }
-        List<Integer> weekdayList = null;
-        try {
-            weekdayList = time.when.getListWeekDays();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        boolean weekAlarm = isWeekAlarm(weekdayList);
-        if (weekAlarm)
-        {
-            intervalMillis = 24 * 3600 * 1000; //Alarm once a day
-            Intent intent = new Intent(ctx,AlarmReceiver.class);
-            intent.putExtra("eventWithDate", new Gson().toJson(eventWithData));
-            intent.putExtra("weekDayInt",0);
-            PendingIntent sender = PendingIntent.getBroadcast(ctx, eventWithData.event.getId(), intent, PendingIntent.FLAG_CANCEL_CURRENT);
-            am.setRepeating(AlarmManager.RTC_WAKEUP,timeHelper(0,calendar.getTimeInMillis()),intervalMillis,sender);
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ", Locale.US);
-            Log.i("Alarm", "Alarm added at: " + sdf.format(new Date()));
-        }
-        else
-        {
-            intervalMillis = 24 * 3600 * 1000 * 7; //Alarm once a week on specific date
-            for(Integer day : weekdayList)
-            {
-                Intent intent = new Intent(ctx,AlarmReceiver.class);
+
+        AppDatabase db = baseService.getDatabase(ctx);
+        EventWithData eventWithData = db.eventWithDataDao().getEventWithData(
+                e.event.getId()
+        );
+
+        if (eventWithData != null) {
+
+
+            WhenWithCoordinate time = eventWithData.whens.get(0);
+            //Initialize alarmManager with the context
+            AlarmManager am = (AlarmManager) ctx.getSystemService(Context.ALARM_SERVICE);
+            //Get instance of the calendar
+            Calendar calendar = Calendar.getInstance();
+            //Initialize the interval for the alarm
+            long intervalMillis = 0;
+            if (time.when.getTimeCondition() == 1 || time.when.getTimeCondition() == 0) {
+                calendar.set(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH), calendar.get(Calendar.HOUR_OF_DAY + 1), 00, 30);
+            } else {
+                calendar.set(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH), time.when.getStartHour(), time.when.getStartMinute(), 00);
+            }
+            List<Integer> weekdayList = null;
+            try {
+                weekdayList = time.when.getListWeekDays();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+            boolean weekAlarm = isWeekAlarm(weekdayList);
+            if (weekAlarm) {
+                intervalMillis = 24 * 3600 * 1000; //Alarm once a day
+                Intent intent = new Intent(ctx, AlarmReceiver.class);
                 intent.putExtra("eventWithDate", new Gson().toJson(eventWithData));
-                intent.putExtra("weekDayInt",day);
-                PendingIntent sender = PendingIntent.getBroadcast(ctx, eventWithData.event.gethashcode()+day, intent, PendingIntent.FLAG_CANCEL_CURRENT);
-                am.setRepeating(AlarmManager.RTC_WAKEUP,timeHelper(day,calendar.getTimeInMillis()),intervalMillis,sender);
+                intent.putExtra("weekDayInt", 0);
+                PendingIntent sender = PendingIntent.getBroadcast(ctx, eventWithData.event.gethashcode(), intent, PendingIntent.FLAG_CANCEL_CURRENT);
+                am.setRepeating(AlarmManager.RTC_WAKEUP, timeHelper(0, calendar.getTimeInMillis()), intervalMillis, sender);
                 SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ", Locale.US);
-                Log.i("Alarm", "Alarm added at: " + sdf.format(new Date()) + "With time:´" + sdf.format(timeHelper(day, calendar.getTimeInMillis())));
+                Log.i("Alarm", "Alarm added at: " + sdf.format(new Date()));
+            } else {
+                intervalMillis = 24 * 3600 * 1000 * 7; //Alarm once a week on specific date
+                for (Integer day : weekdayList) {
+                    Intent intent = new Intent(ctx, AlarmReceiver.class);
+                    intent.putExtra("eventWithDate", new Gson().toJson(eventWithData));
+                    intent.putExtra("weekDayInt", day);
+                    PendingIntent sender = PendingIntent.getBroadcast(ctx, eventWithData.event.gethashcode() + day, intent, PendingIntent.FLAG_CANCEL_CURRENT);
+                    am.setRepeating(AlarmManager.RTC_WAKEUP, timeHelper(day, calendar.getTimeInMillis()), intervalMillis, sender);
+                    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ", Locale.US);
+                    Log.i("Alarm", "Alarm added at: " + sdf.format(new Date()) + "With time:´" + sdf.format(timeHelper(day, calendar.getTimeInMillis())));
+                }
             }
         }
     }

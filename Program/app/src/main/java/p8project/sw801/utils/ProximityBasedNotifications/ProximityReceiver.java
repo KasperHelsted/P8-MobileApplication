@@ -50,39 +50,44 @@ public class ProximityReceiver extends BroadcastReceiver {
                 new Gson().fromJson(jsonMyObject, EventWithData.class).event.getId()
         );
 
-        //Get updated eventlist and global mute list
-        List<GlobalMute> globalMuteList = db.globalMuteDao().getAll();
-
-        List<TriggerWithSmartDevice> triggerWithSmartDevices = eventWithData.triggers;
-        WhenWithCoordinate whenWithCoordinate = eventWithData.whens.get(0);
-        When when = whenWithCoordinate.when;
-
-        Log.i("Log", "Recieved prox alarm");
-
-        //Get database
-        AppDatabase appDatabase = baseService.getDatabase(context);
-
-        //Get time of day to compare. Are only encoded with hour and minute
-        GregorianCalendar gc = new GregorianCalendar();
-        int ho = gc.get(GregorianCalendar.HOUR_OF_DAY);
-        int minute = gc.get(GregorianCalendar.MINUTE);
-        gc.clear();
-        gc.add(Calendar.HOUR_OF_DAY, ho);
-        gc.add(Calendar.MINUTE, minute);
-        long time = gc.getTime().getTime();
+        //Check for deleted
+        if (eventWithData != null) {
 
 
-        if (eventWithData.event.getActive() && !globalMuted(globalMuteList, time))
-        //If the user is entering/At a location
-        if (when.getLocationCondition() != 0 && when.getLocationCondition() != 3 && entering) {
-            Log.i("PROXIMITY", "Entering");
-            triggerFunction(triggerWithSmartDevices, eventWithData.event.getName());
+            //Get updated eventlist and global mute list
+            List<GlobalMute> globalMuteList = db.globalMuteDao().getAll();
 
-            //If the user is leaving a location
-        } else if (when.getLocationCondition() == 3 && !entering) {
-            Log.i("PROXIMITY", "Leaving");
-            triggerFunction(triggerWithSmartDevices, eventWithData.event.getName());
+            List<TriggerWithSmartDevice> triggerWithSmartDevices = eventWithData.triggers;
+            WhenWithCoordinate whenWithCoordinate = eventWithData.whens.get(0);
+            When when = whenWithCoordinate.when;
 
+            Log.i("Log", "Recieved prox alarm");
+
+            //Get database
+            AppDatabase appDatabase = baseService.getDatabase(context);
+
+            //Get time of day to compare. Are only encoded with hour and minute
+            GregorianCalendar gc = new GregorianCalendar();
+            int ho = gc.get(GregorianCalendar.HOUR_OF_DAY);
+            int minute = gc.get(GregorianCalendar.MINUTE);
+            gc.clear();
+            gc.add(Calendar.HOUR_OF_DAY, ho);
+            gc.add(Calendar.MINUTE, minute);
+            long time = gc.getTime().getTime();
+
+
+            if (eventWithData.event.getActive() && !globalMuted(globalMuteList, time))
+                //If the user is entering/At a location
+                if (when.getLocationCondition() != 0 && when.getLocationCondition() != 3 && entering) {
+                    Log.i("PROXIMITY", "Entering");
+                    triggerFunction(triggerWithSmartDevices, eventWithData.event.getName());
+
+                    //If the user is leaving a location
+                } else if (when.getLocationCondition() == 3 && !entering) {
+                    Log.i("PROXIMITY", "Leaving");
+                    triggerFunction(triggerWithSmartDevices, eventWithData.event.getName());
+
+                }
         }
     }
 
