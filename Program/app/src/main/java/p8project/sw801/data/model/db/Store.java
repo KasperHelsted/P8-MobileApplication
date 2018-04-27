@@ -16,14 +16,16 @@ import static android.arch.persistence.room.ForeignKey.CASCADE;
 public class Store {
     @PrimaryKey(autoGenerate = true)
     private Integer id;
+
     @ColumnInfo(name = "chainId")
     private Integer chainId;
+
     @ColumnInfo(name = "storeName")
     private String storeName;
-    @ColumnInfo(name = "favorite")
-    private boolean favorite;
+
     @ColumnInfo(name = "latitude")
     private double latitude;
+
     @ColumnInfo(name = "longitude")
     private double longitude;
 
@@ -49,14 +51,6 @@ public class Store {
 
     public void setStoreName(String storeName) {
         this.storeName = storeName;
-    }
-
-    public boolean isFavorite() {
-        return favorite;
-    }
-
-    public void setFavorite(boolean favorite) {
-        this.favorite = favorite;
     }
 
     public double getLatitude() {
