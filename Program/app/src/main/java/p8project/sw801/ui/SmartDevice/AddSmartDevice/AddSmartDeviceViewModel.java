@@ -6,6 +6,7 @@ import java.util.List;
 import p8project.sw801.data.DataManager;
 import p8project.sw801.data.model.db.SmartDevice;
 import p8project.sw801.data.model.db.Smartdevice.Accessories.HueLightbulbWhite;
+import p8project.sw801.data.model.db.Smartdevice.Accessories.NestThermostat;
 import p8project.sw801.data.model.db.Smartdevice.Controllers.HueBridge;
 import p8project.sw801.data.model.db.Smartdevice.Controllers.NestHub;
 import p8project.sw801.ui.base.BaseViewModel;
@@ -21,6 +22,10 @@ public class AddSmartDeviceViewModel extends BaseViewModel<AddSmartDeviceNavigat
         getNavigator().searchForBridge();
     }
     public void searchNest(List<NestHub> nestHubs){getNavigator().searchForNest(nestHubs);}
+    public void insertNest(NestHub nestHub, List<NestThermostat> nestThermostatList){
+
+        //TODO CREATE SMART DEVICE, INSERT, GET, SET ID PÅ NESTHUB OG THERMOS, INSERT NEST, GET, SET ID på THERMOS
+    }
 
     public void NestExists(){
         List<NestHub> nestHubs = null;

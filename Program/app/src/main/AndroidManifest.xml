@@ -5,7 +5,7 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:name=".MvvmApp"
@@ -20,10 +20,10 @@
             android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity android:name=".ui.event.addevent.AddEvent" />
         <activity android:name=".ui.event.addeventaccessory.AddEventAccessory" />
         <activity android:name=".ui.event.addeventhue.AddEventHue" />
@@ -41,12 +41,21 @@
         <activity android:name=".ui.Settings.SettingsActivity" />
         <activity android:name=".ui.Settings.Shopping.ShoppingSettingActivity" />
         <activity android:name=".ui.SmartDevice.EditSmartDevice.EditSmartDeviceActivity" />
-        <activity android:name=".ui.SmartDevice.AddSmartDevice.AddSmartDeviceActivity"/>
-        <receiver android:name=".utils.TimeBasedNotifications.AlarmReceiver"/>
-        <receiver android:name=".utils.ProximityBasedNotifications.ProximityReceiver"/>
-        <activity android:name=".ui.custom.PHPushlinkActivity"/>
+        <activity android:name=".ui.SmartDevice.AddSmartDevice.AddSmartDeviceActivity" />
+
+        <receiver android:name=".utils.TimeBasedNotifications.AlarmReceiver" />
+        <receiver android:name=".utils.ProximityBasedNotifications.ProximityReceiver" />
+
+        <activity android:name=".ui.custom.PHPushlinkActivity" />
+
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
+
+        <activity
+            android:name=".ui.SmartDevice.AddNestSmartDevice.AddNestSmartDevice"
+            android:label="@string/title_activity_add_nest_smart_device"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
+
 </manifest>

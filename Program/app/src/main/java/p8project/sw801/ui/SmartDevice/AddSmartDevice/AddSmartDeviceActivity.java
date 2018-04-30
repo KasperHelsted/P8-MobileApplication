@@ -45,10 +45,12 @@ import p8project.sw801.BR;
 import p8project.sw801.R;
 import p8project.sw801.data.model.db.SmartDevice;
 import p8project.sw801.data.model.db.Smartdevice.Accessories.HueLightbulbWhite;
+import p8project.sw801.data.model.db.Smartdevice.Accessories.NestThermostat;
 import p8project.sw801.data.model.db.Smartdevice.Controllers.HueBridge;
 import p8project.sw801.data.model.db.Smartdevice.Controllers.NestHub;
 import p8project.sw801.databinding.ActivityAddSmartDeviceBinding;
 import p8project.sw801.ui.SmartDevice.AccessPointListAdapter;
+import p8project.sw801.ui.SmartDevice.AddNestSmartDevice.AddNestSmartDevice;
 import p8project.sw801.ui.base.BaseActivity;
 import p8project.sw801.ui.custom.PHPushlinkActivity;
 import p8project.sw801.ui.custom.PHWizardAlertDialog;
@@ -79,9 +81,9 @@ public class AddSmartDeviceActivity extends BaseActivity<ActivityAddSmartDeviceB
     private Thermostat mThermostat;
     private Structure mStructure;
     private Activity mActivity;
-    private static final String CLIENT_ID = NestConstants.CLIENT_ID;
-    private static final String CLIENT_SECRET = NestConstants.CLIENT_SECRET;
-    private static final String REDIRECT_URL = NestConstants.REDIRECT_URL;
+    private String CLIENT_ID;
+    private String CLIENT_SECRET;
+    private String REDIRECT_URL;
     public static final int AUTH_TOKEN_REQUEST_CODE = 27015;
 
 
@@ -344,50 +346,110 @@ public class AddSmartDeviceActivity extends BaseActivity<ActivityAddSmartDeviceB
             doBridgeSearch();
         }
     }
+
+
+
+
     //--- NEST SETUP ---
     @Override
     public void searchForNest(List<NestHub> nestHubs) {
+
+        Intent i = new Intent(AddSmartDeviceActivity.this, AddNestSmartDevice.class);
+        startActivityForResult(i, 2);
+    }
+
+    public void addNest(String client_id, String secret_id){
+        CLIENT_ID = client_id;
+        CLIENT_SECRET = secret_id;
         NestAPI.setAndroidContext(mActivity);
         NestAPI nest = NestAPI.getInstance();
-        NestHub localNest = null;
-        if (nestHubs != null){
-            for (NestHub nestHub : nestHubs){
-                localNest = nestHub;
+        nest.setConfig(client_id,secret_id,"http://localhost:8080/auth/nest/callback");
+        nest.launchAuthFlow(mActivity, AUTH_TOKEN_REQUEST_CODE);
+
+
+        //id: 3288bccc-52b5-4452-97d9-fe738e01dbcb
+        //Secret: Ic2CMFXNGQtIZfEzk2ichZloZ
+        //Token: c.g1dJJTGwyS6YVoWRfLKPUsRkxHyHur70OFFnpKHg4qIpBTZkX95TFZzhftGxy3HNBt95NUSYXhLGr2gMFS6eMwN0nfBZFu9hiMgWy392z3ucMlRwQr10cEXQGTo171b5KeQ1imJ2o3M4zedN
+    }
+
+    private void getAllConnectedToNest(NestAPI n, String token){
+
+
+        n.addGlobalListener(new NestListener.GlobalListener() {
+
+            @Override
+            public void onUpdate(@NonNull GlobalUpdate update) {
+                //Metadata metadata = update.getMetadata();
+                //ArrayList<Camera> cameras = update.getCameras();
+                //ArrayList<SmokeCOAlarm> alarms = update.getSmokeCOAlarms();
+                ArrayList<Thermostat> t = update.getThermostats();
+                //ArrayList<Structure> structures = update.getStructures();
+                n.removeAllListeners();
+
+                //Add Nest to db
+                NestHub nestHub = new NestHub();
+                nestHub.setBearerToken(token);
+
+                //Add Thermo to db
+                List<NestThermostat> nestThermostatList = new ArrayList<>();
+                for (Thermostat thermostat:t) {
+                    NestThermostat nestThermostat = new NestThermostat();
+                    nestThermostat.setName(thermostat.getName());
+                    nestThermostat.setDeviceId(thermostat.getDeviceId());
+                    nestThermostatList.add(nestThermostat);
+                }
+                mSmartDeviceViewModel.insertNest(nestHub,nestThermostatList);
+
+                tester(token, t.get(0).getDeviceId());
             }
-        }
-        if (localNest != null){
-            nest.authWithToken(localNest.getBearerToken(), new NestListener.AuthListener() {
-                @Override
-                public void onAuthSuccess() {
+        });
 
-                }
 
-                @Override
-                public void onAuthFailure(NestException exception) {
 
-                }
+    }
 
-                @Override
-                public void onAuthRevoked() {
-
-                }
-            });
-        }
-        else{
-            nest.setConfig(NestConstants.CLIENT_ID,NestConstants.CLIENT_SECRET,NestConstants.REDIRECT_URL);
-            nest.launchAuthFlow(mActivity, AUTH_TOKEN_REQUEST_CODE);
-        }
+    private void tester(String token, String id){
+        NestUtilities.InitializeNestForCurrentContext(this, token);
+        NestUtilities.nest.thermostats.setTargetTemperatureC(id, 20);
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent intent) {
-        if (resultCode != RESULT_OK || requestCode != AUTH_TOKEN_REQUEST_CODE) {
-            Toast.makeText(this, "Cannot find Nest", Toast.LENGTH_LONG).show();
-            return; // No token will be available.
+
+        //Return from fetching nest token
+        if (requestCode == AUTH_TOKEN_REQUEST_CODE) {
+            NestToken token = NestAPI.getAccessTokenFromIntent(intent);
+
+            NestAPI nest;
+            nest = NestAPI.getInstance();
+
+            // Authenticate with token.
+            nest.authWithToken(token, new NestListener.AuthListener() {
+                @Override
+                public void onAuthSuccess() {
+                    //Fetch all connected accessories
+                    getAllConnectedToNest(nest, token.toString());
+                }
+
+                @Override
+                public void onAuthFailure(NestException e) {
+                    // Handle exceptions here.
+                }
+
+                @Override
+                public void onAuthRevoked() {
+                    // Your previously authenticated connection has become unauthenticated.
+                    // Recommendation: Relaunch an auth flow with nest.launchAuthFlow().
+                }
+            });
         }
-        NestToken token = NestAPI.getAccessTokenFromIntent(intent);
-        //Save token
-        System.out.println(token.getToken());
+
+        //Return from entering the client and secret
+         else if(requestCode == 2 && resultCode == RESULT_OK){
+            String id = intent.getStringExtra("id");
+            String secret = intent.getStringExtra("secret");
+            addNest(id, secret);
+        }
     }
 
 

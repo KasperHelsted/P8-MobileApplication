@@ -1,45 +1,38 @@
 package p8project.sw801.utils.Nest;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.nestlabs.sdk.*;
 import com.nestlabs.sdk.NestAuthActivity.*;
 
 public final class NestUtilities {
     public static NestAPI nest;
-    public static final int AUTH_TOKEN_REQUEST_CODE = 27015;
-    private static final String TOKEN_KEY = "token";
-    private static final String EXPIRATION_KEY = "expiration";
-    //private static WwnClient wwnClient;
-    private static NestToken mToken;
-    private static Thermostat mThermostat;
-    private static Structure mStructure;
 
-    public static void InitializeNestForCurrentContext(Context ctx) {
-        /*
-        NestAPI.setAndroidContext(ctx);
+
+    public static void InitializeNestForCurrentContext(Context ctx, String token) {
         nest = NestAPI.getInstance();
-        //Test
-        mToken = NestSettings.loadAuthToken(ctx);
-        wwnClient = new WwnClient(errorHandler);
 
-        // Start streaming if auth token exists or launch authentication otherwise.
-        if (mToken != null) {
-            startWithListeners(mToken);
-        } else {
-            wwnClient.oauth2.setConfig(CLIENT_ID, CLIENT_SECRET, REDIRECT_URL);
-            wwnClient.oauth2.launchAuthFlow(ctx, AUTH_TOKEN_REQUEST_CODE);
-        }
+        //This instance does not work??
 
-        // If saved state exists then populate thermostat and structure details.
+        // Authenticate with token.
+        nest.authWithToken(token, new NestListener.AuthListener() {
+            @Override
+            public void onAuthSuccess() {
+                Log.i("log", "FSAHFUSAHSAHUFASHFSAF");
+            }
 
-        if (ctx.savedInstanceState != null) {
-            mThermostat = savedInstanceState.getParcelable(THERMOSTAT_KEY);
-            mStructure = savedInstanceState.getParcelable(STRUCTURE_KEY);
-            updateViews();
-        }
-    }
+            @Override
+            public void onAuthFailure(NestException e) {
+                // Handle exceptions here.
+            }
 
-*/
+            @Override
+            public void onAuthRevoked() {
+                // Your previously authenticated connection has become unauthenticated.
+                // Recommendation: Relaunch an auth flow with nest.launchAuthFlow().
+            }
+        });
+
     }
 }

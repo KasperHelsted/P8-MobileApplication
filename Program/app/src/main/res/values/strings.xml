@@ -39,5 +39,6 @@
     <string name="chooseTimePickerTime">Vælg</string>
 
     <string name="channel_name">Notificationchannel</string>
+    <string name="title_activity_add_nest_smart_device">AddNestSmartDevice</string>
 
 </resources>
