@@ -128,7 +128,9 @@ public class CreateEventMap extends BaseActivity<ActivityCreateEventMapBinding, 
                 marker.remove();
                 marker = gmap.addMarker(new MarkerOptions().position(latLng).title("Chosen position"));
                 a = convertCoordinateToAddress(latLng);
-                editText.setText(a.getAddressLine(0) + ", " + a.getAddressLine(1) + ", " + a.getAddressLine(2));
+                if (a != null){
+                    editText.setText(a.getAddressLine(0) + ", " + a.getAddressLine(1) + ", " + a.getAddressLine(2));
+                }
             }
         });
 
@@ -141,8 +143,12 @@ public class CreateEventMap extends BaseActivity<ActivityCreateEventMapBinding, 
         double lon = latLng.longitude;
         try {
             List<Address> addressList = geocoder.getFromLocation(lat, lon, 1);
+            if (addressList != null){
             address = addressList.get(0);
-        } catch (IOException e) {
+            }else{
+                Toast.makeText(this, "Could not get address try again", Toast.LENGTH_SHORT).show();
+            }
+        } catch (Exception e) {
             Toast.makeText(this, "Could not get address try again", Toast.LENGTH_SHORT).show();
         }
         return address;
@@ -176,9 +182,12 @@ public class CreateEventMap extends BaseActivity<ActivityCreateEventMapBinding, 
         marker = gmap.addMarker(new MarkerOptions().position(currentLoc).title("Current position"));
         gmap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLoc, 12.0f));
 
-        //Write address in textfield
         a = convertCoordinateToAddress(currentLoc);
-        editText.setText(a.getAddressLine(0)+ ", " + a.getAddressLine(1) + ", " + a.getAddressLine(2));
+        //Write address in textfield
+        if (a != null){
+            editText.setText(a.getAddressLine(0)+ ", " + a.getAddressLine(1) + ", " + a.getAddressLine(2));
+        }
+
 
         //Current location button on map
         gmap.setMyLocationEnabled(true);
