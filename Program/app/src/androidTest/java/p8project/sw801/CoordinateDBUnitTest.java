@@ -13,13 +13,12 @@ import org.junit.runner.RunWith;
 import java.io.IOException;
 import java.util.List;
 
-import p8project.sw801.data.local.dao.Accessories.HueLightbulbWhiteDao;
 import p8project.sw801.data.local.dao.CoordinateDao;
 import p8project.sw801.data.local.db.AppDatabase;
 import p8project.sw801.data.model.db.Coordinate;
-import p8project.sw801.data.model.db.Smartdevice.Accessories.HueLightbulbWhite;
 
 import static org.junit.Assert.assertEquals;
+
 
 @RunWith(AndroidJUnit4.class)
 public class CoordinateDBUnitTest {
@@ -68,8 +67,8 @@ public class CoordinateDBUnitTest {
         List<Coordinate> dbCoordinate = this.mCoordinateDao.getAll();
 
 
-        assertEquals(dbCoordinate.get(0).getId(),coordinate.getId());
-        assertEquals(dbCoordinate.get(1).getId(),coordinate1.getId());
+        assertEquals(dbCoordinate.get(0).getId(), coordinate.getId());
+        assertEquals(dbCoordinate.get(1).getId(), coordinate1.getId());
 
     }
 
@@ -118,6 +117,131 @@ public class CoordinateDBUnitTest {
         // assert
         assertEquals(expected, actual);
     }
+
+    @Test
+    public void testGetLastWithLimitCoordinate() throws Exception {
+        // arrange
+        Coordinate coordinate = new Coordinate(1, 1);
+        Coordinate coordinate1 = new Coordinate(2, 2);
+        Coordinate coordinate2 = new Coordinate(3, 3);
+        Coordinate coordinate3 = new Coordinate(4, 4);
+
+        // act
+        this.mCoordinateDao.insertAll(coordinate, coordinate1, coordinate2, coordinate3);
+
+        // assert
+        List<Coordinate> dbCoordinate = this.mCoordinateDao.getLast(2);
+
+        assertEquals(dbCoordinate.get(0).getLatitude(), coordinate3.getLatitude(),0);
+        assertEquals(dbCoordinate.get(0).getLongitude(), coordinate3.getLongitude(),0);
+
+        assertEquals(dbCoordinate.get(1).getLatitude(), coordinate2.getLatitude(),0);
+        assertEquals(dbCoordinate.get(1).getLongitude(), coordinate2.getLongitude(),0);
+    }
+
+    @Test
+    public void testGetLastCoordinate() throws Exception {
+        // arrange
+        Coordinate coordinate = new Coordinate(1, 1);
+        Coordinate coordinate1 = new Coordinate(2, 2);
+
+        // act
+        this.mCoordinateDao.insertAll(coordinate, coordinate1);
+
+        // assert
+        Coordinate dbCoordinate = this.mCoordinateDao.getLast();
+
+        assertEquals(dbCoordinate.getLatitude(), coordinate1.getLatitude(),0);
+        assertEquals(dbCoordinate.getLongitude(), coordinate1.getLongitude(),0);
+    }
+
+    @Test
+    public void testLoadByIdCoordinate() throws Exception {
+        // arrange
+        Coordinate coordinate = new Coordinate(1, 1);
+        coordinate.setId(1);
+
+        // act
+        this.mCoordinateDao.insert(coordinate);
+
+        // assert
+        Coordinate dbCoordinate = this.mCoordinateDao.loadById(1);
+
+        assertEquals(dbCoordinate.getId(), coordinate.getId());
+    }
+
+    @Test
+    public void testLoadAllByIdsCoordinate() throws Exception {
+        // arrange
+        Coordinate coordinate = new Coordinate(1, 1);
+        coordinate.setId(1);
+
+        Coordinate coordinate1 = new Coordinate(2, 2);
+        coordinate1.setId(2);
+
+        Coordinate coordinate2 = new Coordinate(3, 3);
+        coordinate2.setId(3);
+
+        Coordinate coordinate3 = new Coordinate(4, 4);
+        coordinate3.setId(4);
+
+        // act
+        this.mCoordinateDao.insertAll(coordinate, coordinate1, coordinate2, coordinate3);
+
+        Integer[] ids = new Integer[4];
+        ids[0] = coordinate.getId();
+        ids[1] = coordinate1.getId();
+        ids[2] = coordinate2.getId();
+        ids[3] = coordinate3.getId();
+
+        // assert
+        List<Coordinate> dbCoordinate = this.mCoordinateDao.loadAllByIds(ids);
+
+        assertEquals(dbCoordinate.get(3).getLatitude(), coordinate3.getLatitude(),0);
+        assertEquals(dbCoordinate.get(3).getLongitude(), coordinate3.getLongitude(),0);
+
+        assertEquals(dbCoordinate.get(2).getLatitude(), coordinate2.getLatitude(),0);
+        assertEquals(dbCoordinate.get(2).getLongitude(), coordinate2.getLongitude(),0);
+
+        assertEquals(dbCoordinate.get(1).getLatitude(), coordinate1.getLatitude(),0);
+        assertEquals(dbCoordinate.get(1).getLongitude(), coordinate1.getLongitude(),0);
+
+        assertEquals(dbCoordinate.get(0).getLatitude(), coordinate.getLatitude(),0);
+        assertEquals(dbCoordinate.get(0).getLongitude(), coordinate.getLongitude(),0);
+    }
+
+    @Test
+    public void testGetAllCoordinate() throws Exception {
+        // arrange
+        Coordinate coordinate = new Coordinate(1, 1);
+        Coordinate coordinate1 = new Coordinate(2, 2);
+        Coordinate coordinate2 = new Coordinate(3, 3);
+        Coordinate coordinate3 = new Coordinate(4, 4);
+
+        // act
+        this.mCoordinateDao.insertAll(coordinate, coordinate1, coordinate2, coordinate3);
+
+        // assert
+        List<Coordinate> dbCoordinate = this.mCoordinateDao.getAll();
+
+        assertEquals(dbCoordinate.get(3).getLatitude(), coordinate3.getLatitude(),0);
+        assertEquals(dbCoordinate.get(3).getLongitude(), coordinate3.getLongitude(),0);
+
+        assertEquals(dbCoordinate.get(2).getLatitude(), coordinate2.getLatitude(),0);
+        assertEquals(dbCoordinate.get(2).getLongitude(), coordinate2.getLongitude(),0);
+
+        assertEquals(dbCoordinate.get(1).getLatitude(), coordinate1.getLatitude(),0);
+        assertEquals(dbCoordinate.get(1).getLongitude(), coordinate1.getLongitude(),0);
+
+        assertEquals(dbCoordinate.get(0).getLatitude(), coordinate.getLatitude(),0);
+        assertEquals(dbCoordinate.get(0).getLongitude(), coordinate.getLongitude(),0);
+    }
+
+
+
+
+
+
 
 
 }
