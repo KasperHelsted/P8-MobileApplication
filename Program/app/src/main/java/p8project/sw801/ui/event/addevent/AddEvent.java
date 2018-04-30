@@ -440,7 +440,6 @@ public class AddEvent extends BaseActivity<ActivityAddEventBinding, AddEventView
         //--Creating event--
         newEvent.setName(eventName.getText().toString());
         newEvent.setActive(true);
-        mAddEventViewModel.saveEvent(newEvent);
 
         //--Creating When--
         newWhen.setTimeCondition(spinner.getSelectedItemPosition());
@@ -469,6 +468,7 @@ public class AddEvent extends BaseActivity<ActivityAddEventBinding, AddEventView
                     Toast.makeText(this, "You must set a day", Toast.LENGTH_SHORT).show();
                 }
                 if (!CommonUtils.isNullOrEmpty(locName) && coordinate.getLongitude() != 0 && coordinate != null) {
+                    mAddEventViewModel.saveEvent(newEvent);
                     mAddEventViewModel.saveCoordinate(newWhen, addMyEvents, coordinate);
                     Toast.makeText(this, "The event has been created from coordinate", Toast.LENGTH_SHORT).show();
                     finish();
@@ -487,6 +487,7 @@ public class AddEvent extends BaseActivity<ActivityAddEventBinding, AddEventView
                 if (newWhen.getListWeekDays().isEmpty()) {
                     Toast.makeText(this, "You must set a day", Toast.LENGTH_SHORT).show();
                 } else if (!CommonUtils.isNullOrEmpty(locName)) {
+                    mAddEventViewModel.saveEvent(newEvent);
                     mAddEventViewModel.submitEventToDatabase(newWhen, addMyEvents, location);
                     Toast.makeText(this, "The event has been created from predefined location", Toast.LENGTH_SHORT).show();
                     finish();
@@ -504,6 +505,7 @@ public class AddEvent extends BaseActivity<ActivityAddEventBinding, AddEventView
         else if (spinnerLocation.getSelectedItemPosition() == 0 && spinner.getSelectedItemPosition() != 0){
             try{
             if (!CommonUtils.isNullOrEmpty(locName) && !newWhen.getListWeekDays().isEmpty()){
+                mAddEventViewModel.saveEvent(newEvent);
                 mAddEventViewModel.submitEventToDatabase(newWhen, addMyEvents, location);
                 Toast.makeText(this, "Created a time only event", Toast.LENGTH_SHORT).show();
                 finish();
@@ -518,6 +520,7 @@ public class AddEvent extends BaseActivity<ActivityAddEventBinding, AddEventView
         else if(spinner.getSelectedItemPosition() != 0 && spinnerLocation.getSelectedItemPosition() == 0){
             try{
                 if (!CommonUtils.isNullOrEmpty(locName) && !newWhen.getListWeekDays().isEmpty()){
+                    mAddEventViewModel.saveEvent(newEvent);
                     mAddEventViewModel.submitEventToDatabase(newWhen, addMyEvents, location);
                     Toast.makeText(this, "Created a location only event", Toast.LENGTH_SHORT).show();
                     finish();
