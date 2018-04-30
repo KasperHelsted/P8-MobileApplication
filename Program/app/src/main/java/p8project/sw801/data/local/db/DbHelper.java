@@ -190,6 +190,8 @@ public interface DbHelper {
 
     Observable<Integer> getChainCount();
 
+    Observable<Chain> getChainbyName(String brandName);
+
     Observable<List<Chain>> getActiveChains();
 
     Observable<List<Chain>> getChainsByIds(final Integer[] ids);
@@ -212,8 +214,6 @@ public interface DbHelper {
     Observable<Integer> getStoreCount();
 
     Observable<List<Store>> getStoresByIds(final Integer[] ids);
-
-    Observable<List<Store>> getFavoriteStores();
 
     Observable<Store> getStoreByName(final String storeName);
 
