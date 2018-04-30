@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.View;
@@ -12,8 +13,16 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
+import com.nestlabs.sdk.*;
 
+import com.nestlabs.sdk.GlobalUpdate;
 import com.nestlabs.sdk.NestAuthActivity;
+import com.nestlabs.sdk.NestConfig;
+import com.nestlabs.sdk.NestException;
+import com.nestlabs.sdk.NestListener;
+import com.nestlabs.sdk.NestToken;
+import com.nestlabs.sdk.Structure;
+import com.nestlabs.sdk.Thermostat;
 import com.philips.lighting.hue.sdk.PHAccessPoint;
 import com.philips.lighting.hue.sdk.PHBridgeSearchManager;
 import com.philips.lighting.hue.sdk.PHHueSDK;
@@ -45,6 +54,7 @@ import p8project.sw801.ui.custom.PHPushlinkActivity;
 import p8project.sw801.ui.custom.PHWizardAlertDialog;
 import p8project.sw801.utils.CommonUtils;
 import p8project.sw801.utils.HueUtilities;
+import p8project.sw801.utils.Nest.*;
 
 public class AddSmartDeviceActivity extends BaseActivity<ActivityAddSmartDeviceBinding, AddSmartDeviceViewModel> implements AdapterView.OnItemClickListener, AddSmartDeviceNavigator, HasSupportFragmentInjector {
 
@@ -65,6 +75,14 @@ public class AddSmartDeviceActivity extends BaseActivity<ActivityAddSmartDeviceB
     private Button searchBridge;
     private Button searchNest;
     private ListView brigdeListview;
+    private NestToken mToken;
+    private Thermostat mThermostat;
+    private Structure mStructure;
+    private Activity mActivity;
+    private static final String CLIENT_ID = NestConstants.CLIENT_ID;
+    private static final String CLIENT_SECRET = NestConstants.CLIENT_SECRET;
+    private static final String REDIRECT_URL = NestConstants.REDIRECT_URL;
+    public static final int AUTH_TOKEN_REQUEST_CODE = 27015;
 
 
 
@@ -99,6 +117,8 @@ public class AddSmartDeviceActivity extends BaseActivity<ActivityAddSmartDeviceB
         searchBridge = mActivityAddSmartDeviceBinding.findNewBridge;
         searchNest = mActivityAddSmartDeviceBinding.findNewNest;
 
+        //
+        mActivity = this;
 
         //Register a SDK listener for actions related to connection
         phHueSDK.getNotificationManager().registerSDKListener(phsdkListener);
@@ -324,30 +344,51 @@ public class AddSmartDeviceActivity extends BaseActivity<ActivityAddSmartDeviceB
             doBridgeSearch();
         }
     }
-
+    //--- NEST SETUP ---
     @Override
     public void searchForNest(List<NestHub> nestHubs) {
-        //Toast.makeText(this, "OMEGALUL", Toast.LENGTH_SHORT).show();
-        Intent intent = new Intent(AddSmartDeviceActivity.this, NestAuthActivity.class);
-        startActivityForResult(intent,123);
-
-       /* if (nestHubs == null){
-            Toast.makeText(this, "NULL", Toast.LENGTH_SHORT).show();
-            Intent intent = new Intent(AddSmartDeviceActivity.this, NestAuthActivity.class);
-            startActivity(intent);
-        }else {
-            Toast.makeText(this, "NOT NULL", Toast.LENGTH_SHORT).show();
-            NestHub nestHub;
-            for (NestHub nest : nestHubs){
-                nestHub = nest;
+        NestAPI.setAndroidContext(mActivity);
+        NestAPI nest = NestAPI.getInstance();
+        NestHub localNest = null;
+        if (nestHubs != null){
+            for (NestHub nestHub : nestHubs){
+                localNest = nestHub;
             }
+        }
+        if (localNest != null){
+            nest.authWithToken(localNest.getBearerToken(), new NestListener.AuthListener() {
+                @Override
+                public void onAuthSuccess() {
 
-        }*/
+                }
+
+                @Override
+                public void onAuthFailure(NestException exception) {
+
+                }
+
+                @Override
+                public void onAuthRevoked() {
+
+                }
+            });
+        }
+        else{
+            nest.setConfig(NestConstants.CLIENT_ID,NestConstants.CLIENT_SECRET,NestConstants.REDIRECT_URL);
+            nest.launchAuthFlow(mActivity, AUTH_TOKEN_REQUEST_CODE);
+        }
     }
-    private void launchAuthFlow(Activity activity, int requestCode) {
-        final Intent authFlowIntent = new Intent(activity, NestAuthActivity.class);
-        //authFlowIntent.putExtra(KEY_CLIENT_METADATA, oauth2Config);
-        activity.startActivityForResult(authFlowIntent, requestCode);
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent intent) {
+        if (resultCode != RESULT_OK || requestCode != AUTH_TOKEN_REQUEST_CODE) {
+            Toast.makeText(this, "Cannot find Nest", Toast.LENGTH_LONG).show();
+            return; // No token will be available.
+        }
+        NestToken token = NestAPI.getAccessTokenFromIntent(intent);
+        //Save token
+        System.out.println(token.getToken());
     }
+
 
 }

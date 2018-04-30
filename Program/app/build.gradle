@@ -107,6 +107,11 @@ dependencies {
 
     //Nest SDK
     implementation 'com.nestlabs:android-sdk:1.1.1'
+    implementation 'com.fasterxml.jackson.core:jackson-annotations:2.8.8'
+    implementation 'com.fasterxml.jackson.core:jackson-databind:2.8.8'
+    implementation 'com.fasterxml.jackson.core:jackson-core:2.8.8'
+    implementation 'com.squareup.okhttp3:okhttp:3.7.0'
+    implementation 'commons-io:commons-io:2.4'
 
     //Swipe to do stuff
     implementation "com.daimajia.swipelayout:library:1.2.0@aar"
