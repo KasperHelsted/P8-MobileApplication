@@ -37,7 +37,6 @@ public class AddEventSmartDeviceList extends AppCompatActivity {
         });
     }
     private void populateList(){
-        //TODO Change to call to viewmodel
         arrayList.add("Hue - Smart Lights");
         arrayList.add("Nest - Termostat");
         ArrayAdapter adapter = new ArrayAdapter(this,R.layout.activity_add_event_list_layout, arrayList);

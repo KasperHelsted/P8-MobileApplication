@@ -89,7 +89,6 @@ public class LocationSettingActivity extends BaseActivity<ActivityLocationSettin
 
     @Override
     public void handleError(Throwable throwable) {
-        //todo fejl?
     }
 
     @Override

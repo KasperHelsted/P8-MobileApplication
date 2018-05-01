@@ -121,7 +121,6 @@ public class AddEvent extends BaseActivity<ActivityAddEventBinding, AddEventView
 
             @Override
             public void onNothingSelected(AdapterView<?> arg0) {
-                // TODO Auto-generated method stub
             }
         });
         spinnerLocation.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -136,7 +135,6 @@ public class AddEvent extends BaseActivity<ActivityAddEventBinding, AddEventView
 
             @Override
             public void onNothingSelected(AdapterView<?> arg0) {
-                // TODO Auto-generated method stub
             }
         });
 
@@ -205,7 +203,7 @@ public class AddEvent extends BaseActivity<ActivityAddEventBinding, AddEventView
                 if (position == 0) {
                     addressTextView.setVisibility(View.GONE);
                 } else if (position == 4) {
-                    //TODO OPEN NEW ACTIVITY/FRAGMENT/SPINNER AND CALL VIEWMODEL TO GET DATA
+
                 } else {
                     addressTextView.setVisibility(View.VISIBLE);
                 }
@@ -442,9 +440,7 @@ public class AddEvent extends BaseActivity<ActivityAddEventBinding, AddEventView
     public void submitEventClick() {
         newEvent = new Event();
         newWhen = new When();
-        //TODO
-        //Crashes if any of the attributes we try to set is NULL
-        //Refreshing the MyEvent page after creating the new event
+
 
         //--Creating event--
         newEvent.setName(eventName.getText().toString());

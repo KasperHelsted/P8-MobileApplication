@@ -111,13 +111,11 @@ public class MySmartDeviceFragment extends BaseFragment<FragmentMySmartDeviceBin
 
     @Override
     public void toggleSmartDevice(SmartDevice smartDevice) {
-        //TODO: toggle stuffers
         System.out.println("TOGGLE");
     }
 
     @Override
     public void onItemClick(SmartDevice smartDevice) {
-        //TODO: toggle stuffers
         System.out.println("Click?");
     }
 

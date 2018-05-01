@@ -70,7 +70,6 @@ public class EditLocationViewModel extends BaseViewModel<EditLocationNavigator> 
                                 sendCoordinateFromId(predefinedLocation);
                             }
                             else{
-                                //TODO: ERROR?
                                 System.out.println("response was null!");
                             }
 
