@@ -360,11 +360,26 @@ public class AddSmartDeviceActivity extends BaseActivity<ActivityAddSmartDeviceB
             startActivityForResult(i, 2);
         }
         else{
-            NestHub tester = new NestHub();
-            for (NestHub n : nestHubs){
-                tester = n;
-            }
+            DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    switch (which){
+                        case DialogInterface.BUTTON_POSITIVE:
+                            Intent i = new Intent(AddSmartDeviceActivity.this, AddNestSmartDevice.class);
+                            startActivityForResult(i, 2);
+                            break;
 
+                        case DialogInterface.BUTTON_NEGATIVE:
+                            Toast.makeText(getApplicationContext(), "Canceled Nest search", Toast.LENGTH_SHORT).show();
+                            PHWizardAlertDialog.getInstance().closeProgressDialog();
+                            finish();
+                            break;
+                    }
+                }
+            };
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setMessage("An existing Nest already exists.\nDo you wish to search anyway?").setPositiveButton("Yes", dialogClickListener)
+                    .setNegativeButton("No", dialogClickListener).show();
         }
     }
 
