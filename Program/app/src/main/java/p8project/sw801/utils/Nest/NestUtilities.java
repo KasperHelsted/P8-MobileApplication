@@ -18,11 +18,11 @@ public final class NestUtilities {
     public static boolean ready = false;
 
 
-    public static void InitializeNestForCurrentContext(Context ctx, String stringToken, NestHub nestHub) {
-        NestToken nestToken = new NestToken(stringToken,nestHub.getExpires());
+    public static void InitializeNestForCurrentContext(Context ctx, NestHub nestHub) {
+        NestToken nestToken = new NestToken(nestHub.getBearerToken(),nestHub.getExpires());
         Firebase.setAndroidContext(ctx);
         NestAPI nest = NestAPI.getInstance();
-        nest.setConfig(nestHub.getClientId(),nestHub.getSecretId(),"http://localhost:8080/auth/nest/callback");
+        //nest.setConfig(nestHub.getClientId(),nestHub.getSecretId(),"http://localhost:8080/auth/nest/callback");
         /// Authenticate with token.
         nest.authWithToken(nestToken, new NestListener.AuthListener() {
             @Override
@@ -46,6 +46,7 @@ public final class NestUtilities {
                 nest.launchAuthFlow((Activity)ctx, AUTH_TOKEN_REQUEST_CODE);
             }
         });
-        nest.thermostats.setTargetTemperatureC("JhubbFxXG2y1HH9kfuRI49RhWBXZ6L5T", 20);
+
+        nestAPI = nest;
     }
 }

@@ -364,10 +364,6 @@ public class AddSmartDeviceActivity extends BaseActivity<ActivityAddSmartDeviceB
             for (NestHub n : nestHubs){
                 tester = n;
             }
-            NestUtilities.InitializeNestForCurrentContext(mActivity,tester.getBearerToken(),tester);
-            while (!NestUtilities.ready){
-            }
-            NestUtilities.nestAPI.thermostats.setTargetTemperatureC("JhubbFxXG2y1HH9kfuRI49RhWBXZ6L5T",50);
 
         }
     }
@@ -389,9 +385,10 @@ public class AddSmartDeviceActivity extends BaseActivity<ActivityAddSmartDeviceB
                 ArrayList<Thermostat> thermostatArrayList = update.getThermostats();
                 n.removeAllListeners();
 
+
                 //Add Nest to db
                 NestHub nestHub = new NestHub();
-                nestHub.setBearerToken(token.toString());
+                nestHub.setBearerToken(token.getToken());
                 nestHub.setClientId(n.getConfig().getClientID());
                 nestHub.setSecretId(n.getConfig().getClientSecret());
                 nestHub.setExpires(token.getExpiresIn());
