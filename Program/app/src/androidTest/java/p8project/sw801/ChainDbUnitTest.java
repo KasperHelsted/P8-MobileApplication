@@ -57,10 +57,9 @@ public class ChainDbUnitTest {
 
         // act
         this.mChainDao.insertAll(chains);
-
-        // assert
         List<Chain> dbChain = this.mChainDao.getAll();
 
+        // assert
         assertEquals(dbChain.get(0).getBrandName(), chain.getBrandName());
         assertEquals(dbChain.get(1).getBrandName(), chain1.getBrandName());
     }
@@ -110,10 +109,9 @@ public class ChainDbUnitTest {
 
         // act
         this.mChainDao.insertAll(chains);
-
-        // assert
         Chain dbChain = this.mChainDao.byChainName(fakta);
 
+        // assert
         assertEquals(dbChain.getBrandName(), chain.getBrandName());
     }
 
@@ -138,10 +136,9 @@ public class ChainDbUnitTest {
 
         // act
         this.mChainDao.insertAll(chains);
-
-        // assert
         List<Chain> dbChain = this.mChainDao.getActiveChains();
 
+        // assert
         assertEquals(dbChain.get(0).getBrandName(), chain1.getBrandName());
     }
 
@@ -170,10 +167,9 @@ public class ChainDbUnitTest {
 
         // act
         this.mChainDao.insertAll(chains);
-
-        // assert
         List<Chain> dbChain = this.mChainDao.loadAllByIds(ids);
 
+        // assert
         assertEquals(dbChain.get(0).getBrandName(), chain.getBrandName());
         assertEquals(dbChain.get(1).getBrandName(), chain1.getBrandName());
     }
@@ -190,10 +186,9 @@ public class ChainDbUnitTest {
 
         // act
         this.mChainDao.insert(chain);
-
-        // assert
         Chain dbChain = this.mChainDao.loadById(1);
 
+        // assert
         assertEquals(dbChain.getBrandName(), chain.getBrandName());
 
     }
@@ -226,10 +221,9 @@ public class ChainDbUnitTest {
 
         // act
         this.mChainDao.insertAll(chains);
-
-        // assert
         List<Chain> dbChain = this.mChainDao.getAll();
 
+        // assert
         assertEquals(dbChain.get(0).getBrandName(), chain.getBrandName());
         assertEquals(dbChain.get(1).getBrandName(), chain1.getBrandName());
         assertEquals(dbChain.get(2).getBrandName(), chain2.getBrandName());
@@ -249,10 +243,9 @@ public class ChainDbUnitTest {
 
         // act
         this.mChainDao.insert(chain);
-
-        // assert
         Chain dbChain = this.mChainDao.loadById(1);
 
+        // assert
         assertEquals(dbChain.getBrandName(), chain.getBrandName());
     }
 
