@@ -54,8 +54,7 @@
 
         <activity
             android:name=".ui.SmartDevice.AddNestSmartDevice.AddNestSmartDevice"
-            android:label="@string/title_activity_add_nest_smart_device"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:label="@string/title_activity_add_nest_smart_device"></activity>
     </application>
 
 </manifest>
