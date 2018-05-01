@@ -98,12 +98,6 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
                 buttonMySmartDevicesOnClick();
                 drawerMenu.closeDrawers();
                 break;
-            case R.id.menuaddsmartdevies:
-                //Intent ac = new Intent(MainActivity.this,MySmartDeviceFragment.class);
-                //startActivity(ac);
-                //ChangeToSmartDevice();
-                drawerMenu.closeDrawers();
-                break;
             case R.id.menusettings:
                 Intent settingIntent = new Intent(MainActivity.this, SettingsActivity.class);
                 startActivity(settingIntent);

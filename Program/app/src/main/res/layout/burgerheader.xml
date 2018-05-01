@@ -1,37 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_marginTop="80dp"
     android:layout_height="160dp"
-    android:background="@drawable/elephantpic"
+    android:layout_marginTop="80dp"
+    android:background="@drawable/bg_design"
     android:padding="20dp">
+    <!--android:background="@drawable/elephantpic"-->
     <!--android:orientation="vertical" -->
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="-5dp"
+        android:layout_marginLeft="4dp"
         android:layout_marginStart="4dp"
+        android:layout_marginTop="-5dp"
         android:text="Notify Me"
         android:textColor="@android:color/black"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteY="71dp"
-        android:layout_marginLeft="4dp" />
+        tools:layout_editor_absoluteY="71dp" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="-5dp"
+        android:layout_marginLeft="8dp"
         android:layout_marginStart="8dp"
+        android:layout_marginTop="-5dp"
         android:text="Made by SW801f18"
         android:textColor="@android:color/black"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginLeft="8dp" />
+        app:layout_constraintStart_toStartOf="parent" />
 
 </LinearLayout>

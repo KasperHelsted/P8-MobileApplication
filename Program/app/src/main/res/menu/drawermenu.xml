@@ -3,7 +3,6 @@
 <!--<item android:id="@+id/menuhome" android:title="@string/app_name"/>-->
     <item android:id="@+id/menumyevent" android:title="@string/title_menumyevents" android:icon="@drawable/ic_home_black_24dp"/>
     <item android:id="@+id/menumysmartdevices" android:title="@string/title_menumysmartdevices" android:icon="@drawable/ic_home_black_24dp"/>
-    <item android:id="@+id/menuaddsmartdevies" android:title="@string/title_menuaddsmartdevice" android:icon="@drawable/ic_home_black_24dp"/>
     <item android:id="@+id/menusettings" android:title="@string/title_menusettings" android:icon="@drawable/ic_home_black_24dp"/>
     <item android:id="@+id/menuaboutus" android:title="@string/title_menuaboutus" android:icon="@drawable/ic_home_black_24dp"/>
     <item android:id="@+id/menucontactus" android:title="@string/title_menucontactus" android:icon="@drawable/ic_home_black_24dp"/>

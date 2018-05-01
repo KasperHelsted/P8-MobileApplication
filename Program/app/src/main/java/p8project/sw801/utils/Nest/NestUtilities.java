@@ -22,8 +22,6 @@ public final class NestUtilities {
         NestToken nestToken = new NestToken(nestHub.getBearerToken(),nestHub.getExpires());
         Firebase.setAndroidContext(ctx);
         NestAPI nest = NestAPI.getInstance();
-        //nest.setConfig(nestHub.getClientId(),nestHub.getSecretId(),"http://localhost:8080/auth/nest/callback");
-        /// Authenticate with token.
         nest.authWithToken(nestToken, new NestListener.AuthListener() {
             @Override
             public void onAuthSuccess() {
@@ -46,7 +44,6 @@ public final class NestUtilities {
                 nest.launchAuthFlow((Activity)ctx, AUTH_TOKEN_REQUEST_CODE);
             }
         });
-
         nestAPI = nest;
     }
 }

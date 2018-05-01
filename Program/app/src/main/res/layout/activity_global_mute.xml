@@ -9,6 +9,7 @@
             name="viewModel"
             type="p8project.sw801.ui.Settings.GlobalMuteSetting.GlobalMuteSettingViewModel" />
     </data>
+
     <android.support.v4.widget.DrawerLayout
         android:id="@+id/globalmuteid"
         android:layout_width="match_parent"
