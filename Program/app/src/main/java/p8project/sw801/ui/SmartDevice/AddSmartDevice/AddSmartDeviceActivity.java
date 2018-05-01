@@ -52,7 +52,6 @@ import p8project.sw801.data.model.db.Smartdevice.Controllers.HueBridge;
 import p8project.sw801.data.model.db.Smartdevice.Controllers.NestHub;
 import p8project.sw801.databinding.ActivityAddSmartDeviceBinding;
 import p8project.sw801.ui.SmartDevice.AccessPointListAdapter;
-import p8project.sw801.ui.SmartDevice.AddNestSmartDevice.AddNestSmartDevice;
 import p8project.sw801.ui.base.BaseActivity;
 import p8project.sw801.ui.custom.PHPushlinkActivity;
 import p8project.sw801.ui.custom.PHWizardAlertDialog;
@@ -373,8 +372,9 @@ public class AddSmartDeviceActivity extends BaseActivity<ActivityAddSmartDeviceB
                 public void onClick(DialogInterface dialog, int which) {
                     switch (which){
                         case DialogInterface.BUTTON_POSITIVE:
-                            Intent i = new Intent(AddSmartDeviceActivity.this, AddNestSmartDevice.class);
-                            startActivityForResult(i, 2);
+                            //TODO TAF FIX PLOX
+                            //Intent i = new Intent(AddSmartDeviceActivity.this, AddNestSmartDevice.class);
+                            //startActivityForResult(i, 2);
                             break;
 
                         case DialogInterface.BUTTON_NEGATIVE:
