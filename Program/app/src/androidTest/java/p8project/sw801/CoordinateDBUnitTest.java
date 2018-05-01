@@ -76,12 +76,15 @@ public class CoordinateDBUnitTest {
     public void testUpdateCoordinate() throws Exception {
         // arrange
         Coordinate coordinate = new Coordinate(0, 0);
-        coordinate.setLatitude(2);
+        this.mCoordinateDao.insert(coordinate);
+        Coordinate dbCoordinate = this.mCoordinateDao.getLast();
+        dbCoordinate.setLatitude(2);
 
         // act
-        this.mCoordinateDao.update(coordinate);
+        this.mCoordinateDao.update(dbCoordinate);
+        Coordinate dbCoordinate2 = this.mCoordinateDao.getLast();
         double expected = 2;
-        double actual = coordinate.getLatitude();
+        double actual = dbCoordinate2.getLatitude();
 
         // assert
         assertEquals(expected, actual, 0);
