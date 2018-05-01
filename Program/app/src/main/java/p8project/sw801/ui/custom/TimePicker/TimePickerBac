@@ -29,10 +29,9 @@ public class EditEventViewModel extends BaseViewModel<EditEventNavigator> {
     public ObservableField<String> eventName = new ObservableField<>();
     public ObservableInt locationCondition = new ObservableInt(0);
     public ObservableInt whenCondition = new ObservableInt(0);
-    /*
+
     public TimePicker startTime = new TimePicker();
     public TimePicker endTime = new TimePicker();
-    */
 
     public DayPicker dayPicker = new DayPicker();
 
