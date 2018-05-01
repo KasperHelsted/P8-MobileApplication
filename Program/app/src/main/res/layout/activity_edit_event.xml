@@ -64,6 +64,7 @@
 
                     android:hint="@string/give_event_name"
                     android:inputType="text"
+                    android:text="@={viewModel.eventName}"
                     app:layout_constraintTop_toBottomOf="@+id/textViewEventName" />
             </android.support.constraint.ConstraintLayout>
 
@@ -97,7 +98,8 @@
                         layout="@layout/daypicker"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp" />
+                        android:layout_marginTop="8dp"
+                        app:dayPicker="@={viewModel.dayPicker}" />
                 </android.support.constraint.ConstraintLayout>
             </android.support.constraint.ConstraintLayout>
 
@@ -130,16 +132,26 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/textViewWhen" />
 
-                <TextView
-                    android:id="@+id/addLocation"
+                <!--
+                android:visibility="@{viewModel.locationCondition.get() == 0 ? View.GONE : View.VISIBLE}"
+                -->
+                <android.support.constraint.ConstraintLayout
+                    android:id="@+id/addLocationWrapper"
                     android:layout_width="match_parent"
-                    android:layout_height="45dp"
+                    android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
-                    android:background="@drawable/spinner_border"
-                    android:drawableEnd="@android:drawable/ic_menu_mapmode"
-                    android:gravity="center_vertical"
-                    android:visibility="@{viewModel.locationCondition.get()!=0 ? View.VISIBLE : View.GONE}"
-                    app:layout_constraintTop_toBottomOf="@+id/spinnerLocation" />
+                    android:visibility="@{viewModel.locationCondition.get() == 0 ? View.GONE : View.VISIBLE}"
+                    app:layout_constraintTop_toBottomOf="@+id/spinnerLocation">
+
+                    <TextView
+                        android:id="@+id/addLocation"
+                        android:layout_width="match_parent"
+                        android:layout_height="45dp"
+                        android:layout_marginTop="8dp"
+                        android:background="@drawable/spinner_border"
+                        android:drawableEnd="@android:drawable/ic_menu_mapmode"
+                        android:gravity="center_vertical" />
+                </android.support.constraint.ConstraintLayout>
 
                 <Spinner
                     android:id="@+id/spinnerWhen"
@@ -151,7 +163,68 @@
                     android:selectedItemPosition="@={viewModel.whenCondition}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/addLocation" />
+                    app:layout_constraintTop_toBottomOf="@+id/addLocationWrapper" />
+
+                <android.support.constraint.ConstraintLayout
+                    android:id="@+id/whenInitialWrapper"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:visibility="@{viewModel.whenCondition.get() == 0 ? View.GONE: View.VISIBLE}"
+                    app:layout_constraintTop_toBottomOf="@+id/spinnerWhen">
+
+                    <TextView
+                        android:id="@+id/textViewTime"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="8dp"
+                        android:text="@string/event_initial_time" />
+
+                    <EditText
+                        android:id="@+id/editTextTime"
+
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+
+                        android:drawableEnd="@android:drawable/ic_menu_recent_history"
+                        android:ems="10"
+                        android:focusable="false"
+                        android:inputType="text"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/textViewTime" />
+
+                </android.support.constraint.ConstraintLayout>
+
+                <android.support.constraint.ConstraintLayout
+                    android:id="@+id/whenBetweenWrapper"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:visibility="@{viewModel.whenCondition.get() == 4 ? View.VISIBLE : View.GONE}"
+                    app:layout_constraintTop_toBottomOf="@+id/whenInitialWrapper">
+
+                    <TextView
+                        android:id="@+id/textViewBetweenTime"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/event_between_time"
+                        app:layout_constraintStart_toStartOf="parent" />
+
+                    <EditText
+                        android:id="@+id/editTextTimeBetween"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+
+                        android:drawableEnd="@android:drawable/ic_menu_recent_history"
+                        android:ems="10"
+                        android:focusable="false"
+                        android:inputType="text"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/textViewBetweenTime" />
+                </android.support.constraint.ConstraintLayout>
             </android.support.constraint.ConstraintLayout>
 
             <android.support.constraint.ConstraintLayout
