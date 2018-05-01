@@ -113,8 +113,6 @@ public class AddEventAccessoryViewModel extends BaseViewModel<AddEventAccessoryN
         NestHub n = new NestHub();
 
         h.setDeviceIP("192.167.0.1");
-        h.setDeviceMac("123456789");
-        h.setDeviceToken("123456789");
         h.setSmartDeviceId(1);
 
         n.setBearerToken("123745782345yfgvgyfvdfwtyfys");

@@ -22,7 +22,7 @@ public class AddGlobalMuteSettingViewModel extends BaseViewModel<AddGlobalMuteSe
     public final ObservableField<String> globulMuteName = new ObservableField<>("");
     public final ObservableField<String> startTime = new ObservableField<>("");
     public final ObservableField<String> endTime = new ObservableField<>("");
-    public final ObservableInt predefinedLocation = new ObservableInt(0);
+    //public final ObservableInt predefinedLocation = new ObservableInt(0);
     public final ObservableField<String> comment = new ObservableField<>("");
 
     private Long startTimeLong = 0L;
@@ -36,7 +36,7 @@ public class AddGlobalMuteSettingViewModel extends BaseViewModel<AddGlobalMuteSe
     public AddGlobalMuteSettingViewModel(DataManager dataManager, SchedulerProvider schedulerProvider) {
         super(dataManager, schedulerProvider);
 
-        loadData();
+        //loadData();
     }
 
     private void loadData() {
@@ -91,7 +91,7 @@ public class AddGlobalMuteSettingViewModel extends BaseViewModel<AddGlobalMuteSe
                                 globulMuteName.get(),
                                 startTimeLong,
                                 endTimeLong,
-                                predefinedLocations.get(predefinedLocation.get()).getId(),
+                                null,
                                 comment.get()
                         )
                 ).subscribeOn(

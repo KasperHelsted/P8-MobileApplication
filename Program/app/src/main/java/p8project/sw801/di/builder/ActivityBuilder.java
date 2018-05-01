@@ -105,7 +105,10 @@ public abstract class ActivityBuilder {
     })
     abstract AddGlobalMuteSettingActivity bindAddGlobalMuteSettingActivity();
 
-    @ContributesAndroidInjector(modules = EditGlobalMuteSettingModule.class)
+    @ContributesAndroidInjector(modules = {
+            EditGlobalMuteSettingModule.class,
+            TimePickerProvider.class
+    })
     abstract EditGlobalMuteSettingActivity bindEditGlobalMuteSettingActivity();
 
     @ContributesAndroidInjector(modules = GlobalMuteSettingModule.class)

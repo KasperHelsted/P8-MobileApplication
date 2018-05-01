@@ -20,11 +20,6 @@ public class HueBridge{
     @ColumnInfo(name = "deviceIP")
     private String deviceIP;
 
-    @ColumnInfo(name = "deviceToken")
-    private String deviceToken;
-
-    @ColumnInfo(name = "deviceMac")
-    private String deviceMac;
 
     @ColumnInfo(name = "smartDeviceId")
     private Integer smartDeviceId;
@@ -41,22 +36,6 @@ public class HueBridge{
         this.deviceIP = deviceIP;
     }
 
-    public String getDeviceToken() {
-        return deviceToken;
-    }
-
-    public void setDeviceToken(String deviceToken) {
-        this.deviceToken = deviceToken;
-    }
-
-    public String getDeviceMac() {
-        return deviceMac;
-    }
-
-    public void setDeviceMac(String deviceMac) {
-        this.deviceMac = deviceMac;
-    }
-
     public Integer getId() {
         return id;
     }
@@ -64,6 +43,7 @@ public class HueBridge{
     public void setId(Integer id) {
         this.id = id;
     }
+
     public Integer getSmartDeviceId() {
         return smartDeviceId;
     }

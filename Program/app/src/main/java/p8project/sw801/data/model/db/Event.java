@@ -18,32 +18,15 @@ public class Event {
     @ColumnInfo(name = "name")
     private String name;
 
-    @ColumnInfo(name = "IntentId")
-    private String IntentId;
-
-    @ColumnInfo(name = "AlarmId")
-    private String AlarmId;
-
     @ColumnInfo(name = "Active")
     @NonNull
     private Boolean active;
-
-    @ColumnInfo(name = "Shopping")
-    private Boolean shopping;
 
     public int gethashcode(){
         int hash = 1;
         hash = hash * 17 + id;
         hash = hash * 31 + name.hashCode();
         return hash;
-    }
-
-    public Boolean getShopping() {
-        return shopping;
-    }
-
-    public void setShopping(Boolean shopping) {
-        this.shopping = shopping;
     }
 
     public Integer getId() {
@@ -60,22 +43,6 @@ public class Event {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public String getIntentId() {
-        return IntentId;
-    }
-
-    public void setIntentId(String intentId) {
-        IntentId = intentId;
-    }
-
-    public String getAlarmId() {
-        return AlarmId;
-    }
-
-    public void setAlarmId(String alarmID) {
-        AlarmId = alarmID;
     }
 
     public Boolean getActive() {return active;}

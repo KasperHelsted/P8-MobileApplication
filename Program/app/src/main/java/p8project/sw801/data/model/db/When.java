@@ -40,23 +40,24 @@ public class When implements Serializable {
     @ColumnInfo(name = "eventId")
     private Integer eventId;
 
-    @ColumnInfo(name = "radius")
-    private Integer radius;
-
     @ColumnInfo(name = "timeCondition")
     private Integer timeCondition;
+
     @ColumnInfo(name = "locationCondition")
     private Integer locationCondition;
+
     @ColumnInfo(name = "weekdays")
     private byte[] weekdays;
-    @ColumnInfo(name = "date")
-    private Date date;
+
     @ColumnInfo(name = "startHour")
     private int startHour;
+
     @ColumnInfo(name = "startMinute")
     private int startMinute;
+
     @ColumnInfo(name = "endHour")
     private int endHour;
+
     @ColumnInfo(name = "endMinute")
     private int endMinute;
 
@@ -148,21 +149,6 @@ public class When implements Serializable {
         this.eventId = eventId;
     }
 
-    public Integer getRadius() {
-        return radius;
-    }
-
-    public void setRadius(Integer radius) {
-        this.radius = radius;
-    }
-
-    public Date getDate() {
-        return date;
-    }
-
-    public void setDate(Date date) {
-        this.date = date;
-    }
     public int getStartHour() {
         return startHour;
     }
