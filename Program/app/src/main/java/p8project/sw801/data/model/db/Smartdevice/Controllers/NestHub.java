@@ -22,6 +22,15 @@ public class NestHub{
     @ColumnInfo(name = "smartDeviceId")
     private Integer smartDeviceId;
 
+    @ColumnInfo(name = "clientId")
+    private String clientId;
+
+    @ColumnInfo(name = "secretId")
+    private String secretId;
+
+    @ColumnInfo(name = "expires")
+    private Long expires;
+
     public String getBearerToken() {
         return bearerToken;
     }
@@ -44,5 +53,29 @@ public class NestHub{
 
     public void setSmartDeviceId(Integer smartDeviceId) {
         this.smartDeviceId = smartDeviceId;
+    }
+
+    public String getClientId() {
+        return clientId;
+    }
+
+    public void setClientId(String clientId) {
+        this.clientId = clientId;
+    }
+
+    public String getSecretId() {
+        return secretId;
+    }
+
+    public void setSecretId(String secretId) {
+        this.secretId = secretId;
+    }
+
+    public Long getExpires() {
+        return expires;
+    }
+
+    public void setExpires(Long expires) {
+        this.expires = expires;
     }
 }

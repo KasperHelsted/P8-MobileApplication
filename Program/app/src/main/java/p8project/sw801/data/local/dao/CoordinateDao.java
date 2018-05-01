@@ -21,7 +21,7 @@ public interface CoordinateDao {
     @Query("SELECT * FROM coordinate WHERE id IN (:coordinateIds)")
     List<Coordinate> loadAllByIds(Integer[] coordinateIds);
 
-    @Query("SELECT * FROM coordinate WHERE id == :coordinateId LIMIT 1")
+    @Query("SELECT * FROM coordinate WHERE id = :coordinateId LIMIT 1")
     Coordinate loadById(Integer coordinateId);
 
     @Query("SELECT * FROM coordinate ORDER BY coordinate.id DESC LIMIT 1")
