@@ -78,12 +78,14 @@ public class AddSmartDeviceActivity extends BaseActivity<ActivityAddSmartDeviceB
     private Button searchNest;
     private ListView brigdeListview;
     private NestToken mToken;
+    private String deviceIdtester;
     private Thermostat mThermostat;
     private Structure mStructure;
     private Activity mActivity;
     private String CLIENT_ID;
     private String CLIENT_SECRET;
     private String REDIRECT_URL;
+    private NestAPI nestAPI;
     public static final int AUTH_TOKEN_REQUEST_CODE = 27015;
 
 
@@ -353,54 +355,57 @@ public class AddSmartDeviceActivity extends BaseActivity<ActivityAddSmartDeviceB
     //--- NEST SETUP ---
     @Override
     public void searchForNest(List<NestHub> nestHubs) {
+        if (nestHubs == null){
+            Intent i = new Intent(AddSmartDeviceActivity.this, AddNestSmartDevice.class);
+            startActivityForResult(i, 2);
+        }
+        else{
+            NestHub tester = new NestHub();
+            for (NestHub n : nestHubs){
+                tester = n;
+            }
+            NestUtilities.InitializeNestForCurrentContext(mActivity,tester.getBearerToken(),tester);
+            while (!NestUtilities.ready){
+            }
+            NestUtilities.nestAPI.thermostats.setTargetTemperatureC("JhubbFxXG2y1HH9kfuRI49RhWBXZ6L5T",50);
 
-        Intent i = new Intent(AddSmartDeviceActivity.this, AddNestSmartDevice.class);
-        startActivityForResult(i, 2);
+        }
     }
 
     public void addNest(String client_id, String secret_id){
         CLIENT_ID = client_id;
         CLIENT_SECRET = secret_id;
         NestAPI.setAndroidContext(mActivity);
-        NestAPI nest = NestAPI.getInstance();
-        nest.setConfig(client_id,secret_id,"http://localhost:8080/auth/nest/callback");
-        nest.launchAuthFlow(mActivity, AUTH_TOKEN_REQUEST_CODE);
-
-
-        //id: 3288bccc-52b5-4452-97d9-fe738e01dbcb
-        //Secret: Ic2CMFXNGQtIZfEzk2ichZloZ
-        //Token: c.g1dJJTGwyS6YVoWRfLKPUsRkxHyHur70OFFnpKHg4qIpBTZkX95TFZzhftGxy3HNBt95NUSYXhLGr2gMFS6eMwN0nfBZFu9hiMgWy392z3ucMlRwQr10cEXQGTo171b5KeQ1imJ2o3M4zedN
+        nestAPI = NestAPI.getInstance();
+        nestAPI.setConfig(client_id,secret_id,"http://localhost:8080/auth/nest/callback");
+        nestAPI.launchAuthFlow(mActivity, AUTH_TOKEN_REQUEST_CODE);
     }
 
-    private void getAllConnectedToNest(NestAPI n, String token){
-
-
+    private void getAllConnectedToNest(NestAPI n, NestToken token)
+    {
         n.addGlobalListener(new NestListener.GlobalListener() {
-
             @Override
             public void onUpdate(@NonNull GlobalUpdate update) {
-                //Metadata metadata = update.getMetadata();
-                //ArrayList<Camera> cameras = update.getCameras();
-                //ArrayList<SmokeCOAlarm> alarms = update.getSmokeCOAlarms();
-                ArrayList<Thermostat> t = update.getThermostats();
-                //ArrayList<Structure> structures = update.getStructures();
+                ArrayList<Thermostat> thermostatArrayList = update.getThermostats();
                 n.removeAllListeners();
 
                 //Add Nest to db
                 NestHub nestHub = new NestHub();
-                nestHub.setBearerToken(token);
+                nestHub.setBearerToken(token.toString());
+                nestHub.setClientId(n.getConfig().getClientID());
+                nestHub.setSecretId(n.getConfig().getClientSecret());
+                nestHub.setExpires(token.getExpiresIn());
 
                 //Add Thermo to db
                 List<NestThermostat> nestThermostatList = new ArrayList<>();
-                for (Thermostat thermostat:t) {
+                for (Thermostat thermostat : thermostatArrayList) {
                     NestThermostat nestThermostat = new NestThermostat();
                     nestThermostat.setName(thermostat.getName());
                     nestThermostat.setDeviceId(thermostat.getDeviceId());
                     nestThermostatList.add(nestThermostat);
+                    deviceIdtester = thermostat.getDeviceId();
                 }
                 mSmartDeviceViewModel.insertNest(nestHub,nestThermostatList);
-
-                tester(token, t.get(0).getDeviceId());
             }
         });
 
@@ -408,27 +413,15 @@ public class AddSmartDeviceActivity extends BaseActivity<ActivityAddSmartDeviceB
 
     }
 
-    private void tester(String token, String id){
-        NestUtilities.InitializeNestForCurrentContext(this, token);
-        NestUtilities.nest.thermostats.setTargetTemperatureC(id, 20);
-    }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent intent) {
-
-        //Return from fetching nest token
-        if (requestCode == AUTH_TOKEN_REQUEST_CODE) {
+        if (requestCode == AUTH_TOKEN_REQUEST_CODE && resultCode == RESULT_OK) {
             NestToken token = NestAPI.getAccessTokenFromIntent(intent);
-
-            NestAPI nest;
-            nest = NestAPI.getInstance();
-
-            // Authenticate with token.
-            nest.authWithToken(token, new NestListener.AuthListener() {
+            nestAPI.authWithToken(token, new NestListener.AuthListener() {
                 @Override
                 public void onAuthSuccess() {
-                    //Fetch all connected accessories
-                    getAllConnectedToNest(nest, token.toString());
+                    getAllConnectedToNest(nestAPI,token);
                 }
 
                 @Override

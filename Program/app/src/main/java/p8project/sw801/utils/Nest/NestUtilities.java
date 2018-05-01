@@ -1,38 +1,51 @@
 package p8project.sw801.utils.Nest;
 
+import android.app.Activity;
 import android.content.Context;
-import android.util.Log;
 
-import com.nestlabs.sdk.*;
-import com.nestlabs.sdk.NestAuthActivity.*;
+import com.firebase.client.Firebase;
+import com.nestlabs.sdk.NestAPI;
+import com.nestlabs.sdk.NestException;
+import com.nestlabs.sdk.NestListener;
+import com.nestlabs.sdk.NestToken;
+
+import p8project.sw801.data.model.db.Smartdevice.Controllers.NestHub;
+
+import static p8project.sw801.ui.SmartDevice.AddSmartDevice.AddSmartDeviceActivity.AUTH_TOKEN_REQUEST_CODE;
 
 public final class NestUtilities {
-    public static NestAPI nest;
+    public static NestAPI nestAPI;
+    public static boolean ready = false;
 
 
-    public static void InitializeNestForCurrentContext(Context ctx, String token) {
-        nest = NestAPI.getInstance();
-
-        //This instance does not work??
-
-        // Authenticate with token.
-        nest.authWithToken(token, new NestListener.AuthListener() {
+    public static void InitializeNestForCurrentContext(Context ctx, String stringToken, NestHub nestHub) {
+        NestToken nestToken = new NestToken(stringToken,nestHub.getExpires());
+        Firebase.setAndroidContext(ctx);
+        NestAPI nest = NestAPI.getInstance();
+        nest.setConfig(nestHub.getClientId(),nestHub.getSecretId(),"http://localhost:8080/auth/nest/callback");
+        /// Authenticate with token.
+        nest.authWithToken(nestToken, new NestListener.AuthListener() {
             @Override
             public void onAuthSuccess() {
-                Log.i("log", "FSAHFUSAHSAHUFASHFSAF");
+                System.out.println("WE ARE CONNECTED!");
+                ready = true;
+                nestAPI = nest;
             }
 
             @Override
             public void onAuthFailure(NestException e) {
-                // Handle exceptions here.
+                System.out.println("WE FAILED TO AUTH!");
             }
 
             @Override
             public void onAuthRevoked() {
-                // Your previously authenticated connection has become unauthenticated.
-                // Recommendation: Relaunch an auth flow with nest.launchAuthFlow().
+                System.out.println("AUTH REVOKED!");
+                NestAPI.setAndroidContext(ctx);
+                NestAPI nest = NestAPI.getInstance();
+                nest.setConfig(nestHub.getClientId(),nestHub.getSecretId(),"http://localhost:8080/auth/nest/callback");
+                nest.launchAuthFlow((Activity)ctx, AUTH_TOKEN_REQUEST_CODE);
             }
         });
-
+        nest.thermostats.setTargetTemperatureC("JhubbFxXG2y1HH9kfuRI49RhWBXZ6L5T", 20);
     }
 }

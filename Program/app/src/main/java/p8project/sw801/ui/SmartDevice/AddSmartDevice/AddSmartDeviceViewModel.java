@@ -22,13 +22,82 @@ public class AddSmartDeviceViewModel extends BaseViewModel<AddSmartDeviceNavigat
         getNavigator().searchForBridge();
     }
     public void searchNest(List<NestHub> nestHubs){getNavigator().searchForNest(nestHubs);}
-    public void insertNest(NestHub nestHub, List<NestThermostat> nestThermostatList){
 
-        //TODO CREATE SMART DEVICE, INSERT, GET, SET ID PÅ NESTHUB OG THERMOS, INSERT NEST, GET, SET ID på THERMOS
+    public void insertNest(NestHub nestHub, List<NestThermostat> nestThermostatList)
+    {
+        SmartDevice sd = new SmartDevice();
+        sd.setInternalIdentifier(2);
+        sd.setDeviceName("Nest");
+        getCompositeDisposable().add(
+                getDataManager().insertSmartDevice(
+                        sd
+                ).subscribeOn(getSchedulerProvider().io())
+                        .observeOn(getSchedulerProvider().ui())
+                        .subscribe(response -> {
+                            getSmartdeviceIDfromNest(nestHub,nestThermostatList);
+                        })
+        );
     }
 
+    private void getSmartdeviceIDfromNest(NestHub nestHub, List<NestThermostat> nestThermostatList){
+        getCompositeDisposable().add(
+                getDataManager().getLastSmartDevice(
+
+                ).subscribeOn(getSchedulerProvider().io())
+                        .observeOn(getSchedulerProvider().ui())
+                        .subscribe(response -> {
+                            if (response != null){
+                                insertNesttodb(nestHub, nestThermostatList,response.getId());
+                            }
+                        })
+        );
+    }
+
+    public void insertNesttodb(NestHub nestHub, List<NestThermostat> nestThermostatList, int smartDeviceId){
+        nestHub.setSmartDeviceId(smartDeviceId);
+        getCompositeDisposable().add(
+                getDataManager().insertNestHub(
+                        nestHub
+                ).subscribeOn(getSchedulerProvider().io())
+                        .observeOn(getSchedulerProvider().ui())
+                        .subscribe(response -> {
+                            getNestId(smartDeviceId,nestThermostatList);
+                        })
+        );
+    }
+    private void getNestId(int smartDeviceId,List<NestThermostat> nestThermostatList){
+        getCompositeDisposable().add(
+                getDataManager().getLastInsertedNestHub(
+
+                ).subscribeOn(getSchedulerProvider().io())
+                        .observeOn(getSchedulerProvider().ui())
+                        .subscribe(response -> {
+                            if (response != null){
+                                insertThermostats(nestThermostatList,smartDeviceId,response.getId());
+                            }
+                        })
+        );
+    }
+    private void insertThermostats(List<NestThermostat> nestThermostatList, int smartdeviceId, int nestId){
+        for(NestThermostat nt : nestThermostatList) {
+            nt.setSmartDeviceId(smartdeviceId);
+            nt.setNestHubId(nestId);
+
+            getCompositeDisposable().add(
+                    getDataManager().insertNestThermostat(
+                            nt
+                    ).subscribeOn(getSchedulerProvider().io())
+                            .observeOn(getSchedulerProvider().ui())
+                            .subscribe(response -> {
+
+                            })
+            );
+        }
+    }
+
+
     public void NestExists(){
-        List<NestHub> nestHubs = null;
+        List<NestHub> nestHubs  = new ArrayList<>();
         getCompositeDisposable().add(
                 getDataManager().getAllNestHubs(
 
