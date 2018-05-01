@@ -89,7 +89,7 @@ public class AddSmartDeviceViewModel extends BaseViewModel<AddSmartDeviceNavigat
                     ).subscribeOn(getSchedulerProvider().io())
                             .observeOn(getSchedulerProvider().ui())
                             .subscribe(response -> {
-
+                                getNavigator().changeToSmartDevice();
                             })
             );
         }

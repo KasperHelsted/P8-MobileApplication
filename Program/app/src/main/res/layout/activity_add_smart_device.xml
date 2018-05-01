@@ -70,7 +70,7 @@
                 android:id="@+id/clientid"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Client ID" />
+                android:hint="Input Nest Client ID" />
         </android.support.design.widget.TextInputLayout>
 
         <android.support.design.widget.TextInputLayout
@@ -88,7 +88,7 @@
                 android:id="@+id/clientsecret"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Client secret" />
+                android:hint="Input Nest Client secret ID" />
         </android.support.design.widget.TextInputLayout>
 
         <TextView
@@ -120,6 +120,7 @@
             android:text="Add Nest hub"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
+            android:onClick="@{() -> viewModel.NestExists()}"
             app:layout_constraintTop_toBottomOf="@+id/textInputLayout3" />
 
         <TextView
