@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.util.Log;
 
 import com.google.gson.Gson;
+import com.nestlabs.sdk.Thermostat;
 
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -19,10 +20,13 @@ import p8project.sw801.data.local.RelationEntity.WhenWithCoordinate;
 import p8project.sw801.data.local.db.AppDatabase;
 import p8project.sw801.data.model.db.GlobalMute;
 import p8project.sw801.data.model.db.Smartdevice.Accessories.HueLightbulbWhite;
+import p8project.sw801.data.model.db.Smartdevice.Accessories.NestThermostat;
 import p8project.sw801.data.model.db.Smartdevice.Controllers.HueBridge;
+import p8project.sw801.data.model.db.Smartdevice.Controllers.NestHub;
 import p8project.sw801.data.model.db.When;
 import p8project.sw801.ui.base.BaseService;
 import p8project.sw801.utils.HueUtilities;
+import p8project.sw801.utils.Nest.NestUtilities;
 import p8project.sw801.utils.NotificationUtil;
 
 public class ProximityReceiver extends BroadcastReceiver {
@@ -80,12 +84,12 @@ public class ProximityReceiver extends BroadcastReceiver {
                 //If the user is entering/At a location
                 if (when.getLocationCondition() != 0 && when.getLocationCondition() != 3 && entering) {
                     Log.i("PROXIMITY", "Entering");
-                    triggerFunction(triggerWithSmartDevices, eventWithData.event.getName());
+                    triggerFunction(triggerWithSmartDevices, eventWithData.event.getName(), context);
 
                     //If the user is leaving a location
                 } else if (when.getLocationCondition() == 3 && !entering) {
                     Log.i("PROXIMITY", "Leaving");
-                    triggerFunction(triggerWithSmartDevices, eventWithData.event.getName());
+                    triggerFunction(triggerWithSmartDevices, eventWithData.event.getName(), context);
 
                 }
         }
@@ -161,12 +165,7 @@ public class ProximityReceiver extends BroadcastReceiver {
                         e.printStackTrace();
                     }
                     break;
-                case 4:
-                    break;//TODO TRIGGER NEST THERMO ON
-                case 5:
-                    break;//TODO TRIGGER NEST THERMO OFF
-                case 6:
-                    break;//TODO CHANGE NEST THERMO TEMP
+                    //Nest are in the other overloading of this function since nest require the context
                 default:
                     break;
             }
@@ -185,6 +184,7 @@ public class ProximityReceiver extends BroadcastReceiver {
 
         Boolean notification = false;
         HueBridge hueBridge = new HueBridge();
+        NestHub nestHub = new NestHub();
 
         Log.i("Log", "Triggering");
         for (TriggerWithSmartDevice t : triggerList) {
@@ -200,6 +200,11 @@ public class ProximityReceiver extends BroadcastReceiver {
                     Thread.sleep(1000);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
+                }
+            } else if (t.trigger.getAction() == 4 || t.trigger.getAction() == 5 || t.trigger.getAction() == 6){
+                if (nestHub.getClientId() != t.smartDeviceWithDataList.get(0).nestHubList.get(0).getClientId()){
+                    nestHub = t.smartDeviceWithDataList.get(0).nestHubList.get(0);
+                    NestUtilities.InitializeNestForCurrentContext(context, nestHub);
                 }
             }
 
@@ -250,11 +255,29 @@ public class ProximityReceiver extends BroadcastReceiver {
                     }
                     break;
                 case 4:
-                    break;//TODO TRIGGER NEST THERMO ON
+                    for (NestThermostat nestThermostat : t.smartDeviceWithDataList.get(0).nestThermostatList){
+                        if (t.trigger.getAccessorieId() == nestThermostat.getId()){
+                            uniqueId = nestThermostat.getDeviceId();
+                        }
+                    }
+                    NestUtilities.nestAPI.thermostats.setHVACMode(uniqueId, "heat-cool");
+                    break;
                 case 5:
-                    break;//TODO TRIGGER NEST THERMO OFF
+                    for (NestThermostat nestThermostat : t.smartDeviceWithDataList.get(0).nestThermostatList){
+                        if (t.trigger.getAccessorieId() == nestThermostat.getId()){
+                            uniqueId = nestThermostat.getDeviceId();
+                        }
+                    }
+                    NestUtilities.nestAPI.thermostats.setHVACMode(uniqueId, "off");
+                    break;
                 case 6:
-                    break;//TODO CHANGE NEST THERMO TEMP
+                    for (NestThermostat nestThermostat : t.smartDeviceWithDataList.get(0).nestThermostatList){
+                        if (t.trigger.getAccessorieId() == nestThermostat.getId()){
+                            uniqueId = nestThermostat.getDeviceId();
+                        }
+                    }
+                    NestUtilities.nestAPI.thermostats.setTargetTemperatureC(uniqueId, t.trigger.getValue());
+                    break;
                 default:
                     break;
             }
