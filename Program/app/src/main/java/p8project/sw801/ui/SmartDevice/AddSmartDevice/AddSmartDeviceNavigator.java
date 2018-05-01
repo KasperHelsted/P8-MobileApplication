@@ -15,4 +15,5 @@ public interface AddSmartDeviceNavigator {
     void setupBridges(List<HueBridge> smartDeviceList);
 
     void searchForNest(List<NestHub> nestHubs);
+    void changeToSmartDevice();
 }

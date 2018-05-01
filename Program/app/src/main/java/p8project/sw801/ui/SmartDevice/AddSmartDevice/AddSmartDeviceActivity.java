@@ -6,12 +6,14 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 import com.nestlabs.sdk.*;
 
@@ -86,6 +88,8 @@ public class AddSmartDeviceActivity extends BaseActivity<ActivityAddSmartDeviceB
     private String CLIENT_SECRET;
     private String REDIRECT_URL;
     private NestAPI nestAPI;
+    private TextInputLayout TextInputSecret;
+    private TextInputLayout TextInputClientId;
     public static final int AUTH_TOKEN_REQUEST_CODE = 27015;
 
 
@@ -119,7 +123,9 @@ public class AddSmartDeviceActivity extends BaseActivity<ActivityAddSmartDeviceB
         //ViewBindings
         brigdeListview = mActivityAddSmartDeviceBinding.bridgeList;
         searchBridge = mActivityAddSmartDeviceBinding.findNewBridge;
-        //searchNest = mActivityAddSmartDeviceBinding.findNewNest;
+        searchNest = mActivityAddSmartDeviceBinding.buttonNestconfirm;
+        TextInputClientId = mActivityAddSmartDeviceBinding.textInputLayout2;
+        TextInputSecret = mActivityAddSmartDeviceBinding.textInputLayout3;
 
         //
         mActivity = this;
@@ -277,6 +283,7 @@ public class AddSmartDeviceActivity extends BaseActivity<ActivityAddSmartDeviceB
         sm.search(true, true);
     }
 
+
     public void ChangeToSmartDevice() {
         PHWizardAlertDialog.getInstance().closeProgressDialog();
         finish();
@@ -356,8 +363,9 @@ public class AddSmartDeviceActivity extends BaseActivity<ActivityAddSmartDeviceB
     @Override
     public void searchForNest(List<NestHub> nestHubs) {
         if (nestHubs == null){
-            Intent i = new Intent(AddSmartDeviceActivity.this, AddNestSmartDevice.class);
-            startActivityForResult(i, 2);
+            String id = TextInputClientId.getEditText().getText().toString();
+            String secret = TextInputSecret.getEditText().getText().toString();
+            addNest(id, secret);
         }
         else{
             DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
@@ -381,6 +389,12 @@ public class AddSmartDeviceActivity extends BaseActivity<ActivityAddSmartDeviceB
             builder.setMessage("An existing Nest already exists.\nDo you wish to search anyway?").setPositiveButton("Yes", dialogClickListener)
                     .setNegativeButton("No", dialogClickListener).show();
         }
+    }
+
+    @Override
+    public void changeToSmartDevice() {
+        PHWizardAlertDialog.getInstance().closeProgressDialog();
+        finish();
     }
 
     public void addNest(String client_id, String secret_id){
@@ -438,7 +452,7 @@ public class AddSmartDeviceActivity extends BaseActivity<ActivityAddSmartDeviceB
 
                 @Override
                 public void onAuthFailure(NestException e) {
-                    // Handle exceptions here.
+                    Toast.makeText(getApplicationContext(), "Nest Auth failed", Toast.LENGTH_SHORT).show();
                 }
 
                 @Override
@@ -447,13 +461,6 @@ public class AddSmartDeviceActivity extends BaseActivity<ActivityAddSmartDeviceB
                     // Recommendation: Relaunch an auth flow with nest.launchAuthFlow().
                 }
             });
-        }
-
-        //Return from entering the client and secret
-         else if(requestCode == 2 && resultCode == RESULT_OK){
-            String id = intent.getStringExtra("id");
-            String secret = intent.getStringExtra("secret");
-            addNest(id, secret);
         }
     }
 
