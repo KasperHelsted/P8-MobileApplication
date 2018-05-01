@@ -32,10 +32,11 @@ public class LocationViewModel extends BaseViewModel<LocationNavigator> {
                         .subscribe(response -> {
                             if (response != null){
                                 predefinedLocationList.addAll(response);
+                                System.out.println("renderlist");
                                 renderList(predefinedLocationList);
                             }
                             else{
-
+                                System.out.println("den var null");
                             }
                         })
         );
@@ -45,6 +46,7 @@ public class LocationViewModel extends BaseViewModel<LocationNavigator> {
     private void renderList(List<PredefinedLocation> predefinedLocationList){
         getNavigator().createList(predefinedLocationList);
     }
+
     public void removePredefinedLocation(PredefinedLocation pred){
         getCompositeDisposable().add(
                 getDataManager().deletePredefinedLocation(
