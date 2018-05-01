@@ -1,5 +1,6 @@
 package p8project.sw801.ui.event.createeventmap;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -18,6 +19,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -50,7 +52,6 @@ public class CreateEventMap extends BaseActivity<ActivityCreateEventMapBinding, 
     DispatchingAndroidInjector<Fragment> fragmentDispatchingAndroidInjector;
 
 
-
     private EditText editText;
     private Address a;
     private Geocoder geocoder;
@@ -78,18 +79,19 @@ public class CreateEventMap extends BaseActivity<ActivityCreateEventMapBinding, 
     }
 
     @Override
-    public void cancelButton(){
+    public void cancelButton() {
         finish();
     }
+
     @Override
-    public void confirmButton(){
+    public void confirmButton() {
         Intent resultIntent = new Intent();
 
         Bundle b = new Bundle();
         b.putParcelable("address", a);
-        b.putParcelable("location",location);
+        b.putParcelable("location", location);
         resultIntent.putExtra("address", b);
-        resultIntent.putExtra("location",b);
+        resultIntent.putExtra("location", b);
         setResult(Activity.RESULT_OK, resultIntent);
         finish();
     }
@@ -126,32 +128,47 @@ public class CreateEventMap extends BaseActivity<ActivityCreateEventMapBinding, 
                 marker.remove();
                 marker = gmap.addMarker(new MarkerOptions().position(latLng).title("Chosen position"));
                 a = convertCoordinateToAddress(latLng);
-                editText.setText(a.getAddressLine(0)+ ", " + a.getAddressLine(1) + ", " + a.getAddressLine(2));
+                if (a != null){
+                    editText.setText(a.getAddressLine(0) + ", " + a.getAddressLine(1) + ", " + a.getAddressLine(2));
+                }
             }
         });
 
     }
 
-    public Address convertCoordinateToAddress(LatLng latLng){
-        //TODO MAKE DEFAULT ADDRESS TO RETURN TO AVOID NULL
+    public Address convertCoordinateToAddress(LatLng latLng) {
         Address address = null;
         geocoder = new Geocoder(this, Locale.getDefault());
         double lat = latLng.latitude;
         double lon = latLng.longitude;
         try {
             List<Address> addressList = geocoder.getFromLocation(lat, lon, 1);
+            if (addressList != null){
             address = addressList.get(0);
-        } catch (IOException e) {
-            e.printStackTrace();
+            }else{
+                Toast.makeText(this, "Could not get address try again", Toast.LENGTH_SHORT).show();
+            }
+        } catch (Exception e) {
+            Toast.makeText(this, "Could not get address try again", Toast.LENGTH_SHORT).show();
         }
         return address;
     }
 
-    private void prepMap(){
+    private void prepMap() {
         // Get current location
         LocationManager locationManager = (LocationManager)
                 getSystemService(Context.LOCATION_SERVICE);
         Criteria criteria = new Criteria();
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return;
+        }
         location = locationManager.getLastKnownLocation(locationManager.getBestProvider(criteria, false));
 
 
@@ -165,9 +182,12 @@ public class CreateEventMap extends BaseActivity<ActivityCreateEventMapBinding, 
         marker = gmap.addMarker(new MarkerOptions().position(currentLoc).title("Current position"));
         gmap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLoc, 12.0f));
 
-        //Write address in textfield
         a = convertCoordinateToAddress(currentLoc);
-        editText.setText(a.getAddressLine(0)+ ", " + a.getAddressLine(1) + ", " + a.getAddressLine(2));
+        //Write address in textfield
+        if (a != null){
+            editText.setText(a.getAddressLine(0)+ ", " + a.getAddressLine(1) + ", " + a.getAddressLine(2));
+        }
+
 
         //Current location button on map
         gmap.setMyLocationEnabled(true);

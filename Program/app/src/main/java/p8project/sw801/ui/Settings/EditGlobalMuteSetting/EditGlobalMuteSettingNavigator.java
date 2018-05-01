@@ -1,11 +1,15 @@
 package p8project.sw801.ui.Settings.EditGlobalMuteSetting;
 
+import p8project.sw801.ui.base.BaseViewModel;
+
 public interface EditGlobalMuteSettingNavigator {
 
     void handleError(Throwable throwable);
 
-    void showTimePickerDialog(int i);
+    void showTimePickerDialog(BaseViewModel viewModel);
 
-    void submitGlobalMuteChangeClick();
+    void sendNotification(String msg);
+
+    void finish();
 }
 

@@ -92,4 +92,10 @@ public class GlobalMuteSettingActivity extends BaseActivity<ActivityGlobalMuteBi
         }
 
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mGlobalMuteSettingViewModel.getListFromDb();
+    }
 }

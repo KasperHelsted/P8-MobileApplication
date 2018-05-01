@@ -432,6 +432,11 @@ public class AppDataManager implements DataManager {
     }
 
     @Override
+    public Observable<Chain> getChainbyName(String brandName) {
+        return mDbHelper.getChainbyName(brandName);
+    }
+
+    @Override
     public Observable<List<Chain>> getActiveChains() {
         return mDbHelper.getActiveChains();
     }
@@ -482,11 +487,6 @@ public class AppDataManager implements DataManager {
     @Override
     public Observable<List<Store>> getStoresByIds(Integer[] ids) {
         return mDbHelper.getStoresByIds(ids);
-    }
-
-    @Override
-    public Observable<List<Store>> getFavoriteStores() {
-        return mDbHelper.getFavoriteStores();
     }
 
     @Override

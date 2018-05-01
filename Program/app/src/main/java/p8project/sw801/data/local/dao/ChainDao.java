@@ -9,7 +9,6 @@ import android.arch.persistence.room.Update;
 import java.util.List;
 
 import p8project.sw801.data.model.db.Chain;
-import p8project.sw801.data.model.db.Event;
 
 @Dao
 public interface ChainDao {
@@ -18,6 +17,9 @@ public interface ChainDao {
 
     @Query("SELECT COUNT(*) from chain")
     Integer count();
+
+    @Query("SELECT * from chain WHERE brandName = :brandName")
+    Chain byChainName(String brandName);
 
     @Query("SELECT * FROM chain WHERE active=1")
     List<Chain> getActiveChains();
