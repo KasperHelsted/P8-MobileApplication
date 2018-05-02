@@ -181,13 +181,10 @@
                         android:layout_marginTop="8dp"
                         android:text="@string/event_initial_time" />
 
-                    <!--
-                        android:time="@={viewModel.timeText}"
-                        custom:currentTime="@{viewModel.startTime}"
-                    -->
                     <p8project.sw801.ui.custom.TimePicker.TimePicker
                         android:layout_width="match_parent"
                         android:layout_height="50dp"
+                        app:currentTime="@={viewModel.startTime}"
                         app:layout_constraintTop_toBottomOf="@id/textViewTime" />
 
                 </android.support.constraint.ConstraintLayout>
@@ -206,16 +203,12 @@
                         android:layout_height="wrap_content"
                         android:text="@string/event_between_time"
                         app:layout_constraintStart_toStartOf="parent" />
-                    <!--
-                    <include
-                        android:id="@+id/betweenTimePicker"
-                        layout="@layout/timepicker"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        app:layout_constraintTop_toBottomOf="@id/textViewBetweenTime"
-                        app:timePicker="@{viewModel.endTime}" />
-                    -->
 
+                    <p8project.sw801.ui.custom.TimePicker.TimePicker
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        app:currentTime="@{viewModel.endTime}"
+                        app:layout_constraintTop_toBottomOf="@id/textViewBetweenTime" />
                 </android.support.constraint.ConstraintLayout>
             </android.support.constraint.ConstraintLayout>
 
@@ -268,6 +261,7 @@
                     android:layout_marginTop="16dp"
                     android:onClick="@{() -> viewModel.close()}"
                     android:text="Cancel"
+                    android:theme="@style/CustomStyleButton"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@+id/buttonCreateEvent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -283,6 +277,7 @@
                     android:layout_marginTop="16dp"
                     android:onClick="@{() -> viewModel.tester()}"
                     android:text="Create Event"
+                    android:theme="@style/CustomStyleButton"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/buttonCancel"

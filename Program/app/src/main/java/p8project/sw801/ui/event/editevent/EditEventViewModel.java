@@ -29,11 +29,8 @@ public class EditEventViewModel extends BaseViewModel<EditEventNavigator> {
     public ObservableInt locationCondition = new ObservableInt(0);
     public ObservableInt whenCondition = new ObservableInt(0);
 
-    public ObservableField<Integer> startTime = new ObservableField<>(0);
-    /*
-    public TimePicker startTime = new TimePicker();
-    public TimePicker endTime = new TimePicker();
-    */
+    public ObservableInt startTime = new ObservableInt(3600 * 10000);
+    public ObservableInt endTime = new ObservableInt(3600 * 20000);
 
     public DayPicker dayPicker = new DayPicker();
 
@@ -65,6 +62,8 @@ public class EditEventViewModel extends BaseViewModel<EditEventNavigator> {
         System.out.println("whenCondition: " + whenCondition.get());
 
         System.out.println("days: " + dayPicker.getDays());
-        //System.out.println("text: " + timeText.get());
+
+        System.out.println("start: " + startTime.get());
+        System.out.println("end: " + endTime.get());
     }
 }
