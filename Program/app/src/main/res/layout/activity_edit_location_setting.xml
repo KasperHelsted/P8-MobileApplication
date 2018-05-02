@@ -74,7 +74,8 @@
                 android:id="@+id/textInputLocationName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Name" />
+                android:imeOptions="actionDone"
+                android:singleLine="true"/>
         </android.support.design.widget.TextInputLayout>
 
 

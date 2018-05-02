@@ -392,7 +392,7 @@ public class AddEvent extends BaseActivity<ActivityAddEventBinding, AddEventView
                     if (resultCode == Activity.RESULT_OK) {
                         addressBundle = data.getBundleExtra("address");
                         address = addressBundle.getParcelable("address");
-                        addressTextView.setText(address.getAddressLine(0) + ", " + address.getAddressLine(1) + ", " + address.getAddressLine(2));
+                        addressTextView.setText(address.getAddressLine(0));
                         coordinate = new Coordinate(address.getLatitude(), address.getLongitude());
                     }
                     break;
@@ -471,9 +471,7 @@ public class AddEvent extends BaseActivity<ActivityAddEventBinding, AddEventView
             try {
                 if (newWhen.getListWeekDays().isEmpty()) {
                     Toast.makeText(this, "You must set a day", Toast.LENGTH_SHORT).show();
-                }
-                if (CommonUtils.isNullOrEmpty(betweenTime.getText().toString())){
-                    Toast.makeText(this, "Please specify a time", Toast.LENGTH_SHORT).show();
+                    return;
                 }
                 if (!CommonUtils.isNullOrEmpty(locName) && coordinate.getLongitude() != 0 && coordinate != null) {
                     mAddEventViewModel.saveEvent(newEvent);
@@ -494,16 +492,16 @@ public class AddEvent extends BaseActivity<ActivityAddEventBinding, AddEventView
             try {
                 if (newWhen.getListWeekDays().isEmpty()) {
                     Toast.makeText(this, "You must set a day", Toast.LENGTH_SHORT).show();
+                    return;
                 }
-                if (CommonUtils.isNullOrEmpty(betweenTime.getText().toString())){
-                        Toast.makeText(this, "Please specify a time", Toast.LENGTH_SHORT).show();
-                } else if (!CommonUtils.isNullOrEmpty(locName)) {
+                if (!CommonUtils.isNullOrEmpty(locName)) {
                     mAddEventViewModel.saveEvent(newEvent);
                     mAddEventViewModel.submitEventToDatabase(newWhen, addMyEvents, location);
                     Toast.makeText(this, "The event has been created from predefined location", Toast.LENGTH_SHORT).show();
                     finish();
                 } else {
                     Toast.makeText(this, "You must specify a name", Toast.LENGTH_SHORT).show();
+                    return;
                 }
             } catch (IOException e) {
                 e.printStackTrace();
@@ -520,8 +518,10 @@ public class AddEvent extends BaseActivity<ActivityAddEventBinding, AddEventView
                 mAddEventViewModel.submitEventToDatabase(newWhen, addMyEvents, location);
                 Toast.makeText(this, "Created a time only event", Toast.LENGTH_SHORT).show();
                 finish();
-            }else{
-                Toast.makeText(this, "You must specify a name AND a day", Toast.LENGTH_SHORT).show();
+            }else if(CommonUtils.isNullOrEmpty(locName)){
+                Toast.makeText(this, "You must specify a name", Toast.LENGTH_SHORT).show();
+            }else if(newWhen.getListWeekDays().isEmpty()){
+                Toast.makeText(this, "You must specify a day", Toast.LENGTH_SHORT).show();
             }
             }
             catch (IOException e){
@@ -535,8 +535,10 @@ public class AddEvent extends BaseActivity<ActivityAddEventBinding, AddEventView
                     mAddEventViewModel.submitEventToDatabase(newWhen, addMyEvents, location);
                     Toast.makeText(this, "Created a location only event", Toast.LENGTH_SHORT).show();
                     finish();
-                }else{
-                    Toast.makeText(this, "You must specify a name AND a day", Toast.LENGTH_SHORT).show();
+                }else if(CommonUtils.isNullOrEmpty(locName)){
+                    Toast.makeText(this, "You must specify a name", Toast.LENGTH_SHORT).show();
+                }else if(newWhen.getListWeekDays().isEmpty()){
+                    Toast.makeText(this, "You must specify a day", Toast.LENGTH_SHORT).show();
                 }
             }
             catch (IOException e){

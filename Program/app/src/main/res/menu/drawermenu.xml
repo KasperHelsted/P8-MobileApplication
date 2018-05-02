@@ -1,9 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 <!--<item android:id="@+id/menuhome" android:title="@string/app_name"/>-->
-    <item android:id="@+id/menumyevent" android:title="@string/title_menumyevents" android:icon="@drawable/ic_home_black_24dp"/>
+    <item
+        android:id="@+id/menumyevent"
+        android:icon="@android:drawable/ic_menu_today"
+        android:title="@string/title_menumyevents" />
     <item android:id="@+id/menumysmartdevices" android:title="@string/title_menumysmartdevices" android:icon="@drawable/ic_home_black_24dp"/>
-    <item android:id="@+id/menusettings" android:title="@string/title_menusettings" android:icon="@drawable/ic_home_black_24dp"/>
-    <item android:id="@+id/menuaboutus" android:title="@string/title_menuaboutus" android:icon="@drawable/ic_home_black_24dp"/>
-    <item android:id="@+id/menucontactus" android:title="@string/title_menucontactus" android:icon="@drawable/ic_home_black_24dp"/>
+    <item
+        android:id="@+id/menusettings"
+        android:icon="@android:drawable/ic_menu_preferences"
+        android:title="@string/title_menusettings" />
+    <item
+        android:id="@+id/menuaboutus"
+        android:icon="@android:drawable/ic_dialog_info"
+        android:title="@string/title_menuaboutus" />
+    <item
+        android:id="@+id/menucontactus"
+        android:icon="@android:drawable/sym_action_email"
+        android:title="@string/title_menucontactus" />
 </menu>

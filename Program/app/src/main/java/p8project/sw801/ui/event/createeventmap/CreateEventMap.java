@@ -129,7 +129,7 @@ public class CreateEventMap extends BaseActivity<ActivityCreateEventMapBinding, 
                 marker = gmap.addMarker(new MarkerOptions().position(latLng).title("Chosen position"));
                 a = convertCoordinateToAddress(latLng);
                 if (a != null){
-                    editText.setText(a.getAddressLine(0) + ", " + a.getAddressLine(1) + ", " + a.getAddressLine(2));
+                    editText.setText(a.getAddressLine(0));
                 }
             }
         });
@@ -178,7 +178,7 @@ public class CreateEventMap extends BaseActivity<ActivityCreateEventMapBinding, 
         a = convertCoordinateToAddress(currentLoc);
         //Write address in textfield
         if (a != null){
-            editText.setText(a.getAddressLine(0)+ ", " + a.getAddressLine(1) + ", " + a.getAddressLine(2));
+            editText.setText(a.getAddressLine(0));
         }
 
 
