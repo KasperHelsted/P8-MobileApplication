@@ -30,7 +30,7 @@ public class ProximityBasedNotifications {
     public void createProximityNotification(Coordinate coordinate, int requestCode, EventWithData eventWithData) {
 
         //Setup pending intent for proximity
-        Integer radius = 500;
+        Integer radius = 50;
         Intent intent = new Intent(mContext, ProximityReceiver.class);
         intent.putExtra("eventWithDate", new Gson().toJson(eventWithData));
         PendingIntent pendingIntent = PendingIntent.getBroadcast(mContext, requestCode, intent, 0);

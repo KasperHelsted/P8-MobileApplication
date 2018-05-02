@@ -545,6 +545,9 @@ public class AddEvent extends BaseActivity<ActivityAddEventBinding, AddEventView
                 e.printStackTrace();
             }
         }
+        else{
+            Toast.makeText(this, "Missing location try again", Toast.LENGTH_SHORT).show();
+        }
 
     }
 
