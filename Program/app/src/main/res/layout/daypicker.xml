@@ -1,88 +1,100 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="horizontal" android:layout_width="match_parent"
-    android:layout_height="match_parent">
-    <ToggleButton
-        android:id="@+id/tD"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_marginLeft="3dp"
-        android:layout_marginRight="3dp"
-        android:textOff="M"
-        android:textOn="M"
-        android:checked="true"
-        style="@style/toggleButton"
-        android:background="@drawable/toggle_bg" />
-    <ToggleButton
-        android:id="@+id/tL"
-        android:layout_marginLeft="3dp"
-        android:layout_marginRight="3dp"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:textOff="T"
-        android:textOn="T"
-        android:checked="true"
-        style="@style/toggleButton"
-        android:background="@drawable/toggle_bg" />
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <ToggleButton
-        android:id="@+id/tM"
-        android:layout_marginLeft="3dp"
-        android:layout_marginRight="3dp"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:textOff="W"
-        android:textOn="W"
-        android:checked="true"
-        style="@style/toggleButton"
-        android:background="@drawable/toggle_bg" />
+    <data>
 
-    <ToggleButton
-        android:id="@+id/tMi"
-        android:layout_marginLeft="3dp"
-        android:layout_marginRight="3dp"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:textOff="T"
-        android:textOn="T"
-        android:checked="true"
-        style="@style/toggleButton"
-        android:background="@drawable/toggle_bg" />
+        <variable
+            name="dayPicker"
+            type="p8project.sw801.ui.custom.DayPicker" />
+    </data>
 
-    <ToggleButton
-        android:id="@+id/tJ"
-        android:layout_marginLeft="3dp"
-        android:layout_marginRight="3dp"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:textOff="F"
-        android:textOn="F"
-        android:checked="true"
-        style="@style/toggleButton"
-        android:background="@drawable/toggle_bg" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
 
-    <ToggleButton
-        android:id="@+id/tV"
-        android:layout_marginLeft="3dp"
-        android:layout_marginRight="3dp"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:textOff="S"
-        android:textOn="S"
-        android:checked="true"
-        style="@style/toggleButton"
-        android:background="@drawable/toggle_bg" />
+        <ToggleButton
+            android:id="@+id/tD"
+            style="@style/toggleButton"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginLeft="3dp"
+            android:layout_marginRight="3dp"
+            android:background="@drawable/toggle_bg"
+            android:checked="@={dayPicker.monday}"
+            android:textOff="@string/daypicker_monday"
+            android:textOn="@string/daypicker_monday" />
 
-    <ToggleButton
-        android:id="@+id/tS"
-        android:layout_marginLeft="3dp"
-        android:layout_marginRight="3dp"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:textOff="S"
-        android:textOn="S"
-        android:checked="true"
-        style="@style/toggleButton"
-        android:background="@drawable/toggle_bg" />
-</LinearLayout>
+        <ToggleButton
+            android:id="@+id/tL"
+            style="@style/toggleButton"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginLeft="3dp"
+            android:layout_marginRight="3dp"
+            android:background="@drawable/toggle_bg"
+            android:checked="@={dayPicker.tuesday}"
+            android:textOff="@string/daypicker_tuesday"
+            android:textOn="@string/daypicker_tuesday" />
+
+        <ToggleButton
+            android:id="@+id/tM"
+            style="@style/toggleButton"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginLeft="3dp"
+            android:layout_marginRight="3dp"
+            android:background="@drawable/toggle_bg"
+            android:checked="@={dayPicker.wednesday}"
+            android:textOff="@string/daypicker_wednesday"
+            android:textOn="@string/daypicker_wednesday" />
+
+        <ToggleButton
+            android:id="@+id/tMi"
+            style="@style/toggleButton"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginLeft="3dp"
+            android:layout_marginRight="3dp"
+            android:background="@drawable/toggle_bg"
+            android:checked="@={dayPicker.thursday}"
+            android:textOff="@string/daypicker_thursday"
+            android:textOn="@string/daypicker_thursday" />
+
+        <ToggleButton
+            android:id="@+id/tJ"
+            style="@style/toggleButton"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginLeft="3dp"
+            android:layout_marginRight="3dp"
+            android:background="@drawable/toggle_bg"
+            android:checked="@={dayPicker.friday}"
+            android:textOff="@string/daypicker_friday"
+            android:textOn="@string/daypicker_friday" />
+
+        <ToggleButton
+            android:id="@+id/tV"
+            style="@style/toggleButton"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginLeft="3dp"
+            android:layout_marginRight="3dp"
+            android:background="@drawable/toggle_bg"
+            android:checked="@={dayPicker.saturday}"
+            android:textOff="@string/daypicker_saturday"
+            android:textOn="@string/daypicker_saturday" />
+
+        <ToggleButton
+            android:id="@+id/tS"
+            style="@style/toggleButton"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginLeft="3dp"
+            android:layout_marginRight="3dp"
+            android:background="@drawable/toggle_bg"
+            android:checked="@={dayPicker.sunday}"
+            android:textOff="@string/daypicker_sunday"
+            android:textOn="@string/daypicker_sunday" />
+    </LinearLayout>
+</layout>

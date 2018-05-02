@@ -16,11 +16,12 @@ public class EditEvent extends BaseActivity<ActivityEditEventBinding, EditEventV
     @Inject
     EditEventViewModel mEditEventViewModel;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mEditEventViewModel.setNavigator(this);
+
+        mEditEventViewModel.initializeLists();
     }
 
     @Override
