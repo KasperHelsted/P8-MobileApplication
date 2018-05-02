@@ -10,9 +10,12 @@ import p8project.sw801.data.model.db.PredefinedLocation;
 import p8project.sw801.data.model.db.Trigger;
 import p8project.sw801.data.model.db.When;
 import p8project.sw801.ui.base.BaseViewModel;
+import p8project.sw801.ui.custom.DayPicker;
 import p8project.sw801.utils.rx.SchedulerProvider;
 
 public class AddEventViewModel extends BaseViewModel<AddEventNavigator> {
+
+    public DayPicker dayPicker = new DayPicker();
 
 
     public AddEventViewModel(DataManager dataManager, SchedulerProvider schedulerProvider) {
@@ -21,14 +24,14 @@ public class AddEventViewModel extends BaseViewModel<AddEventNavigator> {
 
     }
 
-    public void displayPredefinedLocations(){
+    public void displayPredefinedLocations() {
         List<PredefinedLocation> predefinedLocationList = new ArrayList<>();
         getCompositeDisposable().add(
                 getDataManager().getAllPredefinedLocations().subscribeOn(
                         getSchedulerProvider().io()
                 ).observeOn(getSchedulerProvider().ui())
                         .subscribe(response -> {
-                            if (response == null){
+                            if (response == null) {
                                 throw new NullPointerException("DENNE ER NULL");
                             }
                             predefinedLocationList.addAll(response);
@@ -51,7 +54,7 @@ public class AddEventViewModel extends BaseViewModel<AddEventNavigator> {
 
     }
 
-    public void updateLocationData(){
+    public void updateLocationData() {
         getCompositeDisposable().add(
                 getDataManager().getLastPredefinedLocation().subscribeOn(
                         getSchedulerProvider().io()
@@ -75,8 +78,8 @@ public class AddEventViewModel extends BaseViewModel<AddEventNavigator> {
     }*/
 
 
-    public void submitEventToDatabase(When when, List<Trigger> trigList,PredefinedLocation pred) {
-        if (pred != null){
+    public void submitEventToDatabase(When when, List<Trigger> trigList, PredefinedLocation pred) {
+        if (pred != null) {
             when.setCoordinateId(pred.getCoordinateId());
         }
         Event eventId = new Event();
@@ -126,8 +129,7 @@ public class AddEventViewModel extends BaseViewModel<AddEventNavigator> {
         );
     }
 
-    public void saveTriggers(List<Trigger> tList, Event eventId)
-    {
+    public void saveTriggers(List<Trigger> tList, Event eventId) {
         List<Trigger> tListWithId = new ArrayList<>();
         for (Trigger trigger : tList) {
             trigger.setEventId(eventId.getId());
@@ -165,7 +167,7 @@ public class AddEventViewModel extends BaseViewModel<AddEventNavigator> {
     */
 
 
-    public void geteventwithdata(Event e){
+    public void geteventwithdata(Event e) {
         getCompositeDisposable().add(
                 getDataManager().getEventWithData(e.getId()).subscribeOn(
                         getSchedulerProvider().io()
