@@ -476,6 +476,9 @@ public class AddEvent extends BaseActivity<ActivityAddEventBinding, AddEventView
                 if (newWhen.getListWeekDays().isEmpty()) {
                     Toast.makeText(this, "You must set a day", Toast.LENGTH_SHORT).show();
                 }
+                if (CommonUtils.isNullOrEmpty(betweenTime.getText().toString())){
+                    Toast.makeText(this, "Please specify a time", Toast.LENGTH_SHORT).show();
+                }
                 if (!CommonUtils.isNullOrEmpty(locName) && coordinate.getLongitude() != 0 && coordinate != null) {
                     mAddEventViewModel.saveEvent(newEvent);
                     mAddEventViewModel.saveCoordinate(newWhen, addMyEvents, coordinate);
@@ -495,6 +498,9 @@ public class AddEvent extends BaseActivity<ActivityAddEventBinding, AddEventView
             try {
                 if (newWhen.getListWeekDays().isEmpty()) {
                     Toast.makeText(this, "You must set a day", Toast.LENGTH_SHORT).show();
+                }
+                if (CommonUtils.isNullOrEmpty(betweenTime.getText().toString())){
+                        Toast.makeText(this, "Please specify a time", Toast.LENGTH_SHORT).show();
                 } else if (!CommonUtils.isNullOrEmpty(locName)) {
                     mAddEventViewModel.saveEvent(newEvent);
                     mAddEventViewModel.submitEventToDatabase(newWhen, addMyEvents, location);

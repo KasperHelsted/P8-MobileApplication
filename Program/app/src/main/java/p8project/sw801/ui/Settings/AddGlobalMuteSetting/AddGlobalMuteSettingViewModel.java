@@ -84,7 +84,7 @@ public class AddGlobalMuteSettingViewModel extends BaseViewModel<AddGlobalMuteSe
 
         setIsLoading(true);
 
-        getNavigator().sendNotification("Global Mute Inserted");
+        getNavigator().sendNotification("Global Mute created");
         getCompositeDisposable().add(
                 getDataManager().insertGlobalMute(
                         new GlobalMute(

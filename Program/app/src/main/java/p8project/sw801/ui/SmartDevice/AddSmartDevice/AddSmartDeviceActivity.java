@@ -276,7 +276,6 @@ public class AddSmartDeviceActivity extends BaseActivity<ActivityAddSmartDeviceB
         PHBridgeSearchManager sm = (PHBridgeSearchManager) phHueSDK.getSDKService(phHueSDK.SEARCH_BRIDGE);
         // Start the UPNP Searching of local bridges.
         sm.search(true, true);
-        Toast.makeText(getApplicationContext(), "Please click a Bridge IP to connect", Toast.LENGTH_LONG).show();
     }
 
 
