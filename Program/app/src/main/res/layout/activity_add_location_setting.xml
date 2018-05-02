@@ -54,7 +54,9 @@
                 android:id="@+id/textInputGlobalMuteName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Give your predefined location a name" />
+                android:hint="Give your predefined location a name"
+                android:imeOptions="actionDone"
+                android:singleLine="true"/>
         </android.support.design.widget.TextInputLayout>
 
         <TextView

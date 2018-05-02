@@ -56,6 +56,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Give your global mute a name"
+                android:imeOptions="actionDone"
+                android:singleLine="true"
                 android:text="@={viewModel.globulMuteName}" />
         </android.support.design.widget.TextInputLayout>
 

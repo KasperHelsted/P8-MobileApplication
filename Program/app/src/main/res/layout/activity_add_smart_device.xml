@@ -70,7 +70,9 @@
                 android:id="@+id/clientid"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Input Nest Client ID" />
+                android:hint="Input Nest Client ID"
+                android:imeOptions="actionDone"
+                android:singleLine="true"/>
         </android.support.design.widget.TextInputLayout>
 
         <android.support.design.widget.TextInputLayout
@@ -88,7 +90,9 @@
                 android:id="@+id/clientsecret"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Input Nest Client secret ID" />
+                android:hint="Input Nest Client secret ID"
+                android:imeOptions="actionDone"
+                android:singleLine="true"/>
         </android.support.design.widget.TextInputLayout>
 
         <TextView
