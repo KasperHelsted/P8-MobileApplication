@@ -74,8 +74,7 @@ public class AccessPointListAdapter extends BaseAdapter {
         item.bridgeIp.setTextColor(Color.BLACK);
         item.bridgeIp.setText(accessPoint.getIpAddress());
         item.bridgeMac.setTextColor(Color.DKGRAY);
-        item.bridgeMac.setText(accessPoint.getUsername());
-
+        item.bridgeMac.setText(accessPoint.getMacAddress());
         return convertView;
     }
 
