@@ -6,13 +6,13 @@ import android.databinding.ObservableBoolean;
 import java.util.ArrayList;
 
 public class DayPicker extends BaseObservable {
-    public ObservableBoolean monday = new ObservableBoolean(false);
-    public ObservableBoolean tuesday = new ObservableBoolean(false);
-    public ObservableBoolean wednesday = new ObservableBoolean(false);
-    public ObservableBoolean thursday = new ObservableBoolean(false);
-    public ObservableBoolean friday = new ObservableBoolean(false);
-    public ObservableBoolean saturday = new ObservableBoolean(false);
-    public ObservableBoolean sunday = new ObservableBoolean(false);
+    public ObservableBoolean monday = new ObservableBoolean(true);
+    public ObservableBoolean tuesday = new ObservableBoolean(true);
+    public ObservableBoolean wednesday = new ObservableBoolean(true);
+    public ObservableBoolean thursday = new ObservableBoolean(true);
+    public ObservableBoolean friday = new ObservableBoolean(true);
+    public ObservableBoolean saturday = new ObservableBoolean(true);
+    public ObservableBoolean sunday = new ObservableBoolean(true);
 
     public ArrayList<Integer> getDays() {
         ArrayList<Integer> days = new ArrayList<>();

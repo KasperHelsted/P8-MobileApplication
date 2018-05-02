@@ -88,6 +88,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Give your event a name"
+                    android:imeOptions="actionDone"
+                    android:singleLine="true"
                     android:importantForAutofill="noExcludeDescendants"/>
             </android.support.design.widget.TextInputLayout>
 
@@ -137,7 +139,7 @@
                 android:onClick="@{() -> viewModel.displayPredefinedLocations()}"
                 android:paddingLeft="5dp"
                 android:paddingRight="8dp"
-                android:text="At Location (Default - At no specific location)"
+                android:text="Please select a location"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"

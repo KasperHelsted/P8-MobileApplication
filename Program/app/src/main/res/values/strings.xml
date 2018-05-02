@@ -48,14 +48,11 @@
     <string name="event_initial_time">Time:</string>
     <string name="event_between_time">Between time:</string>
 
-    <string name="daypicker_monday">M</string>
+    <string name="daypicker_monday">M</string>  
     <string name="daypicker_tuesday">T</string>
     <string name="daypicker_wednesday">W</string>
     <string name="daypicker_thursday">T</string>
     <string name="daypicker_friday">F</string>
     <string name="daypicker_saturday">S</string>
     <string name="daypicker_sunday">S</string>
-
-
-
 </resources>
