@@ -170,6 +170,7 @@
             android:layout_marginTop="8dp"
             android:onClick="closeAddGlobalMute"
             android:text="Cancel"
+            android:theme="@style/CustomStyleButton"
             app:layout_constraintEnd_toStartOf="@+id/buttonCancel"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/editTextComment" />
@@ -183,6 +184,7 @@
             android:layout_marginTop="8dp"
             android:onClick="@{() -> viewModel.submitGlobalMuteClick()}"
             android:text="Create global mute"
+            android:theme="@style/CustomStyleButton"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/buttonCreateGlobalMute"
             app:layout_constraintTop_toBottomOf="@+id/editTextComment" />

@@ -63,7 +63,8 @@
             android:layout_marginTop="16dp"
             android:onClick="@{() -> viewModel.addSmartDevice()}"
             android:text="Click here to do so!"
-            android:textSize="20sp" />
+            android:textSize="20sp"
+            android:theme="@style/CustomStyleButton"/>
     </LinearLayout>
 
 </layout>
