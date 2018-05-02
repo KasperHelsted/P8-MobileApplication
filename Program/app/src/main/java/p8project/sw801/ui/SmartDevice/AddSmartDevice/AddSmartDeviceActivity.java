@@ -13,13 +13,10 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
-import com.nestlabs.sdk.*;
 
 import com.nestlabs.sdk.GlobalUpdate;
-import com.nestlabs.sdk.NestAuthActivity;
-import com.nestlabs.sdk.NestConfig;
+import com.nestlabs.sdk.NestAPI;
 import com.nestlabs.sdk.NestException;
 import com.nestlabs.sdk.NestListener;
 import com.nestlabs.sdk.NestToken;
@@ -52,13 +49,11 @@ import p8project.sw801.data.model.db.Smartdevice.Controllers.HueBridge;
 import p8project.sw801.data.model.db.Smartdevice.Controllers.NestHub;
 import p8project.sw801.databinding.ActivityAddSmartDeviceBinding;
 import p8project.sw801.ui.SmartDevice.AccessPointListAdapter;
-import p8project.sw801.ui.SmartDevice.AddNestSmartDevice.AddNestSmartDevice;
 import p8project.sw801.ui.base.BaseActivity;
 import p8project.sw801.ui.custom.PHPushlinkActivity;
 import p8project.sw801.ui.custom.PHWizardAlertDialog;
 import p8project.sw801.utils.CommonUtils;
 import p8project.sw801.utils.HueUtilities;
-import p8project.sw801.utils.Nest.*;
 
 public class AddSmartDeviceActivity extends BaseActivity<ActivityAddSmartDeviceBinding, AddSmartDeviceViewModel> implements AdapterView.OnItemClickListener, AddSmartDeviceNavigator, HasSupportFragmentInjector {
 
@@ -281,6 +276,7 @@ public class AddSmartDeviceActivity extends BaseActivity<ActivityAddSmartDeviceB
         PHBridgeSearchManager sm = (PHBridgeSearchManager) phHueSDK.getSDKService(phHueSDK.SEARCH_BRIDGE);
         // Start the UPNP Searching of local bridges.
         sm.search(true, true);
+        Toast.makeText(getApplicationContext(), "Please click a Bridge IP to connect", Toast.LENGTH_LONG).show();
     }
 
 
@@ -365,7 +361,12 @@ public class AddSmartDeviceActivity extends BaseActivity<ActivityAddSmartDeviceB
         if (nestHubs == null){
             String id = TextInputClientId.getEditText().getText().toString();
             String secret = TextInputSecret.getEditText().getText().toString();
-            addNest(id, secret);
+            if (CommonUtils.isNullOrEmpty(id) || CommonUtils.isNullOrEmpty(secret)){
+                Toast.makeText(getApplicationContext(), "Please input ClientID and Secret ID to add a Nest", Toast.LENGTH_SHORT).show();
+            }
+            else{
+                addNest(id, secret);
+            }
         }
         else{
             DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
@@ -373,8 +374,9 @@ public class AddSmartDeviceActivity extends BaseActivity<ActivityAddSmartDeviceB
                 public void onClick(DialogInterface dialog, int which) {
                     switch (which){
                         case DialogInterface.BUTTON_POSITIVE:
-                            Intent i = new Intent(AddSmartDeviceActivity.this, AddNestSmartDevice.class);
-                            startActivityForResult(i, 2);
+                            String id = TextInputClientId.getEditText().getText().toString();
+                            String secret = TextInputSecret.getEditText().getText().toString();
+                            addNest(id, secret);
                             break;
 
                         case DialogInterface.BUTTON_NEGATIVE:
