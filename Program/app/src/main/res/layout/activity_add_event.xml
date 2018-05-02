@@ -60,7 +60,8 @@
                     android:id="@+id/daypicker"
                     layout="@layout/daypicker"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"></include>
+                    android:layout_height="wrap_content"
+                    app:dayPicker="@={viewModel.dayPicker}" />
             </LinearLayout>
 
             <TextView
@@ -89,8 +90,8 @@
                     android:layout_height="wrap_content"
                     android:hint="Give your event a name"
                     android:imeOptions="actionDone"
-                    android:singleLine="true"
-                    android:importantForAutofill="noExcludeDescendants"/>
+                    android:importantForAutofill="noExcludeDescendants"
+                    android:singleLine="true" />
             </android.support.design.widget.TextInputLayout>
 
             <TextView
@@ -280,9 +281,9 @@
                 android:layout_marginEnd="16dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="16dp"
+                android:onClick="@{()->viewModel.submitEventClick()}"
                 android:text="Create Event"
                 android:theme="@style/CustomStyleButton"
-                android:onClick="@{()->viewModel.submitEventClick()}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/buttonCancel"
