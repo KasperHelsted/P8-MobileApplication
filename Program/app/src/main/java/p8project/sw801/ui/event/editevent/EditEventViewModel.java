@@ -44,13 +44,13 @@ public class EditEventViewModel extends BaseViewModel<EditEventNavigator> {
         locationCondition.set(2);
         whenCondition.set(4);
 
-        dayPicker.setDays(new ArrayList<Integer>() {{
-            add(0);
-            add(1);
-            add(3);
-            add(5);
-            add(6);
-        }});
+//        dayPicker.setDays(new ArrayList<Integer>() {{
+//            add(0);
+//            add(1);
+//            add(3);
+//            add(5);
+//            add(6);
+//        }});
     }
 
     public void close() {
