@@ -31,9 +31,9 @@
     <string name="delete">Delete</string>
     <string name="share">Share</string>
 
-    <string name="setTimePicker">Vælg klokkeslæt</string>
-    <string name="anullerTimePicker">Anuller</string>
-    <string name="chooseTimePickerTime">Vælg</string>
+    <string name="setTimePicker">Choose time</string>
+    <string name="anullerTimePicker">Annuller</string>
+    <string name="chooseTimePickerTime">Choose</string>
 
     <string name="channel_name">Notificationchannel</string>
     <string name="title_activity_add_nest_smart_device">AddNestSmartDevice</string>
