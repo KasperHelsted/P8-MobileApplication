@@ -21,7 +21,7 @@ import p8project.sw801.data.model.db.Smartdevice.Controllers.HueBridge;
 import p8project.sw801.ui.custom.PHWizardAlertDialog;
 
 public final class HueUtilities {
-    public static PHHueSDK phHueSDK;
+    public static PHHueSDK phHueSDK = null;
     public static final String TAG = "NotifyUs";
     private static PHBridge bridge = null;
     private static Context context = null;
@@ -30,10 +30,13 @@ public final class HueUtilities {
 
     public static void setupSDK()
     {
-        phHueSDK = PHHueSDK.create();
-        phHueSDK.setAppName(TAG);
-        phHueSDK.setDeviceName(android.os.Build.MODEL);
-        phHueSDK.getNotificationManager().registerSDKListener(phsdkListener);
+        if (phHueSDK == null){
+            phHueSDK = PHHueSDK.create();
+            phHueSDK.setAppName(TAG);
+            phHueSDK.setDeviceName(android.os.Build.MODEL);
+            phHueSDK.getNotificationManager().registerSDKListener(phsdkListener);
+        }
+
     }
 
     public static boolean connectToBridge(HueBridge mhueBridge){
@@ -70,8 +73,8 @@ public final class HueUtilities {
         @Override
         public void onBridgeConnected(PHBridge phBridge, String s) {
             phHueSDK.setSelectedBridge(phBridge);
+            System.out.println("Hueutilities: OnBridgeConnected");
         }
-
 
         @Override
         public void onAuthenticationRequired(PHAccessPoint phAccessPoint) {
