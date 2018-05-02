@@ -105,6 +105,18 @@ public class AddSmartDeviceActivity extends BaseActivity<ActivityAddSmartDeviceB
     }
 
     @Override
+    protected void onPause() {
+        super.onPause();
+        phHueSDK.getNotificationManager().unregisterSDKListener(phsdkListener);
+    }
+
+    @Override
+    protected void onResume(){
+        super.onResume();
+        phHueSDK.getNotificationManager().registerSDKListener(phsdkListener);
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //MVVM Bindings
@@ -281,6 +293,7 @@ public class AddSmartDeviceActivity extends BaseActivity<ActivityAddSmartDeviceB
 
     public void ChangeToSmartDevice() {
         PHWizardAlertDialog.getInstance().closeProgressDialog();
+        phHueSDK.getNotificationManager().unregisterSDKListener(phsdkListener);
         finish();
     }
 
