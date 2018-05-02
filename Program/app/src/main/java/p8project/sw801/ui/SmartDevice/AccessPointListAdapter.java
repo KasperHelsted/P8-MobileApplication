@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.philips.lighting.hue.sdk.PHAccessPoint;
 
@@ -73,7 +74,7 @@ public class AccessPointListAdapter extends BaseAdapter {
         item.bridgeIp.setTextColor(Color.BLACK);
         item.bridgeIp.setText(accessPoint.getIpAddress());
         item.bridgeMac.setTextColor(Color.DKGRAY);
-        item.bridgeMac.setText(accessPoint.getMacAddress());
+        item.bridgeMac.setText(accessPoint.getUsername());
 
         return convertView;
     }
@@ -118,6 +119,7 @@ public class AccessPointListAdapter extends BaseAdapter {
     public void updateData(List<PHAccessPoint> accessPoints) {
         this.accessPoints = accessPoints;
         notifyDataSetChanged();
+        Toast.makeText(mInflater.getContext(), "Please click a Bridge IP to connect", Toast.LENGTH_LONG).show();
     }
 
 }
