@@ -32,10 +32,27 @@
     <string name="share">Share</string>
 
     <string name="setTimePicker">Choose time</string>
-    <string name="anullerTimePicker">Annuller</string>
+    <string name="anullerTimePicker">Cancel</string>
     <string name="chooseTimePickerTime">Choose</string>
 
     <string name="channel_name">Notificationchannel</string>
     <string name="title_activity_add_nest_smart_device">AddNestSmartDevice</string>
 
+    <string name="edit_event">Edit Event</string>
+    <string name="write_event_name">Event Name:</string>
+    <string name="give_event_name">Give your event a name</string>
+    <string name="event_pick_day">At Day:</string>
+    <string name="event_pick_when">When:</string>
+    <string name="event_pick_triggers">Do this:</string>
+    <string name="select_trigger">Event trigger</string>
+    <string name="event_initial_time">Time:</string>
+    <string name="event_between_time">Between time:</string>
+
+    <string name="daypicker_monday">M</string>  
+    <string name="daypicker_tuesday">T</string>
+    <string name="daypicker_wednesday">W</string>
+    <string name="daypicker_thursday">T</string>
+    <string name="daypicker_friday">F</string>
+    <string name="daypicker_saturday">S</string>
+    <string name="daypicker_sunday">S</string>
 </resources>

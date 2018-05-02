@@ -12,13 +12,13 @@ import p8project.sw801.data.model.db.Chain;
 
 @Dao
 public interface ChainDao {
-    @Query("SELECT * FROM chain")
+    @Query("SELECT * FROM chain ORDER BY brandName ASC")
     List<Chain> getAll();
 
     @Query("SELECT COUNT(*) from chain")
     Integer count();
 
-    @Query("SELECT * from chain WHERE brandName = :brandName")
+    @Query("SELECT * from chain WHERE brandName = :brandName LIMIT 1")
     Chain byChainName(String brandName);
 
     @Query("SELECT * FROM chain WHERE active=1")
