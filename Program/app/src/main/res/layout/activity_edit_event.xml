@@ -18,6 +18,7 @@
 
         <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
             xmlns:app="http://schemas.android.com/apk/res-auto"
+            xmlns:custom="http://schemas.android.com/apk/res/p8project.sw801.ui.custom"
             xmlns:tools="http://schemas.android.com/tools"
             android:id="@+id/event_activity_layout"
             android:layout_width="match_parent"
@@ -181,10 +182,16 @@
                         android:layout_marginTop="8dp"
                         android:text="@string/event_initial_time" />
 
+                    <!--
+                        android:time="@={viewModel.timeText}"
+                                                android:timeTest="1"
+
+                    -->
                     <p8project.sw801.ui.custom.TimePicker.TimePicker
                         android:layout_width="match_parent"
                         android:layout_height="50dp"
-                        app:layout_constraintTop_toBottomOf="@id/textViewTime" />
+                        app:layout_constraintTop_toBottomOf="@id/textViewTime"
+                        custom:currentTime="@{viewModel.startTime}" />
 
                 </android.support.constraint.ConstraintLayout>
 

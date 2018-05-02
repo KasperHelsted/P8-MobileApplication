@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import p8project.sw801.data.DataManager;
 import p8project.sw801.ui.base.BaseViewModel;
 import p8project.sw801.ui.custom.DayPicker;
-import p8project.sw801.ui.custom.TimePicker.TimePicker;
 import p8project.sw801.utils.rx.SchedulerProvider;
 
 public class EditEventViewModel extends BaseViewModel<EditEventNavigator> {
@@ -29,6 +28,8 @@ public class EditEventViewModel extends BaseViewModel<EditEventNavigator> {
     public ObservableField<String> eventName = new ObservableField<>();
     public ObservableInt locationCondition = new ObservableInt(0);
     public ObservableInt whenCondition = new ObservableInt(0);
+
+    public ObservableField<Integer> startTime = new ObservableField<>(0);
     /*
     public TimePicker startTime = new TimePicker();
     public TimePicker endTime = new TimePicker();
@@ -64,5 +65,6 @@ public class EditEventViewModel extends BaseViewModel<EditEventNavigator> {
         System.out.println("whenCondition: " + whenCondition.get());
 
         System.out.println("days: " + dayPicker.getDays());
+        //System.out.println("text: " + timeText.get());
     }
 }
