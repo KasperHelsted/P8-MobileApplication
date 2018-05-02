@@ -86,7 +86,7 @@ public class EditLocationSettingActivity extends BaseActivity<ActivityEditLocati
             nameTextView.setText(predefinedLocation.getName());
             coords = coordinate;
             predLoc = predefinedLocation;
-            Address add = CommonUtils.convertCoordinateToAddress(coordinate.getLatitude(),coordinate.getLatitude(),this);
+            Address add = CommonUtils.convertCoordinateToAddress(coordinate.getLatitude(),coordinate.getLongitude(),this);
             addressTextView.setText(add.getAddressLine(0) + ", " + add.getAddressLine(1) + ", " + add.getAddressLine(2));
         }
         else{
