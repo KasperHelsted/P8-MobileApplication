@@ -146,10 +146,10 @@
 
         <EditText
             android:id="@+id/editTextComment"
-            android:layout_width="377dp"
+            android:layout_width="0dp"
             android:layout_height="145dp"
-            android:layout_marginEnd="6dp"
-            android:layout_marginStart="6dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginStart="16dp"
             android:layout_marginTop="21dp"
             android:background="@drawable/edit_text_background"
             android:gravity="top|left"
