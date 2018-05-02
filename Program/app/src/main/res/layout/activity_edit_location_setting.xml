@@ -104,6 +104,7 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="32dp"
             android:text="Confirm"
+            android:theme="@style/CustomStyleButton"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.497"
             app:layout_constraintStart_toStartOf="parent"
