@@ -58,13 +58,6 @@ public class NestThermostat {
         this.name = name;
     }
 
-    public String getDeviceId() {
-        return deviceId;
-    }
-
-    public void setDeviceId(String deviceId) {
-        this.deviceId = deviceId;
-    }
 
     public Integer getSmartDeviceId() {
         return smartDeviceId;
@@ -74,4 +67,11 @@ public class NestThermostat {
         this.smartDeviceId = smartDeviceId;
     }
 
+    public String getDeviceId() {
+        return deviceId;
+    }
+
+    public void setDeviceId(String deviceId) {
+        this.deviceId = deviceId;
+    }
 }

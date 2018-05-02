@@ -1,9 +1,12 @@
 package p8project.sw801.ui.SmartDevice.AddSmartDevice;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.View;
@@ -12,7 +15,13 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import com.philips.lighting.hue.listener.PHLightListener;
+import com.nestlabs.sdk.GlobalUpdate;
+import com.nestlabs.sdk.NestAPI;
+import com.nestlabs.sdk.NestException;
+import com.nestlabs.sdk.NestListener;
+import com.nestlabs.sdk.NestToken;
+import com.nestlabs.sdk.Structure;
+import com.nestlabs.sdk.Thermostat;
 import com.philips.lighting.hue.sdk.PHAccessPoint;
 import com.philips.lighting.hue.sdk.PHBridgeSearchManager;
 import com.philips.lighting.hue.sdk.PHHueSDK;
@@ -22,11 +31,9 @@ import com.philips.lighting.model.PHBridge;
 import com.philips.lighting.model.PHHueError;
 import com.philips.lighting.model.PHHueParsingError;
 import com.philips.lighting.model.PHLight;
-import com.philips.lighting.model.PHLightState;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 import javax.inject.Inject;
 
@@ -35,10 +42,11 @@ import dagger.android.DispatchingAndroidInjector;
 import dagger.android.support.HasSupportFragmentInjector;
 import p8project.sw801.BR;
 import p8project.sw801.R;
-import p8project.sw801.data.model.db.PredefinedLocation;
 import p8project.sw801.data.model.db.SmartDevice;
 import p8project.sw801.data.model.db.Smartdevice.Accessories.HueLightbulbWhite;
+import p8project.sw801.data.model.db.Smartdevice.Accessories.NestThermostat;
 import p8project.sw801.data.model.db.Smartdevice.Controllers.HueBridge;
+import p8project.sw801.data.model.db.Smartdevice.Controllers.NestHub;
 import p8project.sw801.databinding.ActivityAddSmartDeviceBinding;
 import p8project.sw801.ui.SmartDevice.AccessPointListAdapter;
 import p8project.sw801.ui.base.BaseActivity;
@@ -63,8 +71,21 @@ public class AddSmartDeviceActivity extends BaseActivity<ActivityAddSmartDeviceB
     private ActivityAddSmartDeviceBinding mActivityAddSmartDeviceBinding;
     //Initializting a bridge object for null checking
     private HueBridge mhueBridge= null;
-    private Button searchButton;
+    private Button searchBridge;
+    private Button searchNest;
     private ListView brigdeListview;
+    private NestToken mToken;
+    private String deviceIdtester;
+    private Thermostat mThermostat;
+    private Structure mStructure;
+    private Activity mActivity;
+    private String CLIENT_ID;
+    private String CLIENT_SECRET;
+    private String REDIRECT_URL;
+    private NestAPI nestAPI;
+    private TextInputLayout TextInputSecret;
+    private TextInputLayout TextInputClientId;
+    public static final int AUTH_TOKEN_REQUEST_CODE = 27015;
 
 
 
@@ -96,7 +117,13 @@ public class AddSmartDeviceActivity extends BaseActivity<ActivityAddSmartDeviceB
 
         //ViewBindings
         brigdeListview = mActivityAddSmartDeviceBinding.bridgeList;
-        searchButton = mActivityAddSmartDeviceBinding.findNewBridge;
+        searchBridge = mActivityAddSmartDeviceBinding.findNewBridge;
+        searchNest = mActivityAddSmartDeviceBinding.buttonNestconfirm;
+        TextInputClientId = mActivityAddSmartDeviceBinding.textInputLayout2;
+        TextInputSecret = mActivityAddSmartDeviceBinding.textInputLayout3;
+
+        //
+        mActivity = this;
 
         //Register a SDK listener for actions related to connection
         phHueSDK.getNotificationManager().registerSDKListener(phsdkListener);
@@ -251,6 +278,7 @@ public class AddSmartDeviceActivity extends BaseActivity<ActivityAddSmartDeviceB
         sm.search(true, true);
     }
 
+
     public void ChangeToSmartDevice() {
         PHWizardAlertDialog.getInstance().closeProgressDialog();
         finish();
@@ -322,4 +350,120 @@ public class AddSmartDeviceActivity extends BaseActivity<ActivityAddSmartDeviceB
             doBridgeSearch();
         }
     }
+
+
+
+
+    //--- NEST SETUP ---
+    @Override
+    public void searchForNest(List<NestHub> nestHubs) {
+        if (nestHubs == null){
+            String id = TextInputClientId.getEditText().getText().toString();
+            String secret = TextInputSecret.getEditText().getText().toString();
+            if (CommonUtils.isNullOrEmpty(id) || CommonUtils.isNullOrEmpty(secret)){
+                Toast.makeText(getApplicationContext(), "Please input ClientID and Secret ID to add a Nest", Toast.LENGTH_SHORT).show();
+            }
+            else{
+                addNest(id, secret);
+            }
+        }
+        else{
+            DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    switch (which){
+                        case DialogInterface.BUTTON_POSITIVE:
+                            String id = TextInputClientId.getEditText().getText().toString();
+                            String secret = TextInputSecret.getEditText().getText().toString();
+                            addNest(id, secret);
+                            break;
+
+                        case DialogInterface.BUTTON_NEGATIVE:
+                            Toast.makeText(getApplicationContext(), "Canceled Nest search", Toast.LENGTH_SHORT).show();
+                            PHWizardAlertDialog.getInstance().closeProgressDialog();
+                            finish();
+                            break;
+                    }
+                }
+            };
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setMessage("An existing Nest already exists.\nDo you wish to search anyway?").setPositiveButton("Yes", dialogClickListener)
+                    .setNegativeButton("No", dialogClickListener).show();
+        }
+    }
+
+    @Override
+    public void changeToSmartDevice() {
+        PHWizardAlertDialog.getInstance().closeProgressDialog();
+        finish();
+    }
+
+    public void addNest(String client_id, String secret_id){
+        CLIENT_ID = client_id;
+        CLIENT_SECRET = secret_id;
+        NestAPI.setAndroidContext(mActivity);
+        nestAPI = NestAPI.getInstance();
+        nestAPI.setConfig(client_id,secret_id,"http://localhost:8080/auth/nest/callback");
+        nestAPI.launchAuthFlow(mActivity, AUTH_TOKEN_REQUEST_CODE);
+    }
+
+    private void getAllConnectedToNest(NestAPI n, NestToken token)
+    {
+        n.addGlobalListener(new NestListener.GlobalListener() {
+            @Override
+            public void onUpdate(@NonNull GlobalUpdate update) {
+                ArrayList<Thermostat> thermostatArrayList = update.getThermostats();
+                n.removeAllListeners();
+
+
+                //Add Nest to db
+                NestHub nestHub = new NestHub();
+                nestHub.setBearerToken(token.getToken());
+                nestHub.setClientId(n.getConfig().getClientID());
+                nestHub.setSecretId(n.getConfig().getClientSecret());
+                nestHub.setExpires(token.getExpiresIn());
+
+                //Add Thermo to db
+                List<NestThermostat> nestThermostatList = new ArrayList<>();
+                for (Thermostat thermostat : thermostatArrayList) {
+                    NestThermostat nestThermostat = new NestThermostat();
+                    nestThermostat.setName(thermostat.getName());
+                    nestThermostat.setDeviceId(thermostat.getDeviceId());
+                    nestThermostatList.add(nestThermostat);
+                    deviceIdtester = thermostat.getDeviceId();
+                }
+                mSmartDeviceViewModel.insertNest(nestHub,nestThermostatList);
+            }
+        });
+
+
+
+    }
+
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent intent) {
+        if (requestCode == AUTH_TOKEN_REQUEST_CODE && resultCode == RESULT_OK) {
+            NestToken token = NestAPI.getAccessTokenFromIntent(intent);
+            nestAPI.authWithToken(token, new NestListener.AuthListener() {
+                @Override
+                public void onAuthSuccess() {
+                    getAllConnectedToNest(nestAPI,token);
+                }
+
+                @Override
+                public void onAuthFailure(NestException e) {
+                    Toast.makeText(getApplicationContext(), "Nest Auth failed", Toast.LENGTH_SHORT).show();
+                }
+
+                @Override
+                public void onAuthRevoked() {
+                    // Your previously authenticated connection has become unauthenticated.
+                    // Recommendation: Relaunch an auth flow with nest.launchAuthFlow().
+                }
+            });
+        }
+    }
+
+
 }

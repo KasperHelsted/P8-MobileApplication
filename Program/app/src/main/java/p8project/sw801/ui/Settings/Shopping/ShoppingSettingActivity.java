@@ -111,35 +111,6 @@ public class ShoppingSettingActivity extends BaseActivity<ActivityShoppingSettin
         {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                // TODO Auto-generated method stub
-
-
-                /*
-                sparseBooleanArray = listview.getCheckedItemPositions();
-
-                String ValueHolder = "" ;
-
-                int i = 0 ;
-
-                while (i < sparseBooleanArray.size()) {
-
-                    if (sparseBooleanArray.valueAt(i)) {
-
-                        ValueHolder += list.get(sparseBooleanArray.keyAt(i)) + ",";
-                    }
-
-                    i++ ;
-                }
-
-                ValueHolder = ValueHolder.replaceAll("(,)*$", "");
-
-                if (ValueHolder != null && !ValueHolder.isEmpty()) {
-
-                    Toast.makeText(ShoppingSettingActivity.this, "Selected shops = " + ValueHolder, Toast.LENGTH_LONG).show();
-                }
-*/
-
-                //TODO CHANGE LIST TO CONTAIN OBJECTS
 
                 Chain item = list.get(position);
                 if(item.isActive())
@@ -228,7 +199,6 @@ public class ShoppingSettingActivity extends BaseActivity<ActivityShoppingSettin
 
         @Override
         protected FilterResults performFiltering(CharSequence constraint) {
-            // TODO Auto-generated method stub
 
             FilterResults Result = new FilterResults();
             // if constraint is empty return the original names
@@ -256,7 +226,6 @@ public class ShoppingSettingActivity extends BaseActivity<ActivityShoppingSettin
 
         @Override
         protected void publishResults(CharSequence constraint, FilterResults results) {
-            // TODO Auto-generated method stub
             mChainArrayList = (ArrayList<Chain>) results.values;
             notifyDataSetChanged();
         }

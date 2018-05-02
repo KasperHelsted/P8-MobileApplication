@@ -2,6 +2,7 @@ package p8project.sw801.ui.Settings.GlobalMuteSetting;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ImageView;
@@ -47,7 +48,12 @@ public class GlobalMuteSettingActivity extends BaseActivity<ActivityGlobalMuteBi
     }
 
     public void deleteGlobalMute(GlobalMute globalMute){
-        mGlobalMuteSettingViewModel.deleteGlobalMute(globalMute);
+        new AlertDialog.Builder(this)
+                .setTitle("Delete Globalmute")
+                .setMessage("Do you really want to delete the Global mute: " + globalMute.getName() + "?")
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .setPositiveButton(android.R.string.yes, (dialog, whichButton) ->mGlobalMuteSettingViewModel.deleteGlobalMute(globalMute))
+                .setNegativeButton(android.R.string.no, null).show();
     }
 
     @Override
@@ -91,5 +97,11 @@ public class GlobalMuteSettingActivity extends BaseActivity<ActivityGlobalMuteBi
             listview.setAdapter(myAdapter);
         }
 
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mGlobalMuteSettingViewModel.getListFromDb();
     }
 }

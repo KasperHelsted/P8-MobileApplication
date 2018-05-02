@@ -121,7 +121,6 @@ public class AddEvent extends BaseActivity<ActivityAddEventBinding, AddEventView
 
             @Override
             public void onNothingSelected(AdapterView<?> arg0) {
-                // TODO Auto-generated method stub
             }
         });
         spinnerLocation.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -136,7 +135,6 @@ public class AddEvent extends BaseActivity<ActivityAddEventBinding, AddEventView
 
             @Override
             public void onNothingSelected(AdapterView<?> arg0) {
-                // TODO Auto-generated method stub
             }
         });
 
@@ -168,15 +166,14 @@ public class AddEvent extends BaseActivity<ActivityAddEventBinding, AddEventView
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
-/*                if (position == 4) {
+                if (position == 4) {
                     textViewTime.setVisibility(View.VISIBLE);
                     AtTime.setEnabled(true);
                     AtTime.setVisibility(View.VISIBLE);
                     textViewBetweenTime.setVisibility(View.VISIBLE);
                     betweenTime.setEnabled(true);
                     betweenTime.setVisibility(View.VISIBLE);
-                } else*/
-                if (position == 0) {
+                } else if (position == 0) {
                     textViewTime.setVisibility(View.GONE);
                     AtTime.setEnabled(false);
                     AtTime.setVisibility(View.GONE);
@@ -206,7 +203,7 @@ public class AddEvent extends BaseActivity<ActivityAddEventBinding, AddEventView
                 if (position == 0) {
                     addressTextView.setVisibility(View.GONE);
                 } else if (position == 4) {
-                    //TODO OPEN NEW ACTIVITY/FRAGMENT/SPINNER AND CALL VIEWMODEL TO GET DATA
+
                 } else {
                     addressTextView.setVisibility(View.VISIBLE);
                 }
@@ -251,15 +248,16 @@ public class AddEvent extends BaseActivity<ActivityAddEventBinding, AddEventView
 
         getSupportFragmentManager()
                 .beginTransaction()
-                .disallowAddToBackStack()
+                .addToBackStack("fragment")
                 .add(R.id.placementfragment, NotificationOrSmartdevice.newInstance(), NotificationOrSmartdevice.TAG)
                 .commit();
     }
 
     @Override
     public void onBackPressed() {
-            super.onBackPressed();
-
+        if (getSupportFragmentManager().getBackStackEntryCount() > 0)
+            getSupportFragmentManager().popBackStackImmediate();
+        else super.onBackPressed();
     }
 
     @Override
@@ -281,6 +279,7 @@ public class AddEvent extends BaseActivity<ActivityAddEventBinding, AddEventView
 
     public void updateActiveLocation(PredefinedLocation loc) {
         location = loc;
+
     }
 
     public static class TimePickerFragment1 extends DialogFragment
@@ -400,7 +399,15 @@ public class AddEvent extends BaseActivity<ActivityAddEventBinding, AddEventView
                 }
                 case (2): {
                     if (resultCode == Activity.RESULT_OK) {
-                        mAddEventViewModel.updateLocationData();
+                        int id = data.getIntExtra("predId",0);
+                        String name = data.getStringExtra("predName");
+                        int coordId = data.getIntExtra("predCoordId",0);
+                        PredefinedLocation predefinedLocation = new PredefinedLocation();
+                        predefinedLocation.setName(name);
+                        predefinedLocation.setId(id);
+                        predefinedLocation.setCoordinateId(coordId);
+                        updateActiveLocation(predefinedLocation);
+                        addressTextView.setText(location.getName());
                     }
                     break;
                 }
@@ -433,14 +440,11 @@ public class AddEvent extends BaseActivity<ActivityAddEventBinding, AddEventView
     public void submitEventClick() {
         newEvent = new Event();
         newWhen = new When();
-        //TODO
-        //Crashes if any of the attributes we try to set is NULL
-        //Refreshing the MyEvent page after creating the new event
+
 
         //--Creating event--
         newEvent.setName(eventName.getText().toString());
         newEvent.setActive(true);
-        mAddEventViewModel.saveEvent(newEvent);
 
         //--Creating When--
         newWhen.setTimeCondition(spinner.getSelectedItemPosition());
@@ -468,7 +472,11 @@ public class AddEvent extends BaseActivity<ActivityAddEventBinding, AddEventView
                 if (newWhen.getListWeekDays().isEmpty()) {
                     Toast.makeText(this, "You must set a day", Toast.LENGTH_SHORT).show();
                 }
+                if (CommonUtils.isNullOrEmpty(betweenTime.getText().toString())){
+                    Toast.makeText(this, "Please specify a time", Toast.LENGTH_SHORT).show();
+                }
                 if (!CommonUtils.isNullOrEmpty(locName) && coordinate.getLongitude() != 0 && coordinate != null) {
+                    mAddEventViewModel.saveEvent(newEvent);
                     mAddEventViewModel.saveCoordinate(newWhen, addMyEvents, coordinate);
                     Toast.makeText(this, "The event has been created from coordinate", Toast.LENGTH_SHORT).show();
                     finish();
@@ -486,7 +494,11 @@ public class AddEvent extends BaseActivity<ActivityAddEventBinding, AddEventView
             try {
                 if (newWhen.getListWeekDays().isEmpty()) {
                     Toast.makeText(this, "You must set a day", Toast.LENGTH_SHORT).show();
+                }
+                if (CommonUtils.isNullOrEmpty(betweenTime.getText().toString())){
+                        Toast.makeText(this, "Please specify a time", Toast.LENGTH_SHORT).show();
                 } else if (!CommonUtils.isNullOrEmpty(locName)) {
+                    mAddEventViewModel.saveEvent(newEvent);
                     mAddEventViewModel.submitEventToDatabase(newWhen, addMyEvents, location);
                     Toast.makeText(this, "The event has been created from predefined location", Toast.LENGTH_SHORT).show();
                     finish();
@@ -504,9 +516,9 @@ public class AddEvent extends BaseActivity<ActivityAddEventBinding, AddEventView
         else if (spinnerLocation.getSelectedItemPosition() == 0 && spinner.getSelectedItemPosition() != 0){
             try{
             if (!CommonUtils.isNullOrEmpty(locName) && !newWhen.getListWeekDays().isEmpty()){
-                Toast.makeText(this, "You must set a day", Toast.LENGTH_SHORT).show();
+                mAddEventViewModel.saveEvent(newEvent);
                 mAddEventViewModel.submitEventToDatabase(newWhen, addMyEvents, location);
-                Toast.makeText(this, "Created a location only event", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Created a time only event", Toast.LENGTH_SHORT).show();
                 finish();
             }else{
                 Toast.makeText(this, "You must specify a name AND a day", Toast.LENGTH_SHORT).show();
@@ -519,9 +531,9 @@ public class AddEvent extends BaseActivity<ActivityAddEventBinding, AddEventView
         else if(spinner.getSelectedItemPosition() != 0 && spinnerLocation.getSelectedItemPosition() == 0){
             try{
                 if (!CommonUtils.isNullOrEmpty(locName) && !newWhen.getListWeekDays().isEmpty()){
-                    Toast.makeText(this, "You must set a day", Toast.LENGTH_SHORT).show();
+                    mAddEventViewModel.saveEvent(newEvent);
                     mAddEventViewModel.submitEventToDatabase(newWhen, addMyEvents, location);
-                    Toast.makeText(this, "Created a time only event", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, "Created a location only event", Toast.LENGTH_SHORT).show();
                     finish();
                 }else{
                     Toast.makeText(this, "You must specify a name AND a day", Toast.LENGTH_SHORT).show();

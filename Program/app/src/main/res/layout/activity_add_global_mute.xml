@@ -106,7 +106,7 @@
             app:layout_constraintHorizontal_bias="0.211"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textViewBetween" />
-
+<!--
         <TextView
             android:id="@+id/textViewLocation"
             android:layout_width="wrap_content"
@@ -116,7 +116,7 @@
             android:text="Location:"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/editTextTimeBetween" />
-
+-->
         <TextView
             android:id="@+id/textViewComment"
             android:layout_width="wrap_content"
@@ -124,8 +124,8 @@
             android:layout_marginStart="16dp"
             android:text="Comment:"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/spinnerLocation" />
-
+            app:layout_constraintTop_toBottomOf="@+id/editTextTimeBetween" />
+<!--
         <Spinner
             android:id="@+id/spinnerLocation"
             android:layout_width="0dp"
@@ -140,14 +140,15 @@
             app:layout_constraintHorizontal_bias="0.812"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textViewLocation" />
+-->
 
         <EditText
             android:id="@+id/editTextComment"
             android:layout_width="377dp"
             android:layout_height="145dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="4dp"
+            android:layout_marginEnd="6dp"
+            android:layout_marginStart="6dp"
+            android:layout_marginTop="21dp"
             android:background="@drawable/edit_text_background"
             android:gravity="top|left"
             android:hint="Enter comment here"
@@ -169,6 +170,7 @@
             android:layout_marginTop="8dp"
             android:onClick="closeAddGlobalMute"
             android:text="Cancel"
+            android:theme="@style/CustomStyleButton"
             app:layout_constraintEnd_toStartOf="@+id/buttonCancel"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/editTextComment" />
@@ -182,6 +184,7 @@
             android:layout_marginTop="8dp"
             android:onClick="@{() -> viewModel.submitGlobalMuteClick()}"
             android:text="Create global mute"
+            android:theme="@style/CustomStyleButton"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/buttonCreateGlobalMute"
             app:layout_constraintTop_toBottomOf="@+id/editTextComment" />

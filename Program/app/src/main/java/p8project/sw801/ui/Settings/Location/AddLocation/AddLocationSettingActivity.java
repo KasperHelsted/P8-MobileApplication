@@ -20,6 +20,7 @@ import io.reactivex.exceptions.OnErrorNotImplementedException;
 import p8project.sw801.BR;
 import p8project.sw801.R;
 import p8project.sw801.data.model.db.Coordinate;
+import p8project.sw801.data.model.db.PredefinedLocation;
 import p8project.sw801.databinding.ActivityAddLocationSettingBinding;
 import p8project.sw801.ui.Settings.Location.LocationSettingActivity;
 import p8project.sw801.ui.base.BaseActivity;
@@ -112,9 +113,14 @@ public class AddLocationSettingActivity extends BaseActivity<ActivityAddLocation
     }
 
     @Override
-    public void openLocationActivty()
+    public void openLocationActivty(PredefinedLocation pred)
     {
-       finish();
+        Intent resultIntent = new Intent();
+        resultIntent.putExtra("predId",pred.getId());
+        resultIntent.putExtra("predName", pred.getName());
+        resultIntent.putExtra("predCoordId",pred.getCoordinateId());
+        setResult(Activity.RESULT_OK, resultIntent);
+        finish();
     }
 
     @Override

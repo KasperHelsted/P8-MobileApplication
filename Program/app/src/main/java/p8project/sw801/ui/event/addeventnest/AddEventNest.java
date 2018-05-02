@@ -49,7 +49,7 @@ public class AddEventNest extends BaseActivity<ActivityAddEventNestBinding, AddE
 
     public void setUp(){
         deviceNameTextView.setText("Device: " + mySmartDevice.getDeviceName());
-        assesoryNameTextView.setText("Light: " + myAccessory.getName());
+        assesoryNameTextView.setText("Thermostat: " + myAccessory.getName());
         seekBarNest.setProgress(20);
         seekbarTextView.setText(String.valueOf(seekBarNest.getProgress()));
 

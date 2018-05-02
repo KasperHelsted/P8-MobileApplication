@@ -79,7 +79,7 @@
             android:onClick="@{() -> viewModel.showMapActivity()}"
             android:paddingLeft="5dp"
             android:paddingRight="8dp"
-            android:text="At Location (Default - At no specific location)"
+            android:text="Please select a location"
 
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
@@ -93,13 +93,14 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="16dp"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="176dp"
+            android:layout_marginTop="32dp"
             android:gravity="center"
+            android:onClick="@{() -> viewModel.submitLocationClick()}"
             android:text="Save"
+            android:theme="@style/CustomStyleButton"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.498"
             app:layout_constraintStart_toStartOf="parent"
-            android:onClick="@{() -> viewModel.submitLocationClick()}"
             app:layout_constraintTop_toBottomOf="@+id/addLocation" />
 
     </android.support.constraint.ConstraintLayout>

@@ -56,8 +56,7 @@ public class LocationSettingActivity extends BaseActivity<ActivityLocationSettin
     private ImageView imageView;
     private TextView textView;
     View view;
-    //List of settings
-    ArrayList<String> locationSettings;
+    private LocationSettingAdapter locationSettingAdapter;
 
 
     @Override
@@ -74,7 +73,6 @@ public class LocationSettingActivity extends BaseActivity<ActivityLocationSettin
 
     private void updateListView(){
         mLocationViewModel.getLatestPredefinedLocationData();
-
     }
 
     private void setupBindings() {
@@ -91,13 +89,11 @@ public class LocationSettingActivity extends BaseActivity<ActivityLocationSettin
 
     @Override
     public void handleError(Throwable throwable) {
-        //todo fejl?
     }
 
     @Override
     public void onLocationClicked(PredefinedLocation predefinedLocation) {
         Intent intent = new Intent(LocationSettingActivity.this, EditLocationSettingActivity.class);
-        System.out.println(predefinedLocation.getId());
         intent.putExtra("id",predefinedLocation.getId());
         startActivityForResult(intent,1);
     }
@@ -110,9 +106,20 @@ public class LocationSettingActivity extends BaseActivity<ActivityLocationSettin
 
     @Override
     public void createList(List<PredefinedLocation> predefinedLocationList) {
-        LocationSettingAdapter locationSettingAdapter = new LocationSettingAdapter(view.getContext(), (ArrayList<PredefinedLocation>) predefinedLocationList,LocationSettingActivity.this);
+        locationSettingAdapter = new LocationSettingAdapter(view.getContext(), (ArrayList<PredefinedLocation>) predefinedLocationList,LocationSettingActivity.this);
+        locationSettingAdapter.notifyDataSetChanged();
+        listView.deferNotifyDataSetChanged();
         listView.setAdapter(locationSettingAdapter);
+        System.out.println("Datasæt changed");
+
     }
+
+    @Override
+    protected void onResume() {
+        updateListView();
+        super.onResume();
+    }
+
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -121,7 +128,7 @@ public class LocationSettingActivity extends BaseActivity<ActivityLocationSettin
             case (1): {
                 if (resultCode == Activity.RESULT_OK)
                 {
-                    System.out.println("CLICK IN IMAGEVIEW");
+                    updateListView();
                 }
                 break;
             }
@@ -132,6 +139,10 @@ public class LocationSettingActivity extends BaseActivity<ActivityLocationSettin
                 }
             }
         }
+    }
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState){
+        updateListView();
     }
 
 }

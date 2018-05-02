@@ -10,8 +10,8 @@ public class EditLocationViewModel extends BaseViewModel<EditLocationNavigator> 
     public EditLocationViewModel(DataManager dataManager, SchedulerProvider schedulerProvider) {
         super(dataManager, schedulerProvider);
     }
-    public void submitEditEventClick(){
-        getNavigator().submitEditEventClick();
+    public void submitEditLocationClick(){
+        getNavigator().submitEditLocationClick();
     }
 
     public void showMapActivity() {
@@ -22,31 +22,33 @@ public class EditLocationViewModel extends BaseViewModel<EditLocationNavigator> 
         getNavigator().openLocationActivty();
     }
 
-    public void updatePredefinedLoc(Coordinate coordinate,String locName){
+    public void updatePredefinedLoc(Coordinate coordinate,String locName, PredefinedLocation predefinedLocation){
         getCompositeDisposable().add(
                 getDataManager().updateCoordinate(
                         coordinate
                 ).subscribeOn(getSchedulerProvider().io())
                         .observeOn(getSchedulerProvider().ui())
                         .subscribe(response -> {
-                            updatePredefinedLocation(coordinate,locName);
+                            updatePredefinedLocation(coordinate,locName,predefinedLocation);
                         })
         );
     }
 
-    private void updatePredefinedLocation(Coordinate coords, String locName) {
+    private void updatePredefinedLocation(Coordinate coords, String locName, PredefinedLocation predefinedLocation) {
 
-        PredefinedLocation pref = new PredefinedLocation();
-        pref.setCoordinateId(coords.getId());
-        pref.setName(locName);
+        predefinedLocation.setName(locName);
+        predefinedLocation.setCoordinateId(coords.getId());
+        predefinedLocation.setName(locName);
 
         getCompositeDisposable().add(
                 getDataManager().updatePredefinedLocation(
-                        pref
+                        predefinedLocation
                 ).subscribeOn(getSchedulerProvider().io())
                         .observeOn(getSchedulerProvider().ui())
                         .subscribe(response -> {
                             if (response != null) {
+                                System.out.println("Updated Location");
+                                getNavigator().openLocationActivty();
 
                             } else {
                                 System.out.println("response was null!");
@@ -68,7 +70,6 @@ public class EditLocationViewModel extends BaseViewModel<EditLocationNavigator> 
                                 sendCoordinateFromId(predefinedLocation);
                             }
                             else{
-                                //TODO: ERROR?
                                 System.out.println("response was null!");
                             }
 
