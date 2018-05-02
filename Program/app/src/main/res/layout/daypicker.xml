@@ -11,6 +11,7 @@
         android:layout_marginRight="3dp"
         android:textOff="M"
         android:textOn="M"
+        android:checked="true"
         style="@style/toggleButton"
         android:background="@drawable/toggle_bg" />
     <ToggleButton
@@ -21,6 +22,7 @@
         android:layout_height="40dp"
         android:textOff="T"
         android:textOn="T"
+        android:checked="true"
         style="@style/toggleButton"
         android:background="@drawable/toggle_bg" />
 
@@ -32,6 +34,7 @@
         android:layout_height="40dp"
         android:textOff="W"
         android:textOn="W"
+        android:checked="true"
         style="@style/toggleButton"
         android:background="@drawable/toggle_bg" />
 
@@ -43,6 +46,7 @@
         android:layout_height="40dp"
         android:textOff="T"
         android:textOn="T"
+        android:checked="true"
         style="@style/toggleButton"
         android:background="@drawable/toggle_bg" />
 
@@ -54,6 +58,7 @@
         android:layout_height="40dp"
         android:textOff="F"
         android:textOn="F"
+        android:checked="true"
         style="@style/toggleButton"
         android:background="@drawable/toggle_bg" />
 
@@ -65,6 +70,7 @@
         android:layout_height="40dp"
         android:textOff="S"
         android:textOn="S"
+        android:checked="true"
         style="@style/toggleButton"
         android:background="@drawable/toggle_bg" />
 
@@ -76,6 +82,7 @@
         android:layout_height="40dp"
         android:textOff="S"
         android:textOn="S"
+        android:checked="true"
         style="@style/toggleButton"
         android:background="@drawable/toggle_bg" />
 </LinearLayout>
