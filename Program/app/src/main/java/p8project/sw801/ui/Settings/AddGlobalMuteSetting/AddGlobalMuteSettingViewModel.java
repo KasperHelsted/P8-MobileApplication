@@ -25,8 +25,8 @@ public class AddGlobalMuteSettingViewModel extends BaseViewModel<AddGlobalMuteSe
     //public final ObservableInt predefinedLocation = new ObservableInt(0);
     public final ObservableField<String> comment = new ObservableField<>("");
 
-    private Long startTimeLong = 0L;
-    private Long endTimeLong = 0L;
+    public Long startTimeLong = 0L;
+    public Long endTimeLong = 0L;
 
     private boolean settingStartTime = false;
 
@@ -84,7 +84,7 @@ public class AddGlobalMuteSettingViewModel extends BaseViewModel<AddGlobalMuteSe
 
         setIsLoading(true);
 
-        getNavigator().sendNotification("Global Mute Inserted");
+        //getNavigator().sendNotification("Global Mute Inserted");
         getCompositeDisposable().add(
                 getDataManager().insertGlobalMute(
                         new GlobalMute(
