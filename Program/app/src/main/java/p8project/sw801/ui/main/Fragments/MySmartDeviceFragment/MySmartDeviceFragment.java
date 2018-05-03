@@ -33,8 +33,8 @@ public class MySmartDeviceFragment extends BaseFragment<FragmentMySmartDeviceBin
     MySmartDeviceViewModel mMySmartDeviceViewModel;
 
     /**
-     *
-     * @return
+     * Constructor for the fragment
+     * @return The fragment
      */
     public static MySmartDeviceFragment newInstance() {
         Bundle args = new Bundle();
@@ -46,7 +46,7 @@ public class MySmartDeviceFragment extends BaseFragment<FragmentMySmartDeviceBin
     }
 
     /**
-     *
+     * On resume method. Calls the database to get the newest list of smart devices
      */
     @Override
     public void onResume() {
@@ -55,8 +55,8 @@ public class MySmartDeviceFragment extends BaseFragment<FragmentMySmartDeviceBin
     }
 
     /**
-     *
-     * @return
+     * Gets the binding variable.
+     * @return The binding variable.
      */
     @Override
     public int getBindingVariable() {
@@ -64,8 +64,8 @@ public class MySmartDeviceFragment extends BaseFragment<FragmentMySmartDeviceBin
     }
 
     /**
-     *
-     * @return
+     * Get id for the layout for this page.
+     * @return Layout id.
      */
     @Override
     public int getLayoutId() {
@@ -73,8 +73,8 @@ public class MySmartDeviceFragment extends BaseFragment<FragmentMySmartDeviceBin
     }
 
     /**
-     *
-     * @return
+     * Get the instance of the view model.
+     * @return Instance of the view model.
      */
     @Override
     public MySmartDeviceViewModel getViewModel() {
@@ -82,17 +82,8 @@ public class MySmartDeviceFragment extends BaseFragment<FragmentMySmartDeviceBin
     }
 
     /**
-     *
-     * @param throwable
-     */
-    @Override
-    public void handleError(Throwable throwable) {
-        // handle error
-    }
-
-    /**
-     *
-     * @param savedInstanceState
+     * On create method for MySmartDeviceFragment.
+     * @param savedInstanceState The saved instance state.
      */
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -102,11 +93,11 @@ public class MySmartDeviceFragment extends BaseFragment<FragmentMySmartDeviceBin
     }
 
     /**
-     *
-     * @param inflater
-     * @param container
-     * @param savedInstanceState
-     * @return
+     * On create view method for MySmartDeviceFragment. Instantiates and sets up all required fields for the page.
+     * @param inflater The infater used from the activity to inflate this fragment.
+     * @param container The container containing this fragment.
+     * @param savedInstanceState The saved instance state if there is one.
+     * @return The inflated view.
      */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -123,7 +114,8 @@ public class MySmartDeviceFragment extends BaseFragment<FragmentMySmartDeviceBin
     }
 
     /**
-     *
+     * Method used when the user presses the add smart device button.
+     * Start a new AddSmartDevice activity.
      */
     @Override
     public void addSmartDevice() {
@@ -132,8 +124,9 @@ public class MySmartDeviceFragment extends BaseFragment<FragmentMySmartDeviceBin
     }
 
     /**
-     *
-     * @param smartDevice
+     * Method used when the user presses the delete button on a displayed smart device.
+     * Opens a confirmation dialog.
+     * @param smartDevice The smart device object to be deleted.
      */
     @Override
     public void deleteSmartDevice(SmartDevice smartDevice) {
@@ -146,8 +139,8 @@ public class MySmartDeviceFragment extends BaseFragment<FragmentMySmartDeviceBin
     }
 
     /**
-     *
-     * @param smartDevice
+     * Toggle method for smart devices.
+     * @param smartDevice The smart device to toggle.
      */
     @Override
     public void toggleSmartDevice(SmartDevice smartDevice) {
@@ -155,8 +148,8 @@ public class MySmartDeviceFragment extends BaseFragment<FragmentMySmartDeviceBin
     }
 
     /**
-     *
-     * @param smartDevice
+     * On click method for smart devices.
+     * @param smartDevice The clicked smart device.
      */
     @Override
     public void onItemClick(SmartDevice smartDevice) {
@@ -164,8 +157,8 @@ public class MySmartDeviceFragment extends BaseFragment<FragmentMySmartDeviceBin
     }
 
     /**
-     *
-     * @param smartDeviceList
+     * Method called to update adapter rendering the list of smart devices.
+     * @param smartDeviceList The new list of smart devices.
      */
     @Override
     public void updateSmartDevice(List<SmartDevice> smartDeviceList) {
@@ -173,7 +166,7 @@ public class MySmartDeviceFragment extends BaseFragment<FragmentMySmartDeviceBin
     }
 
     /**
-     *
+     * Method used to set up the view.
      */
     private void setUp() {
         mLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
@@ -184,7 +177,7 @@ public class MySmartDeviceFragment extends BaseFragment<FragmentMySmartDeviceBin
     }
 
     /**
-     *
+     * Method used to instantiate an observer used to access the live data objects on the view.
      */
     private void subscribeToLiveData() {
         mMySmartDeviceViewModel.getMySmartDevicesListLiveData().observe(this, smartDevices -> mMySmartDeviceViewModel.addMySmartDevicesItemsToList(smartDevices));
