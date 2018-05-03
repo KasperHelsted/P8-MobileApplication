@@ -301,9 +301,16 @@ public class AddEvent extends BaseActivity<ActivityAddEventBinding, AddEventView
         public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
             startHour = hourOfDay;
             startMin = minute;
-            //startDate = timeFormat.parse(hourOfDay + ":" + minute);
-            String time = String.valueOf(hourOfDay) + ":" + String.valueOf(minute);
-            AtTime.setText(time);
+
+            if (minute < 10){
+                String tempminute;
+                tempminute = "0"+String.valueOf(minute);
+                String time = String.valueOf(hourOfDay) + ":" + tempminute;
+                AtTime.setText(time);
+            } else{
+                String time = String.valueOf(hourOfDay) + ":" + String.valueOf(minute);
+                AtTime.setText(time);
+            }
         }
     }
 
@@ -326,10 +333,15 @@ public class AddEvent extends BaseActivity<ActivityAddEventBinding, AddEventView
         public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
             endHour = hourOfDay;
             endMin = minute;
-            //endDate = timeFormat.parse(hourOfDay + ":" + minute);
-
-            String time = String.valueOf(hourOfDay) + ":" + String.valueOf(minute);
-            betweenTime.setText(time);
+            if (minute < 10){
+                String tempminute;
+                tempminute = "0"+String.valueOf(minute);
+                String time = String.valueOf(hourOfDay) + ":" + tempminute;
+                AtTime.setText(time);
+            } else{
+                String time = String.valueOf(hourOfDay) + ":" + String.valueOf(minute);
+                AtTime.setText(time);
+            }
         }
     }
 
