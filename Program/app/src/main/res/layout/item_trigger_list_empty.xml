@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="p8project.sw801.ui.event.editevent.triggersList.TriggerListEmptyItemViewModel" />
+    </data>
+
+    <LinearLayout
+        android:id="@+id/linearLayoutView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical">
+
+    </LinearLayout>
+</layout>

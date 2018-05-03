@@ -226,20 +226,25 @@
                     android:id="@+id/textViewDoThis"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:paddingBottom="8dp"
                     android:text="@string/event_pick_triggers"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent" />
 
-                <TextView
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/recyclerView_myTriggers"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:adapter="@{viewModel.eventTriggersObservableArrayList}"
+                    app:layout_constraintTop_toBottomOf="@+id/textViewDoThis" />
+
+                <Button
                     android:id="@+id/addEventTriggerStatic"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
-                    android:background="@drawable/spinner_border"
-                    android:drawableEnd="@drawable/ic_add_black_18dp"
-                    android:gravity="center_vertical"
                     android:text="@string/select_trigger"
-                    app:layout_constraintTop_toBottomOf="@+id/textViewDoThis" />
+                    android:theme="@style/CustomStyleButton"
+                    app:layout_constraintTop_toBottomOf="@+id/recyclerView_myTriggers" />
             </android.support.constraint.ConstraintLayout>
 
             <android.support.constraint.ConstraintLayout
@@ -260,7 +265,7 @@
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="16dp"
                     android:onClick="@{() -> viewModel.close()}"
-                    android:text="Cancel"
+                    android:text="@string/anullerTimePicker"
                     android:theme="@style/CustomStyleButton"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@+id/buttonCreateEvent"
@@ -276,7 +281,7 @@
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="16dp"
                     android:onClick="@{() -> viewModel.tester()}"
-                    android:text="Create Event"
+                    android:text="@string/event_update"
                     android:theme="@style/CustomStyleButton"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
