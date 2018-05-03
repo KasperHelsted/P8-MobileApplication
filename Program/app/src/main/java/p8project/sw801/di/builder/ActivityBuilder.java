@@ -41,8 +41,6 @@ import p8project.sw801.ui.main.Fragments.MyEventsFragment.MyEventsFragmentProvid
 import p8project.sw801.ui.main.Fragments.MySmartDeviceFragment.MySmartDeviceProvider;
 import p8project.sw801.ui.main.MainActivity;
 import p8project.sw801.ui.main.MainActivityModule;
-import p8project.sw801.ui.splash.SplashActivity;
-import p8project.sw801.ui.splash.SplashActivityModule;
 
 /**
  * Created by Kasper Helsted on 4/4/2018.
@@ -93,9 +91,6 @@ public abstract class ActivityBuilder {
 
     @ContributesAndroidInjector(modules = AddEventNestModule.class)
     abstract AddEventNest bindAddEventNest();
-
-    @ContributesAndroidInjector(modules = SplashActivityModule.class)
-    abstract SplashActivity bindSplashActivity();
 
     @ContributesAndroidInjector(modules = {
             AddGlobalMuteSettingModule.class,
