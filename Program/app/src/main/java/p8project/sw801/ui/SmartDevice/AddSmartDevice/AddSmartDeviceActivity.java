@@ -55,6 +55,7 @@ import p8project.sw801.ui.custom.PHWizardAlertDialog;
 import p8project.sw801.utils.CommonUtils;
 import p8project.sw801.utils.HueUtilities;
 
+
 public class AddSmartDeviceActivity extends BaseActivity<ActivityAddSmartDeviceBinding, AddSmartDeviceViewModel> implements AdapterView.OnItemClickListener, AddSmartDeviceNavigator, HasSupportFragmentInjector {
 
     //Adapter for listing HueAccessPoints
@@ -88,34 +89,58 @@ public class AddSmartDeviceActivity extends BaseActivity<ActivityAddSmartDeviceB
     public static final int AUTH_TOKEN_REQUEST_CODE = 27015;
 
 
-
+    /**
+     *  MVVM method for bindings
+     * @return The viewmodel bindings
+     */
     @Override
     public int getBindingVariable() {
         return BR.viewModel;
     }
 
+    /**
+     * Specififies the view corresponding to the class
+     * @return the ID of the layout
+     */
     @Override
     public int getLayoutId() {
         return R.layout.activity_add_smart_device;
     }
 
+    /**
+     * Gets the viewmodel and bindings
+     * @return A viewmodel instance of the class
+     */
     @Override
     public AddSmartDeviceViewModel getViewModel() {
         return mSmartDeviceViewModel;
     }
 
+    /**
+     * Method to handle the user leaving the addsmartdevice page
+     * Used  to remove the HueSDK listeners
+     */
     @Override
     protected void onPause() {
         super.onPause();
         phHueSDK.getNotificationManager().unregisterSDKListener(phsdkListener);
     }
 
+    /**
+     * Method used to handle the user re-entering after leaving
+     * Used to restart the HueSDK listeners
+     */
     @Override
     protected void onResume(){
         super.onResume();
         phHueSDK.getNotificationManager().registerSDKListener(phsdkListener);
     }
 
+    /**'
+     * The first method called when the Acvitvity is created
+     * Used to initialize the SDK's and setup MVVM
+     * @param savedInstanceState the state
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -145,7 +170,16 @@ public class AddSmartDeviceActivity extends BaseActivity<ActivityAddSmartDeviceB
         brigdeListview.setAdapter(adapter);
     }
 
+    /**
+     * Hue SDK listener
+     * used to establish connections and handle errors coming from the bridge
+     */
     private PHSDKListener phsdkListener = new PHSDKListener() {
+
+        /**
+         * Event raised by the SDK listener when accesspoints has been found
+         * @param accessPoint The list of found accesspoints
+         */
         @Override
         public void onAccessPointsFound(List<PHAccessPoint> accessPoint) {
             Log.w(HueUtilities.TAG, "Access Points Found. " + accessPoint.size());
@@ -166,24 +200,35 @@ public class AddSmartDeviceActivity extends BaseActivity<ActivityAddSmartDeviceB
 
         }
 
+        /**
+         * Bridge automatically does internal updates of information, everytime it does, this method is called.
+         * @param arg0 Bridge arguments - unused.
+         * @param bridge Bridge instance
+         */
         @Override
         public void onCacheUpdated(List<Integer> arg0, PHBridge bridge) {
             Log.w(HueUtilities.TAG, "On CacheUpdated");
         }
 
+        /**
+         * When the bridge establishes connection, this method is called.
+         * Used to input the bridge and smartdevices into the database
+         * @param phBridge Bridge instance
+         * @param username Username who connected
+         */
         @Override
-        public void onBridgeConnected(PHBridge b, String username)
+        public void onBridgeConnected(PHBridge phBridge, String username)
         {
             SmartDevice sd = new SmartDevice();
-            sd.setDeviceName(b.getResourceCache().getBridgeConfiguration().getName());
+            sd.setDeviceName(phBridge.getResourceCache().getBridgeConfiguration().getName());
             sd.setInternalIdentifier(1);
             mhueBridge = new HueBridge();
-            phHueSDK.setSelectedBridge(b);
-            phHueSDK.enableHeartbeat(b, PHHueSDK.HB_INTERVAL);
-            phHueSDK.getLastHeartbeat().put(b.getResourceCache().getBridgeConfiguration().getIpAddress(), System.currentTimeMillis());
-            mhueBridge.setUsername(b.getResourceCache().getBridgeConfiguration().getUsername());
-            mhueBridge.setDeviceIP(b.getResourceCache().getBridgeConfiguration().getIpAddress());
-            List<PHLight> allLights = b.getResourceCache().getAllLights();
+            phHueSDK.setSelectedBridge(phBridge);
+            phHueSDK.enableHeartbeat(phBridge, PHHueSDK.HB_INTERVAL);
+            phHueSDK.getLastHeartbeat().put(phBridge.getResourceCache().getBridgeConfiguration().getIpAddress(), System.currentTimeMillis());
+            mhueBridge.setUsername(phBridge.getResourceCache().getBridgeConfiguration().getUsername());
+            mhueBridge.setDeviceIP(phBridge.getResourceCache().getBridgeConfiguration().getIpAddress());
+            List<PHLight> allLights = phBridge.getResourceCache().getAllLights();
             List<HueLightbulbWhite> uniqueID = new ArrayList<>();
             for (PHLight pl : allLights){
                 HueLightbulbWhite hbw = new HueLightbulbWhite();
@@ -197,6 +242,11 @@ public class AddSmartDeviceActivity extends BaseActivity<ActivityAddSmartDeviceB
             ChangeToSmartDevice();
         }
 
+        /**
+         * Called when the bridge cannot connect automatically
+         * Opens a dialog telling the user to press the Pushlink button on their bridge
+         * @param accessPoint The accesspoint which is attempted to connect to
+         */
         @Override
         public void onAuthenticationRequired(PHAccessPoint accessPoint) {
             Log.w(HueUtilities.TAG, "Authentication Required.");
@@ -204,6 +254,13 @@ public class AddSmartDeviceActivity extends BaseActivity<ActivityAddSmartDeviceB
             startActivity(new Intent(AddSmartDeviceActivity.this, PHPushlinkActivity.class));
         }
 
+        /**
+         * If the connection to the bridge is resumed, this method is called.
+         * If the activity is finishing, it does nothing
+         * Else, since the connection is resumed
+         * it checks the list of getDisconnected access points and removes the accesspoint it reconnected to
+         * @param bridge Current bridge instance
+         */
         @Override
         public void onConnectionResumed(PHBridge bridge) {
             if (AddSmartDeviceActivity.this.isFinishing())
@@ -219,6 +276,10 @@ public class AddSmartDeviceActivity extends BaseActivity<ActivityAddSmartDeviceB
 
         }
 
+        /**
+         * When the bridge connection is lost we add the accesspoint information to disconnected accesspoints
+         * @param accessPoint the accesspoint, which we lost connection to
+         */
         @Override
         public void onConnectionLost(PHAccessPoint accessPoint) {
             Log.v(HueUtilities.TAG, "onConnectionLost : " + accessPoint.getIpAddress());
@@ -227,6 +288,11 @@ public class AddSmartDeviceActivity extends BaseActivity<ActivityAddSmartDeviceB
             }
         }
 
+        /**
+         * Handles all the errors the bridge can throw
+         * @param code Errorcode, used to differentiate between errors
+         * @param message The errormessage thrown by the bridge
+         */
         @Override
         public void onError(int code, final String message) {
             Log.e(HueUtilities.TAG, "on Error Called : " + code + ":" + message);
@@ -256,6 +322,10 @@ public class AddSmartDeviceActivity extends BaseActivity<ActivityAddSmartDeviceB
             }
         }
 
+        /**
+         * Prints out any errors found to the internal log
+         * @param parsingErrorsList a list of parsing errors
+         */
         @Override
         public void onParsingErrors(List<PHHueParsingError> parsingErrorsList) {
             for (PHHueParsingError parsingError : parsingErrorsList) {
@@ -264,6 +334,9 @@ public class AddSmartDeviceActivity extends BaseActivity<ActivityAddSmartDeviceB
         }
     };
 
+    /**
+     * Method that either connects to the existing bridge, using its accesspoint or searches for a new bridge accesspoint
+     */
     public void searchOrConnect()
     {
         if (mhueBridge != null && !CommonUtils.isNullOrEmpty(mhueBridge.getDeviceIP()) && !CommonUtils.isNullOrEmpty(mhueBridge.getUsername())) {
@@ -281,7 +354,9 @@ public class AddSmartDeviceActivity extends BaseActivity<ActivityAddSmartDeviceB
         }
     }
 
-
+    /**
+     * Searching for bridge accesspoints
+     */
     public void doBridgeSearch()
     {
         PHWizardAlertDialog.getInstance().showProgressDialog(R.string.search_progress, AddSmartDeviceActivity.this);
@@ -290,23 +365,37 @@ public class AddSmartDeviceActivity extends BaseActivity<ActivityAddSmartDeviceB
         sm.search(true, true);
     }
 
-
+    /**
+     * Closes all overlays
+     * Unregisters the hue SDK listener
+     * Finishes the activity - returning the user to the Smartdevice page
+     */
+    @Override
     public void ChangeToSmartDevice() {
         PHWizardAlertDialog.getInstance().closeProgressDialog();
         phHueSDK.getNotificationManager().unregisterSDKListener(phsdkListener);
         finish();
     }
 
+    /**
+     * Navigator method to call the viewmodel from the UI
+     */
     @Override
     public void searchForBridge(){
         mSmartDeviceViewModel.getBridges();
     }
+
+    /**
+     * Handles the clickEvent from the listview of Bridge Accesspoints
+     * @param parent adapter information - Information of the list
+     * @param view An instance of the view
+     * @param position The position of where the user clicked
+     * @param id The id of the listview
+     */
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
         PHAccessPoint accessPoint = (PHAccessPoint) adapter.getItem(position);
         PHBridge connectedBridge = phHueSDK.getSelectedBridge();
-
         if (connectedBridge != null) {
             String connectedIP = connectedBridge.getResourceCache().getBridgeConfiguration().getIpAddress();
             if (connectedIP != null) {   // We are already connected here:-
@@ -318,22 +407,27 @@ public class AddSmartDeviceActivity extends BaseActivity<ActivityAddSmartDeviceB
         phHueSDK.connect(accessPoint);
     }
 
+    /**
+     * Dagger injection method
+     * @return Androidinjector to handle fragments
+     */
     @Override
     public AndroidInjector<Fragment> supportFragmentInjector() {
         return fragmentDispatchingAndroidInjector;
     }
 
+
+    /**
+     * Method called after the user presses the Search for bridge button
+     * Warns the user if a bridge already exists
+     * Either searches for a new bridge or connects to an existing one
+     * @param hueBridgeList List of Huebridges from the database
+     */
     @Override
-    public void handleError(Throwable throwable) {
-
-    }
-
-
-    @Override
-    public void setupBridges(List<HueBridge> smartDeviceList) {
-        if (!smartDeviceList.isEmpty())
+    public void setupBridges(List<HueBridge> hueBridgeList) {
+        if (!hueBridgeList.isEmpty())
         {
-            for (HueBridge bridge : smartDeviceList)
+            for (HueBridge bridge : hueBridgeList)
             {
                 mhueBridge = bridge;
                 DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
@@ -368,6 +462,12 @@ public class AddSmartDeviceActivity extends BaseActivity<ActivityAddSmartDeviceB
 
 
     //--- NEST SETUP ---
+
+    /**
+     * Method that is called after the list of already existing nests has been received from the database
+     * Attempts to establish connection the the Nest OR warns a user if a nest already exists
+     * @param nestHubs The list of existing nesthubs
+     */
     @Override
     public void searchForNest(List<NestHub> nestHubs) {
         if (nestHubs == null){
@@ -405,12 +505,11 @@ public class AddSmartDeviceActivity extends BaseActivity<ActivityAddSmartDeviceB
         }
     }
 
-    @Override
-    public void changeToSmartDevice() {
-        PHWizardAlertDialog.getInstance().closeProgressDialog();
-        finish();
-    }
-
+    /**
+     * Authenticates the Nest with our App
+     * @param client_id Input client ID from the user
+     * @param secret_id Input Secret ID from the user
+     */
     public void addNest(String client_id, String secret_id){
         CLIENT_ID = client_id;
         CLIENT_SECRET = secret_id;
@@ -420,20 +519,26 @@ public class AddSmartDeviceActivity extends BaseActivity<ActivityAddSmartDeviceB
         nestAPI.launchAuthFlow(mActivity, AUTH_TOKEN_REQUEST_CODE);
     }
 
-    private void getAllConnectedToNest(NestAPI n, NestToken token)
+    /**
+     * Method that establishes a listener waiting for the Nest to update its information
+     * To which it adds the Nest to the database
+     * @param localNestApi Received instance of the nest api
+     * @param token The nest token from the successful auth
+     */
+    private void getAllConnectedToNest(NestAPI localNestApi, NestToken token)
     {
-        n.addGlobalListener(new NestListener.GlobalListener() {
+        localNestApi.addGlobalListener(new NestListener.GlobalListener() {
             @Override
             public void onUpdate(@NonNull GlobalUpdate update) {
                 ArrayList<Thermostat> thermostatArrayList = update.getThermostats();
-                n.removeAllListeners();
+                localNestApi.removeAllListeners();
 
 
                 //Add Nest to db
                 NestHub nestHub = new NestHub();
                 nestHub.setBearerToken(token.getToken());
-                nestHub.setClientId(n.getConfig().getClientID());
-                nestHub.setSecretId(n.getConfig().getClientSecret());
+                nestHub.setClientId(localNestApi.getConfig().getClientID());
+                nestHub.setSecretId(localNestApi.getConfig().getClientSecret());
                 nestHub.setExpires(token.getExpiresIn());
 
                 //Add Thermo to db
@@ -454,6 +559,13 @@ public class AddSmartDeviceActivity extends BaseActivity<ActivityAddSmartDeviceB
     }
 
 
+    /**
+     * Method that handles Activity Results
+     * Handles the user finishing authenfication
+     * @param requestCode The requestCode from the activity
+     * @param resultCode Status of the result
+     * @param intent The runtime binding between the activity and its caller
+     */
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent intent) {
         if (requestCode == AUTH_TOKEN_REQUEST_CODE && resultCode == RESULT_OK) {
@@ -477,6 +589,4 @@ public class AddSmartDeviceActivity extends BaseActivity<ActivityAddSmartDeviceB
             });
         }
     }
-
-
 }
