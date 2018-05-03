@@ -9,7 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
 
-        android:drawableEnd="@android:drawable/ic_menu_recent_history"
+        android:drawableEnd="@drawable/ic_schedule_black_18dp"
         android:ems="10"
         android:focusable="false"
         android:inputType="time" />
