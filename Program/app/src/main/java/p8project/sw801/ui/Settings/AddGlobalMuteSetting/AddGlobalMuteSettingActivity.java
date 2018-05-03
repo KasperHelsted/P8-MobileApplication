@@ -104,7 +104,7 @@ public class AddGlobalMuteSettingActivity extends BaseActivity<ActivityAddGlobal
 
     /**
      * Method used to close this page.
-     * @param v
+     * @param v View to be closed.
      */
     public void closeAddGlobalMute(View v) {
         finish();
