@@ -32,6 +32,10 @@ public class MySmartDeviceFragment extends BaseFragment<FragmentMySmartDeviceBin
     @Inject
     MySmartDeviceViewModel mMySmartDeviceViewModel;
 
+    /**
+     *
+     * @return
+     */
     public static MySmartDeviceFragment newInstance() {
         Bundle args = new Bundle();
 
@@ -41,36 +45,55 @@ public class MySmartDeviceFragment extends BaseFragment<FragmentMySmartDeviceBin
         return fragment;
     }
 
+    /**
+     *
+     */
     @Override
     public void onResume() {
         getViewModel().fetchMySmartDevices();
-
-        System.out.println("FETCH?");
-
         super.onResume();
     }
 
+    /**
+     *
+     * @return
+     */
     @Override
     public int getBindingVariable() {
         return BR.viewModel;
     }
 
+    /**
+     *
+     * @return
+     */
     @Override
     public int getLayoutId() {
         return R.layout.fragment_my_smart_device;
     }
 
-
+    /**
+     *
+     * @return
+     */
     @Override
     public MySmartDeviceViewModel getViewModel() {
         return mMySmartDeviceViewModel;
     }
 
+    /**
+     *
+     * @param throwable
+     */
     @Override
     public void handleError(Throwable throwable) {
         // handle error
     }
 
+    /**
+     *
+     * @param savedInstanceState
+     */
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -78,6 +101,13 @@ public class MySmartDeviceFragment extends BaseFragment<FragmentMySmartDeviceBin
         mMySmartDeviceAdapter.setListener(this);
     }
 
+    /**
+     *
+     * @param inflater
+     * @param container
+     * @param savedInstanceState
+     * @return
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
@@ -92,13 +122,19 @@ public class MySmartDeviceFragment extends BaseFragment<FragmentMySmartDeviceBin
         return view;
     }
 
-
+    /**
+     *
+     */
     @Override
     public void addSmartDevice() {
         Intent intent = new Intent(this.getContext(), AddSmartDeviceActivity.class);
         startActivity(intent);
     }
 
+    /**
+     *
+     * @param smartDevice
+     */
     @Override
     public void deleteSmartDevice(SmartDevice smartDevice) {
         new AlertDialog.Builder(getContext())
@@ -109,21 +145,36 @@ public class MySmartDeviceFragment extends BaseFragment<FragmentMySmartDeviceBin
                 .setNegativeButton(android.R.string.no, null).show();
     }
 
+    /**
+     *
+     * @param smartDevice
+     */
     @Override
     public void toggleSmartDevice(SmartDevice smartDevice) {
         System.out.println("TOGGLE");
     }
 
+    /**
+     *
+     * @param smartDevice
+     */
     @Override
     public void onItemClick(SmartDevice smartDevice) {
         System.out.println("Click?");
     }
 
+    /**
+     *
+     * @param smartDeviceList
+     */
     @Override
     public void updateSmartDevice(List<SmartDevice> smartDeviceList) {
         mMySmartDeviceAdapter.addItems(smartDeviceList);
     }
 
+    /**
+     *
+     */
     private void setUp() {
         mLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
 
@@ -132,6 +183,9 @@ public class MySmartDeviceFragment extends BaseFragment<FragmentMySmartDeviceBin
         mFragmentMySmartDeviceBinding.recyclerViewMysmartdevices.setAdapter(mMySmartDeviceAdapter);
     }
 
+    /**
+     *
+     */
     private void subscribeToLiveData() {
         mMySmartDeviceViewModel.getMySmartDevicesListLiveData().observe(this, smartDevices -> mMySmartDeviceViewModel.addMySmartDevicesItemsToList(smartDevices));
     }

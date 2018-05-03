@@ -9,8 +9,19 @@ public class AddEventHueViewModel extends BaseViewModel<AddEventHueNavigator> {
         super(dataManager, schedulerProvider);
     }
 
+    /**
+     * Method called when the user click the turn on light button
+     */
     public void turnOnClick(){getNavigator().turnOn();}
+
+    /**
+     * Method called when the user click the turn off light button
+     */
     public void turnOffClick(){getNavigator().turnOff();}
+
+    /**
+     * Method called when the user click the set brightness button
+     */
     public void setBrightnessClick(){getNavigator().setBrightness();}
 
 

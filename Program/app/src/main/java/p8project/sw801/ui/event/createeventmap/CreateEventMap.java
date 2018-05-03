@@ -15,9 +15,6 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
-import android.util.Log;
-import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -29,7 +26,6 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
 
@@ -61,7 +57,10 @@ public class CreateEventMap extends BaseActivity<ActivityCreateEventMapBinding, 
     private static final int PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1;
     private boolean mLocationPermissionGranted = false;
 
-
+    /**
+     * On create method for AddEventSmartDevice. Instantiates and sets up all required fields for the page.
+     * @param savedInstanceState The saved instance state.
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -71,6 +70,9 @@ public class CreateEventMap extends BaseActivity<ActivityCreateEventMapBinding, 
         setUp();
     }
 
+    /**
+     * Method used to create the page. This method creates a fragment containing a map.
+     */
     public void setUp() {
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
@@ -78,11 +80,17 @@ public class CreateEventMap extends BaseActivity<ActivityCreateEventMapBinding, 
         mapFragment.getMapAsync(this);
     }
 
+    /**
+     * Event used when the user clicks the cancel button to close the page
+     */
     @Override
     public void cancelButton() {
         finish();
     }
 
+    /**
+     * Event used when the user clicks the confirm button to submit the event
+     */
     @Override
     public void confirmButton() {
         Intent resultIntent = new Intent();
@@ -96,26 +104,37 @@ public class CreateEventMap extends BaseActivity<ActivityCreateEventMapBinding, 
         finish();
     }
 
+    /**
+     * Gets the binding variable.
+     * @return The binding variable.
+     */
     @Override
     public int getBindingVariable() {
         return BR.viewModel;
     }
 
+    /**
+     * Get id for the layout for this page.
+     * @return Layout id.
+     */
     @Override
     public int getLayoutId() {
         return R.layout.activity_create_event_map;
     }
 
+    /**
+     * Get the instance of the view model.
+     * @return Instance of the view model.
+     */
     @Override
     public CreateEventMapViewModel getViewModel() {
         return mCreateEventMapViewModel;
     }
 
-    @Override
-    public void handleError(Throwable throwable) {
-        // handle error
-    }
-
+    /**
+     * Method called when the map is rendered. This method set the options for the map and places a mark in either the user location if it is known or in a default location.
+     * @param googleMap The instance of the map
+     */
     @Override
     public void onMapReady(GoogleMap googleMap) {
         gmap = googleMap;
@@ -136,6 +155,11 @@ public class CreateEventMap extends BaseActivity<ActivityCreateEventMapBinding, 
 
     }
 
+    /**
+     *Method used to convert a coordinate set to an address.
+     * @param latLng The latitude and longitude of a point.
+     * @return An address object containing the address and latitude and longitude of the point.
+     */
     public Address convertCoordinateToAddress(LatLng latLng) {
         Address address = null;
         geocoder = new Geocoder(this, Locale.getDefault());
@@ -154,6 +178,9 @@ public class CreateEventMap extends BaseActivity<ActivityCreateEventMapBinding, 
         return address;
     }
 
+    /**
+     *Method used to prepare the map when it is rendered.
+     */
     private void prepMap() {
         // Get current location
         LocationManager locationManager = (LocationManager)
@@ -188,16 +215,27 @@ public class CreateEventMap extends BaseActivity<ActivityCreateEventMapBinding, 
         gmap.setOnMyLocationClickListener(this);
     }
 
+    /**
+     * Method used when clicking the users own position on the map
+     * @param location
+     */
     @Override
     public void onMyLocationClick(@NonNull Location location) {
 
     }
 
+    /**
+     * Method called when clicking on the center on my location button on the map
+     * @return Returns false used by the google map
+     */
     @Override
     public boolean onMyLocationButtonClick() {
         return false;
     }
 
+    /**
+     * Method used to ask the user to grant location permission to the application if it is not already granted.
+     */
     private void getLocationPermission() {
         /*
          * Request location permission, so that we can get the location of the
@@ -216,6 +254,13 @@ public class CreateEventMap extends BaseActivity<ActivityCreateEventMapBinding, 
         }
     }
 
+    /**
+     * Method used to catch the the returning activity asking the user for location permisssion.
+     * If the permission is not granted this page will close.
+     * @param requestCode The request code used for the permission activity.
+     * @param permissions A string with the return permission.
+     * @param grantResults An integer array with a values describing the permissions granted.
+     */
     @Override
     public void onRequestPermissionsResult(int requestCode,
                                            @NonNull String permissions[],
@@ -237,15 +282,20 @@ public class CreateEventMap extends BaseActivity<ActivityCreateEventMapBinding, 
             }
         }
     }
-
-
-
-
+    /**
+     * Creates a new AddEventAccessory intent.
+     * @param context The current context of the application.
+     * @return The created intent.
+     */
     public static Intent newIntent(Context context) {
         Intent intent = new Intent(context, CreateEventMap.class);
         return intent;
     }
 
+    /**
+     * Fragment injector used when creating new fragments to inflate.
+     * @return The fragment injector
+     */
     @Override
     public AndroidInjector<Fragment> supportFragmentInjector() {
         return fragmentDispatchingAndroidInjector;
