@@ -17,6 +17,11 @@ public class MySmartDeviceViewModel extends BaseViewModel<MySmartDeviceNavigator
 
     private final MutableLiveData<List<SmartDevice>> mySmartDevicesListLiveData;
 
+    /**
+     *
+     * @param dataManager
+     * @param schedulerProvider
+     */
     public MySmartDeviceViewModel(DataManager dataManager, SchedulerProvider schedulerProvider) {
         super(dataManager, schedulerProvider);
 
@@ -25,11 +30,18 @@ public class MySmartDeviceViewModel extends BaseViewModel<MySmartDeviceNavigator
         fetchMySmartDevices();
     }
 
+    /**
+     *
+     * @param mySmartDevices
+     */
     public void addMySmartDevicesItemsToList(List<SmartDevice> mySmartDevices) {
         mySmartDevicesObservableArrayList.clear();
         mySmartDevicesObservableArrayList.addAll(mySmartDevices);
     }
 
+    /**
+     *
+     */
     protected void fetchMySmartDevices() {
         setIsLoading(true);
         getCompositeDisposable().add(getDataManager()
@@ -48,20 +60,33 @@ public class MySmartDeviceViewModel extends BaseViewModel<MySmartDeviceNavigator
                 }));
     }
 
+    /**
+     *
+     * @return
+     */
     public MutableLiveData<List<SmartDevice>> getMySmartDevicesListLiveData() {
         return mySmartDevicesListLiveData;
     }
 
+    /**
+     *
+     * @return
+     */
     public ObservableList<SmartDevice> getMySmartDevicesObservableList() {
         return mySmartDevicesObservableArrayList;
     }
 
-
+    /**
+     *
+     */
     public void addSmartDevice() {
         getNavigator().addSmartDevice();
     }
 
-
+    /**
+     *
+     * @param id
+     */
     protected void deleteHueBridge(Integer id) {
         getCompositeDisposable().add(getDataManager()
                 .deleteHueBridgeBySmartDeviceId(id)
@@ -69,6 +94,10 @@ public class MySmartDeviceViewModel extends BaseViewModel<MySmartDeviceNavigator
                 .subscribe());
     }
 
+    /**
+     *
+     * @param id
+     */
     protected void deleteHueLightbulbWhite(Integer id) {
         getCompositeDisposable().add(getDataManager()
                 .deleteWhiteHueLightsBySmartDeviceId(id)
@@ -76,6 +105,10 @@ public class MySmartDeviceViewModel extends BaseViewModel<MySmartDeviceNavigator
                 .subscribe());
     }
 
+    /**
+     *
+     * @param id
+     */
     protected void deleteHueLightbulbRGB(Integer id) {
         getCompositeDisposable().add(getDataManager()
                 .deleteRGBHueLightsBySmartDeviceId(id)
@@ -83,6 +116,10 @@ public class MySmartDeviceViewModel extends BaseViewModel<MySmartDeviceNavigator
                 .subscribe());
     }
 
+    /**
+     *
+     * @param id
+     */
     protected void deleteNestHub(Integer id) {
         getCompositeDisposable().add(getDataManager()
                 .deleteNestHubBySmartDeviceId(id)
@@ -90,6 +127,10 @@ public class MySmartDeviceViewModel extends BaseViewModel<MySmartDeviceNavigator
                 .subscribe());
     }
 
+    /**
+     *
+     * @param id
+     */
     protected void deleteNestThermostat(Integer id) {
         getCompositeDisposable().add(getDataManager()
                 .deleteNestThermostatBySmartDeviceId(id)
@@ -97,6 +138,10 @@ public class MySmartDeviceViewModel extends BaseViewModel<MySmartDeviceNavigator
                 .subscribe());
     }
 
+    /**
+     *
+     * @param id
+     */
     protected void deleteTriggers(Integer id) {
         getCompositeDisposable().add(getDataManager()
                 .deleteTriggerBySmartDeviceId(id)
@@ -104,7 +149,10 @@ public class MySmartDeviceViewModel extends BaseViewModel<MySmartDeviceNavigator
                 .subscribe());
     }
 
-
+    /**
+     *
+     * @param smartDevice
+     */
     public void deleteDevice(SmartDevice smartDevice) {
         setIsLoading(true);
         int id = smartDevice.getId();

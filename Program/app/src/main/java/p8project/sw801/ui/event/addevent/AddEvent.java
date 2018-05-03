@@ -12,14 +12,12 @@ import android.location.Address;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.format.DateFormat;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
@@ -27,7 +25,6 @@ import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import java.io.IOException;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -51,13 +48,10 @@ import p8project.sw801.data.model.db.When;
 import p8project.sw801.databinding.ActivityAddEventBinding;
 import p8project.sw801.ui.AddEvent.AddEventAdapter;
 import p8project.sw801.ui.Settings.Location.AddLocation.AddLocationSettingActivity;
-import p8project.sw801.ui.Settings.Location.LocationSettingActivity;
 import p8project.sw801.ui.base.BaseActivity;
 import p8project.sw801.ui.event.createeventmap.CreateEventMap;
 import p8project.sw801.ui.event.notificationorsmartdevice.NotificationOrSmartdevice;
 import p8project.sw801.utils.CommonUtils;
-import p8project.sw801.utils.NotificationUtil;
-import p8project.sw801.utils.ProximityBasedNotifications.ProximityBasedNotifications;
 import p8project.sw801.utils.TimeBasedNotifications.TimeBasedNotification;
 
 
@@ -96,7 +90,10 @@ public class AddEvent extends BaseActivity<ActivityAddEventBinding, AddEventView
     static private Date endDate;
     private Button cancel;
 
-
+    /**
+     * On create method for AddEvent. Instantiates and sets up all required fields for the page.
+     * @param savedInstanceState The saved instance state.
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -217,32 +214,46 @@ public class AddEvent extends BaseActivity<ActivityAddEventBinding, AddEventView
         coordinate = null;
     }
 
+    /**
+     * Gets the binding variable.
+     * @return The binding variable.
+     */
     @Override
     public int getBindingVariable() {
         return BR.viewModel;
     }
 
+    /**
+     * Get id for the layout for this page.
+     * @return Layout id.
+     */
     @Override
     public int getLayoutId() {
         return R.layout.activity_add_event;
     }
 
+    /**
+     * Get the instance of the view model.
+     * @return Instance of the view model.
+     */
     @Override
     public AddEventViewModel getViewModel() {
         return mAddEventViewModel;
     }
 
-    @Override
-    public void handleError(Throwable throwable) {
-        // handle error
-    }
 
+    /**
+     * Creates a new CreateEventMap intent and starts this.
+     */
     @Override
     public void openCreateMapActivity() {
         Intent intent = CreateEventMap.newIntent(AddEvent.this);
         startActivityForResult(intent, 0);
     }
 
+    /**
+     * Creates a new NotificationOrSmartdevice fragment and adds it to the SupportFragmentManager.
+     */
     @Override
     public void showNotificationOrSmartdevice() {
 
@@ -253,6 +264,9 @@ public class AddEvent extends BaseActivity<ActivityAddEventBinding, AddEventView
                 .commit();
     }
 
+    /**
+     * Method to catch when the user presses the back button. Either the NotificationOrSmartdevice fragment is closed, if it is open, or the AddEvent activity is closed.
+     */
     @Override
     public void onBackPressed() {
         if (getSupportFragmentManager().getBackStackEntryCount() > 0)
@@ -260,11 +274,19 @@ public class AddEvent extends BaseActivity<ActivityAddEventBinding, AddEventView
         else super.onBackPressed();
     }
 
+    /**
+     * Fragment injector used when creating new fragments to inflate.
+     * @return The fragment injector
+     */
     @Override
     public AndroidInjector<Fragment> supportFragmentInjector() {
         return fragmentDispatchingAndroidInjector;
     }
 
+    /**
+     * Method used to create a new fragment with a time picker.
+     * @param i Variables used to control which timepicker is showed.
+     */
     @Override
     public void showTimePickerDialog(int i) {
         if (i == 1) {
@@ -277,11 +299,18 @@ public class AddEvent extends BaseActivity<ActivityAddEventBinding, AddEventView
 
     }
 
+    /**
+     * Updates the location the user have chosen.
+     * @param loc New chosen location.
+     */
     public void updateActiveLocation(PredefinedLocation loc) {
         location = loc;
 
     }
 
+    /**
+     * The TimePickerFragment1 class
+     */
     public static class TimePickerFragment1 extends DialogFragment
             implements TimePickerDialog.OnTimeSetListener {
         protected SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm");
@@ -314,6 +343,9 @@ public class AddEvent extends BaseActivity<ActivityAddEventBinding, AddEventView
         }
     }
 
+    /**
+     * The TimePickerFragment2 class
+     */
     public static class TimePickerFragment2 extends DialogFragment
             implements TimePickerDialog.OnTimeSetListener {
         protected SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm");
@@ -345,11 +377,17 @@ public class AddEvent extends BaseActivity<ActivityAddEventBinding, AddEventView
         }
     }
 
-
+    /**
+     * Closes the AddEvent activity.
+     * @param v The active view
+     */
     public void closeAddEvent(View v) {
         finish();
     }
 
+    /**
+     * Method used to get the marked buttons describing the weekdays the user have chosen
+     */
     private void markButton() {
         markedButtons = new ArrayList<Integer>();
 
@@ -395,6 +433,13 @@ public class AddEvent extends BaseActivity<ActivityAddEventBinding, AddEventView
         }
     }
 
+    /**
+     * Method used to catch the results from other activites that have been created from this one.
+     * The possible returned activities are either that a user have chosen a location(case 2) or the user have chosen a notification trigger(case 0).
+     * @param requestCode The code used when creating the returned activity.
+     * @param resultCode The result code from the returned activity.
+     * @param data The intent attached to the returning activity.
+     */
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -427,6 +472,9 @@ public class AddEvent extends BaseActivity<ActivityAddEventBinding, AddEventView
         }
     }
 
+    /**
+     * Method used to refresh the listview displaying the chosen triggers
+     */
     public void refreshData() {
         ArrayList<Trigger> a = new ArrayList<>();
         a.clear();
@@ -443,11 +491,19 @@ public class AddEvent extends BaseActivity<ActivityAddEventBinding, AddEventView
         }
     }
 
+    /**
+     * Method used to delete a chosen trigger
+     * @param pos The position of the trigger in the listview
+     */
     public void deleteItem(int pos) {
         addMyEvents.remove(pos);
         refreshData();
     }
 
+    /**
+     * Method called when the user submits the event. This method checks all entered information to ensure that all required fields are entered.
+     * Further this method calls the methods from the viewmodel to save the event.
+     */
     @Override
     public void submitEventClick() {
         newEvent = new Event();
@@ -563,6 +619,11 @@ public class AddEvent extends BaseActivity<ActivityAddEventBinding, AddEventView
 
     }
 
+    /**
+     * Creates the dialog fragment displaying to the user when they are choosing a location. A list of the predefined locations are displayed to the user.
+     * Further the user have the possibility of choosing a not predefined location.
+     * @param predefinedLocationList The list of predefined locations
+     */
     @Override
     public void displayPredefinedLocations(List<PredefinedLocation> predefinedLocationList) {
         AlertDialog.Builder builderSingle = new AlertDialog.Builder(AddEvent.this);
@@ -606,6 +667,10 @@ public class AddEvent extends BaseActivity<ActivityAddEventBinding, AddEventView
         builderSingle.show();
     }
 
+    /**
+     * Calls the initial method in setting up the notifications and triggers for the created event
+     * @param eventWithData The event just created
+     */
     @Override
     public void createNotifications(EventWithData eventWithData){
 
@@ -613,7 +678,9 @@ public class AddEvent extends BaseActivity<ActivityAddEventBinding, AddEventView
     }
 
 
-
+    /**
+     * Setup bindings between the elements in the xml and the variables used to access these.
+     */
     private void setupBindings() {
         doThis = (LinearLayout) mActivityAddEventBinding.linearLayoutAddEvent;
         spinner = (Spinner) mActivityAddEventBinding.spinnerWhen;

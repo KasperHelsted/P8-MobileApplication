@@ -8,7 +8,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -40,6 +39,10 @@ public class AddEventAccessory extends BaseActivity<ActivityAddEventAccessoryBin
     private ListView listView;
     private SmartDevice mSmartDevice;
 
+    /**
+     * On create method for AddEvent. Instantiates and sets up all required fields for the page.
+     * @param savedInstanceState The saved instance state.
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,31 +52,46 @@ public class AddEventAccessory extends BaseActivity<ActivityAddEventAccessoryBin
         mAddEventAccessoryViewModel.getListFromDb(mSmartDevice);
     }
 
+    /**
+     * Gets the binding variable.
+     * @return The binding variable.
+     */
     @Override
     public int getBindingVariable() {
         return BR.viewModel;
     }
 
+    /**
+     * Get id for the layout for this page.
+     * @return Layout id.
+     */
     @Override
     public int getLayoutId() {
         return R.layout.activity_add_event_accessory;
     }
 
+    /**
+     * Get the instance of the view model.
+     * @return Instance of the view model.
+     */
     @Override
     public AddEventAccessoryViewModel getViewModel() {
         return mAddEventAccessoryViewModel;
     }
 
-    @Override
-    public void handleError(Throwable throwable) {
-        // handle error
-    }
-
+    /**
+     * Creates a new AddEventAccessory intent.
+     * @param context The current context of the application.
+     * @return The created intent.
+     */
     public static Intent newIntent(Context context) {
         Intent intent = new Intent(context, AddEventAccessory.class);
         return intent;
     }
 
+    /**
+     * Method used to create the page. This method sets the adapter for the listview depending on which smart device have been chosen from the previous activity.
+     */
     private void setUp(){
         TextView textView = mActivityAddEventAccessoryBinding.textViewAccessory;
         textView.setText(mSmartDevice.getDeviceName());
@@ -122,6 +140,10 @@ public class AddEventAccessory extends BaseActivity<ActivityAddEventAccessoryBin
 
     }
 
+    /**
+     * Method used to get the smart device object passed from the previous activity.
+     * @return Returns the smart device object.
+     */
     public SmartDevice decode(){
         String jsonMyObject ="";
         Bundle extras = getIntent().getExtras();
@@ -132,12 +154,17 @@ public class AddEventAccessory extends BaseActivity<ActivityAddEventAccessoryBin
         return myObject;
     }
 
+    /**
+     * Method used to update the list showed on the page
+     */
     @Override
     public void updatelist(){
         setUp();
     }
 
-
+    /**
+     * The adapter used for showing use lights
+     */
     private class customHueAdapter extends BaseAdapter {
 
         private Context mContext;
@@ -174,6 +201,9 @@ public class AddEventAccessory extends BaseActivity<ActivityAddEventAccessoryBin
         }
     }
 
+    /**
+     * The adapter used for showing the nest thermostats
+     */
     private class customNestAdapter extends BaseAdapter {
 
         private Context mContext;
@@ -210,7 +240,13 @@ public class AddEventAccessory extends BaseActivity<ActivityAddEventAccessoryBin
         }
     }
 
-
+    /**
+     * Method used to catch the results from other activites that have been created from this one.
+     * The returned result is either a trigger for a hue light or a trigger for a nest thermostat. This result is passed on to the activity that started this one.
+     * @param requestCode The code used when creating the returned activity.
+     * @param resultCode The result code from the returned activity.
+     * @param data The intent attached to the returning activity.
+     */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (data != null && requestCode == 1) {

@@ -1,9 +1,7 @@
 package p8project.sw801.ui.event.notificationorsmartdevice;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,6 +30,13 @@ public class NotificationOrSmartdevice extends BaseFragment<FragmentNotification
     private EditText notification;
     private AddEvent addEvent;
 
+    /**
+     * On create view method for NotificationOrSmartdevice. Instantiates and sets up all required fields for the page.
+     * @param inflater The infater used from the activity to inflate this fragment.
+     * @param container The container containing this fragment.
+     * @param savedInstanceState The saved instance state if there is one.
+     * @return The inflated view.
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
@@ -43,18 +48,10 @@ public class NotificationOrSmartdevice extends BaseFragment<FragmentNotification
         return view;
     }
 
-    /*
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        mNotificationOrSmartdeviceViewModel.setNavigator(this);
-        mFragmentNotificationOrSmartdeviceBinding = getViewDataBinding();
-        notification = mFragmentNotificationOrSmartdeviceBinding.editTextNotification;
-        addEvent = (AddEvent) getActivity();
-
-    }
-    */
-
+    /**
+     * Constructor for the fragment.
+     * @return
+     */
     public static NotificationOrSmartdevice newInstance() {
         Bundle args = new Bundle();
         NotificationOrSmartdevice fragment = new NotificationOrSmartdevice();
@@ -62,32 +59,54 @@ public class NotificationOrSmartdevice extends BaseFragment<FragmentNotification
         return fragment;
     }
 
+    /**
+     * Gets the binding variable.
+     * @return The binding variable.
+     */
     @Override
     public int getBindingVariable() {
         return BR.viewModel;
     }
 
+    /**
+     * Get id for the layout for this page.
+     * @return Layout id.
+     */
     @Override
     public int getLayoutId() {
         return R.layout.fragment_notification_or_smartdevice;
     }
 
+    /**
+     * Get the instance of the view model.
+     * @return Instance of the view model.
+     */
     @Override
     public NotificationOrSmartdeviceViewModel getViewModel() {
         return mNotificationOrSmartdeviceViewModel;
     }
 
+    /**
+     * Method used to close the fragment.
+     */
     @Override
     public void goBack() {
         getBaseActivity().onFragmentDetached(TAG);
     }
 
+    /**
+     * Method used to start the activity used when choosing a smart device trigger.
+     */
     @Override
     public void openAddSmartDeviceList() {
         Intent intent = AddEventSmartDevice.newIntent(getContext());
         startActivityForResult(intent, 0);
     }
 
+    /**
+     * Method used when the user chooses to add a notification as text.
+     * This method constructes a new trigger and adds it to the list of trigger from the AddEvent page.
+     */
     @Override
     public void addNotification() {
             Trigger t = new Trigger();
@@ -99,6 +118,13 @@ public class NotificationOrSmartdevice extends BaseFragment<FragmentNotification
             getActivity().getSupportFragmentManager().beginTransaction().remove(NotificationOrSmartdevice.this).commit();
     }
 
+    /**
+     * Method used to catch the results from other activites that have been created from this one.
+     * The returned result is either a trigger for a hue light or a trigger for a nest thermostat. This result is added to the list of trigger from the AddEvent page.
+     * @param requestCode The code used when creating the returned activity.
+     * @param resultCode The result code from the returned activity.
+     * @param data The intent attached to the returning activity.
+     */
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);

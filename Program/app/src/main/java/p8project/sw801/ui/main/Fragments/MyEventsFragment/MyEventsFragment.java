@@ -28,12 +28,15 @@ public class MyEventsFragment extends BaseFragment<ActivityMyEventsBinding, MyEv
     MyEventsFragmentViewModel mMyEventsFragmentViewModel;
     private ActivityMyEventsBinding mActivityMyEventsBinding;
 
-    //Setup of burger menu
     private ListView listview;
     private ActionBarDrawerToggle actionBarDrawerToggle;
     ArrayList<Event> myEvents;
     View view;
 
+    /**
+     * Method used on resume.
+     * When the app returns to this page, this method is called.
+     */
     @Override
     public void onResume() {
         getViewModel().fetchFromDatabase();
@@ -41,6 +44,13 @@ public class MyEventsFragment extends BaseFragment<ActivityMyEventsBinding, MyEv
         super.onResume();
     }
 
+    /**
+     * On create view method for MyEventFragment. Instantiates and sets up all required fields for the page.
+     * @param inflater The infater used from the activity to inflate this fragment.
+     * @param container The container containing this fragment.
+     * @param savedInstanceState The saved instance state if there is one.
+     * @return The inflated view.
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -52,7 +62,10 @@ public class MyEventsFragment extends BaseFragment<ActivityMyEventsBinding, MyEv
         setUp();
         return view;
     }
-	
+
+    /**
+     * Method used to create the page. This method sets the adapter for the listview containing the events created by the user.
+     */
     public void setUp(){
 
 
@@ -75,11 +88,18 @@ public class MyEventsFragment extends BaseFragment<ActivityMyEventsBinding, MyEv
 
     }
 
+    /**
+     * Method used to update the view containing the list of events
+     */
     @Override
     public void updatelist() {
         setUp();
     }
 
+    /**
+     * Method used to delete an event and its associated objects.
+     * @param event The Event object to be deleted.
+     */
     @Override
     public void deleteEvent(Event event) {
         new AlertDialog.Builder(getContext())
@@ -90,15 +110,28 @@ public class MyEventsFragment extends BaseFragment<ActivityMyEventsBinding, MyEv
                 .setNegativeButton(android.R.string.no, null).show();
     }
 
+    /**
+     * Method used to update an event object in the database.
+     * @param event The event object to be updated.
+     * @param condition The boolean condition describing if the event is active.
+     */
     public void updateEvent(Event event, Boolean condition) {
         getViewModel().updateEvent(event, condition);
     }
 
+    /**
+     * Method used when the user clicks on add event.
+     * This starts a new AddEvent activity.
+     */
     public void addNewEvent() {
         Intent intent = new Intent(this.getContext(), AddEvent.class);
         startActivity(intent);
     }
 
+    /**
+     * Constructor for the fragment.
+     * @return
+     */
     public static MyEventsFragment newInstance() {
         Bundle args = new Bundle();
         MyEventsFragment fragment = new MyEventsFragment();
@@ -106,16 +139,28 @@ public class MyEventsFragment extends BaseFragment<ActivityMyEventsBinding, MyEv
         return fragment;
     }
 
+    /**
+     * Gets the binding variable.
+     * @return The binding variable.
+     */
     @Override
     public int getBindingVariable() {
         return BR.viewModel;
     }
 
+    /**
+     * Get id for the layout for this page.
+     * @return Layout id.
+     */
     @Override
     public int getLayoutId() {
         return R.layout.activity_my_events;
     }
 
+    /**
+     * Get the instance of the view model.
+     * @return Instance of the view model.
+     */
     @Override
     public MyEventsFragmentViewModel getViewModel() {
         return mMyEventsFragmentViewModel;
