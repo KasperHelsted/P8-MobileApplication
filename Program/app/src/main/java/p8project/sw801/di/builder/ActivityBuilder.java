@@ -37,6 +37,7 @@ import p8project.sw801.ui.event.createeventmap.CreateEventMap;
 import p8project.sw801.ui.event.createeventmap.CreateEventMapModule;
 import p8project.sw801.ui.event.editevent.EditEvent;
 import p8project.sw801.ui.event.editevent.EditEventModule;
+import p8project.sw801.ui.event.editevent.EditEventProvider;
 import p8project.sw801.ui.event.notificationorsmartdevice.NotificationOrSmartdeviceProvider;
 import p8project.sw801.ui.main.Fragments.HomeFragment.HomeFragmentProvider;
 import p8project.sw801.ui.main.Fragments.MyEventsFragment.MyEventsFragmentProvider;
