@@ -197,7 +197,7 @@ public class ProximityReceiver extends BroadcastReceiver {
                 }
 
                 try {
-                    Thread.sleep(1000);
+                    Thread.sleep(500);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -223,7 +223,7 @@ public class ProximityReceiver extends BroadcastReceiver {
 
                     HueUtilities.turnLightOn(uniqueId);
                     try {
-                        Thread.sleep(1000);
+                        Thread.sleep(500);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
@@ -236,7 +236,7 @@ public class ProximityReceiver extends BroadcastReceiver {
                     }
                     HueUtilities.turnLightOff(uniqueId);
                     try {
-                        Thread.sleep(1000);
+                        Thread.sleep(500);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
@@ -247,9 +247,15 @@ public class ProximityReceiver extends BroadcastReceiver {
                             uniqueId = lightbulbWhite.getDeviceId();
                         }
                     }
+                    HueUtilities.turnLightOn(uniqueId);
+                    try {
+                        Thread.sleep(100);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
                     HueUtilities.changeLightstate(uniqueId, 40000, t.trigger.getValue());
                     try {
-                        Thread.sleep(1000);
+                        Thread.sleep(500);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }

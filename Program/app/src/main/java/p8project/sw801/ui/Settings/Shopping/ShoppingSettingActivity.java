@@ -72,6 +72,7 @@ public class ShoppingSettingActivity extends BaseActivity<ActivityShoppingSettin
 
     private void setupBindings(){
         searchView = mActivityShoppingSettingBinding.searchView;
+        searchView.setFocusable(false);
         listview = mActivityShoppingSettingBinding.listView;
     }
 
