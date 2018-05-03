@@ -13,6 +13,14 @@ public class ProximityService extends Service {
     public void onCreate() {
     }
 
+    /**
+     * Method called when the service is started.
+     * This method creates a new instance of the proximity receiver used for catching proximity alerts.
+     * @param intent The intent starting this service.
+     * @param flags Possible flags used for starting the service.
+     * @param startId An id used for the service.
+     * @return
+     */
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         if (proximityReceiver == null){

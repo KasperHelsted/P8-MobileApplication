@@ -2,17 +2,12 @@ package p8project.sw801.ui.event.addeventaccessory;
 
 import android.databinding.ObservableArrayList;
 import android.databinding.ObservableList;
-import android.util.Log;
-
 import java.util.ArrayList;
 import java.util.List;
-
 import p8project.sw801.data.DataManager;
 import p8project.sw801.data.model.db.SmartDevice;
 import p8project.sw801.data.model.db.Smartdevice.Accessories.HueLightbulbWhite;
 import p8project.sw801.data.model.db.Smartdevice.Accessories.NestThermostat;
-import p8project.sw801.data.model.db.Smartdevice.Controllers.HueBridge;
-import p8project.sw801.data.model.db.Smartdevice.Controllers.NestHub;
 import p8project.sw801.data.model.db.Trigger;
 import p8project.sw801.ui.base.BaseViewModel;
 import p8project.sw801.utils.rx.SchedulerProvider;
@@ -21,11 +16,20 @@ public class AddEventAccessoryViewModel extends BaseViewModel<AddEventAccessoryN
     private final ObservableArrayList<HueLightbulbWhite> HueArrayList = new ObservableArrayList<>();
     private final ObservableArrayList<NestThermostat> NestArrayList = new ObservableArrayList<>();
 
+    /**
+     * Constructor for the class.
+     * @param dataManager The active instance of the datamanager.
+     * @param schedulerProvider The active instance of the schedulerProvider.
+     */
     public AddEventAccessoryViewModel(DataManager dataManager, SchedulerProvider schedulerProvider) {
         super(dataManager, schedulerProvider);
         //temp2();
     }
 
+    /**
+     * Fetches either a list of hue light or nest thermostats from the database.
+     * @param smartDevice The smart devices chosen from the previous activity. The id of this is used to fetch all associated accessories for this smart device.
+     */
     public void getListFromDb(SmartDevice smartDevice) {
         List<Trigger> a = new ArrayList<>();
         ArrayList<Trigger> arrayList = null;
@@ -54,9 +58,8 @@ public class AddEventAccessoryViewModel extends BaseViewModel<AddEventAccessoryN
     }
 
     /**
-     * Method used to update the view by calling updatelist function from MyEventFragment
-     *
-     * @param e
+     * Method used to update the list used in the activity for hue lights.
+     * @param e The list of hue lights.
      */
     public void RenderListHue(List<HueLightbulbWhite> e) {
         HueArrayList.clear();
@@ -64,6 +67,10 @@ public class AddEventAccessoryViewModel extends BaseViewModel<AddEventAccessoryN
         getNavigator().updatelist();
     }
 
+    /**
+     * Method used to update the list used in the activity for nest thermostats.
+     * @param e The list of nest thermostats.
+     */
     public void RenderListNest(List<NestThermostat> e) {
         NestArrayList.clear();
         NestArrayList.addAll(e);
@@ -71,75 +78,19 @@ public class AddEventAccessoryViewModel extends BaseViewModel<AddEventAccessoryN
     }
 
     /**
-     * Returns the observable list of events
-     *
-     * @return t
+     * Returns the observable list of hue lights
+     * @return The observable list of hue lights
      */
     public ObservableList<HueLightbulbWhite> getHueObservableList() {
         return HueArrayList;
     }
 
+    /**
+     * Returns the observable list of nest thermostats
+     * @return The observable list of nest thermostats
+     */
     public ObservableList<NestThermostat> getNestObservableList() {
         return NestArrayList;
     }
 
-    private void tempNest() {
-        NestThermostat t = new NestThermostat();
-        t.setName("Kitchen term");
-        t.setNestHubId(1);
-        t.setDeviceId("12321");
-        t.setSmartDeviceId(2);
-        NestThermostat y = new NestThermostat();
-        y.setName("Living room term");
-        y.setNestHubId(1);
-        y.setDeviceId("123344");
-        y.setSmartDeviceId(2);
-
-        getCompositeDisposable().add(
-                getDataManager().insertAllNestThermostats(
-                        t, y
-                ).subscribeOn(
-                        getSchedulerProvider().io()
-                ).subscribe(response -> {
-                    Log.i("NEST THERMO", "NEST THERMO INSERTED");
-                })
-        );
-    }
-
-
-    private void temp2() {
-
-        HueBridge h = new HueBridge();
-        NestHub n = new NestHub();
-
-        h.setDeviceIP("192.167.0.1");
-        h.setSmartDeviceId(1);
-
-        n.setBearerToken("123745782345yfgvgyfvdfwtyfys");
-        n.setSmartDeviceId(2);
-
-
-        getCompositeDisposable().add(
-                getDataManager().insertNestHub(
-                        n
-                ).subscribeOn(
-                        getSchedulerProvider().io()
-                ).subscribe(response -> {
-                    Log.i("nest", "NEST INSERTED");
-                    tempNest();
-                })
-        );
-
-        getCompositeDisposable().add(
-                getDataManager().insertHueBridge(
-                        h
-                ).subscribeOn(
-                        getSchedulerProvider().io()
-                ).subscribe(response -> {
-                    Log.i("Hue", "HUE INSERTED");
-                    //temphue();
-                })
-        );
-
-    }
 }

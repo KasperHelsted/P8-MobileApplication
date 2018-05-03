@@ -32,7 +32,7 @@ import p8project.sw801.R;
 public class TimePicker extends LinearLayout {
     @SuppressLint("SimpleDateFormat")
     private SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm");
-    private int currentTime = -1;
+    private int currentTime;
 
     private EditText mEditText;
 
@@ -54,6 +54,21 @@ public class TimePicker extends LinearLayout {
 
         assert inflater != null;
         inflater.inflate(R.layout.timepicker, this);
+
+        Calendar cal = Calendar.getInstance();
+        currentTime = calToInt(cal);
+    }
+
+    private int calToInt(Calendar cal) {
+        try {
+            Date date = timeFormat.parse(
+                    String.format("%d:%02d", cal.get(Calendar.HOUR_OF_DAY), cal.get(Calendar.MINUTE))
+            );
+
+            return (int) date.getTime();
+        } catch (ParseException e) {
+            return -1;
+        }
     }
 
     @Override
@@ -64,7 +79,7 @@ public class TimePicker extends LinearLayout {
             TimePickerDialog mTimePicker;
 
             mTimePicker = new TimePickerDialog(getContext(), (view, hourOfDay, minute1) -> {
-                setDefaultTime(hourOfDay, minute1);
+                setTime(hourOfDay, minute1);
             },
                     getCalender().get(Calendar.HOUR_OF_DAY),
                     getCalender().get(Calendar.MINUTE),
@@ -75,15 +90,23 @@ public class TimePicker extends LinearLayout {
             mTimePicker.show();
         });
 
-        setDefaultTime();
+        updateTextOnField();
     }
 
-    private void setDefaultTime() {
-        setDefaultTime(new Date(getCurrentTime()));
+    private void updateTextOnField() {
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(new Date(getCurrentTime()));
+
+        mEditText.setText(
+                String.format("%d:%02d",
+                        cal.get(Calendar.HOUR_OF_DAY),
+                        cal.get(Calendar.MINUTE)
+                )
+        );
     }
 
     @SuppressLint("DefaultLocale")
-    private void setDefaultTime(Integer hourOfDay, Integer minute) {
+    private void setTime(Integer hourOfDay, Integer minute) {
         try {
             Date startDate = timeFormat.parse(
                     String.format("%d:%02d", hourOfDay, minute)
@@ -95,33 +118,22 @@ public class TimePicker extends LinearLayout {
         }
     }
 
-    @SuppressLint("DefaultLocale")
-    private void setDefaultTime(Date test) {
-        Calendar cal = Calendar.getInstance();
-        cal.setTime(test);
-
-        mEditText.setText(
-                String.format("%d:%02d",
-                        cal.get(Calendar.HOUR_OF_DAY),
-                        cal.get(Calendar.MINUTE)
-                )
-        );
-    }
-
     protected Calendar getCalender() {
         Calendar cal = Calendar.getInstance();
-
-        if (getCurrentTime() != -1)
-            cal.setTime(new Date(currentTime));
+        cal.setTime(new Date(currentTime));
 
         return cal;
     }
 
     public void setCurrentTime(int time) {
-        this.currentTime = time;
-        setDefaultTime();
+        if (time == 0)
+            return;
 
-        mListener.onChange();
+        this.currentTime = time;
+        updateTextOnField();
+
+        if (mListener != null)
+            mListener.onChange();
     }
 
     public int getCurrentTime() {

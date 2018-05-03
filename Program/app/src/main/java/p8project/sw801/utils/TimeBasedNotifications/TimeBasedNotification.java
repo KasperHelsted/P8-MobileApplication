@@ -23,26 +23,30 @@ import p8project.sw801.ui.base.BaseService;
 import p8project.sw801.utils.ProximityBasedNotifications.ProximityService;
 
 public final class TimeBasedNotification {
-    private static TimeService ts = new TimeService();
-    private static ProximityService ps = new ProximityService();
     private static BaseService baseService = new BaseService();
 
+    /**
+     * Constructs a new time based alarm based on the time and weekdays chosen when creating an event.
+     * @param ctx The context of the application.
+     * @param e The EventWithData object for which the time based alarm should be constructed.
+     */
     public static void setAlarm(Context ctx, EventWithData e){
 
+        //Starts a new time based service and proximity based service.
+        //These are started so when a time based alarm or proximity based alarm are posted it is possible to still catch these even when the application are closed.
         Intent in = new Intent(ctx, TimeService.class);
         ctx.startService(in);
         Intent i = new Intent(ctx, ProximityService.class);
         ctx.startService(i);
 
-
+        //Creates a new connection to the database to fetch the newest EventWithData object in case the user have updated it since they created the event the first time.
         AppDatabase db = baseService.getDatabase(ctx);
         EventWithData eventWithData = db.eventWithDataDao().getEventWithData(
                 e.event.getId()
         );
 
+        //Check to see if the user have deleted the event
         if (eventWithData != null) {
-
-
             WhenWithCoordinate time = eventWithData.whens.get(0);
             //Initialize alarmManager with the context
             AlarmManager am = (AlarmManager) ctx.getSystemService(Context.ALARM_SERVICE);
@@ -50,6 +54,7 @@ public final class TimeBasedNotification {
             Calendar calendar = Calendar.getInstance();
             //Initialize the interval for the alarm
             long intervalMillis = 0;
+            //If there is not a time for the event
             if (time.when.getTimeCondition() == 1 || time.when.getTimeCondition() == 0) {
                 calendar.set(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH), calendar.get(Calendar.HOUR_OF_DAY + 1), 00, 00);
             } else {
@@ -62,7 +67,9 @@ public final class TimeBasedNotification {
                 ex.printStackTrace();
             }
             boolean weekAlarm = isWeekAlarm(weekdayList);
+
             if (weekAlarm) {
+                //If the alarm is for every day of the week
                 intervalMillis = 24 * 3600 * 1000; //Alarm once a day
                 Intent intent = new Intent(ctx, AlarmReceiver.class);
                 intent.putExtra("eventWithDate", new Gson().toJson(eventWithData));
@@ -72,7 +79,8 @@ public final class TimeBasedNotification {
                 SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ", Locale.US);
                 Log.i("Alarm", "Alarm added at: " + sdf.format(new Date()));
             } else {
-                intervalMillis = 24 * 3600 * 1000 * 7; //Alarm once a week on specific date
+                //Else alarm on specific days in the week
+                intervalMillis = 24 * 3600 * 1000 * 7;
                 for (Integer day : weekdayList) {
                     Intent intent = new Intent(ctx, AlarmReceiver.class);
                     intent.putExtra("eventWithDate", new Gson().toJson(eventWithData));
@@ -88,7 +96,7 @@ public final class TimeBasedNotification {
 
     /**
      * Deletes an alarm from the alarm manager
-     * @param eventWithData
+     * @param eventWithData The EventWithData object associated with the time based alarm.
      */
     public static void cancelAlarm(EventWithData eventWithData, Context ctx){
         AlarmManager am = (AlarmManager) ctx.getSystemService(Context.ALARM_SERVICE);
@@ -125,6 +133,12 @@ public final class TimeBasedNotification {
         Log.i("Alarm", "Alarm deleted at: " + sdf.format(new Date()));
     }
 
+    /**
+     * Method used to calculate the time needed to construct alarms for the different weekdays.
+     * @param weekflag An integer describing the day of the week for the alarm.
+     * @param dateTime Time describing when the alarm should trigger.
+     * @return A new time describing the corresponding day and time for the alarm to trigger.
+     */
     private static long timeHelper(int weekflag, long dateTime) {
         long time = 0;
         if (weekflag != 0)
@@ -156,6 +170,11 @@ public final class TimeBasedNotification {
         return time;
     }
 
+    /**
+     * Method to check if an event have need an alarm every day of the week.
+     * @param inputList List of days to trigger.
+     * @return Boolean depending on if the list of days contain every day.
+     */
     private static boolean isWeekAlarm(List<Integer> inputList){
         if (inputList != null){
             List<Integer> allDays = new ArrayList<Integer>(){{

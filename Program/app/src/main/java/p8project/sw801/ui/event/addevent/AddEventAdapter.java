@@ -44,7 +44,14 @@ public class AddEventAdapter extends BaseAdapter {
 
         LayoutInflater inflater = LayoutInflater.from(mContext);
         View row;
-        row = inflater.inflate(R.layout.addeventlistlayout, parent, false);
+
+        if (!Title.get(position).getNotification()){
+            row = inflater.inflate(R.layout.addeventlistlayout, parent, false);
+        }else  {
+            row = inflater.inflate(R.layout.activity_add_event_list_smartdevices_layout, parent, false);
+        }
+
+
         TextView title;
         title = (TextView) row.findViewById(R.id.addEventTrigger);
 

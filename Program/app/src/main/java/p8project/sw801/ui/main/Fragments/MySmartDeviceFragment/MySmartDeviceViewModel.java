@@ -17,6 +17,11 @@ public class MySmartDeviceViewModel extends BaseViewModel<MySmartDeviceNavigator
 
     private final MutableLiveData<List<SmartDevice>> mySmartDevicesListLiveData;
 
+    /**
+     * Constructor for the class. Calls a method that fetches all smart devices stored in the database.
+     * @param dataManager The active instance of the datamanager.
+     * @param schedulerProvider The active instance of the schedulerProvider.
+     */
     public MySmartDeviceViewModel(DataManager dataManager, SchedulerProvider schedulerProvider) {
         super(dataManager, schedulerProvider);
 
@@ -25,11 +30,18 @@ public class MySmartDeviceViewModel extends BaseViewModel<MySmartDeviceNavigator
         fetchMySmartDevices();
     }
 
+    /**
+     * Method used to refresh the list of smart devices displayed to the user.
+     * @param mySmartDevices
+     */
     public void addMySmartDevicesItemsToList(List<SmartDevice> mySmartDevices) {
         mySmartDevicesObservableArrayList.clear();
         mySmartDevicesObservableArrayList.addAll(mySmartDevices);
     }
 
+    /**
+     * Method used to get a list of all smart devices stored in the database.
+     */
     protected void fetchMySmartDevices() {
         setIsLoading(true);
         getCompositeDisposable().add(getDataManager()
@@ -44,24 +56,30 @@ public class MySmartDeviceViewModel extends BaseViewModel<MySmartDeviceNavigator
                     setIsLoading(false);
                 }, throwable -> {
                     setIsLoading(false);
-                    getNavigator().handleError(throwable);
                 }));
     }
 
+    /**
+     * Returns the list of all smart devices.
+     * @return The list of all smart devices.
+     */
     public MutableLiveData<List<SmartDevice>> getMySmartDevicesListLiveData() {
         return mySmartDevicesListLiveData;
     }
 
-    public ObservableList<SmartDevice> getMySmartDevicesObservableList() {
-        return mySmartDevicesObservableArrayList;
-    }
-
-
+    /**
+     * Method called when the user clicks on the add new smart device button.
+     * Uses the navigator to call a method in the MySmartDevice activity class.
+     */
     public void addSmartDevice() {
         getNavigator().addSmartDevice();
     }
 
-
+    /**
+     * Method used to delete a hue bridge associated with a specific smart device id.
+     * Called when the user deletes a smart device.
+     * @param id The id of the deleted smart device.
+     */
     protected void deleteHueBridge(Integer id) {
         getCompositeDisposable().add(getDataManager()
                 .deleteHueBridgeBySmartDeviceId(id)
@@ -69,6 +87,11 @@ public class MySmartDeviceViewModel extends BaseViewModel<MySmartDeviceNavigator
                 .subscribe());
     }
 
+    /**
+     * Method used to delete all white hue lights associated with a specific smart device id.
+     * Called when the user deletes a smart device.
+     * @param id The id of the deleted smart device.
+     */
     protected void deleteHueLightbulbWhite(Integer id) {
         getCompositeDisposable().add(getDataManager()
                 .deleteWhiteHueLightsBySmartDeviceId(id)
@@ -76,6 +99,11 @@ public class MySmartDeviceViewModel extends BaseViewModel<MySmartDeviceNavigator
                 .subscribe());
     }
 
+    /**
+     * Method used to delete all RGB hue lights associated with a specific smart device id.
+     * Called when the user deletes a smart device.
+     * @param id The id of the deleted smart device.
+     */
     protected void deleteHueLightbulbRGB(Integer id) {
         getCompositeDisposable().add(getDataManager()
                 .deleteRGBHueLightsBySmartDeviceId(id)
@@ -83,6 +111,11 @@ public class MySmartDeviceViewModel extends BaseViewModel<MySmartDeviceNavigator
                 .subscribe());
     }
 
+    /**
+     * Method used to delete a nest hub associated with a specific smart device id.
+     * Called when the user deletes a smart device.
+     * @param id The id of the deleted smart device.
+     */
     protected void deleteNestHub(Integer id) {
         getCompositeDisposable().add(getDataManager()
                 .deleteNestHubBySmartDeviceId(id)
@@ -90,6 +123,11 @@ public class MySmartDeviceViewModel extends BaseViewModel<MySmartDeviceNavigator
                 .subscribe());
     }
 
+    /**
+     * Method used to delete all nest thermostats associated with a specific smart device id.
+     * Called when the user deletes a smart device.
+     * @param id The id of the deleted smart device.
+     */
     protected void deleteNestThermostat(Integer id) {
         getCompositeDisposable().add(getDataManager()
                 .deleteNestThermostatBySmartDeviceId(id)
@@ -97,6 +135,11 @@ public class MySmartDeviceViewModel extends BaseViewModel<MySmartDeviceNavigator
                 .subscribe());
     }
 
+    /**
+     * Method used to delete all triggers associated with a specific smart device id.
+     * Called when the user deletes a smart device.
+     * @param id The id of the deleted smart device.
+     */
     protected void deleteTriggers(Integer id) {
         getCompositeDisposable().add(getDataManager()
                 .deleteTriggerBySmartDeviceId(id)
@@ -104,7 +147,12 @@ public class MySmartDeviceViewModel extends BaseViewModel<MySmartDeviceNavigator
                 .subscribe());
     }
 
-
+    /**
+     * Method used to delete a specific smart device.
+     * Called when the user deletes a smart device.
+     * This method calls the other deletion methods to ensure that all data relevant to the smart device is deleted.
+     * @param smartDevice The smart device object to be deleted.
+     */
     public void deleteDevice(SmartDevice smartDevice) {
         setIsLoading(true);
         int id = smartDevice.getId();
@@ -128,7 +176,6 @@ public class MySmartDeviceViewModel extends BaseViewModel<MySmartDeviceNavigator
                     fetchMySmartDevices();
                 }, throwable -> {
                     setIsLoading(false);
-                    getNavigator().handleError(throwable);
                 }));
     }
 }

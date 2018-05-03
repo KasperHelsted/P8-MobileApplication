@@ -2,7 +2,6 @@ package p8project.sw801.ui.event.addevent;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import p8project.sw801.data.DataManager;
 import p8project.sw801.data.model.db.Coordinate;
 import p8project.sw801.data.model.db.Event;
@@ -17,13 +16,18 @@ public class AddEventViewModel extends BaseViewModel<AddEventNavigator> {
 
     public DayPicker dayPicker = new DayPicker();
 
-
+    /**
+     * Constructor for the class.
+     * @param dataManager The active instance of the datamanager.
+     * @param schedulerProvider The active instance of the schedulerProvider.
+     */
     public AddEventViewModel(DataManager dataManager, SchedulerProvider schedulerProvider) {
         super(dataManager, schedulerProvider);
-        //tempAddEvent();
-
     }
 
+    /**
+     * Method used to fetch a list of predefined locations from the database.
+     */
     public void displayPredefinedLocations() {
         List<PredefinedLocation> predefinedLocationList = new ArrayList<>();
         getCompositeDisposable().add(
@@ -41,43 +45,39 @@ public class AddEventViewModel extends BaseViewModel<AddEventNavigator> {
 
     }
 
+    /**
+     * Method called when a user clicks on the functionality to add a new trigger.
+     * Uses the navigator to call a method in the AddEvent activity class.
+     */
     public void showNotificationOrSmartdevice() {
         getNavigator().showNotificationOrSmartdevice();
     }
 
+    /**
+     * Method called when a user clicks on a time picker.
+     * Uses the navigator to call a method in the AddEvent activity class.
+     * @param i Variables used to distinguish between the two different timepickers.
+     */
     public void showTimePickerDialog(int i) {
         getNavigator().showTimePickerDialog(i);
     }
 
+    /**
+     * Method called when a user click on the create event button.
+     * Uses the navigator to call a method in the AddEvent activity class.
+     */
     public void submitEventClick() {
         getNavigator().submitEventClick();
 
     }
 
-    public void updateLocationData() {
-        getCompositeDisposable().add(
-                getDataManager().getLastPredefinedLocation().subscribeOn(
-                        getSchedulerProvider().io()
-                ).observeOn(getSchedulerProvider().ui())
-                        .subscribe(response -> {
-                            getNavigator().updateActiveLocation(response);
-                        })
-        );
-
-    }
-
-    /*public void submitEventToDatabase(Event event)
-    {
-        // Save Event to DB
-        getCompositeDisposable().add(
-                getDataManager().insertEvent(event).subscribeOn(
-                        getSchedulerProvider().io()
-                ).observeOn(getSchedulerProvider().ui())
-                        .subscribe()
-        );
-    }*/
-
-
+    /**
+     * Method called from the activity to save all required data for an event in the database.
+     * This method fetches the id of the event object and calls methods to save the when and list of triggers using the event id.
+     * @param when The when object describing the time and location of the notification to trigger.
+     * @param trigList List of triggers for the smart devices.
+     * @param pred The predefined location chosen by the user.
+     */
     public void submitEventToDatabase(When when, List<Trigger> trigList, PredefinedLocation pred) {
         if (pred != null) {
             when.setCoordinateId(pred.getCoordinateId());
@@ -96,6 +96,10 @@ public class AddEventViewModel extends BaseViewModel<AddEventNavigator> {
         );
     }
 
+    /**
+     * Method used to save an event object in the database.
+     * @param event The event object that is saved in the database.
+     */
     public void saveEvent(Event event) {
         // Save Event to DB
         getCompositeDisposable().add(
@@ -106,6 +110,13 @@ public class AddEventViewModel extends BaseViewModel<AddEventNavigator> {
         );
     }
 
+    /**
+     * Method used to insert a coordinate object into the database.
+     * Called as part of inserting an event and the associated data to the database.
+     * @param when The when object describing the time and location of the notification to trigger.
+     * @param trigList List of triggers for the smart devices.
+     * @param coordinate The coordinate for a location chosen by the user.
+     */
     public void saveCoordinate(When when, List<Trigger> trigList, Coordinate coordinate) {
         getCompositeDisposable().add(
                 getDataManager().insertCoordinate(coordinate).subscribeOn(
@@ -117,6 +128,11 @@ public class AddEventViewModel extends BaseViewModel<AddEventNavigator> {
         );
     }
 
+    /**
+     * Fetches the save coordinate object from the database and attaches this to the when object used in a later function.
+     * @param when The when object describing the time and location of the notification to trigger.
+     * @param trigList List of triggers for the smart devices.
+     */
     public void getCoordinateId(When when, List<Trigger> trigList) {
         getCompositeDisposable().add(
                 getDataManager().getLast().subscribeOn(
@@ -129,6 +145,11 @@ public class AddEventViewModel extends BaseViewModel<AddEventNavigator> {
         );
     }
 
+    /**
+     * Method used to save the list of triggers for an event.
+     * @param tList List of triggers for the smart devices.
+     * @param eventId The id of the event associated with the triggers.
+     */
     public void saveTriggers(List<Trigger> tList, Event eventId) {
         List<Trigger> tListWithId = new ArrayList<>();
         for (Trigger trigger : tList) {
@@ -143,6 +164,11 @@ public class AddEventViewModel extends BaseViewModel<AddEventNavigator> {
         );
     }
 
+    /**
+     * Method used to save the When object for an event.
+     * @param when The when object describing the time and location of the notification to trigger.
+     * @param eventId The id of the event.
+     */
     public void saveWhen(When when, Event eventId) {
         when.setEventId(eventId.getId());
         getCompositeDisposable().add(
@@ -155,18 +181,11 @@ public class AddEventViewModel extends BaseViewModel<AddEventNavigator> {
         );
     }
 
-    /*public void temp(Trigger t){
-        getCompositeDisposable().add(
-                getDataManager().insertTrigger(t).subscribeOn(
-                        getSchedulerProvider().io()
-                ).observeOn(getSchedulerProvider().ui())
-                        .subscribe(list -> {
-                        })
-        );
-    }
-    */
-
-
+    /**
+     * Method used to fetch an EventWithData object that contains all relevant data to an object such as the when object and list of tiggers.
+     * This object is used to create the relevant alarms and notification for the event.
+     * @param e The event object inserted previous.
+     */
     public void geteventwithdata(Event e) {
         getCompositeDisposable().add(
                 getDataManager().getEventWithData(e.getId()).subscribeOn(
@@ -176,146 +195,5 @@ public class AddEventViewModel extends BaseViewModel<AddEventNavigator> {
                 })
         );
     }
-
-    /*
-    private void tempAddEvent(){
-=======
-    private void tempAddEvent() {
->>>>>>> master
-
-        Event e = new Event();
-        e.setName("1");
-        e.setAlarmId("1");
-        e.setIntentId("1");
-        e.setActive(false);
-
-        Event r = new Event();
-        r.setName("2");
-        r.setAlarmId("2");
-        r.setIntentId("2");
-        r.setActive(true);
-
-
-        getCompositeDisposable().add(
-                getDataManager().insertAllEvents(
-                        e, r
-                ).subscribeOn(
-                        getSchedulerProvider().io()
-                ).subscribe(response -> {
-                    tempAddSmartDevice();
-                })
-        );
-
-    }
-
-    private void tempAddSmartDevice() {
-
-        SmartDevice e = new SmartDevice();
-        e.setActive(true);
-        e.setDeviceName("Hue");
-        e.setInternalIdentifier(1);
-
-        SmartDevice r = new SmartDevice();
-        r.setActive(true);
-        r.setDeviceName("Nest");
-        r.setInternalIdentifier(2);
-
-        getCompositeDisposable().add(
-                getDataManager().insertAllSmartDevices(
-                        e, r
-                ).subscribeOn(
-                        getSchedulerProvider().io()
-                ).subscribe(response -> {
-                    Log.i("SmartDevice", "Smart devices inserted");
-                    tempHAN();
-                })
-        );
-
-    }
-
-    private void temphue() {
-
-
-        HueLightbulbWhite e = new HueLightbulbWhite();
-        e.setDeviceName("Kitchen");
-        e.setHueBridgeId(1);
-        e.setDeviceId("test123");
-        e.setSmartDeviceId(1);
-        HueLightbulbWhite r = new HueLightbulbWhite();
-        r.setDeviceName("Living Room");
-        r.setHueBridgeId(1);
-        r.setDeviceId("test123b");
-        r.setSmartDeviceId(1);
-
-        getCompositeDisposable().add(
-                getDataManager().insertAllWhiteHueLightbulbs(
-                        e, r
-                ).subscribeOn(
-                        getSchedulerProvider().io()
-                ).subscribe(response -> {
-                })
-        );
-    }
-
-    private void tempNest() {
-        NestThermostat t = new NestThermostat();
-        t.setName("Kitchen term");
-        t.setNestHubId(1);
-        t.setDeviceId("12321");
-        t.setSmartDeviceId(2);
-        NestThermostat y = new NestThermostat();
-        y.setName("Living room term");
-        y.setNestHubId(1);
-        y.setDeviceId("123344");
-        y.setSmartDeviceId(2);
-
-        getCompositeDisposable().add(
-                getDataManager().insertAllNestThermostats(
-                        t, y
-                ).subscribeOn(
-                        getSchedulerProvider().io()
-                ).subscribe(response -> {
-                    Log.i("NEST THERMO", "NEST THERMO INSERTED");
-                })
-        );
-    }
-
-    private void tempHAN() {
-
-        HueBridge h = new HueBridge();
-        NestHub n = new NestHub();
-
-        h.setDeviceIP("192.167.0.1");
-        h.setDeviceMac("123456789");
-        h.setDeviceToken("123456789");
-        h.setSmartDeviceId(1);
-
-        n.setBearerToken("123745782345yfgvgyfvdfwtyfys");
-        n.setSmartDeviceId(2);
-
-
-        getCompositeDisposable().add(
-                getDataManager().insertNestHub(
-                        n
-                ).subscribeOn(
-                        getSchedulerProvider().io()
-                ).subscribe(response -> {
-                    Log.i("nest", "NEST INSERTED");
-                    tempNest();
-                })
-        );
-
-        getCompositeDisposable().add(
-                getDataManager().insertHueBridge(
-                        h
-                ).subscribeOn(
-                        getSchedulerProvider().io()
-                ).subscribe(response -> {
-                    Log.i("Hue", "HUE INSERTED");
-                    temphue();
-                })
-        );
-
-    }*/
 
 }
