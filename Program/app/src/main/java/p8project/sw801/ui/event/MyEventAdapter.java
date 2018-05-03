@@ -7,11 +7,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.CompoundButton;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Switch;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -19,7 +17,6 @@ import p8project.sw801.R;
 import p8project.sw801.data.model.db.Event;
 import p8project.sw801.ui.event.editevent.EditEvent;
 import p8project.sw801.ui.main.Fragments.MyEventsFragment.MyEventsFragment;
-import p8project.sw801.ui.main.Fragments.MyEventsFragment.MyEventsFragmentViewModel;
 
 /**
  * Created by cheec on 16-03-2018.
@@ -64,8 +61,8 @@ public class MyEventAdapter extends BaseAdapter {
         edit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(mContext, Title.get(position) +" has been renamed.", Toast.LENGTH_SHORT).show();
-                Intent editEvent = new Intent(mContext,EditEvent.class);
+                Intent editEvent = new Intent(mContext, EditEvent.class);
+                editEvent.putExtra("event_id", Title.get(position).getId());
                 mContext.startActivity(editEvent);
             }
         });
@@ -85,12 +82,10 @@ public class MyEventAdapter extends BaseAdapter {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 // do something, the isChecked will be
                 // true if the switch is in the On position
-                if(isChecked==true)
-                {
+                if (isChecked == true) {
                     myEventsFragment.updateEvent(Title.get(position), isChecked);
                 }
-                if(isChecked==false)
-                {
+                if (isChecked == false) {
                     myEventsFragment.updateEvent(Title.get(position), isChecked);
                 }
             }

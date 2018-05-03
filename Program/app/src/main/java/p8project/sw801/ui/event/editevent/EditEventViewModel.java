@@ -6,16 +6,25 @@ import android.databinding.ObservableField;
 import android.databinding.ObservableInt;
 import android.databinding.ObservableList;
 
+import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import p8project.sw801.data.DataManager;
+import p8project.sw801.data.local.RelationEntity.EventWithData;
+import p8project.sw801.data.local.RelationEntity.TriggerWithSmartDevice;
 import p8project.sw801.data.model.db.Trigger;
+import p8project.sw801.data.model.db.When;
 import p8project.sw801.ui.base.BaseViewModel;
 import p8project.sw801.ui.custom.DayPicker;
 import p8project.sw801.utils.rx.SchedulerProvider;
 
 public class EditEventViewModel extends BaseViewModel<EditEventNavigator> {
+    protected SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm");
+
     public ArrayList<String> locationConditions = new ArrayList<String>() {{
         add("No location chosen");
         add("At Location");
@@ -39,6 +48,8 @@ public class EditEventViewModel extends BaseViewModel<EditEventNavigator> {
 
     public DayPicker dayPicker = new DayPicker();
 
+    private EventWithData eventWithData;
+
     public final ObservableList<Trigger> eventTriggersObservableArrayList = new ObservableArrayList<>();
     private final MutableLiveData<List<Trigger>> eventTriggersListLiveData;
 
@@ -47,10 +58,67 @@ public class EditEventViewModel extends BaseViewModel<EditEventNavigator> {
         super(dataManager, schedulerProvider);
 
         eventTriggersListLiveData = new MutableLiveData<>();
+    }
+
+    private int hourAndMinuteToInt(Integer hour, Integer minute) throws ParseException {
+        Date date = timeFormat.parse(
+                String.format("%d:%02d", hour, minute)
+        );
+
+        return (int) date.getTime();
 
     }
 
-    void initializeLists() {
+    private void populate() throws IOException, ParseException {
+        eventName.set(this.eventWithData.event.getName());
+
+        When when = this.eventWithData.whens.get(0).when;
+
+        dayPicker.setDays((ArrayList<Integer>) when.getListWeekDays());
+
+        List<Trigger> triggers = new ArrayList<>();
+        for (TriggerWithSmartDevice triggerWithSmartDevice : this.eventWithData.triggers)
+            triggers.add(triggerWithSmartDevice.trigger);
+        addTriggersToList(triggers);
+
+        if (when.getStartHour() != null && when.getStartMinute() != null) {
+            startTime.set(hourAndMinuteToInt(
+                    when.getStartHour(),
+                    when.getStartMinute()
+            ));
+        }
+
+        if (when.getEndHour() != null && when.getEndMinute() != null) {
+            endTime.set(hourAndMinuteToInt(
+                    when.getEndHour(),
+                    when.getEndMinute()
+            ));
+        }
+
+        locationCondition.set(when.getLocationCondition());
+        whenCondition.set(when.getTimeCondition());
+    }
+
+    void loadInitialEvent(int eventId) {
+        if (eventId == -1)
+            ((EditEvent) getNavigator()).finish();
+
+        getCompositeDisposable().add(
+                getDataManager().getEventWithData(
+                        eventId
+                ).subscribeOn(
+                        getSchedulerProvider().io()
+                ).subscribeOn(
+                        getSchedulerProvider().ui()
+                ).subscribe(
+                        eventWithData -> {
+                            this.eventWithData = eventWithData;
+                            populate();
+                        }
+                )
+        );
+
+
 //        eventName.set("Test event");
 //        locationCondition.set(2);
 //        whenCondition.set(4);
@@ -63,28 +131,27 @@ public class EditEventViewModel extends BaseViewModel<EditEventNavigator> {
 //            add(5);
 //            add(6);
 //        }});
-
-        List<Trigger> test = new ArrayList<>();
-        test.add(new Trigger() {{
-            setNotificationText("TESTER 1");
-        }});
-        test.add(new Trigger() {{
-            setNotificationText("TESTER 2");
-        }});
-        test.add(new Trigger() {{
-            setNotificationText("TESTER 3");
-        }});
-        test.add(new Trigger() {{
-            setNotificationText("TESTER 4");
-        }});
-        test.add(new Trigger() {{
-            setNotificationText("TESTER 5");
-        }});
-        test.add(new Trigger() {{
-            setNotificationText("TESTER 6");
-        }});
-
-        eventTriggersListLiveData.setValue(test);
+//        List<Trigger> test = new ArrayList<>();
+//        test.add(new Trigger() {{
+//            setNotificationText("TESTER 1");
+//        }});
+//        test.add(new Trigger() {{
+//            setNotificationText("TESTER 2");
+//        }});
+//        test.add(new Trigger() {{
+//            setNotificationText("TESTER 3");
+//        }});
+//        test.add(new Trigger() {{
+//            setNotificationText("TESTER 4");
+//        }});
+//        test.add(new Trigger() {{
+//            setNotificationText("TESTER 5");
+//        }});
+//        test.add(new Trigger() {{
+//            setNotificationText("TESTER 6");
+//        }});
+//
+//        eventTriggersListLiveData.setValue(test);
     }
 
     public void close() {
