@@ -79,14 +79,6 @@
                         android:layout_alignParentEnd="true">
 
                         <ImageView
-                            android:layout_width="25dp"
-                            android:layout_height="25dp"
-                            android:layout_marginEnd="10dp"
-                            android:layout_marginTop="12dp"
-                            android:onClick="@{() -> viewModel.toggleSmartDevice()}"
-                            app:srcCompat="@drawable/on_off_button" />
-
-                        <ImageView
                             android:id="@+id/deleteMySmartDevice"
                             android:layout_width="25dp"
                             android:layout_height="25dp"

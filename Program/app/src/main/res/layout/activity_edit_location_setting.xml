@@ -42,7 +42,7 @@
             android:clickable="false"
             android:focusable="false"
             android:focusableInTouchMode="false"
-            android:text="NAME"
+            android:text="Name:"
             android:textSize="20dp"
             android:textStyle="italic"
             app:layout_constraintEnd_toEndOf="parent"
@@ -74,7 +74,8 @@
                 android:id="@+id/textInputLocationName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Name" />
+                android:imeOptions="actionDone"
+                android:singleLine="true"/>
         </android.support.design.widget.TextInputLayout>
 
 
@@ -85,12 +86,12 @@
             android:layout_marginEnd="16dp"
             android:layout_marginStart="16dp"
             android:background="@drawable/spinner_border"
-            android:drawableEnd="@android:drawable/ic_menu_mapmode"
+            android:drawableEnd="@drawable/ic_map_black_18dp"
             android:gravity="center_vertical"
             android:onClick="@{() -> viewModel.showMapActivity()}"
             android:paddingLeft="5dp"
             android:paddingRight="8dp"
-            android:text="At Location (Default - At no specific location)"
+            android:text="Please select a location"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
@@ -102,15 +103,13 @@
             android:layout_height="48dp"
             android:layout_marginEnd="16dp"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="176dp"
+            android:layout_marginTop="32dp"
             android:text="Confirm"
+            android:theme="@style/CustomStyleButton"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.497"
             app:layout_constraintStart_toStartOf="parent"
-            android:onClick="@{() -> viewModel.submitEditEventClick()}"
+            android:onClick="@{() -> viewModel.submitEditLocationClick()}"
             app:layout_constraintTop_toBottomOf="@+id/addLocation" />
-
-
-
     </android.support.constraint.ConstraintLayout>
 </layout>

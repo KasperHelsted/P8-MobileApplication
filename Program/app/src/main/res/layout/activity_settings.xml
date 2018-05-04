@@ -36,7 +36,9 @@
                 android:text="Predefined location settings"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/editText_globalmute" />
+                app:layout_constraintTop_toBottomOf="@+id/editText_globalmute"
+                android:onClick="@{() -> viewModel.navigateToPredefinedLocation()}"/>
+
 
             <EditText
                 android:id="@+id/editText_globalmute"
@@ -55,7 +57,8 @@
                 android:text="Global mute setting"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                android:onClick="@{() -> viewModel.navigateToGlobalMute()}" />
 
             <EditText
                 android:id="@+id/editText_preferredshoppingsettings"
@@ -72,7 +75,9 @@
                 android:focusableInTouchMode="false"
                 android:inputType="textPersonName"
                 android:text="Preferred shopping settings"
-                app:layout_constraintEnd_toEndOf="parent"
+                android:onClick="@{() -> viewModel.navigateToPreferedShopping()}"
+
+            app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/editText_predefinedlocationsettings" />
 

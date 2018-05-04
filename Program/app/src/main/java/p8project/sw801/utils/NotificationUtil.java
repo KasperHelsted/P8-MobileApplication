@@ -15,7 +15,6 @@ import p8project.sw801.ui.main.MainActivity;
 
 
 public class NotificationUtil extends ContextWrapper {
-
     //For SDK 22
     private NotificationManager mNotifyManager ;
     private Notification mNotify;
@@ -28,26 +27,33 @@ public class NotificationUtil extends ContextWrapper {
     private Intent notifyIntent;
     private PendingIntent notifyPendingIntent;
 
+    /**
+     * Creation of class, sets the context of the class
+     * @param base context of caller
+     */
     public NotificationUtil(Context base) {
         super(base);
         creationOfIntent();
     }
 
-
+    /**
+     * Creates notification intent
+     */
     private void creationOfIntent(){
         notifyIntent = new Intent(this, MainActivity.class);
         // Set the Activity to start in a new, empty task
-        notifyIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
-                | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        notifyIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         // Create the PendingIntent
-        notifyPendingIntent = PendingIntent.getActivity(
-                this, 0, notifyIntent, PendingIntent.FLAG_UPDATE_CURRENT
+        notifyPendingIntent = PendingIntent.getActivity(this, 0, notifyIntent, PendingIntent.FLAG_UPDATE_CURRENT
         );
-
     }
 
+    /**
+     * Creates the android notification
+     * @param title title of notification
+     * @param content content of the notification
+     */
     public void CreateNotification(String title, String content) {
-
         if (android.os.Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
             mNotifyManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
 
@@ -72,16 +78,21 @@ public class NotificationUtil extends ContextWrapper {
         }
     }
 
+    /**
+     * Create notification for sub SDK 26
+     */
     //SDK < 26
     private void ShowNotify(){
         mNotifyManager.notify(0, mNotify);
     }
 
+    /**
+     * Create notification for post SDK 26
+     */
     //SDK >= 26
     private void createChannels() {
         // create android channel
-        NotificationChannel androidChannel = new NotificationChannel(ANDROID_CHANNEL_ID,
-                ANDROID_CHANNEL_NAME, NotificationManager.IMPORTANCE_DEFAULT);
+        NotificationChannel androidChannel = new NotificationChannel(ANDROID_CHANNEL_ID, ANDROID_CHANNEL_NAME, NotificationManager.IMPORTANCE_DEFAULT);
         // Sets whether notifications posted to this channel should display notification lights
         androidChannel.enableLights(true);
         // Sets whether notification posted to this channel should vibrate.
@@ -93,12 +104,15 @@ public class NotificationUtil extends ContextWrapper {
         androidChannel.setLockscreenVisibility(Notification.VISIBILITY_PUBLIC);
         getManager().createNotificationChannel(androidChannel);
     }
+
+    /**
+     * Receives notification manager
+     * @return notification manager instance
+     */
     private NotificationManager getManager() {
         if (mManager == null) {
             mManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         }
         return mManager;
     }
-
-
 }

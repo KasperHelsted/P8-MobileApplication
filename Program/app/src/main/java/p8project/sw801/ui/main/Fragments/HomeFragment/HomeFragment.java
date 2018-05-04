@@ -25,6 +25,13 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeFragment
 
     public static final String TAG = HomeFragment.class.getSimpleName();
 
+    /**
+     * On create view method for HomeFragment. Instantiates and sets up all required fields for the page.
+     * @param inflater The infater used from the activity to inflate this fragment.
+     * @param container The container containing this fragment.
+     * @param savedInstanceState The saved instance state if there is one.
+     * @return The inflated view.
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
@@ -37,6 +44,10 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeFragment
         return view;
     }
 
+    /**
+     * Constructor for the fragment.
+     * @return
+     */
     public static HomeFragment newInstance() {
         Bundle args = new Bundle();
 
@@ -46,37 +57,65 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeFragment
         return fragment;
     }
 
+    /**
+     * Gets the binding variable.
+     * @return The binding variable.
+     */
     @Override
     public int getBindingVariable() {
         return BR.viewModel;
     }
 
+    /**
+     * Get id for the layout for this page.
+     * @return Layout id.
+     */
     @Override
     public int getLayoutId() {
         return R.layout.fragment_home;
     }
 
+    /**
+     * Get the instance of the view model.
+     * @return Instance of the view model.
+     */
     @Override
     public HomeFragmentViewModel getViewModel() {
         return mHomeFragmentViewModel;
     }
 
+    /**
+     * Method used when the user clicks on the create event button.
+     * This starts a new Create Event activity.
+     */
     @Override
     public void buttonCreateEventOnClick() {
         Intent intent = new Intent(getActivity(), AddEvent.class);
         startActivity(intent);
     }
 
+    /**
+     * Method used when the user clicks on the My Events button.
+     * This changes the active fragment in Main activity to the My Events fragment.
+     */
     @Override
     public void buttonMyEventsOnClick() {
         ((MainActivity) getActivity()).setView(1);
     }
 
+    /**
+     * Method used when the user clicks on the My Smart Devices button.
+     * This changes the active fragment in Main activity to the My Smart Devices fragment.
+     */
     @Override
     public void buttonMySmartDevicesOnClick() {
         ((MainActivity) getActivity()).setView(2);
     }
 
+    /**
+     * Method used when the user clicks on the create event button.
+     * This starts a new Settings activity.
+     */
     @Override
     public void buttonSettingsOnClick() {
         Intent intent = new Intent(getActivity(), SettingsActivity.class);

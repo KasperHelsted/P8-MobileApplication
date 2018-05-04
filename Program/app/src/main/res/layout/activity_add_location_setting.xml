@@ -54,7 +54,9 @@
                 android:id="@+id/textInputGlobalMuteName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Give your predefined location a name" />
+                android:hint="Give your predefined location a name"
+                android:imeOptions="actionDone"
+                android:singleLine="true"/>
         </android.support.design.widget.TextInputLayout>
 
         <TextView
@@ -74,12 +76,12 @@
             android:layout_marginEnd="16dp"
             android:layout_marginStart="16dp"
             android:background="@drawable/spinner_border"
-            android:drawableEnd="@android:drawable/ic_menu_mapmode"
+            android:drawableEnd="@drawable/ic_map_black_18dp"
             android:gravity="center_vertical"
             android:onClick="@{() -> viewModel.showMapActivity()}"
             android:paddingLeft="5dp"
             android:paddingRight="8dp"
-            android:text="At Location (Default - At no specific location)"
+            android:text="Please select a location"
 
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
@@ -93,13 +95,14 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="16dp"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="176dp"
+            android:layout_marginTop="32dp"
             android:gravity="center"
+            android:onClick="@{() -> viewModel.submitLocationClick()}"
             android:text="Save"
+            android:theme="@style/CustomStyleButton"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.498"
             app:layout_constraintStart_toStartOf="parent"
-            android:onClick="@{() -> viewModel.submitLocationClick()}"
             app:layout_constraintTop_toBottomOf="@+id/addLocation" />
 
     </android.support.constraint.ConstraintLayout>

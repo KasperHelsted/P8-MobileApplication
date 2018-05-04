@@ -1,19 +1,19 @@
 package p8project.sw801.ui.Settings.EditGlobalMuteSetting;
 
-        import android.databinding.ObservableArrayList;
-        import android.databinding.ObservableField;
-        import android.databinding.ObservableInt;
-        import android.databinding.ObservableList;
+import android.databinding.ObservableArrayList;
+import android.databinding.ObservableField;
+import android.databinding.ObservableInt;
+import android.databinding.ObservableList;
 
-        import java.text.SimpleDateFormat;
-        import java.util.Date;
-        import java.util.Locale;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 
-        import p8project.sw801.data.DataManager;
-        import p8project.sw801.data.model.db.GlobalMute;
-        import p8project.sw801.data.model.db.PredefinedLocation;
-        import p8project.sw801.ui.base.BaseViewModel;
-        import p8project.sw801.utils.rx.SchedulerProvider;
+import p8project.sw801.data.DataManager;
+import p8project.sw801.data.model.db.GlobalMute;
+import p8project.sw801.data.model.db.PredefinedLocation;
+import p8project.sw801.ui.base.BaseViewModel;
+import p8project.sw801.utils.rx.SchedulerProvider;
 
 public class EditGlobalMuteSettingViewModel extends BaseViewModel<EditGlobalMuteSettingNavigator>  {
 
@@ -36,9 +36,12 @@ public class EditGlobalMuteSettingViewModel extends BaseViewModel<EditGlobalMute
 
     public EditGlobalMuteSettingViewModel(DataManager dataManager, SchedulerProvider schedulerProvider) {
         super(dataManager, schedulerProvider);
-        //loadData();
-
     }
+
+    /**
+     * Receives a globalmute from an id
+     * @param id
+     */
     public void loadData(Integer id) {
         getCompositeDisposable().add(
                 getDataManager().getGlobalMuteById(id).subscribeOn(
@@ -48,11 +51,11 @@ public class EditGlobalMuteSettingViewModel extends BaseViewModel<EditGlobalMute
                     setUp();
                 })
         );
-
-
-
     }
 
+    /**
+     * Sets the observable data with the data received from loadData
+     */
     private void setUp(){
         globulMuteName.set(globalMute.getName());
         startTime.set(timeFormatter(globalMute.getStartTime()));
@@ -63,20 +66,35 @@ public class EditGlobalMuteSettingViewModel extends BaseViewModel<EditGlobalMute
         endTimeLong = globalMute.getEndTime();
     };
 
+    /**
+     * Navigator for displaying timepicker for starttime
+     */
     public void pickStartTime() {
         settingStartTime = true;
         getNavigator().showTimePickerDialog(this);
     }
 
+    /**
+     * Navigator for displaying timepicker for endtime
+     */
     public void pickEndTime() {
         settingStartTime = false;
         getNavigator().showTimePickerDialog(this);
     }
 
+    /**
+     * Navigator for converting a time
+     * @param l time in long
+     * @return time as string
+     */
     private String timeFormatter(Long l) {
         return timeFormat.format(new Date(l));
     }
 
+    /**
+     * a callback from the timepickers to decide which of the times that has been set
+     * @param l time as long
+     */
     @Override
     public void callbackTimePicker(Long l) {
         if (settingStartTime) {
@@ -88,6 +106,9 @@ public class EditGlobalMuteSettingViewModel extends BaseViewModel<EditGlobalMute
         }
     }
 
+    /**
+     * Submits a globalmute
+     */
     public void submitGlobalMuteClick() {
         if (globulMuteName.get() == null || globulMuteName.get().isEmpty()) {
             getNavigator().sendNotification("Name cannot be empty");

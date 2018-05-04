@@ -3,27 +3,35 @@ package p8project.sw801.ui.Settings.Shopping;
 import android.databinding.ObservableArrayList;
 import android.databinding.ObservableBoolean;
 import android.databinding.ObservableList;
-import android.util.Log;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Observable;
 
 import p8project.sw801.data.DataManager;
 import p8project.sw801.data.model.db.Chain;
-import p8project.sw801.data.model.db.Store;
 import p8project.sw801.ui.base.BaseViewModel;
 import p8project.sw801.utils.rx.SchedulerProvider;
 
 public class ShoppingSettingViewModel extends BaseViewModel<ShoppingSettingNavigator> {
+    /**
+     * Observable fields for chain data and the favourites
+     */
     private final ObservableArrayList<Chain> listOfChains = new ObservableArrayList<>();
     public final ObservableBoolean favorite = new ObservableBoolean(false);
 
+    /**
+     * Constructor for the viewmodel
+     * Updates the view with data from the database
+     * @param dataManager the database
+     * @param schedulerProvider class that controls which scheduler is used
+     */
     public ShoppingSettingViewModel(DataManager dataManager, SchedulerProvider schedulerProvider) {
         super(dataManager, schedulerProvider);
-       // setup();
         getListFromDb();
     }
+
+    /**
+     * Receives the data from the database
+     */
     public void getListFromDb(){
 
         //Fetch list from database
@@ -37,26 +45,44 @@ public class ShoppingSettingViewModel extends BaseViewModel<ShoppingSettingNavig
         );
     }
 
+    /**
+     * Seends the list of chains to the activity to render
+     * @param chainList list of chains
+     */
     public void RenderList(List<Chain> chainList){
         listOfChains.clear();
         listOfChains.addAll(chainList);
         getNavigator().updateShoppingList();
     }
 
+    /**
+     * Observable that contains the current list of chains
+     * @return
+     */
     public ObservableList<Chain> getChainsObservableList() {
         return listOfChains;
     }
 
+    /**
+     * Observable for the favourites - Checked
+     */
     public void checked()
     {
         favorite.set(true);
     }
 
+    /**
+     * Observable for the favourites - unchecked
+     */
     public void unchecked()
     {
         favorite.set(false);
     }
 
+    /**
+     * Update method for a chain
+     * @param chain one chain to update
+     */
     public void updateChain(Chain chain){
         getCompositeDisposable().add(
                 getDataManager().updateChain(chain).subscribeOn(
@@ -64,36 +90,4 @@ public class ShoppingSettingViewModel extends BaseViewModel<ShoppingSettingNavig
                 ).subscribe()
         );
     }
-
-
- /*   public void setup()
-    {
-        Chain NettoChain = new Chain();
-        NettoChain.setActive(true);
-        NettoChain.setBrandName("Netto");
-
-        Chain fotexChain = new Chain();
-        fotexChain.setActive(true);
-        fotexChain.setBrandName("Føtex");
-
-
-
-
-
-        List<Chain> chains = new ArrayList<>();
-        chains.add(NettoChain);
-        chains.add(fotexChain);
-
-
-
-        getCompositeDisposable().add(
-                getDataManager().insertAllChains(chains).subscribeOn(
-                        getSchedulerProvider().io()
-                ).subscribe()
-        );
-    }
-    */
-
-
-
 }

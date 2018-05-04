@@ -26,21 +26,22 @@
 
             <Button
                 android:id="@+id/buttonCreate"
-                android:layout_width="wrap_content"
+                android:layout_width="200dp"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="16dp"
                 android:layout_marginStart="16dp"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="32dp"
                 android:gravity="center"
                 android:onClick="@{() -> viewModel.buttonCreateEventOnClick()}"
                 android:text="Create event"
+                android:theme="@style/CustomStyleButton"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <Button
                 android:id="@+id/buttonMySmartDevices"
-                android:layout_width="wrap_content"
+                android:layout_width="200dp"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="16dp"
                 android:layout_marginStart="16dp"
@@ -48,13 +49,14 @@
                 android:gravity="center"
                 android:onClick="@{() -> viewModel.buttonMySmartDevicesOnClick()}"
                 android:text="My Smart Devices"
+                android:theme="@style/CustomStyleButton"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/buttonMyEvents" />
 
             <Button
                 android:id="@+id/buttonMyEvents"
-                android:layout_width="wrap_content"
+                android:layout_width="200dp"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="16dp"
                 android:layout_marginStart="16dp"
@@ -62,13 +64,14 @@
                 android:gravity="center"
                 android:onClick="@{() -> viewModel.buttonMyEventsOnClick()}"
                 android:text="My Events"
+                android:theme="@style/CustomStyleButton"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/buttonCreate" />
 
             <Button
                 android:id="@+id/buttonSettings"
-                android:layout_width="wrap_content"
+                android:layout_width="200dp"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="16dp"
                 android:layout_marginStart="16dp"
@@ -76,23 +79,11 @@
                 android:gravity="center"
                 android:onClick="@{() -> viewModel.buttonSettingsOnClick()}"
                 android:text="Settings"
+                android:theme="@style/CustomStyleButton"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/buttonMySmartDevices" />
 
         </android.support.constraint.ConstraintLayout>
-
-        <!--    &lt;!&ndash;Burger menu &ndash;&gt;
-            <android.support.design.widget.NavigationView
-                android:id="@+id/burgermenu"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_gravity="start"
-                android:background="@android:color/white"
-                app:headerLayout="@layout/burgerheader"
-                app:itemIconTint="@android:color/black"
-                app:itemTextColor="@android:color/black"
-                app:menu="@menu/drawermenu">
-            </android.support.design.widget.NavigationView>-->
     </FrameLayout>
 </layout>

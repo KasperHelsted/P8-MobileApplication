@@ -66,7 +66,6 @@ public final class CommonUtils {
         return progressDialog;
     }
     public static Address convertCoordinateToAddress(double lat, double lon, Context context){
-        //TODO MAKE DEFAULT ADDRESS TO RETURN TO AVOID NULL
         Geocoder geocoder;
         Address address = null;
         geocoder = new Geocoder(context, Locale.getDefault());

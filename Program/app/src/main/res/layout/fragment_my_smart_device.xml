@@ -25,21 +25,23 @@
 
             <TextView
                 android:id="@+id/textView_mysmartdevices"
-                android:layout_width="300dp"
-                android:layout_height="46dp"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="8dp"
+                android:gravity="center"
                 android:text="My smart devices"
+                android:textColor="@android:color/black"
                 android:textSize="30dp"
+                app:layout_constraintEnd_toStartOf="@+id/imageView_myeventadd"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <ImageView
                 android:id="@+id/imageView_myeventadd"
-                android:layout_width="wrap_content"
+                android:layout_width="72dp"
                 android:layout_height="57dp"
                 android:layout_marginEnd="16dp"
-                android:layout_marginStart="36dp"
                 android:onClick="@{() -> viewModel.addSmartDevice()}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/textView_mysmartdevices"
@@ -47,22 +49,17 @@
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/recyclerView_mysmartdevices"
-                android:layout_marginTop="46dp"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                app:adapter="@{viewModel.mySmartDevicesObservableArrayList}" />
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginBottom="8dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                app:adapter="@{viewModel.mySmartDevicesObservableArrayList}"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView_mysmartdevices" />
         </android.support.constraint.ConstraintLayout>
-
-        <!--Burger menu -->
-        <android.support.design.widget.NavigationView
-            android:id="@+id/burgermenu"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_gravity="start"
-            android:background="@android:color/white"
-            app:headerLayout="@layout/burgerheader"
-            app:itemIconTint="@android:color/black"
-            app:itemTextColor="@android:color/black"
-            app:menu="@menu/drawermenu"></android.support.design.widget.NavigationView>
     </android.support.v4.widget.DrawerLayout>
 </layout>

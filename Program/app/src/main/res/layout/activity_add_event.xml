@@ -60,7 +60,8 @@
                     android:id="@+id/daypicker"
                     layout="@layout/daypicker"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"></include>
+                    android:layout_height="wrap_content"
+                    app:dayPicker="@={viewModel.dayPicker}" />
             </LinearLayout>
 
             <TextView
@@ -88,7 +89,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Give your event a name"
-                    android:importantForAutofill="noExcludeDescendants"/>
+                    android:imeOptions="actionDone"
+                    android:importantForAutofill="noExcludeDescendants"
+                    android:singleLine="true" />
             </android.support.design.widget.TextInputLayout>
 
             <TextView
@@ -132,12 +135,12 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="8dp"
                 android:background="@drawable/spinner_border"
-                android:drawableEnd="@android:drawable/ic_menu_mapmode"
+                android:drawableEnd="@drawable/ic_map_black_18dp"
                 android:gravity="center_vertical"
                 android:onClick="@{() -> viewModel.displayPredefinedLocations()}"
                 android:paddingLeft="5dp"
                 android:paddingRight="8dp"
-                android:text="At Location (Default - At no specific location)"
+                android:text="Please select a location"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
@@ -172,7 +175,7 @@
                 android:layout_marginEnd="16dp"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="8dp"
-                android:drawableEnd="@android:drawable/ic_menu_recent_history"
+                android:drawableEnd="@drawable/ic_schedule_black_18dp"
                 android:ems="10"
                 android:focusable="false"
                 android:inputType="text"
@@ -210,7 +213,7 @@
                 android:layout_marginEnd="16dp"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="8dp"
-                android:drawableEnd="@android:drawable/ic_menu_recent_history"
+                android:drawableEnd="@drawable/ic_schedule_black_18dp"
                 android:ems="10"
                 android:enabled="false"
                 android:focusable="false"
@@ -240,11 +243,10 @@
                 android:layout_marginEnd="16dp"
                 android:layout_marginStart="16dp"
                 android:background="@drawable/spinner_border"
-                android:drawableEnd="@drawable/ic_add_black_18dp"
+                android:drawableEnd="@drawable/ic_add_black_18dp_med"
                 android:gravity="center_vertical"
                 android:onClick="@{() -> viewModel.showNotificationOrSmartdevice()}"
                 android:paddingLeft="5dp"
-                android:paddingRight="-7dp"
                 android:text="Event trigger"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -263,6 +265,7 @@
                 android:layout_marginTop="16dp"
                 android:onClick="closeAddEvent"
                 android:text="Cancel"
+                android:theme="@style/CustomStyleButton"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/buttonCreateEvent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -277,8 +280,9 @@
                 android:layout_marginEnd="16dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="16dp"
-                android:text="Create Event"
                 android:onClick="@{()->viewModel.submitEventClick()}"
+                android:text="Create Event"
+                android:theme="@style/CustomStyleButton"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/buttonCancel"

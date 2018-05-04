@@ -12,27 +12,33 @@ import p8project.sw801.ui.base.BaseViewModel;
 import p8project.sw801.utils.rx.SchedulerProvider;
 
 public class GlobalMuteSettingViewModel extends BaseViewModel<GlobalMuteSettingNavigator> {
-    private final ObservableArrayList<GlobalMute> t = new ObservableArrayList<>();
+    private final ObservableArrayList<GlobalMute> globalMuteObservableArrayList = new ObservableArrayList<>();
 
     public GlobalMuteSettingViewModel(DataManager dataManager, SchedulerProvider schedulerProvider) {
         super(dataManager, schedulerProvider);
-
+        //Get newest data from db
         getListFromDb();
-        //temp();
     }
 
+    /**
+     * Clickevent Navigator for opening addglobalmute
+     */
     public void showAddGlobalMuteSetting() {
         getNavigator().openAddGlobalMuteSettingActivity();
     }
 
+    /**
+     * Observable field of global mutes
+     * @return
+     */
     public ObservableList<GlobalMute> getGlobalMuteObservableList() {
-        return t;
+        return globalMuteObservableArrayList;
     }
 
+    /**
+     * Gets globalmutes from db
+     */
     public void getListFromDb() {
-        List<GlobalMute> a = new ArrayList<>();
-        ArrayList<GlobalMute> arrayList = null;
-
         //Fetch list from database
         getCompositeDisposable().add(
                 getDataManager().getAllGlobalMutes().subscribeOn(
@@ -44,12 +50,20 @@ public class GlobalMuteSettingViewModel extends BaseViewModel<GlobalMuteSettingN
         );
     }
 
-    public void RenderList(List<GlobalMute> g) {
-        t.clear();
-        t.addAll(g);
+    /**
+     * Updates the list of globalmutes and sends it for rendering
+     * @param globalMutes
+     */
+    public void RenderList(List<GlobalMute> globalMutes) {
+        globalMuteObservableArrayList.clear();
+        globalMuteObservableArrayList.addAll(globalMutes);
         getNavigator().updatelist();
     }
 
+    /**
+     * Deletes the globalmute from the db
+     * @param globalMute globalmute to delete
+     */
     public void deleteGlobalMute(GlobalMute globalMute) {
         getCompositeDisposable().add(
                 getDataManager().deleteGlobalMute(globalMute).subscribeOn(
@@ -59,7 +73,7 @@ public class GlobalMuteSettingViewModel extends BaseViewModel<GlobalMuteSettingN
                         })
         );
 
-        t.remove(globalMute);
+        globalMuteObservableArrayList.remove(globalMute);
         getNavigator().updatelist();
     }
 

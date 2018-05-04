@@ -1,9 +1,9 @@
 package p8project.sw801.ui.Settings.Location.AddLocation;
 
-public interface AddLocationNavigator {
-    void handleError(Throwable throwable);
+import p8project.sw801.data.model.db.PredefinedLocation;
 
+public interface AddLocationNavigator {
     void openCreateMapActivity();
     void submitLocationClick();
-    void openLocationActivty();
+    void openLocationActivty(PredefinedLocation predefinedLocation);
 }

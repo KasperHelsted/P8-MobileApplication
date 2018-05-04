@@ -6,5 +6,5 @@ import dagger.android.ContributesAndroidInjector;
 @Module
 public abstract class MySmartDeviceProvider {
     @ContributesAndroidInjector(modules = MySmartDeviceModule.class)
-    abstract MySmartDeviceFragment provideBlogFragmentFactory();
+    abstract MySmartDeviceFragment provideMySmartDeviceFragmentFactory();
 }
