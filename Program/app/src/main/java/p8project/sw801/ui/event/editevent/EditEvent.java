@@ -16,6 +16,9 @@ import p8project.sw801.ui.base.BaseActivity;
 import p8project.sw801.ui.event.editevent.triggersList.TriggerListAdapter;
 
 public class EditEvent extends BaseActivity<ActivityEditEventBinding, EditEventViewModel> implements EditEventNavigator, TriggerListAdapter.TriggerListListener {
+    /**
+     * MVVM setup
+     */
     @Inject
     TriggerListAdapter mTriggerListAdapter;
     ActivityEditEventBinding mActivityEditEventBinding;
@@ -25,23 +28,6 @@ public class EditEvent extends BaseActivity<ActivityEditEventBinding, EditEventV
 
     @Inject
     EditEventViewModel mEditEventViewModel;
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        mEditEventViewModel.setNavigator(this);
-        mTriggerListAdapter.setListener(this);
-
-        mActivityEditEventBinding = getViewDataBinding();
-
-        mEditEventViewModel.loadInitialEvent(
-                getIntent().getIntExtra("event_id", -1)
-        );
-
-        setUp();
-        subscribeToLiveData();
-    }
-
 
     @Override
     public int getBindingVariable() {
@@ -58,11 +44,31 @@ public class EditEvent extends BaseActivity<ActivityEditEventBinding, EditEventV
         return mEditEventViewModel;
     }
 
+    /**'
+     * Sets up the activity with data to edit
+     * @param savedInstanceState
+     */
     @Override
-    public void handleError(Throwable throwable) {
-        // handle error
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        mEditEventViewModel.setNavigator(this);
+        mTriggerListAdapter.setListener(this);
+
+        mActivityEditEventBinding = getViewDataBinding();
+
+        mEditEventViewModel.loadInitialEvent(
+                getIntent().getIntExtra("event_id", -1)
+        );
+
+        setUp();
+        subscribeToLiveData();
     }
 
+    /**
+     * Dynamic method to create new intent
+     * @param context Context
+     * @return intent status
+     */
     public static Intent newIntent(Context context) {
         Intent intent = new Intent(context, EditEvent.class);
         return intent;
@@ -73,6 +79,10 @@ public class EditEvent extends BaseActivity<ActivityEditEventBinding, EditEventV
 
     }
 
+    /**
+     * Deletes a trigger
+     * @param trigger trigger to delete
+     */
     @Override
     public void deleteTrigger(Trigger trigger) {
         mEditEventViewModel.eventTriggersObservableArrayList.remove(trigger);
@@ -83,6 +93,9 @@ public class EditEvent extends BaseActivity<ActivityEditEventBinding, EditEventV
 
     }
 
+    /**
+     * Initial setup
+     */
     private void setUp() {
         mLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
 
@@ -91,6 +104,9 @@ public class EditEvent extends BaseActivity<ActivityEditEventBinding, EditEventV
         mActivityEditEventBinding.recyclerViewMyTriggers.setAdapter(mTriggerListAdapter);
     }
 
+    /**
+     * Subscription to live data
+     */
     private void subscribeToLiveData() {
         mEditEventViewModel.getEventTriggersListLiveData().observe(this, triggers -> mEditEventViewModel.addTriggersToList(triggers));
     }
