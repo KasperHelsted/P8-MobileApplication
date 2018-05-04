@@ -369,10 +369,10 @@ public class AddEvent extends BaseActivity<ActivityAddEventBinding, AddEventView
                 String tempminute;
                 tempminute = "0"+String.valueOf(minute);
                 String time = String.valueOf(hourOfDay) + ":" + tempminute;
-                AtTime.setText(time);
+                betweenTime.setText(time);
             } else{
                 String time = String.valueOf(hourOfDay) + ":" + String.valueOf(minute);
-                AtTime.setText(time);
+                betweenTime.setText(time);
             }
         }
     }
