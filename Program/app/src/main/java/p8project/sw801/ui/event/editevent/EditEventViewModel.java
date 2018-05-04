@@ -49,7 +49,8 @@ public class EditEventViewModel extends BaseViewModel<EditEventNavigator> {
     /**
      * Constructor for viewmodel
      * Sets up the data
-     * @param dataManager db instance
+     *
+     * @param dataManager       db instance
      * @param schedulerProvider schedulers
      */
     public EditEventViewModel(DataManager dataManager, SchedulerProvider schedulerProvider) {
@@ -74,7 +75,8 @@ public class EditEventViewModel extends BaseViewModel<EditEventNavigator> {
 
     /**
      * Converts hours and minutes to an integer
-     * @param hour hour value
+     *
+     * @param hour   hour value
      * @param minute minute value
      * @return time as int
      * @throws ParseException Exception if it all fails
@@ -90,7 +92,8 @@ public class EditEventViewModel extends BaseViewModel<EditEventNavigator> {
 
     /**
      * Populates the view from the data
-     * @throws IOException if reading the data went wrong
+     *
+     * @throws IOException    if reading the data went wrong
      * @throws ParseException if parsing the data went wrong
      */
     private void populate() throws IOException, ParseException {
@@ -120,6 +123,7 @@ public class EditEventViewModel extends BaseViewModel<EditEventNavigator> {
 
     /**
      * Loads the event from the stored data
+     *
      * @param eventId id to load event from
      */
     void loadInitialEvent(int eventId) {
@@ -156,6 +160,7 @@ public class EditEventViewModel extends BaseViewModel<EditEventNavigator> {
 
     /**
      * Adds a trigger to the observable list
+     *
      * @param triggerList list of triggers to add
      */
     public void addTriggersToList(List<Trigger> triggerList) {
@@ -165,9 +170,18 @@ public class EditEventViewModel extends BaseViewModel<EditEventNavigator> {
 
     /**
      * Get current eventtrigger data
+     *
      * @return List of triggers
      */
     public MutableLiveData<List<Trigger>> getEventTriggersListLiveData() {
         return eventTriggersListLiveData;
+    }
+
+    public void tester() {
+        System.out.println("locationCondition: " + locationCondition.get());
+        System.out.println("whenCondition: " + whenCondition.get());
+        System.out.println("days: " + dayPicker.getDays());
+        System.out.println("start: " + startTime.get());
+        System.out.println("end: " + endTime.get());
     }
 }
