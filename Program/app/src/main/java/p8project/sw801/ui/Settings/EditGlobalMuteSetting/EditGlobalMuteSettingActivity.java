@@ -26,6 +26,9 @@ import p8project.sw801.ui.base.BaseViewModel;
 
 public class EditGlobalMuteSettingActivity extends BaseActivity<ActivityEditGlobalMuteBinding, EditGlobalMuteSettingViewModel> implements EditGlobalMuteSettingNavigator, HasSupportFragmentInjector,CustomTimePickerCallback {
 
+    /**
+     * MVVM setup
+     */
     @Inject
     EditGlobalMuteSettingViewModel mEditGlobalMuteSettingViewModel;
     private ActivityEditGlobalMuteBinding mActivityEditGlobalMuteBinding;
@@ -33,18 +36,6 @@ public class EditGlobalMuteSettingActivity extends BaseActivity<ActivityEditGlob
     @Inject
     DispatchingAndroidInjector<Fragment> fragmentDispatchingAndroidInjector;
     private BaseViewModel callback;
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        mEditGlobalMuteSettingViewModel.setNavigator(this);
-        mActivityEditGlobalMuteBinding = getViewDataBinding();
-
-        Intent intent = getIntent();
-        Integer id = intent.getIntExtra("id", 0);
-        mEditGlobalMuteSettingViewModel.loadData(id);
-
-    }
 
     @Override
     public int getBindingVariable() {
@@ -62,10 +53,29 @@ public class EditGlobalMuteSettingActivity extends BaseActivity<ActivityEditGlob
     }
 
     @Override
-    public void handleError(Throwable throwable) {
-
+    public AndroidInjector<Fragment> supportFragmentInjector() {
+        return fragmentDispatchingAndroidInjector;
     }
 
+    /**
+     * Sets up the activity for editting by getting the id from the intent and load the data
+     * @param savedInstanceState
+     */
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        mEditGlobalMuteSettingViewModel.setNavigator(this);
+        mActivityEditGlobalMuteBinding = getViewDataBinding();
+
+        Intent intent = getIntent();
+        Integer id = intent.getIntExtra("id", 0);
+        mEditGlobalMuteSettingViewModel.loadData(id);
+    }
+
+    /**
+     * 'Displays the viewmodel
+     * @param viewModel instance of the viewmodel
+     */
     @Override
     public void showTimePickerDialog(BaseViewModel viewModel) {
         callback = viewModel;
@@ -73,26 +83,38 @@ public class EditGlobalMuteSettingActivity extends BaseActivity<ActivityEditGlob
         TimePickerDialog.newInstance().show(getSupportFragmentManager());
     }
 
+    /**
+     * Method to make toast
+     * @param msg msg to display in toast
+     */
     @Override
     public void sendNotification(String msg) {
         Toast.makeText(getBaseContext(), msg, Toast.LENGTH_LONG).show();
     }
 
-    @Override
-    public AndroidInjector<Fragment> supportFragmentInjector() {
-        return fragmentDispatchingAndroidInjector;
-    }
-
-
+    /**
+     * Close the activity
+     * @param v
+     */
     public void closeAddGlobalMute(View v) {
         finish();
     }
 
+    /**
+     * Start a new intent without result
+     * @param context context of intent
+     * @return status of the intent
+     */
     public static Intent newIntent(Context context) {
         Intent intent = new Intent(context, EditGlobalMuteSettingActivity.class);
         return intent;
     }
 
+    /**
+     * When the user finishes selecting time
+     * a callback to viewmodel to update data is sent
+     * @param datTime time as long
+     */
     @Override
     public void onTimeSet(long datTime) {
         callback.callbackTimePicker(datTime);
