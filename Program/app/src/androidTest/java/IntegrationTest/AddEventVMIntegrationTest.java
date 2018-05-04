@@ -3,30 +3,23 @@ package IntegrationTest;
 import android.arch.persistence.room.Room;
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
-import android.support.test.runner.AndroidJUnit4;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.BeforeClass;
-import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
 import java.io.IOException;
-import java.util.List;
 
 import IntegrationTest.utils.rx.TestSchedulerProvider;
 import io.reactivex.schedulers.TestScheduler;
 import p8project.sw801.data.DataManager;
 import p8project.sw801.data.local.dao.PredefinedLocationDao;
 import p8project.sw801.data.local.db.AppDatabase;
-import p8project.sw801.data.model.db.PredefinedLocation;
 import p8project.sw801.ui.event.addevent.AddEventNavigator;
 import p8project.sw801.ui.event.addevent.AddEventViewModel;
-
-import static org.junit.Assert.assertEquals;
-
 
 @RunWith(MockitoJUnitRunner.class)
 public class AddEventVMIntegrationTest {

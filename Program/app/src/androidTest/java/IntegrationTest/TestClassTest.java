@@ -6,9 +6,7 @@ import android.support.test.InstrumentationRegistry;
 import android.support.test.espresso.action.ViewActions;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
-import android.widget.TimePicker;
 
-import org.hamcrest.Matchers;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
@@ -31,15 +29,10 @@ import p8project.sw801.ui.Settings.AddGlobalMuteSetting.AddGlobalMuteSettingActi
 import p8project.sw801.ui.Settings.AddGlobalMuteSetting.AddGlobalMuteSettingNavigator;
 import p8project.sw801.ui.Settings.AddGlobalMuteSetting.AddGlobalMuteSettingViewModel;
 
-import static android.support.test.espresso.Espresso.closeSoftKeyboard;
-import static android.support.test.espresso.Espresso.onData;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
-import static android.support.test.espresso.matcher.ViewMatchers.withClassName;
-
-import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static org.junit.Assert.assertEquals;
 
 @RunWith(AndroidJUnit4.class)
@@ -114,8 +107,8 @@ public class TestClassTest {
         onView(withId(R.id.textInputGlobalMuteName))
                 .perform(typeText(mStringToBetyped), ViewActions.closeSoftKeyboard());
         //onView(withClassName(Matchers.equalTo(TimePicker.class.getName()))).perform(PickerActions.setTime(hour, minutes));
-       // onView(withId(R.id.editTextTimeBetween))
-         //       .perform(typeText("12:01"));
+        // onView(withId(R.id.editTextTimeBetween))
+        //       .perform(typeText("12:01"));
         onView(withId(R.id.editTextComment))
                 .perform(typeText("yo"), ViewActions.closeSoftKeyboard());
         onView(withId(R.id.buttonCancel)).perform(click());

@@ -4,7 +4,6 @@ import android.arch.persistence.room.Room;
 import android.content.Context;
 import android.databinding.ObservableField;
 import android.support.test.InstrumentationRegistry;
-import android.support.test.runner.AndroidJUnit4;
 
 import org.junit.After;
 import org.junit.Before;
@@ -24,7 +23,6 @@ import p8project.sw801.data.local.dao.GlobalMuteDao;
 import p8project.sw801.data.local.dao.PredefinedLocationDao;
 import p8project.sw801.data.local.db.AppDatabase;
 import p8project.sw801.data.model.db.GlobalMute;
-import p8project.sw801.data.model.db.PredefinedLocation;
 import p8project.sw801.ui.Settings.AddGlobalMuteSetting.AddGlobalMuteSettingNavigator;
 import p8project.sw801.ui.Settings.AddGlobalMuteSetting.AddGlobalMuteSettingViewModel;
 

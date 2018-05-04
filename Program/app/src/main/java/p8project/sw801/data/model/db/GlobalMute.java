@@ -96,4 +96,22 @@ public class GlobalMute {
     public void setPredefinedLocationId(Integer predefinedLocationId) {
         this.predefinedLocationId = predefinedLocationId;
     }
+
+    @Override
+    public boolean equals(Object object) {
+        if (this == object) {
+            return true;
+        }
+        if (object == null || getClass() != object.getClass()) {
+            return false;
+        }
+        GlobalMute that = (GlobalMute) object;
+
+        if (this.name.equals(that.name)) {
+            return true;
+        }
+
+        return false;
+    }
+
 }
