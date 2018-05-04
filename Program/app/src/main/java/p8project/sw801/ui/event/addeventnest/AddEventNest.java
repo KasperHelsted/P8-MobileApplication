@@ -149,7 +149,7 @@ public class AddEventNest extends BaseActivity<ActivityAddEventNestBinding, AddE
     public void setTemp(){
         Trigger t = new Trigger();
         t.setNotification(true);
-        t.setNotificationText(mySmartDevice.getDeviceName() + " " + myAccessory.getName() + " Adjust brightness to: " + seekBarNest.getProgress());
+        t.setNotificationText(mySmartDevice.getDeviceName() + " " + myAccessory.getName() + " Adjust temperature to: " + seekBarNest.getProgress());
         t.setSmartDeviceId(mySmartDevice.getId());
         t.setAccessorieId(myAccessory.getId());
         t.setAction(6);
