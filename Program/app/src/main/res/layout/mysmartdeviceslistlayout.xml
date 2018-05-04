@@ -19,12 +19,13 @@
 
 
     <!-- Rightend Arrow -->
-    <ImageView android:layout_width="wrap_content"
+    <ImageView
+        android:id="@+id/imageView_mysmartdeviceedit"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/ic_border_color_black_18dp"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
-        android:id="@+id/imageView_mysmartdeviceedit" />
+        android:src="@drawable/ic_create_black_18dp" />
 
     <ImageView
         android:id="@+id/imageView_mysmartdevicedelete"

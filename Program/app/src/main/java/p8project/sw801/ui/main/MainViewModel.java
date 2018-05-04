@@ -10,14 +10,15 @@ import p8project.sw801.data.seeding.Seeder;
 import p8project.sw801.ui.base.BaseViewModel;
 import p8project.sw801.utils.rx.SchedulerProvider;
 
-/**
- * Created by Kasper Helsted on 4/4/2018.
- */
+
 public class MainViewModel extends BaseViewModel<MainNavigator> {
     public MainViewModel(DataManager dataManager, SchedulerProvider schedulerProvider) {
         super(dataManager, schedulerProvider);
     }
 
+    /**
+     * Method used for populating the local database with chains and stores.
+     */
     public void firstRunSeeding() {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences((MainActivity) getNavigator());
 
@@ -34,6 +35,10 @@ public class MainViewModel extends BaseViewModel<MainNavigator> {
         }
     }
 
+    /**
+     * Method for inserting Chain in the database
+     * @param baseChain Generic implementation of handling insertion of chains
+     */
     private void insertChain(BaseChain baseChain) {
         getCompositeDisposable().add(
                 getDataManager().insertChain(
@@ -46,6 +51,10 @@ public class MainViewModel extends BaseViewModel<MainNavigator> {
         );
     }
 
+    /**
+     * Method for inserting multiple stores in the database
+     * @param baseChain Generic implementation of handling insertion of stores
+     */
     private void insertStores(BaseChain baseChain) {
         getCompositeDisposable().add(
                 getDataManager().getChainbyName(
@@ -61,7 +70,10 @@ public class MainViewModel extends BaseViewModel<MainNavigator> {
         );
     }
 
-
+    /**
+     * Method for inserting a single store in the database
+     * @param store custom store object
+     */
     private void insertStore(Store store) {
         getCompositeDisposable().add(
                 getDataManager().insertStore(
@@ -71,13 +83,4 @@ public class MainViewModel extends BaseViewModel<MainNavigator> {
                 ).subscribe()
         );
     }
-
-    public void buttonMyEventsOnClick() {
-        getNavigator().buttonMyEventsOnClick();
-    }
-
-    public void buttonMySmartDevicesOnClick() {
-        getNavigator().buttonMySmartDevicesOnClick();
-    }
-
 }

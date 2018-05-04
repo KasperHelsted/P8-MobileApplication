@@ -54,7 +54,6 @@
                 android:clickable="true"
                 android:onClick="@{() -> viewModel.showAddGlobalMuteSetting()}"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/navigation"
                 app:srcCompat="@drawable/ic_add_black_18dp" />
 
         </android.support.constraint.ConstraintLayout>

@@ -144,9 +144,8 @@
                         android:id="@+id/addLocation"
                         android:layout_width="match_parent"
                         android:layout_height="45dp"
-                        android:layout_marginTop="8dp"
                         android:background="@drawable/spinner_border"
-                        android:drawableEnd="@android:drawable/ic_menu_mapmode"
+                        android:drawableEnd="@drawable/ic_map_black_18dp"
                         android:gravity="center_vertical" />
                 </android.support.constraint.ConstraintLayout>
 

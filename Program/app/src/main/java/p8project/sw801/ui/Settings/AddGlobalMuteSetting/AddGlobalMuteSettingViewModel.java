@@ -2,7 +2,6 @@ package p8project.sw801.ui.Settings.AddGlobalMuteSetting;
 
 import android.databinding.ObservableArrayList;
 import android.databinding.ObservableField;
-import android.databinding.ObservableInt;
 import android.databinding.ObservableList;
 
 import java.text.SimpleDateFormat;
@@ -22,46 +21,55 @@ public class AddGlobalMuteSettingViewModel extends BaseViewModel<AddGlobalMuteSe
     public final ObservableField<String> globulMuteName = new ObservableField<>("");
     public final ObservableField<String> startTime = new ObservableField<>("");
     public final ObservableField<String> endTime = new ObservableField<>("");
-    //public final ObservableInt predefinedLocation = new ObservableInt(0);
     public final ObservableField<String> comment = new ObservableField<>("");
-
     private Long startTimeLong = 0L;
     private Long endTimeLong = 0L;
-
     private boolean settingStartTime = false;
-
     private SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm", Locale.UK);
 
-
+    /**
+     * Constructor for the class.
+     *
+     * @param dataManager       The active instance of the datamanager.
+     * @param schedulerProvider The active instance of the schedulerProvider.
+     */
     public AddGlobalMuteSettingViewModel(DataManager dataManager, SchedulerProvider schedulerProvider) {
         super(dataManager, schedulerProvider);
-
-        //loadData();
     }
 
-    private void loadData() {
-        getCompositeDisposable().add(
-                getDataManager().getAllPredefinedLocations().subscribeOn(
-                        getSchedulerProvider().io()
-                ).subscribe(this.predefinedLocations::addAll)
-        );
-    }
-
-
+    /**
+     * Method called when the user clicks on the field for start time.
+     * Calls a method in the activity that renders a time picker fragment
+     */
     public void pickStartTime() {
         settingStartTime = true;
         getNavigator().showTimePickerDialog(this);
     }
 
+    /**
+     * Method called when the user clicks on the field for end time.
+     * Calls a method in the activity that renders a time picker fragment
+     */
     public void pickEndTime() {
         settingStartTime = false;
         getNavigator().showTimePickerDialog(this);
     }
 
+    /**
+     * A method used to format the chosen time to another format used in other parts of the application.
+     *
+     * @param l The time to be converted.
+     * @return The converted time.
+     */
     private String timeFormatter(Long l) {
         return timeFormat.format(new Date(l));
     }
 
+    /**
+     * Method used when a time picker value is submitted.
+     *
+     * @param l The time submitted.
+     */
     @Override
     public void callbackTimePicker(Long l) {
         if (settingStartTime) {
@@ -73,6 +81,10 @@ public class AddGlobalMuteSettingViewModel extends BaseViewModel<AddGlobalMuteSe
         }
     }
 
+    /**
+     * Method called to submit the new global mute.
+     * Multiple checks are performed to ensure that all required fields are filled.
+     */
     public void submitGlobalMuteClick() {
         if (globulMuteName.get() == null || globulMuteName.get().isEmpty()) {
             getNavigator().sendNotification("Name cannot be empty");

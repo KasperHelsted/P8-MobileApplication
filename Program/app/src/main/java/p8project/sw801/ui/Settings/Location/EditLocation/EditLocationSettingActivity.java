@@ -22,14 +22,9 @@ import p8project.sw801.R;
 import p8project.sw801.data.model.db.Coordinate;
 import p8project.sw801.data.model.db.PredefinedLocation;
 import p8project.sw801.databinding.ActivityEditLocationSettingBinding;
-import p8project.sw801.ui.Settings.Location.LocationSettingActivity;
 import p8project.sw801.ui.base.BaseActivity;
 import p8project.sw801.ui.event.createeventmap.CreateEventMap;
 import p8project.sw801.utils.CommonUtils;
-
-/**
- * Created by clubd on 22-03-2018.
- */
 
 public class EditLocationSettingActivity extends BaseActivity<ActivityEditLocationSettingBinding,EditLocationViewModel> implements EditLocationNavigator, HasSupportFragmentInjector {
     private Bundle addressBundle;
@@ -42,6 +37,9 @@ public class EditLocationSettingActivity extends BaseActivity<ActivityEditLocati
     private Location loc;
     private PredefinedLocation predLoc;
 
+    /**
+     * MVVM fields and setup of MVVM
+     */
     private ActivityEditLocationSettingBinding mActivityEditLocationSettingBinding;
     @Inject
     EditLocationViewModel mEditLocationViewModel;
@@ -64,6 +62,10 @@ public class EditLocationSettingActivity extends BaseActivity<ActivityEditLocati
         return mEditLocationViewModel;
     }
 
+    /**
+     * 'Setup of MVVM bindings and data at the start of activity
+     * @param savedInstanceState the state of the app
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -75,12 +77,29 @@ public class EditLocationSettingActivity extends BaseActivity<ActivityEditLocati
         getLocationToEdit();
     }
 
+    /**
+     * Setup of UI elements -> fields
+     */
+    private void setUpBindings() {
+        addressTextView  = mActivityEditLocationSettingBinding.addLocation;
+        confirmButton = mActivityEditLocationSettingBinding.buttonEditLocationSettingConfirm;
+        nameTextView = mActivityEditLocationSettingBinding.textInputLocationName;
+    }
+
+    /**
+     * Receives the location id from the intent and receives the location object from the db
+     */
     private void getLocationToEdit(){
         //Receives data from DB based on ID
         int id = getIntent().getIntExtra("id",0);
         mEditLocationViewModel.getLocationFromId(id);
     }
 
+    /**
+     * Renders the fields of the editpage with the location data
+     * @param predefinedLocation location object
+     * @param coordinate coordinate object corresponding to the predefined location
+     */
     public void renderFields(PredefinedLocation predefinedLocation, Coordinate coordinate){
         if (predefinedLocation != null){
             nameTextView.setText(predefinedLocation.getName());
@@ -96,34 +115,37 @@ public class EditLocationSettingActivity extends BaseActivity<ActivityEditLocati
 
     }
 
+    /**
+     * Stops the activity
+     */
     @Override
     public void openLocationActivty() {
         finish();
 
     }
 
-    private void setUpBindings() {
-        addressTextView  = mActivityEditLocationSettingBinding.addLocation;
-        confirmButton = mActivityEditLocationSettingBinding.buttonEditLocationSettingConfirm;
-        nameTextView = mActivityEditLocationSettingBinding.textInputLocationName;
-    }
-
+    /**'
+     * Opens the createEventMap activity for the user to choose a location
+     */
     @Override
     public void openCreateMapActivity() {
         Intent intent = CreateEventMap.newIntent(EditLocationSettingActivity.this);
         startActivityForResult(intent,13);
     }
 
+    /**
+     * Dagger
+     * @return androidinjector for dagger to use
+     */
     @Override
     public AndroidInjector<Fragment> supportFragmentInjector() {
         return fragmentDispatchingAndroidInjector;
     }
 
-    @Override
-    public void handleError(Throwable throwable) {
 
-    }
-
+    /**
+     * Method that submits the edited event to the database
+     */
     @Override
     public void submitEditLocationClick() {
         try{
@@ -141,6 +163,12 @@ public class EditLocationSettingActivity extends BaseActivity<ActivityEditLocati
         }
     }
 
+    /**
+     * Method that catches the result of an intent created in this activity
+     * @param requestCode code specified for the result
+     * @param resultCode result status code
+     * @param data intent with data
+     */
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);

@@ -27,9 +27,9 @@ public class AlarmReceiver extends BroadcastReceiver {
     BaseService baseService = new BaseService();
 
     /**
-     * Method called when an alarm is triggered
-     * @param context
-     * @param intent
+     * Method called when a time based alarm is triggered. Create a new proximity based alarm if the Event specifies it else calls a function to trigger to relevant smart devices.
+     * @param context The context of the application.
+     * @param intent The pending intent used when creating the alarm.
      */
     @Override
     public void onReceive(Context context, Intent intent) {
@@ -41,14 +41,14 @@ public class AlarmReceiver extends BroadcastReceiver {
             jsonMyObject = result.getString("eventWithDate");
         }
 
+        //Creates a new connection to the database to fetch the newest EventWithData object in case the user have updated it since they created the event the first time.
         AppDatabase db = baseService.getDatabase(context);
         EventWithData eventWithData = db.eventWithDataDao().getEventWithData(
                 new Gson().fromJson(jsonMyObject, EventWithData.class).event.getId()
         );
 
+        //Check to see if the user have deleted the event
         if (eventWithData != null) {
-
-
             List<GlobalMute> globalMuteList = db.globalMuteDao().getAll();
 
             List<TriggerWithSmartDevice> triggerWithSmartDevices = eventWithData.triggers;
@@ -71,9 +71,10 @@ public class AlarmReceiver extends BroadcastReceiver {
             // Position 2 = At this time
             // Position 3 = After this time
             // Position 4 = Between these times
-
             ProximityReceiver proximityReceiver = new ProximityReceiver();
 
+            //Evaluates the condition specified by the user and check if it is allowed to continue with either constructing a proximity alert or trigger smart devices.
+            //Further the first check is to see if the current time is in the span of a global mute setting meaning that it is not allowed to trigger.
             if (eventWithData.event.getActive() && !proximityReceiver.globalMuted(globalMuteList, time)) {
                 if (when.getLocationCondition() == 0) {
                     proximityReceiver.triggerFunction(triggerWithSmartDevices, eventWithData.event.getName(), context);

@@ -27,7 +27,13 @@ public class MyEventAdapter extends BaseAdapter {
     private ArrayList<Event> Title;
     private MyEventsFragment myEventsFragment;
 
-
+    /**
+     * Adapter used to show the events created by the user. This adapter is used on the My Events page.
+     *
+     * @param context The context of the application.
+     * @param text1   A list of events to display.
+     * @param m       An instance of the fragment that this adapter is used on. This is included so the adapter is able to utilize methods from the fragment.
+     */
     public MyEventAdapter(Context context, ArrayList<Event> text1, MyEventsFragment m) {
         mContext = context;
         Title = text1;
@@ -80,14 +86,12 @@ public class MyEventAdapter extends BaseAdapter {
 
         eventSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                // do something, the isChecked will be
-                // true if the switch is in the On position
-                if (isChecked == true) {
+                // The isChecked will be true if the switch is in the On position
+                if (isChecked) {
                     myEventsFragment.updateEvent(Title.get(position), isChecked);
+                    return;
                 }
-                if (isChecked == false) {
-                    myEventsFragment.updateEvent(Title.get(position), isChecked);
-                }
+                myEventsFragment.updateEvent(Title.get(position), isChecked);
             }
         });
 

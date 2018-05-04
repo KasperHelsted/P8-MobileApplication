@@ -14,7 +14,6 @@ import javax.inject.Inject;
 import p8project.sw801.BR;
 import p8project.sw801.R;
 import p8project.sw801.data.model.db.SmartDevice;
-import p8project.sw801.data.model.db.Smartdevice.Accessories.HueLightbulbRGB;
 import p8project.sw801.data.model.db.Smartdevice.Accessories.HueLightbulbWhite;
 import p8project.sw801.data.model.db.Trigger;
 import p8project.sw801.databinding.ActivityAddEventHueBinding;
@@ -33,7 +32,10 @@ public class AddEventHue extends BaseActivity<ActivityAddEventHueBinding, AddEve
     private SeekBar seekBar;
     private TextView seekBarTextView;
 
-
+    /**
+     * On create method for AddEvent. Instantiates and sets up all required fields for the page.
+     * @param savedInstanceState The saved instance state.
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,6 +46,9 @@ public class AddEventHue extends BaseActivity<ActivityAddEventHueBinding, AddEve
         setUp();
     }
 
+    /**
+     * Fetches the data passed from the previous activity.
+     */
     private void fetchData(){
         String jsonMyObject ="";
         String jsonMyAccessory="";
@@ -56,6 +61,9 @@ public class AddEventHue extends BaseActivity<ActivityAddEventHueBinding, AddEve
         myAccessory = new Gson().fromJson(jsonMyAccessory, HueLightbulbWhite.class);
     }
 
+    /**
+     * Sets up the different components on the page
+     */
     public void setUp(){
         deviceNameTextView.setText("Device: " + mySmartDevice.getDeviceName());
         accessoryNameTextView.setText("Light: " + myAccessory.getDeviceName());
@@ -80,6 +88,9 @@ public class AddEventHue extends BaseActivity<ActivityAddEventHueBinding, AddEve
         });
     }
 
+    /**
+     * Setup bindings between the elements in the xml and the variables used to access these.
+     */
     private void bindings(){
         deviceNameTextView = mActivityAddEventHueBinding.textViewSmartDeviceName;
         accessoryNameTextView = mActivityAddEventHueBinding.textViewAccessoryName;
@@ -87,6 +98,9 @@ public class AddEventHue extends BaseActivity<ActivityAddEventHueBinding, AddEve
         seekBarTextView = mActivityAddEventHueBinding.textViewSeekBarPrecentage;
     }
 
+    /**
+     * Method used when the user chooses the turn light on option. This method creates a trigger object and returns this to the previous activity.
+     */
     @Override
     public void turnOn(){
         Trigger t = new Trigger();
@@ -104,6 +118,10 @@ public class AddEventHue extends BaseActivity<ActivityAddEventHueBinding, AddEve
 
 
     }
+
+    /**
+     * Method used when the user chooses the turn light off option. This method creates a trigger object and returns this to the previous activity.
+     */
     @Override
     public void turnOff(){
         Trigger t = new Trigger();
@@ -118,6 +136,10 @@ public class AddEventHue extends BaseActivity<ActivityAddEventHueBinding, AddEve
         setResult(Activity.RESULT_OK, resultintent);
         finish();
     }
+
+    /**
+     * Method used when the user chooses the brightness option. This method creates a trigger object and returns this to the previous activity.
+     */
     @Override
     public void setBrightness(){
         Trigger t = new Trigger();
@@ -134,27 +156,38 @@ public class AddEventHue extends BaseActivity<ActivityAddEventHueBinding, AddEve
         finish();
     }
 
-
+    /**
+     * Gets the binding variable.
+     * @return The binding variable.
+     */
     @Override
     public int getBindingVariable() {
         return BR.viewModel;
     }
 
+    /**
+     * Get id for the layout for this page.
+     * @return Layout id.
+     */
     @Override
     public int getLayoutId() {
         return R.layout.activity_add_event_hue;
     }
 
+    /**
+     * Get the instance of the view model.
+     * @return Instance of the view model.
+     */
     @Override
     public AddEventHueViewModel getViewModel() {
         return mAddEventHueViewModel;
     }
 
-    @Override
-    public void handleError(Throwable throwable) {
-        // handle error
-    }
-
+    /**
+     * Creates a new AddEventAccessory intent.
+     * @param context The current context of the application.
+     * @return The created intent.
+     */
     public static Intent newIntent(Context context) {
         Intent intent = new Intent(context, AddEventHue.class);
         return intent;
