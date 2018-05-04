@@ -2,7 +2,6 @@ package p8project.sw801.ui.Settings.AddGlobalMuteSetting;
 
 import android.databinding.ObservableArrayList;
 import android.databinding.ObservableField;
-import android.databinding.ObservableInt;
 import android.databinding.ObservableList;
 
 import java.text.SimpleDateFormat;
@@ -30,7 +29,8 @@ public class AddGlobalMuteSettingViewModel extends BaseViewModel<AddGlobalMuteSe
 
     /**
      * Constructor for the class.
-     * @param dataManager The active instance of the datamanager.
+     *
+     * @param dataManager       The active instance of the datamanager.
      * @param schedulerProvider The active instance of the schedulerProvider.
      */
     public AddGlobalMuteSettingViewModel(DataManager dataManager, SchedulerProvider schedulerProvider) {
@@ -57,6 +57,7 @@ public class AddGlobalMuteSettingViewModel extends BaseViewModel<AddGlobalMuteSe
 
     /**
      * A method used to format the chosen time to another format used in other parts of the application.
+     *
      * @param l The time to be converted.
      * @return The converted time.
      */
@@ -66,6 +67,7 @@ public class AddGlobalMuteSettingViewModel extends BaseViewModel<AddGlobalMuteSe
 
     /**
      * Method used when a time picker value is submitted.
+     *
      * @param l The time submitted.
      */
     @Override

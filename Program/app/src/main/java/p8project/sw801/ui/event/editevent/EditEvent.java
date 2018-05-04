@@ -34,7 +34,9 @@ public class EditEvent extends BaseActivity<ActivityEditEventBinding, EditEventV
 
         mActivityEditEventBinding = getViewDataBinding();
 
-        mEditEventViewModel.initializeLists();
+        mEditEventViewModel.loadInitialEvent(
+                getIntent().getIntExtra("event_id", -1)
+        );
 
         setUp();
         subscribeToLiveData();

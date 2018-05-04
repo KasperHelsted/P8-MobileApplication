@@ -132,9 +132,6 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/textViewWhen" />
 
-                <!--
-                android:visibility="@{viewModel.locationCondition.get() == 0 ? View.GONE : View.VISIBLE}"
-                -->
                 <android.support.constraint.ConstraintLayout
                     android:id="@+id/addLocationWrapper"
                     android:layout_width="match_parent"
@@ -169,7 +166,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
-                    android:visibility="@{viewModel.whenCondition.get() == 0 ? View.GONE: View.VISIBLE}"
+                    android:visibility="@{viewModel.whenCondition.get() == 0 ? View.GONE : View.VISIBLE}"
                     app:layout_constraintTop_toBottomOf="@+id/spinnerWhen">
 
                     <TextView
@@ -193,7 +190,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
-                    android:visibility="@{viewModel.whenCondition.get() == 4 ? View.VISIBLE : View.GONE}"
+                    android:visibility="@{viewModel.whenCondition.get() == 0 ? View.GONE : View.VISIBLE}"
                     app:layout_constraintTop_toBottomOf="@+id/whenInitialWrapper">
 
                     <TextView
@@ -241,13 +238,7 @@
                     android:id="@+id/addEventTriggerStatic"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
-                    android:background="@drawable/spinner_border"
-                    android:drawableEnd="@drawable/ic_add_black_18dp_med"
-                    android:gravity="center_vertical"
                     android:text="@string/select_trigger"
-                    android:textColor="@color/black"
-                    android:paddingLeft="10dp"
                     android:theme="@style/CustomStyleButton"
                     app:layout_constraintTop_toBottomOf="@+id/recyclerView_myTriggers" />
             </android.support.constraint.ConstraintLayout>

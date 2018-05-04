@@ -50,16 +50,16 @@ public class When implements Serializable {
     private byte[] weekdays;
 
     @ColumnInfo(name = "startHour")
-    private int startHour;
+    private Integer startHour;
 
     @ColumnInfo(name = "startMinute")
-    private int startMinute;
+    private Integer startMinute;
 
     @ColumnInfo(name = "endHour")
-    private int endHour;
+    private Integer endHour;
 
     @ColumnInfo(name = "endMinute")
-    private int endMinute;
+    private Integer endMinute;
 
     public byte[] getWeekdays() {
         return weekdays;
@@ -149,7 +149,7 @@ public class When implements Serializable {
         this.eventId = eventId;
     }
 
-    public int getStartHour() {
+    public Integer getStartHour() {
         return startHour;
     }
 
@@ -157,7 +157,7 @@ public class When implements Serializable {
         this.startHour = startHour;
     }
 
-    public int getStartMinute() {
+    public Integer getStartMinute() {
         return startMinute;
     }
 
@@ -165,7 +165,7 @@ public class When implements Serializable {
         this.startMinute = startMinute;
     }
 
-    public int getEndHour() {
+    public Integer getEndHour() {
         return endHour;
     }
 
@@ -173,7 +173,7 @@ public class When implements Serializable {
         this.endHour = endHour;
     }
 
-    public int getEndMinute() {
+    public Integer getEndMinute() {
         return endMinute;
     }
 
