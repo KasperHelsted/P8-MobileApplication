@@ -10,7 +10,6 @@ import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.Switch;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -30,9 +29,10 @@ public class MyEventAdapter extends BaseAdapter {
 
     /**
      * Adapter used to show the events created by the user. This adapter is used on the My Events page.
+     *
      * @param context The context of the application.
-     * @param text1 A list of events to display.
-     * @param m An instance of the fragment that this adapter is used on. This is included so the adapter is able to utilize methods from the fragment.
+     * @param text1   A list of events to display.
+     * @param m       An instance of the fragment that this adapter is used on. This is included so the adapter is able to utilize methods from the fragment.
      */
     public MyEventAdapter(Context context, ArrayList<Event> text1, MyEventsFragment m) {
         mContext = context;
@@ -67,8 +67,8 @@ public class MyEventAdapter extends BaseAdapter {
         edit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(mContext, Title.get(position) +" has been renamed.", Toast.LENGTH_SHORT).show();
-                Intent editEvent = new Intent(mContext,EditEvent.class);
+                Intent editEvent = new Intent(mContext, EditEvent.class);
+                editEvent.putExtra("event_id", Title.get(position).getId());
                 mContext.startActivity(editEvent);
             }
         });
@@ -87,14 +87,11 @@ public class MyEventAdapter extends BaseAdapter {
         eventSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 // The isChecked will be true if the switch is in the On position
-                if(isChecked==true)
-                {
+                if (isChecked) {
                     myEventsFragment.updateEvent(Title.get(position), isChecked);
+                    return;
                 }
-                if(isChecked==false)
-                {
-                    myEventsFragment.updateEvent(Title.get(position), isChecked);
-                }
+                myEventsFragment.updateEvent(Title.get(position), isChecked);
             }
         });
 
