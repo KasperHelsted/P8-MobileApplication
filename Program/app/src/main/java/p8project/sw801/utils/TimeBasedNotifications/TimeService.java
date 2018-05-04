@@ -15,7 +15,14 @@ public class TimeService extends Service {
     @Override
     public void onCreate() {
     }
-
+    /**
+     * Method called when the service is started.
+     * This method creates a new instance of the Time based receiver used for catching time based alerts.
+     * @param intent The intent starting this service.
+     * @param flags Possible flags used for starting the service.
+     * @param startId An id used for the service.
+     * @return
+     */
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         if (alarmReceiver == null){

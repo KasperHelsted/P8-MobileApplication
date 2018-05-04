@@ -48,7 +48,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginTop="30dp"
-            android:text="Wanna add some?"
+            android:text="Want to add some?"
             android:textColor="@color/gray" />
 
         <!--
@@ -63,7 +63,8 @@
             android:layout_marginTop="16dp"
             android:onClick="@{() -> viewModel.addSmartDevice()}"
             android:text="Click here to do so!"
-            android:textSize="20sp" />
+            android:textSize="20sp"
+            android:theme="@style/CustomStyleButton"/>
     </LinearLayout>
 
 </layout>

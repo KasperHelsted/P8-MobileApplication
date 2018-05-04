@@ -75,7 +75,7 @@ public class PHPushlinkActivity extends Activity {
         public void onConnectionLost(PHAccessPoint arg0) {}
 
         @Override
-        public void onConnectionResumed(PHBridge arg0) {}
+        public void onConnectionResumed(PHBridge arg0) {finish();}
 
         @Override
         public void onError(int code, final String message) {

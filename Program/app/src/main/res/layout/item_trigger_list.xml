@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="p8project.sw801.ui.event.editevent.triggersList.TriggerListItemViewModel" />
+
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/spinner_border"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/addEventTrigger"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:gravity="center_vertical"
+            android:text="@{viewModel.tester}"
+            tools:text="SAMPLE DEVICE NAME" />
+
+        <Button
+            android:layout_width="30dp"
+            android:padding="5dp"
+            android:layout_height="30dp"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="10dp"
+            android:background="@drawable/ic_delete_black_18dp"
+            android:onClick="@{() -> viewModel.deleteTrigger()}" />
+
+
+    </RelativeLayout>
+</layout>

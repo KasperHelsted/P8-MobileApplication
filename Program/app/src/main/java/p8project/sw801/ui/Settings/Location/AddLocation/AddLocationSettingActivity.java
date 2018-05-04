@@ -20,15 +20,13 @@ import io.reactivex.exceptions.OnErrorNotImplementedException;
 import p8project.sw801.BR;
 import p8project.sw801.R;
 import p8project.sw801.data.model.db.Coordinate;
+import p8project.sw801.data.model.db.PredefinedLocation;
 import p8project.sw801.databinding.ActivityAddLocationSettingBinding;
-import p8project.sw801.ui.Settings.Location.LocationSettingActivity;
 import p8project.sw801.ui.base.BaseActivity;
 import p8project.sw801.ui.event.createeventmap.CreateEventMap;
 import p8project.sw801.utils.CommonUtils;
 
-/**
- * Created by clubd on 22-03-2018.
- */
+
 
 public class AddLocationSettingActivity extends BaseActivity<ActivityAddLocationSettingBinding,AddLocationViewModel> implements AddLocationNavigator, HasSupportFragmentInjector {
     private ActivityAddLocationSettingBinding mActivityAddLocationSettingBinding;
@@ -44,6 +42,9 @@ public class AddLocationSettingActivity extends BaseActivity<ActivityAddLocation
     private Coordinate coords;
     private Location loc;
 
+    /**
+     * MVVM setup
+     */
     @Inject
     DispatchingAndroidInjector<Fragment> fragmentDispatchingAndroidInjector;
     @Inject
@@ -63,37 +64,48 @@ public class AddLocationSettingActivity extends BaseActivity<ActivityAddLocation
         return mAddLocationViewModel;
     }
 
+    /**
+     * Setup the view and MVVM
+     * @param savedInstanceState state of the app
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mActivityAddLocationSettingBinding = getViewDataBinding();
         mAddLocationViewModel.setNavigator(this);
         setupBindings();
-        setTitle("Notify me - Add predefined location");
     }
 
+    /**
+     * Setup from ui components to fields
+     */
     private void setupBindings() {
         addressTextView  = mActivityAddLocationSettingBinding.addLocation;
         confirmButton = mActivityAddLocationSettingBinding.buttonSavePredefinedLocation;
         nameTextView = mActivityAddLocationSettingBinding.textInputGlobalMuteName;
     }
 
+    /**
+     * daggger
+     * @return dagger injector
+     */
     @Override
     public AndroidInjector<Fragment> supportFragmentInjector() {
         return fragmentDispatchingAndroidInjector;
     }
 
-    @Override
-    public void handleError(Throwable throwable) {
-
-    }
-
+    /**
+     * Opens the createmap activity
+     */
     @Override
     public void openCreateMapActivity() {
         Intent intent = CreateEventMap.newIntent(AddLocationSettingActivity.this);
         startActivityForResult(intent,42);
     }
 
+    /**
+     * Submits the location to the database
+     */
     @Override
     public void submitLocationClick() {
         String locName = nameTextView.getText().toString();
@@ -111,12 +123,27 @@ public class AddLocationSettingActivity extends BaseActivity<ActivityAddLocation
     }
     }
 
+    /**
+     * Finishes current activity and sends activity information to the Location page
+     * @param pred
+     */
     @Override
-    public void openLocationActivty()
+    public void openLocationActivty(PredefinedLocation pred)
     {
-       finish();
+        Intent resultIntent = new Intent();
+        resultIntent.putExtra("predId",pred.getId());
+        resultIntent.putExtra("predName", pred.getName());
+        resultIntent.putExtra("predCoordId",pred.getCoordinateId());
+        setResult(Activity.RESULT_OK, resultIntent);
+        finish();
     }
 
+    /**
+     * method to catch intent results
+     * @param requestCode the request identifier
+     * @param resultCode status of the result
+     * @param data intent with data
+     */
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);

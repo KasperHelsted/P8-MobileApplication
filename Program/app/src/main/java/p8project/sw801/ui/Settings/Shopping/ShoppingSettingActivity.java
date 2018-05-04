@@ -35,75 +35,62 @@ public class ShoppingSettingActivity extends BaseActivity<ActivityShoppingSettin
     private ListView listview ;
     private SearchView searchView;
     private ArrayList<Chain> list;
-    private SparseBooleanArray sparseBooleanArray ;
-    private ArrayAdapter<String > adapter;
     private customAdapter _customAdapter;
 
-
+    /**
+     * Sets up MVVM on creation of the page
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mActivityShoppingSettingBinding = getViewDataBinding();
         mShoppingSettingViewModel.setNavigator(this);
         setupBindings();
-        //setUp();
-
     }
 
+    /**
+     *
+     * @return the viewmodelbinding
+     */
     @Override
     public int getBindingVariable() {
         return BR.viewModel;
     }
 
+    /**
+     * Specifices which layout belongs to this acitivity
+     * @return layout id
+     */
     @Override
     public int getLayoutId() {
         return R.layout.activity_shopping_setting;
     }
 
+    /**
+     *
+     * @return the current viewmodel
+     */
     @Override
     public ShoppingSettingViewModel getViewModel() {
         return mShoppingSettingViewModel;
     }
 
-    @Override
-    public void handleError(Throwable throwable) {
-
-    }
-
+    /**
+     * Sets up the MVVM bindings from UI elements -> fields
+     */
     private void setupBindings(){
         searchView = mActivityShoppingSettingBinding.searchView;
+        searchView.setFocusable(false);
         listview = mActivityShoppingSettingBinding.listView;
     }
 
+    /**
+     * Updates the UI elements on the page with data
+     */
     private void setUp(){
-
-        /*
-        list = new ArrayList<>();
-        list.add("Netto");
-        list.add("Føtex");
-        list.add("Bilka");
-        list.add("Salling");
-        list.add("MENY");
-        list.add("SPAR");
-        list.add("Min Købmand");
-        list.add("Let-Køb");
-        list.add("Kvickly");
-        list.add("SuperBrugsen");
-        list.add("Dagli'Brugsen");
-        list.add("LokalBrugsen");
-        list.add("Irma");
-        list.add("fakta");
-        list.add("fakta Q");
-        list.add("ALDI");
-        list.add("Lidl");
-*/
         list = new ArrayList<>();
         list.addAll(mShoppingSettingViewModel.getChainsObservableList());
-    /*    adapter = new ArrayAdapter<>
-                (ShoppingSettingActivity.this,
-                        android.R.layout.simple_list_item_multiple_choice,
-                        android.R.id.text1, list );
-*/
         _customAdapter = new customAdapter(ShoppingSettingActivity.this, list);
         listview.setAdapter(_customAdapter);
 
@@ -111,35 +98,6 @@ public class ShoppingSettingActivity extends BaseActivity<ActivityShoppingSettin
         {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                // TODO Auto-generated method stub
-
-
-                /*
-                sparseBooleanArray = listview.getCheckedItemPositions();
-
-                String ValueHolder = "" ;
-
-                int i = 0 ;
-
-                while (i < sparseBooleanArray.size()) {
-
-                    if (sparseBooleanArray.valueAt(i)) {
-
-                        ValueHolder += list.get(sparseBooleanArray.keyAt(i)) + ",";
-                    }
-
-                    i++ ;
-                }
-
-                ValueHolder = ValueHolder.replaceAll("(,)*$", "");
-
-                if (ValueHolder != null && !ValueHolder.isEmpty()) {
-
-                    Toast.makeText(ShoppingSettingActivity.this, "Selected shops = " + ValueHolder, Toast.LENGTH_LONG).show();
-                }
-*/
-
-                //TODO CHANGE LIST TO CONTAIN OBJECTS
 
                 Chain item = list.get(position);
                 if(item.isActive())
@@ -175,11 +133,17 @@ public class ShoppingSettingActivity extends BaseActivity<ActivityShoppingSettin
         });
     }
 
+    /**
+     * Method to update the shoppinglist data
+     */
     @Override
     public void updateShoppingList(){
         setUp();
     }
 
+    /**
+     * In-line adapter used for displaying data
+     */
     private class customAdapter extends BaseAdapter implements Filterable{
 
         private Context mContext;
@@ -228,7 +192,6 @@ public class ShoppingSettingActivity extends BaseActivity<ActivityShoppingSettin
 
         @Override
         protected FilterResults performFiltering(CharSequence constraint) {
-            // TODO Auto-generated method stub
 
             FilterResults Result = new FilterResults();
             // if constraint is empty return the original names
@@ -256,7 +219,6 @@ public class ShoppingSettingActivity extends BaseActivity<ActivityShoppingSettin
 
         @Override
         protected void publishResults(CharSequence constraint, FilterResults results) {
-            // TODO Auto-generated method stub
             mChainArrayList = (ArrayList<Chain>) results.values;
             notifyDataSetChanged();
         }

@@ -36,6 +36,10 @@ public class AddEventNest extends BaseActivity<ActivityAddEventNestBinding, AddE
     private SeekBar seekBarNest;
     private TextView seekbarTextView;
 
+    /**
+     * On create method for AddEvent. Instantiates and sets up all required fields for the page.
+     * @param savedInstanceState The saved instance state.
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,9 +51,12 @@ public class AddEventNest extends BaseActivity<ActivityAddEventNestBinding, AddE
 
     }
 
+    /**
+     * Sets up the different components on the page
+     */
     public void setUp(){
         deviceNameTextView.setText("Device: " + mySmartDevice.getDeviceName());
-        assesoryNameTextView.setText("Light: " + myAccessory.getName());
+        assesoryNameTextView.setText("Thermostat: " + myAccessory.getName());
         seekBarNest.setProgress(20);
         seekbarTextView.setText(String.valueOf(seekBarNest.getProgress()));
 
@@ -71,6 +78,9 @@ public class AddEventNest extends BaseActivity<ActivityAddEventNestBinding, AddE
         });
     }
 
+    /**
+     * Fetches the data passed from the previous activity.
+     */
     private void fetchData(){
         String jsonMyObject ="";
         String jsonMyAccessory="";
@@ -83,6 +93,9 @@ public class AddEventNest extends BaseActivity<ActivityAddEventNestBinding, AddE
         myAccessory = new Gson().fromJson(jsonMyAccessory, NestThermostat.class);
     }
 
+    /**
+     * Setup bindings between the elements in the xml and the variables used to access these.
+     */
     private void bindings(){
         deviceNameTextView = mActivityAddEventNestBinding.textViewSmartDeviceNameNest;
         assesoryNameTextView = mActivityAddEventNestBinding.textViewAccessoryNameNest;
@@ -91,9 +104,11 @@ public class AddEventNest extends BaseActivity<ActivityAddEventNestBinding, AddE
         confirmButtom = mActivityAddEventNestBinding.buttonConfirmTemp;
         seekBarNest = mActivityAddEventNestBinding.seekBarNest;
         seekbarTextView = mActivityAddEventNestBinding.textViewSeekBarNest;
-
     }
 
+    /**
+     * Method used when the user chooses the turn thermostat on option. This method creates a trigger object and returns this to the previous activity.
+     */
     @Override
     public void turnOn(){
         Trigger t = new Trigger();
@@ -107,14 +122,11 @@ public class AddEventNest extends BaseActivity<ActivityAddEventNestBinding, AddE
         resultintent.putExtra("key", new Gson().toJson(t));
         setResult(Activity.RESULT_OK, resultintent);
         finish();
-
-
-
-
-
-
-
     }
+
+    /**
+     * Method used when the user chooses the turn thermostat off option. This method creates a trigger object and returns this to the previous activity.
+     */
     @Override
     public void turnOff(){
         Trigger t = new Trigger();
@@ -129,6 +141,10 @@ public class AddEventNest extends BaseActivity<ActivityAddEventNestBinding, AddE
         setResult(Activity.RESULT_OK, resultintent);
         finish();
     }
+
+    /**
+     * Method used when the user chooses the turn thermostat on option. This method creates a trigger object and returns this to the previous activity.
+     */
     @Override
     public void setTemp(){
         Trigger t = new Trigger();
@@ -145,30 +161,38 @@ public class AddEventNest extends BaseActivity<ActivityAddEventNestBinding, AddE
         finish();
     }
 
-
-
-
-
+    /**
+     * Gets the binding variable.
+     * @return The binding variable.
+     */
     @Override
     public int getBindingVariable() {
         return BR.viewModel;
     }
 
+    /**
+     * Get id for the layout for this page.
+     * @return Layout id.
+     */
     @Override
     public int getLayoutId() {
         return R.layout.activity_add_event_nest;
     }
 
+    /**
+     * Get the instance of the view model.
+     * @return Instance of the view model.
+     */
     @Override
     public AddEventNestViewModel getViewModel() {
         return mAddEventNestViewModel;
     }
 
-    @Override
-    public void handleError(Throwable throwable) {
-        // handle error
-    }
-
+    /**
+     * Creates a new AddEventAccessory intent.
+     * @param context The current context of the application.
+     * @return The created intent.
+     */
     public static Intent newIntent(Context context) {
         Intent intent = new Intent(context, AddEventNest.class);
         return intent;

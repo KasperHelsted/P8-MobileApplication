@@ -10,43 +10,60 @@ public class EditLocationViewModel extends BaseViewModel<EditLocationNavigator> 
     public EditLocationViewModel(DataManager dataManager, SchedulerProvider schedulerProvider) {
         super(dataManager, schedulerProvider);
     }
-    public void submitEditEventClick(){
-        getNavigator().submitEditEventClick();
+
+    /**
+     * Navigator for submitting an eventClick
+     */
+    public void submitEditLocationClick(){
+        getNavigator().submitEditLocationClick();
     }
 
+    /**
+     * Clickevent Navigator for opening map activity
+     */
     public void showMapActivity() {
         getNavigator().openCreateMapActivity();
     }
 
-    public void openLocationActivty(){
-        getNavigator().openLocationActivty();
-    }
-
-    public void updatePredefinedLoc(Coordinate coordinate,String locName){
+    /**
+     * Submits the updated coords to the db
+     * @param coordinate new coords object
+     * @param locName name of location
+     * @param predefinedLocation predefined location to update
+     */
+    public void updatePredefinedLoc(Coordinate coordinate,String locName, PredefinedLocation predefinedLocation){
         getCompositeDisposable().add(
                 getDataManager().updateCoordinate(
                         coordinate
                 ).subscribeOn(getSchedulerProvider().io())
                         .observeOn(getSchedulerProvider().ui())
                         .subscribe(response -> {
-                            updatePredefinedLocation(coordinate,locName);
+                            updatePredefinedLocation(coordinate,locName,predefinedLocation);
                         })
         );
     }
 
-    private void updatePredefinedLocation(Coordinate coords, String locName) {
+    /**
+     * Takes the updates coords and submits the predifined location
+     * @param coords new coords object
+     * @param locName  new name of predefined location
+     * @param predefinedLocation actual predefined location object
+     */
+    private void updatePredefinedLocation(Coordinate coords, String locName, PredefinedLocation predefinedLocation) {
 
-        PredefinedLocation pref = new PredefinedLocation();
-        pref.setCoordinateId(coords.getId());
-        pref.setName(locName);
+        predefinedLocation.setName(locName);
+        predefinedLocation.setCoordinateId(coords.getId());
+        predefinedLocation.setName(locName);
 
         getCompositeDisposable().add(
                 getDataManager().updatePredefinedLocation(
-                        pref
+                        predefinedLocation
                 ).subscribeOn(getSchedulerProvider().io())
                         .observeOn(getSchedulerProvider().ui())
                         .subscribe(response -> {
                             if (response != null) {
+                                System.out.println("Updated Location");
+                                getNavigator().openLocationActivty();
 
                             } else {
                                 System.out.println("response was null!");
@@ -56,6 +73,10 @@ public class EditLocationViewModel extends BaseViewModel<EditLocationNavigator> 
         );
     }
 
+    /**
+     * Receives a location from the Id
+     * @param id locationId
+     */
     public void getLocationFromId(int id){
         getCompositeDisposable().add(
                 getDataManager().getPredefinedLocationById(
@@ -68,13 +89,17 @@ public class EditLocationViewModel extends BaseViewModel<EditLocationNavigator> 
                                 sendCoordinateFromId(predefinedLocation);
                             }
                             else{
-                                //TODO: ERROR?
                                 System.out.println("response was null!");
                             }
 
                         })
         );
     }
+
+    /**
+     * Gets coordinate from id and sends coordinate + predefined location to the view for updates
+     * @param predefinedLocation predefined location to receive corresponding location from
+     */
     private void sendCoordinateFromId(PredefinedLocation predefinedLocation){
         getCompositeDisposable().add(
                 getDataManager().getCoordinateById(
@@ -89,9 +114,13 @@ public class EditLocationViewModel extends BaseViewModel<EditLocationNavigator> 
                             }
                         })
         );
-
-
     }
+
+    /**
+     * Navigator for rendering the view
+     * @param predefinedLocation location to render
+     * @param coordinate coordinate to render
+     */
     private void renderView(PredefinedLocation predefinedLocation, Coordinate coordinate){
         getNavigator().renderFields(predefinedLocation, coordinate);
     }

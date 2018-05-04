@@ -21,16 +21,26 @@ public class ProximityBasedNotifications {
     private Context mContext;
     private static LocationManager locationManager;
 
-
+    /**
+     * Constructor for the proximity notification class.
+     * Sets up the location manager used for proximity events.
+     * @param base The context of the application.
+     */
     public ProximityBasedNotifications(Context base) {
         mContext = base;
         locationManager = (LocationManager) mContext.getSystemService(Context.LOCATION_SERVICE);
     }
 
+    /**
+     * Method used to construct a proximity based alert.
+     * @param coordinate The coordinate set used for the proximity alert.
+     * @param requestCode The request code used for the intent that are created.
+     * @param eventWithData The EventWithData object associated with the proximity alert that need to be created.
+     */
     public void createProximityNotification(Coordinate coordinate, int requestCode, EventWithData eventWithData) {
 
         //Setup pending intent for proximity
-        Integer radius = 500;
+        Integer radius = 50;
         Intent intent = new Intent(mContext, ProximityReceiver.class);
         intent.putExtra("eventWithDate", new Gson().toJson(eventWithData));
         PendingIntent pendingIntent = PendingIntent.getBroadcast(mContext, requestCode, intent, 0);
@@ -38,13 +48,6 @@ public class ProximityBasedNotifications {
 
         //Gps enabled check
         if (ActivityCompat.checkSelfPermission(mContext, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(mContext, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
             return;
         }
         else{
@@ -57,6 +60,11 @@ public class ProximityBasedNotifications {
 
     }
 
+    /**
+     * Method used to cancel a pending proximity alert.
+     * @param requestCode The request code that was used when creating the proximity alert. Need to be the EXACT same.
+     * @param eventWithData The EventWithData object used when creating the proximity alert. Need to be the EXACT same.
+     */
     public void cancelProximity(int requestCode, EventWithData eventWithData){
         Intent intent = new Intent(mContext, ProximityReceiver.class);
         intent.putExtra("eventWithDate", new Gson().toJson(eventWithData));

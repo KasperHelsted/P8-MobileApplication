@@ -16,9 +16,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.view.MenuItem;
-
 import javax.inject.Inject;
-
 import dagger.android.AndroidInjector;
 import dagger.android.DispatchingAndroidInjector;
 import dagger.android.support.HasSupportFragmentInjector;
@@ -48,6 +46,11 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
         return fragmentDispatchingAndroidInjector;
     }
 
+    /**
+     * On create method for MainActivity. Instantiates and sets up all required fields for the page.
+     * initializes the viewPager and BurgerMenu
+     * @param savedInstanceState The saved instance state if there is one.
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,11 +62,12 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
 
         mMainViewModel.firstRunSeeding();
     }
-    //--------------------------Burger menu-------------------------------------
 
+    //--------------------------Burger menu Start-------------------------------------
+    /**
+     * Method used to setup the BurgerMenu.
+     */
     public void drawer() {
-
-
         mDrawer = findViewById(R.id.maindrawermenu);
         actionBarDrawerToggle = new ActionBarDrawerToggle(this, mDrawer, R.string.open, R.string.close);
         mDrawer.addDrawerListener(actionBarDrawerToggle);
@@ -75,7 +79,12 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
 
     }
 
-
+    /**
+     * Method used to return the value of the selected item
+     * @param item MenuItem: The selected item.
+     * @return true - If successfully handled the menu item
+     * @return superclass implementation called with the selected item
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (actionBarDrawerToggle.onOptionsItemSelected(item)) {
@@ -84,6 +93,12 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
         return super.onOptionsItemSelected(item);
     }
 
+    /**
+     * Listener for handling events on navigation items for the BurgerMenu. Called when an item in the navigation menu is selected.
+     * Navigates to the selected items activity or fragment and closes the drawer
+     * @param item MenuItem: The selected item
+     * @return true to display the item as the selected item
+     */
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         int id = item.getItemId();
@@ -98,42 +113,36 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
                 buttonMySmartDevicesOnClick();
                 drawerMenu.closeDrawers();
                 break;
-            case R.id.menuaddsmartdevies:
-                //Intent ac = new Intent(MainActivity.this,MySmartDeviceFragment.class);
-                //startActivity(ac);
-                //ChangeToSmartDevice();
-                drawerMenu.closeDrawers();
-                break;
             case R.id.menusettings:
                 Intent settingIntent = new Intent(MainActivity.this, SettingsActivity.class);
                 startActivity(settingIntent);
                 drawerMenu.closeDrawers();
                 break;
             case R.id.menuaboutus:
-                AlertDialog alertDialogabout = new AlertDialog.Builder(MainActivity.this).create();
-                alertDialogabout.setTitle("About us");
-                alertDialogabout.setMessage("This application have been created by group SW801f18 at Aalborg University");
-                alertDialogabout.setIcon(R.drawable.ic_dashboard_black_24dp);
+                AlertDialog alertDialogAbout = new AlertDialog.Builder(MainActivity.this).create();
+                alertDialogAbout.setTitle("About us");
+                alertDialogAbout.setMessage("This application have been created by group SW801f18 at Aalborg University");
+                alertDialogAbout.setIcon(R.drawable.ic_dashboard_black_24dp);
 
-                alertDialogabout.setButton(Dialog.BUTTON_NEUTRAL, "OK", new DialogInterface.OnClickListener() {
+                alertDialogAbout.setButton(Dialog.BUTTON_NEUTRAL, "OK", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         return;
                     }
                 });
-                alertDialogabout.show();
+                alertDialogAbout.show();
                 break;
             case R.id.menucontactus:
-                AlertDialog alertDialogcontact = new AlertDialog.Builder(MainActivity.this).create();
-                alertDialogcontact.setTitle("Contact us");
-                alertDialogcontact.setMessage("We can be contacted on email: sw801f18@cs.aau.dk");
-                alertDialogcontact.setIcon(R.drawable.ic_dashboard_black_24dp);
+                AlertDialog alertDialogContact = new AlertDialog.Builder(MainActivity.this).create();
+                alertDialogContact.setTitle("Contact us");
+                alertDialogContact.setMessage("We can be contacted on email: sw801f18@cs.aau.dk");
+                alertDialogContact.setIcon(R.drawable.ic_dashboard_black_24dp);
 
-                alertDialogcontact.setButton(Dialog.BUTTON_NEUTRAL, "OK", new DialogInterface.OnClickListener() {
+                alertDialogContact.setButton(Dialog.BUTTON_NEUTRAL, "OK", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         return;
                     }
                 });
-                alertDialogcontact.show();
+                alertDialogContact.show();
                 break;
         }
         if (intent == null) {
@@ -142,45 +151,66 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
         startActivity(intent);
         return false;
     }
-    //--------------------------Burger menu-------------------------------------
+    //--------------------------Burger menu End-------------------------------------
 
-
+    /**
+     * Method used on resume.
+     * When the app returns to this page, this method is called.
+     */
     @Override
     protected void onResume() {
         super.onResume();
     }
 
+    /**
+     * Creates a new MainActivity intent.
+     * @param context The current context of the application.
+     * @return The created intent.
+     */
     public static Intent newIntent(Context context) {
         Intent intent = new Intent(context, MainActivity.class);
         return intent;
     }
 
+    /**
+     * Gets the binding variable.
+     * @return The binding variable.
+     */
     @Override
     public int getBindingVariable() {
         return BR.viewModel;
     }
 
+    /**
+     * Get id for the layout for this page.
+     * @return Layout id.
+     */
     @Override
     public int getLayoutId() {
         return R.layout.activity_main;
     }
 
+    /**
+     * Get the instance of the view model.
+     * @return Instance of the view model.
+     */
     @Override
     public MainViewModel getViewModel() {
         mMainViewModel = ViewModelProviders.of(this, mViewModelFactory).get(MainViewModel.class);
         return mMainViewModel;
     }
 
-    @Override
-    public void handleError(Throwable throwable) {
-
-    }
-
-
+    /**
+     * Set the tab of the ViewPager as the current item
+     * @param tab
+     */
     public void setView(int tab) {
         mActivityMainBinding.mainViewpager.setCurrentItem(tab);
     }
 
+    /**
+     * Method used for initialize the ViewPager and set the bindings
+     */
     private void initializeViewPager() {
         //Set page viewer adapter
         mActivityMainBinding.mainViewpager.setAdapter(mPagerAdapter);
@@ -215,16 +245,20 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
         });
     }
 
+    /**
+     * Method used for changing the tab on the ViewPager to My event when clicked
+     */
     @Override
     public void buttonMyEventsOnClick() {
         setView(1);
     }
 
+    /**
+     * Method used for changing the tab on the ViewPager to My smart device when clicked
+     */
     @Override
     public void buttonMySmartDevicesOnClick() {
         setView(2);
     }
-
-
 }
 

@@ -9,7 +9,6 @@ import p8project.sw801.data.model.db.Trigger;
 import p8project.sw801.data.model.db.When;
 
 public interface AddEventNavigator {
-    void handleError(Throwable throwable);
 
     void openCreateMapActivity();
 

@@ -21,8 +21,6 @@ import p8project.sw801.ui.Settings.Shopping.ShoppingSettingActivity;
 import p8project.sw801.ui.Settings.Shopping.ShoppingSettingModule;
 import p8project.sw801.ui.SmartDevice.AddSmartDevice.AddSmartDeviceActivity;
 import p8project.sw801.ui.SmartDevice.AddSmartDevice.AddSmartDeviceActivityModule;
-import p8project.sw801.ui.SmartDevice.EditSmartDevice.EditSmartDeviceActivity;
-import p8project.sw801.ui.SmartDevice.EditSmartDevice.EditSmartDeviceActivityModule;
 import p8project.sw801.ui.event.addevent.AddEvent;
 import p8project.sw801.ui.event.addevent.AddEventModule;
 import p8project.sw801.ui.event.addeventaccessory.AddEventAccessory;
@@ -37,14 +35,13 @@ import p8project.sw801.ui.event.createeventmap.CreateEventMap;
 import p8project.sw801.ui.event.createeventmap.CreateEventMapModule;
 import p8project.sw801.ui.event.editevent.EditEvent;
 import p8project.sw801.ui.event.editevent.EditEventModule;
+import p8project.sw801.ui.event.editevent.EditEventProvider;
 import p8project.sw801.ui.event.notificationorsmartdevice.NotificationOrSmartdeviceProvider;
 import p8project.sw801.ui.main.Fragments.HomeFragment.HomeFragmentProvider;
 import p8project.sw801.ui.main.Fragments.MyEventsFragment.MyEventsFragmentProvider;
 import p8project.sw801.ui.main.Fragments.MySmartDeviceFragment.MySmartDeviceProvider;
 import p8project.sw801.ui.main.MainActivity;
 import p8project.sw801.ui.main.MainActivityModule;
-import p8project.sw801.ui.splash.SplashActivity;
-import p8project.sw801.ui.splash.SplashActivityModule;
 
 /**
  * Created by Kasper Helsted on 4/4/2018.
@@ -96,9 +93,6 @@ public abstract class ActivityBuilder {
     @ContributesAndroidInjector(modules = AddEventNestModule.class)
     abstract AddEventNest bindAddEventNest();
 
-    @ContributesAndroidInjector(modules = SplashActivityModule.class)
-    abstract SplashActivity bindSplashActivity();
-
     @ContributesAndroidInjector(modules = {
             AddGlobalMuteSettingModule.class,
             TimePickerProvider.class
@@ -117,8 +111,6 @@ public abstract class ActivityBuilder {
     @ContributesAndroidInjector(modules = ShoppingSettingModule.class)
     abstract ShoppingSettingActivity bindShoppingSettingActivity();
 
-    @ContributesAndroidInjector(modules = EditSmartDeviceActivityModule.class)
-    abstract EditSmartDeviceActivity bindEditSmartDeviceActivity();
 
     @ContributesAndroidInjector(modules = AddSmartDeviceActivityModule.class)
     abstract AddSmartDeviceActivity bindAddSmartDeviceActivity();
