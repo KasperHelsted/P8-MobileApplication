@@ -198,7 +198,7 @@ public class AppDbHelper implements DbHelper {
     }
 
     @Override
-    public Observable<Boolean> insertGlobalMute(final GlobalMute globalMute) {
+    public Observable<Boolean> insertGlobalMute(GlobalMute globalMute) {
         return Observable.fromCallable(() -> {
             mAppDatabase.globalMuteDao().insert(globalMute);
             return true;
@@ -206,7 +206,7 @@ public class AppDbHelper implements DbHelper {
     }
 
     @Override
-    public Observable<Boolean> insertAllGlobalMutes(final GlobalMute... globalMutes) {
+    public Observable<Boolean> insertAllGlobalMutes(GlobalMute... globalMutes) {
         return Observable.fromCallable(() -> {
             mAppDatabase.globalMuteDao().insertAll(globalMutes);
             return true;
@@ -214,7 +214,7 @@ public class AppDbHelper implements DbHelper {
     }
 
     @Override
-    public Observable<Boolean> updateGlobalMute(final GlobalMute globalMute) {
+    public Observable<Boolean> updateGlobalMute(GlobalMute globalMute) {
         return Observable.fromCallable(() -> {
             mAppDatabase.globalMuteDao().update(globalMute);
             return true;
@@ -222,7 +222,7 @@ public class AppDbHelper implements DbHelper {
     }
 
     @Override
-    public Observable<Boolean> deleteGlobalMute(final GlobalMute globalMute) {
+    public Observable<Boolean> deleteGlobalMute(GlobalMute globalMute) {
         return Observable.fromCallable(() -> {
             mAppDatabase.globalMuteDao().delete(globalMute);
             return true;

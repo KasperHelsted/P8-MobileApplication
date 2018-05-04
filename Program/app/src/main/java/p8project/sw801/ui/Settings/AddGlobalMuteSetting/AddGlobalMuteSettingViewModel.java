@@ -22,8 +22,10 @@ public class AddGlobalMuteSettingViewModel extends BaseViewModel<AddGlobalMuteSe
     public final ObservableField<String> startTime = new ObservableField<>("");
     public final ObservableField<String> endTime = new ObservableField<>("");
     public final ObservableField<String> comment = new ObservableField<>("");
+
     private Long startTimeLong = 0L;
     private Long endTimeLong = 0L;
+
     private boolean settingStartTime = false;
     private SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm", Locale.UK);
 
@@ -94,24 +96,35 @@ public class AddGlobalMuteSettingViewModel extends BaseViewModel<AddGlobalMuteSe
             return;
         }
 
+        getNavigator().sendNotification("Global Mute Inserted");
+
+        save(
+                globulMuteName.get(),
+                startTimeLong,
+                endTimeLong,
+                comment.get()
+        );
+    }
+
+    public void save(String name, Long startTime, Long endTime, String comment) {
         setIsLoading(true);
 
         getNavigator().sendNotification("Global Mute created");
+
         getCompositeDisposable().add(
                 getDataManager().insertGlobalMute(
                         new GlobalMute(
-                                globulMuteName.get(),
-                                startTimeLong,
-                                endTimeLong,
+                                name,
+                                startTime,
+                                endTime,
                                 null,
-                                comment.get()
-                        )
-                ).subscribeOn(
-                        getSchedulerProvider().io()
-                ).subscribe(success -> {
+                                comment
+                        )).subscribeOn(getSchedulerProvider().io())
+                .subscribe(response -> {
                     getNavigator().finish();
                     setIsLoading(false);
-                })
-        );
+                }, throwable -> {
+                    setIsLoading(false);
+                }));
     }
 }
