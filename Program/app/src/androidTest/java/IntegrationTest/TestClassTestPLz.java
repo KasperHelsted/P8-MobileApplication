@@ -1,78 +1,65 @@
 package IntegrationTest;
 
-import android.arch.persistence.room.Room;
-import android.content.Context;
-import android.support.test.InstrumentationRegistry;
-import android.support.test.espresso.action.ViewActions;
-import android.support.test.rule.ActivityTestRule;
-import android.support.test.runner.AndroidJUnit4;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.BeforeClass;
-import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Mock;
+import org.mockito.junit.MockitoJUnitRunner;
 
-import java.io.IOException;
-import java.util.List;
+import IntegrationTest.utils.rx.TestSchedulerProvider;
+import io.reactivex.Single;
+import io.reactivex.schedulers.TestScheduler;
+import p8project.sw801.data.DataManager;
+import p8project.sw801.ui.Settings.AddGlobalMuteSetting.AddGlobalMuteSettingNavigator;
+import p8project.sw801.ui.Settings.AddGlobalMuteSetting.AddGlobalMuteSettingViewModel;
 
-import javax.inject.Inject;
+import static org.mockito.Mockito.doReturn;
+import static org.mockito.Mockito.verify;
 
-import p8project.sw801.R;
-import p8project.sw801.data.local.dao.GlobalMuteDao;
-import p8project.sw801.data.local.db.AppDatabase;
-import p8project.sw801.data.model.db.GlobalMute;
-import p8project.sw801.ui.Settings.AddGlobalMuteSetting.AddGlobalMuteSettingActivity;
-
-import static android.support.test.espresso.Espresso.onView;
-import static android.support.test.espresso.action.ViewActions.click;
-import static android.support.test.espresso.action.ViewActions.typeText;
-import static android.support.test.espresso.matcher.ViewMatchers.withId;
-import static org.junit.Assert.assertEquals;
-
-@RunWith(AndroidJUnit4.class)
+@RunWith(MockitoJUnitRunner.class)
 public class TestClassTestPLz {
-    private GlobalMuteDao mGlobalMuteDao;
-    private AppDatabase mDb;
-
-    @Rule
-    public ActivityTestRule<AddGlobalMuteSettingActivity> mActivityRule = new ActivityTestRule<>(
-            AddGlobalMuteSettingActivity.class);
+    @Mock
+    AddGlobalMuteSettingNavigator mAddGlobalMuteCallback;
+    @Mock
+    DataManager mMockDataManager;
+    private AddGlobalMuteSettingViewModel mAddGlobalMuteSettingViewModel;
+    private TestScheduler mTestScheduler;
 
     @BeforeClass
-    public static void beforeClass() {
-        InstrumentationRegistry.getTargetContext().deleteDatabase("dat_database");
+    public static void onlyOnce() throws Exception {
     }
 
     @Before
-    public void createDb() {
-        Context context = InstrumentationRegistry.getTargetContext();
-        mDb = Room.inMemoryDatabaseBuilder(context, AppDatabase.class).build();
-        mGlobalMuteDao = mDb.globalMuteDao();
+    public void setUp() throws Exception {
+        mTestScheduler = new TestScheduler();
+        TestSchedulerProvider testSchedulerProvider = new TestSchedulerProvider(mTestScheduler);
+        mAddGlobalMuteSettingViewModel = new AddGlobalMuteSettingViewModel(mMockDataManager, testSchedulerProvider);
+        mAddGlobalMuteSettingViewModel.setNavigator(mAddGlobalMuteCallback);
     }
 
     @After
-    public void closeDb() throws IOException {
-        mDb.close();
+    public void tearDown() throws Exception {
+        mTestScheduler = null;
+        mAddGlobalMuteSettingViewModel = null;
+        mAddGlobalMuteCallback = null;
     }
 
     @Test
-    public void testSubmitGlobalMuteClickAddGlobalMute3() throws Exception {
-        // arrange
+    public void testServerLoginSuccess() {
+        String email = "dummy@gmail.com";
+        String password = "password";
 
-        onView(withId(R.id.textInputGlobalMuteName))
-                .perform(typeText("test"), ViewActions.closeSoftKeyboard());
-        onView(withId(R.id.editTextComment))
-                .perform(typeText("yo"), ViewActions.closeSoftKeyboard());
-        onView(withId(R.id.buttonCancel)).perform(click());
+        LoginResponse loginResponse = new LoginResponse();
 
-        // act
+        doReturn(Single.just(loginResponse))
+                .when(mMockDataManager)
+                .doServerLoginApiCall(new LoginRequest.ServerLoginRequest(email, password));
 
-        List<GlobalMute> dbGlobalMute = mDb.globalMuteDao().getAll();
-        String test = "test";
+        mAddGlobalMuteSettingViewModel.submitGlobalMuteClick();
+        mTestScheduler.triggerActions();
 
-        // assert
-        assertEquals(dbGlobalMute.get(0).getName(), test);
+        verify(mAddGlobalMuteCallback).finish();
     }
 }
