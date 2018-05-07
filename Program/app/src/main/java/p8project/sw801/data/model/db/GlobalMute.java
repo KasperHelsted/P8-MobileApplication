@@ -99,18 +99,25 @@ public class GlobalMute {
 
     @Override
     public boolean equals(Object object) {
-        if (this == object) {
+        // Checks if object is from same instance
+        if (this == object)
             return true;
-        }
-        if (object == null || getClass() != object.getClass()) {
+
+        // Checks if object is null or if the two classes is of same type
+        if (object == null || getClass() != object.getClass())
             return false;
-        }
+
+        // We can assume that the object we are comparing is of same type so we can cast
         GlobalMute that = (GlobalMute) object;
 
-        if (this.name.equals(that.name)) {
-            return true;
-        }
+        // This checks if it's the same object but initialized at two different times
+        if (this.id != null && that.id != null)
+            return this.id.equals(that.id);
 
+        // Here we can compare two objects before they have unique primary keys and are inserted into the database
+        if (this.name.equals(that.name) && this.startTime.equals(that.startTime) && this.endTime.equals(that.endTime) && this.note.equals(that.note))
+            return true;
+        
         return false;
     }
 
