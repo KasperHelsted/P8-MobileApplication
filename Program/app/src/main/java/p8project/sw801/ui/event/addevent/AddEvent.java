@@ -23,16 +23,11 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 import android.widget.ToggleButton;
-
 import java.io.IOException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
-
 import javax.inject.Inject;
-
 import dagger.android.AndroidInjector;
 import dagger.android.DispatchingAndroidInjector;
 import dagger.android.support.HasSupportFragmentInjector;
@@ -75,6 +70,7 @@ public class AddEvent extends BaseActivity<ActivityAddEventBinding, AddEventView
     static private EditText AtTime = null;
     static private EditText betweenTime = null;
     private Button confirm;
+    private Button cancel;
     private TextView eventName;
     private ArrayList<Integer> markedButtons;
     private LinearLayout doThis;
@@ -86,9 +82,6 @@ public class AddEvent extends BaseActivity<ActivityAddEventBinding, AddEventView
     static private int startMin;
     static private int endHour;
     static private int endMin;
-    static private Date startDate;
-    static private Date endDate;
-    private Button cancel;
 
     /**
      * On create method for AddEvent. Instantiates and sets up all required fields for the page.
@@ -296,7 +289,6 @@ public class AddEvent extends BaseActivity<ActivityAddEventBinding, AddEventView
             DialogFragment newFragment = new TimePickerFragment2();
             newFragment.show(getFragmentManager(), "timePicker");
         }
-
     }
 
     /**
@@ -313,7 +305,6 @@ public class AddEvent extends BaseActivity<ActivityAddEventBinding, AddEventView
      */
     public static class TimePickerFragment1 extends DialogFragment
             implements TimePickerDialog.OnTimeSetListener {
-        protected SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm");
 
         @Override
         public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -348,7 +339,6 @@ public class AddEvent extends BaseActivity<ActivityAddEventBinding, AddEventView
      */
     public static class TimePickerFragment2 extends DialogFragment
             implements TimePickerDialog.OnTimeSetListener {
-        protected SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm");
 
         @Override
         public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -434,7 +424,7 @@ public class AddEvent extends BaseActivity<ActivityAddEventBinding, AddEventView
     }
 
     /**
-     * Method used to catch the results from other activites that have been created from this one.
+     * Method used to catch the results from other activities that have been created from this one.
      * The possible returned activities are either that a user have chosen a location(case 2) or the user have chosen a notification trigger(case 0).
      * @param requestCode The code used when creating the returned activity.
      * @param resultCode The result code from the returned activity.
@@ -473,7 +463,7 @@ public class AddEvent extends BaseActivity<ActivityAddEventBinding, AddEventView
     }
 
     /**
-     * Method used to refresh the listview displaying the chosen triggers
+     * Method used to refresh the ListView displaying the chosen triggers
      */
     public void refreshData() {
         ArrayList<Trigger> a = new ArrayList<>();
@@ -493,7 +483,7 @@ public class AddEvent extends BaseActivity<ActivityAddEventBinding, AddEventView
 
     /**
      * Method used to delete a chosen trigger
-     * @param pos The position of the trigger in the listview
+     * @param pos The position of the trigger in the ListView
      */
     public void deleteItem(int pos) {
         addMyEvents.remove(pos);
@@ -502,7 +492,7 @@ public class AddEvent extends BaseActivity<ActivityAddEventBinding, AddEventView
 
     /**
      * Method called when the user submits the event. This method checks all entered information to ensure that all required fields are entered.
-     * Further this method calls the methods from the viewmodel to save the event.
+     * Further this method calls the methods from the ViewModel to save the event.
      */
     @Override
     public void submitEventClick() {
@@ -521,8 +511,6 @@ public class AddEvent extends BaseActivity<ActivityAddEventBinding, AddEventView
         newWhen.setStartMinute(startMin);
         newWhen.setEndHour(endHour);
         newWhen.setEndMinute(endMin);
-        //newWhen.setStartTime(startDate.getTime());
-        //newWhen.setEndTime(endDate.getTime());
 
         //Checking which days have been marked, and set the list of weekdays
         markButton();
@@ -616,7 +604,6 @@ public class AddEvent extends BaseActivity<ActivityAddEventBinding, AddEventView
         else{
             Toast.makeText(this, "Missing location try again", Toast.LENGTH_SHORT).show();
         }
-
     }
 
     /**
@@ -673,7 +660,6 @@ public class AddEvent extends BaseActivity<ActivityAddEventBinding, AddEventView
      */
     @Override
     public void createNotifications(EventWithData eventWithData){
-
         TimeBasedNotification.setAlarm(getApplicationContext(), eventWithData);
     }
 
