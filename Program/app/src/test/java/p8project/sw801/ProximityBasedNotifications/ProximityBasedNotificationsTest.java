@@ -7,13 +7,11 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.mockito.stubbing.Answer;
 
 import p8project.sw801.data.local.RelationEntity.EventWithData;
 import p8project.sw801.data.model.db.Coordinate;
-import p8project.sw801.data.model.db.Event;
 import p8project.sw801.utils.ProximityBasedNotifications.ProximityBasedNotifications;
 
 import static junit.framework.Assert.assertEquals;

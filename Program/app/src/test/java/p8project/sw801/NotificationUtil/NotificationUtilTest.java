@@ -1,8 +1,6 @@
 package p8project.sw801.NotificationUtil;
 
 import android.content.Context;
-import android.service.notification.StatusBarNotification;
-import android.util.Log;
 
 import org.junit.After;
 import org.junit.Before;
@@ -18,12 +16,7 @@ import p8project.sw801.utils.NotificationUtil;
 import static junit.framework.Assert.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doAnswer;
-import static org.mockito.Mockito.doCallRealMethod;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.mockingDetails;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
 public class NotificationUtilTest {
@@ -38,7 +31,7 @@ public class NotificationUtilTest {
     }
 
     @After
-    public void tearDown(){
+    public void tearDown() {
 
     }
 

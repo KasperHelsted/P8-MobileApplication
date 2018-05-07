@@ -10,16 +10,14 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.mockito.stubbing.Answer;
-import static junit.framework.Assert.assertEquals;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import p8project.sw801.data.local.RelationEntity.TriggerWithSmartDevice;
-import p8project.sw801.data.model.db.Coordinate;
-import p8project.sw801.data.model.db.Trigger;
 import p8project.sw801.utils.ProximityBasedNotifications.ProximityReceiver;
 
+import static junit.framework.Assert.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.mock;

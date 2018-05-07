@@ -12,11 +12,6 @@ import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.mockito.stubbing.Answer;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import p8project.sw801.data.local.RelationEntity.TriggerWithSmartDevice;
-import p8project.sw801.utils.ProximityBasedNotifications.ProximityReceiver;
 import p8project.sw801.utils.TimeBasedNotifications.AlarmReceiver;
 
 import static junit.framework.Assert.assertEquals;
