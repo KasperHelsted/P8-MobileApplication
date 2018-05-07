@@ -61,11 +61,5 @@ public class NotificationUtilTest {
             assertEquals(Content, arg1);
             return null;})
                 .when(notificationUtil).CreateNotification(any(String.class), any(String.class));
-
-
-
-
-
-
     }
 }
