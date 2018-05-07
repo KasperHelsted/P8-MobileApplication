@@ -51,9 +51,9 @@ public class TriggerListAdapter extends RecyclerView.Adapter<BaseViewHolder> {
     public BaseViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         switch (viewType) {
             case VIEW_TYPE_NORMAL:
-                ItemTriggerListBinding blogViewBinding = ItemTriggerListBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
+                ItemTriggerListBinding triggerViewBinding = ItemTriggerListBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
 
-                return new TriggerListViewHolder(blogViewBinding);
+                return new TriggerListViewHolder(triggerViewBinding);
             case VIEW_TYPE_EMPTY:
             default:
                 ItemTriggerListEmptyBinding emptyViewBinding = ItemTriggerListEmptyBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);

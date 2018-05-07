@@ -127,10 +127,6 @@ public class EditEventViewModel extends BaseViewModel<EditEventNavigator> {
         );
     }
 
-    public void close() {
-        ((EditEvent) getNavigator()).finish();
-    }
-
     public void addTriggersToList(List<Trigger> triggerList) {
         eventTriggersObservableArrayList.clear();
         eventTriggersObservableArrayList.addAll(triggerList);
@@ -138,6 +134,14 @@ public class EditEventViewModel extends BaseViewModel<EditEventNavigator> {
 
     public MutableLiveData<List<Trigger>> getEventTriggersListLiveData() {
         return eventTriggersListLiveData;
+    }
+
+    public void deleteTrigger(Trigger trigger) {
+        eventTriggersObservableArrayList.remove(trigger);
+    }
+
+    public void addEvent() {
+        getNavigator().addEventTrigger();
     }
 
     public void tester() {
@@ -148,5 +152,9 @@ public class EditEventViewModel extends BaseViewModel<EditEventNavigator> {
 
         System.out.println("start: " + startTime.get());
         System.out.println("end: " + endTime.get());
+    }
+
+    public void close() {
+        ((EditEvent) getNavigator()).finish();
     }
 }
