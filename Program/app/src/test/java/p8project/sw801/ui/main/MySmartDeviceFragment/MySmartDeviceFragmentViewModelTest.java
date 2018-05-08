@@ -91,22 +91,23 @@ public class MySmartDeviceFragmentViewModelTest {
         //Arrange
         SmartDevice smartDevice = new SmartDevice("Name", Boolean.TRUE, 1);
         smartDevice.setId(1);
+        List<SmartDevice> smartDevices = new ArrayList<>();
+        smartDevices.add(smartDevice);
 
-        //Assert when act is called
-        doAnswer((Answer) invocation -> {
+        doReturn(Observable.just(true)).when(mMockDataManager).deleteSmartDevice(any(SmartDevice.class));
+        doReturn(Observable.just(true)).when(mMockDataManager).deleteHueBridgeBySmartDeviceId(any(Integer.class));
+        doReturn(Observable.just(true)).when(mMockDataManager).deleteWhiteHueLightsBySmartDeviceId(any(Integer.class));
+        doReturn(Observable.just(true)).when(mMockDataManager).deleteRGBHueLightsBySmartDeviceId(any(Integer.class));
+        doReturn(Observable.just(true)).when(mMockDataManager).deleteNestHubBySmartDeviceId(any(Integer.class));
+        doReturn(Observable.just(true)).when(mMockDataManager).deleteNestThermostatBySmartDeviceId(any(Integer.class));
+        doReturn(Observable.just(true)).when(mMockDataManager).deleteTriggerBySmartDeviceId(any(Integer.class));
 
-            Object arg0 = invocation.getArgument(0);
-
-            assertEquals(arg0,new SmartDevice("Name", Boolean.TRUE, 1));
-            return null;
-        }).when(mMockDataManager).deleteSmartDevice(any(SmartDevice.class));
 
         //Act
-        try{
-            mySmartDeviceViewModel.deleteDevice(smartDevice);
-        }catch (NullPointerException ex){
-            //Catching the null pointer exception thrown by the scheduler provider being a mock object.
-        }
+        mySmartDeviceViewModel.deleteDevice(smartDevice);
+        mTestScheduler.triggerActions();
 
+        //Assert when act is called
+        //Does not return anything to compare
     }
 }
