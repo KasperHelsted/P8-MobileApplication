@@ -16,6 +16,8 @@ public interface AddEventNavigator {
 
     void showTimePickerDialog(int i);
 
+    void notitfyActivity();
+
     void submitEventClick();
     void displayPredefinedLocations(List<PredefinedLocation> predefinedLocationList);
     void updateActiveLocation(PredefinedLocation loc);
