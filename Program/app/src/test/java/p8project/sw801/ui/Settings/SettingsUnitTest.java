@@ -69,6 +69,4 @@ public class SettingsUnitTest {
         //Assert
         verify(settingsNavigator).navigateToPreferedShopping();
     }
-
-
 }
