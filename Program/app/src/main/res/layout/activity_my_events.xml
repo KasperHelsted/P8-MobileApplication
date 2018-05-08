@@ -63,8 +63,8 @@
                 android:onClick="@{() -> viewModel.addNewEvent()}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/textView"
-                app:srcCompat="@drawable/ic_add_black_18dp"
-                tools:layout_editor_absoluteY="0dp" />
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_add_black_18dp" />
 
         </android.support.constraint.ConstraintLayout>
 
