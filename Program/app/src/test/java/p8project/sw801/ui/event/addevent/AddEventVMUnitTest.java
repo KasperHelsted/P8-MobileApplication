@@ -15,6 +15,8 @@ import io.reactivex.Observable;
 import io.reactivex.schedulers.TestScheduler;
 import p8project.sw801.data.DataManager;
 import p8project.sw801.data.local.RelationEntity.EventWithData;
+import p8project.sw801.data.local.RelationEntity.TriggerWithSmartDevice;
+import p8project.sw801.data.local.RelationEntity.WhenWithCoordinate;
 import p8project.sw801.data.model.db.Coordinate;
 import p8project.sw801.data.model.db.Event;
 import p8project.sw801.data.model.db.Trigger;
@@ -65,12 +67,19 @@ public class AddEventVMUnitTest {
         List<Trigger> triggerList = new ArrayList<>();
         triggerList.add(trigger);
 
+        TriggerWithSmartDevice triggerWithSmartDevice = new TriggerWithSmartDevice();
+        triggerWithSmartDevice.trigger = trigger;
+
         When when = new When();
         when.setId(1);
 
+        WhenWithCoordinate whenWithCoordinate = new WhenWithCoordinate();
+        whenWithCoordinate.when = when;
+
         EventWithData eventWithData =  new EventWithData();
-        eventWithData.event.setId(1);
-        eventWithData.triggers.add();
+        eventWithData.event = event;
+        //eventWithData.triggers.add(triggerWithSmartDevice);
+        //eventWithData.whens.add(whenWithCoordinate);
 
 
         doReturn(Observable.just(true))
@@ -99,7 +108,7 @@ public class AddEventVMUnitTest {
 
         doReturn(Observable.just(true))
                 .when(mMockDataManager)
-                .getEventWithData(event);
+                .getEventWithData(eventWithData.event.getId());
     }
 
     @After
@@ -127,7 +136,7 @@ public class AddEventVMUnitTest {
         When w = new When();
         List<Trigger> t = new ArrayList<>();
         Coordinate c = new Coordinate(testLatitude, testLongitude);
-        EventWithData eWD = new EventWithData()
+        EventWithData eWD = new EventWithData();
 
         mAddEventViewModel.saveCoordinate(w, t, c);
         mTestScheduler.triggerActions();
