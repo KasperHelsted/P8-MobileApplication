@@ -111,7 +111,7 @@ public class MyEventsFragmentViewModelTest {
         try{
             myEventsFragmentViewModel.updateEvent(e, Boolean.FALSE);
         }catch (NullPointerException ex){
-            //Catching the null pointer exception thrown by the schedular provider being a mock object.
+            //Catching the null pointer exception thrown by the scheduler provider being a mock object.
         }
     }
     @Test
