@@ -1,4 +1,4 @@
-package p8project.sw801.ui.MyEventsFragment;
+package p8project.sw801.ui.main.MyEventsFragment;
 
 import org.junit.After;
 import org.junit.Before;
@@ -18,7 +18,6 @@ import p8project.sw801.data.DataManager;
 import p8project.sw801.data.model.db.Event;
 import p8project.sw801.ui.main.Fragments.MyEventsFragment.MyEventsFragmentNavigator;
 import p8project.sw801.ui.main.Fragments.MyEventsFragment.MyEventsFragmentViewModel;
-import p8project.sw801.utils.rx.SchedulerProvider;
 import p8project.sw801.utils.rx.TestSchedulerProvider;
 
 import static junit.framework.Assert.assertEquals;
@@ -27,7 +26,6 @@ import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
 public class MyEventsFragmentViewModelTest {

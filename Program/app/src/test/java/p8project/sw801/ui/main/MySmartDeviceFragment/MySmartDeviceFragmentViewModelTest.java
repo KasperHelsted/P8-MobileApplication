@@ -1,6 +1,4 @@
-package p8project.sw801.ui.MySmartDeviceFragment;
-
-import android.arch.lifecycle.MutableLiveData;
+package p8project.sw801.ui.main.MySmartDeviceFragment;
 
 import org.junit.After;
 import org.junit.Before;
@@ -13,14 +11,11 @@ import org.mockito.stubbing.Answer;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 import io.reactivex.Observable;
 import io.reactivex.schedulers.TestScheduler;
 import p8project.sw801.data.DataManager;
-import p8project.sw801.data.model.db.Event;
 import p8project.sw801.data.model.db.SmartDevice;
-import p8project.sw801.ui.main.Fragments.MySmartDeviceFragment.MySmartDeviceFragment;
 import p8project.sw801.ui.main.Fragments.MySmartDeviceFragment.MySmartDeviceNavigator;
 import p8project.sw801.ui.main.Fragments.MySmartDeviceFragment.MySmartDeviceViewModel;
 import p8project.sw801.utils.rx.TestSchedulerProvider;
@@ -70,9 +65,6 @@ public class MySmartDeviceFragmentViewModelTest {
         mySmartDeviceViewModel = null;
         mySmartDeviceFragmentCallback = null;
     }
-    //Arrange
-    //Act
-    //Assert
 
     @Test
     public void addSmartDevice(){
