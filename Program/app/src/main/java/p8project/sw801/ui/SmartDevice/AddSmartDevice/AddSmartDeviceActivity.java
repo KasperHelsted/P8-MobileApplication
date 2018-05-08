@@ -116,26 +116,6 @@ public class AddSmartDeviceActivity extends BaseActivity<ActivityAddSmartDeviceB
         return mSmartDeviceViewModel;
     }
 
-    /**
-     * Method to handle the user leaving the addsmartdevice page
-     * Used  to remove the HueSDK listeners
-     */
-    @Override
-    protected void onPause() {
-        super.onPause();
-        phHueSDK.getNotificationManager().unregisterSDKListener(phsdkListener);
-    }
-
-    /**
-     * Method used to handle the user re-entering after leaving
-     * Used to restart the HueSDK listeners
-     */
-    @Override
-    protected void onResume(){
-        super.onResume();
-        phHueSDK.getNotificationManager().registerSDKListener(phsdkListener);
-    }
-
     /**'
      * The first method called when the Acvitvity is created
      * Used to initialize the SDK's and setup MVVM
@@ -238,7 +218,6 @@ public class AddSmartDeviceActivity extends BaseActivity<ActivityAddSmartDeviceB
             }
             //Transfer all data to Viewmodel
             mSmartDeviceViewModel.smartDeviceinsertHandler(sd,mhueBridge,uniqueID);
-            PHWizardAlertDialog.getInstance().closeProgressDialog();
             ChangeToSmartDevice();
         }
 
@@ -296,6 +275,10 @@ public class AddSmartDeviceActivity extends BaseActivity<ActivityAddSmartDeviceB
         @Override
         public void onError(int code, final String message) {
             Log.e(HueUtilities.TAG, "on Error Called : " + code + ":" + message);
+            if (code == 52){
+                Toast.makeText(getApplicationContext(), "Internal bridge error, please try again", Toast.LENGTH_SHORT).show();
+                PHWizardAlertDialog.getInstance().closeProgressDialog();
+            }
             if (code == PHHueError.NO_CONNECTION) {
                 Log.w(HueUtilities.TAG, "On No Connection");
             } else if (code == PHHueError.AUTHENTICATION_FAILED || code == PHMessageType.PUSHLINK_AUTHENTICATION_FAILED) {
@@ -373,6 +356,7 @@ public class AddSmartDeviceActivity extends BaseActivity<ActivityAddSmartDeviceB
     @Override
     public void ChangeToSmartDevice() {
         PHWizardAlertDialog.getInstance().closeProgressDialog();
+        phHueSDK.getNotificationManager().cancelSearchNotification();
         phHueSDK.getNotificationManager().unregisterSDKListener(phsdkListener);
         finish();
     }
