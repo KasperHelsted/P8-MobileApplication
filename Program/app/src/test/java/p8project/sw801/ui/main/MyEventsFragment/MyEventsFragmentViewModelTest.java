@@ -25,6 +25,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -49,7 +50,10 @@ public class MyEventsFragmentViewModelTest {
 
 
 
-        doReturn(Observable.just(true))
+        List<Event> events = new ArrayList<>();
+        events.add(new Event("Name", true));
+
+        doReturn(Observable.just(events))
                 .when(mMockDataManager)
                 .getAllEvents();
 
@@ -95,23 +99,15 @@ public class MyEventsFragmentViewModelTest {
         Event e = new Event();
         e.setName("Name");
         e.setActive(Boolean.TRUE);
-
-        //Assert when act is called
-        doAnswer((Answer) invocation -> {
-
-            Object arg0 = invocation.getArgument(0);
-
-            assertEquals(arg0,new Event("Name", Boolean.FALSE));
-            return null;
-        }).when(mMockDataManager).updateEvent(any(Event.class));
+        doReturn(Observable.just(true)).when(mMockDataManager).updateEvent(any(Event.class));
 
         //Act
-        try{
-            myEventsFragmentViewModel.updateEvent(e, Boolean.FALSE);
-        }catch (NullPointerException ex){
-            //Catching the null pointer exception thrown by the scheduler provider being a mock object.
-        }
+        myEventsFragmentViewModel.updateEvent(e, Boolean.FALSE);
+        mTestScheduler.triggerActions();
+        //Assert
+        verify(myEventsFragmentCallback, times(2)).updatelist();
     }
+
     @Test
     public void addNewEvent(){
         //Arrange
