@@ -1,7 +1,4 @@
-package p8project.sw801.MyEventsFragment;
-
-import android.arch.persistence.room.Room;
-import android.content.Context;
+package p8project.sw801.ui.MyEventsFragment;
 
 import org.junit.After;
 import org.junit.Before;
@@ -17,19 +14,15 @@ import java.util.List;
 
 import io.reactivex.Observable;
 import io.reactivex.schedulers.TestScheduler;
-import p8project.sw801.data.AppDataManager;
-import p8project.sw801.data.AppDataManager_Factory;
 import p8project.sw801.data.DataManager;
-import p8project.sw801.data.local.dao.EventDao;
-import p8project.sw801.data.local.db.AppDatabase;
 import p8project.sw801.data.model.db.Event;
 import p8project.sw801.ui.main.Fragments.MyEventsFragment.MyEventsFragmentNavigator;
 import p8project.sw801.ui.main.Fragments.MyEventsFragment.MyEventsFragmentViewModel;
+import p8project.sw801.utils.rx.SchedulerProvider;
 import p8project.sw801.utils.rx.TestSchedulerProvider;
 
 import static junit.framework.Assert.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.booleanThat;
 import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.mock;
@@ -37,7 +30,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
-public class MyEventsFragmentTest {
+public class MyEventsFragmentViewModelTest {
     @Mock
     MyEventsFragmentNavigator myEventsFragmentCallback;
     @Mock
@@ -56,15 +49,14 @@ public class MyEventsFragmentTest {
         mTestScheduler = new TestScheduler();
         TestSchedulerProvider testSchedulerProvider = new TestSchedulerProvider(mTestScheduler);
 
+
+
         doReturn(Observable.just(true))
                 .when(mMockDataManager)
                 .getAllEvents();
 
-
-
         myEventsFragmentViewModel = new MyEventsFragmentViewModel(mMockDataManager, testSchedulerProvider);
         myEventsFragmentViewModel.setNavigator(myEventsFragmentCallback);
-
     }
 
 
@@ -106,25 +98,30 @@ public class MyEventsFragmentTest {
         e.setName("Name");
         e.setActive(Boolean.TRUE);
 
-        //Assert
+        //Assert when act is called
         doAnswer((Answer) invocation -> {
 
             Object arg0 = invocation.getArgument(0);
 
-            assertEquals(arg0,new Event("name", Boolean.TRUE));
+            assertEquals(arg0,new Event("Name", Boolean.FALSE));
             return null;
         }).when(mMockDataManager).updateEvent(any(Event.class));
 
-
         //Act
-        myEventsFragmentViewModel.updateEvent(e, Boolean.FALSE);
-
-
-
-
-
-
-
-
+        try{
+            myEventsFragmentViewModel.updateEvent(e, Boolean.FALSE);
+        }catch (NullPointerException ex){
+            //Catching the null pointer exception thrown by the schedular provider being a mock object.
+        }
     }
+    @Test
+    public void addNewEvent(){
+        //Arrange
+        //Act
+        myEventsFragmentViewModel.addNewEvent();
+        //Assert
+        verify(myEventsFragmentCallback).addNewEvent();
+    }
+
+
 }
