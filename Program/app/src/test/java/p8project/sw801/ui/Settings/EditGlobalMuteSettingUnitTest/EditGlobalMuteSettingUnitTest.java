@@ -1,4 +1,4 @@
-package p8project.sw801.ui.Settings.AddGlobalMuteSetting;
+package p8project.sw801.ui.Settings.EditGlobalMuteSettingUnitTest;
 
 import org.junit.After;
 import org.junit.Before;
@@ -12,20 +12,23 @@ import io.reactivex.Observable;
 import io.reactivex.schedulers.TestScheduler;
 import p8project.sw801.data.DataManager;
 import p8project.sw801.data.model.db.GlobalMute;
+import p8project.sw801.ui.Settings.EditGlobalMuteSetting.EditGlobalMuteSettingNavigator;
+import p8project.sw801.ui.Settings.EditGlobalMuteSetting.EditGlobalMuteSettingViewModel;
 import p8project.sw801.utils.rx.TestSchedulerProvider;
 
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.verify;
 
 
 @RunWith(MockitoJUnitRunner.class)
-public class AddGlobalMuteVMUnitTest {
+public class EditGlobalMuteSettingUnitTest {
     @Mock
-    AddGlobalMuteSettingNavigator mAddGlobalMuteCallback;
+    EditGlobalMuteSettingNavigator editGlobalMuteSettingNavigator;
     @Mock
     DataManager mMockDataManager;
 
-    private AddGlobalMuteSettingViewModel mAddGlobalMuteSettingViewModel;
+    private EditGlobalMuteSettingViewModel editGlobalMuteSettingViewModel;
     private TestScheduler mTestScheduler;
 
     private String name = "name of mute";
@@ -43,18 +46,12 @@ public class AddGlobalMuteVMUnitTest {
         mTestScheduler = new TestScheduler();
         TestSchedulerProvider testSchedulerProvider = new TestSchedulerProvider(mTestScheduler);
 
-        mAddGlobalMuteSettingViewModel = new AddGlobalMuteSettingViewModel(mMockDataManager, testSchedulerProvider);
-        mAddGlobalMuteSettingViewModel.setNavigator(mAddGlobalMuteCallback);
+        editGlobalMuteSettingViewModel = new EditGlobalMuteSettingViewModel(mMockDataManager, testSchedulerProvider);
+        editGlobalMuteSettingViewModel.setNavigator(editGlobalMuteSettingNavigator);
 
         doReturn(Observable.just(true))
                 .when(mMockDataManager)
-                .insertGlobalMute(
-                        new GlobalMute(
-                                name,
-                                startTime,
-                                endTime,
-                                null,
-                                comment
+                .updateGlobalMute(any(GlobalMute.class
                         )
                 );
     }
@@ -62,21 +59,20 @@ public class AddGlobalMuteVMUnitTest {
     @After
     public void tearDown() {
         mTestScheduler = null;
-        mAddGlobalMuteSettingViewModel = null;
-        mAddGlobalMuteCallback = null;
+        editGlobalMuteSettingViewModel = null;
+        editGlobalMuteSettingNavigator = null;
     }
 
     @Test
-    public void testSaveAddGlobalMute() {
-
-        mAddGlobalMuteSettingViewModel.save(
-                name,
-                startTime,
-                endTime,
-                comment
-        );
+    public void submitGlobalMuteClick() {
+        //Arrange
+        editGlobalMuteSettingViewModel.globulMuteName.set("sdasada");
+        //Act
+        editGlobalMuteSettingViewModel.submitGlobalMuteClick();
+        //Assert
         mTestScheduler.triggerActions();
-
-        verify(mAddGlobalMuteCallback).finish();
+        verify(editGlobalMuteSettingNavigator).finish();
     }
+
 }
+
