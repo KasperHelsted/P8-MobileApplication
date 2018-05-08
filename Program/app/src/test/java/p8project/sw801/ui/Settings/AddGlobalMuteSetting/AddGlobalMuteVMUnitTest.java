@@ -19,7 +19,7 @@ import static org.mockito.Mockito.verify;
 
 
 @RunWith(MockitoJUnitRunner.class)
-public class TestClassTestPLz {
+public class AddGlobalMuteVMUnitTest {
     @Mock
     AddGlobalMuteSettingNavigator mAddGlobalMuteCallback;
     @Mock
@@ -67,7 +67,7 @@ public class TestClassTestPLz {
     }
 
     @Test
-    public void testServerLoginSuccess() {
+    public void testSaveAddGlobalMute() {
 
         mAddGlobalMuteSettingViewModel.save(
                 name,
