@@ -64,35 +64,31 @@ public class MyEventAdapter extends BaseAdapter {
         ImageView delete = row.findViewById(R.id.MyEventDelete);
         Switch eventSwitch = row.findViewById(R.id.eventSwitch);
 
-        edit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent editEvent = new Intent(mContext, EditEvent.class);
-                editEvent.putExtra("event_id", Title.get(position).getId());
-                mContext.startActivity(editEvent);
-            }
+        row.setOnClickListener(click -> {
+            Intent editEvent = new Intent(mContext, EditEvent.class);
+            editEvent.putExtra("event_id", Title.get(position).getId());
+            mContext.startActivity(editEvent);
         });
 
-        delete.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                myEventsFragment.deleteEvent(Title.get(position));
-            }
+        edit.setOnClickListener(view -> {
+            Intent editEvent = new Intent(mContext, EditEvent.class);
+            editEvent.putExtra("event_id", Title.get(position).getId());
+            mContext.startActivity(editEvent);
         });
+
+        delete.setOnClickListener(view -> myEventsFragment.deleteEvent(Title.get(position)));
 
 
         eventSwitch.setChecked(Title.get(position).getActive());
 
 
-        eventSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                // The isChecked will be true if the switch is in the On position
-                if (isChecked) {
-                    myEventsFragment.updateEvent(Title.get(position), isChecked);
-                    return;
-                }
+        eventSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            // The isChecked will be true if the switch is in the On position
+            if (isChecked) {
                 myEventsFragment.updateEvent(Title.get(position), isChecked);
+                return;
             }
+            myEventsFragment.updateEvent(Title.get(position), isChecked);
         });
 
         return (row);
