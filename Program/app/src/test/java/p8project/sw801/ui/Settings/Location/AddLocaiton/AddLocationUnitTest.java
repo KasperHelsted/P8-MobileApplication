@@ -58,7 +58,7 @@ public class AddLocationUnitTest {
     @Test
     public void openLocationActivty(){
         //Arrange
-        PredefinedLocation predefinedLocation = new PredefinedLocation("Location", 1234);
+        PredefinedLocation predefinedLocation = new PredefinedLocation("Location");
         //Act
         addLocationViewModel.openLocationActivty(predefinedLocation);
         //Assert
@@ -93,7 +93,7 @@ public class AddLocationUnitTest {
         doReturn(Observable.just(true)).when(mMockDataManager).insertCoordinate(any(Coordinate.class));
         doReturn(Observable.just(new Coordinate(21.21,34.43))).when(mMockDataManager).getLast();
         doReturn(Observable.just(true)).when(mMockDataManager).insertPredefinedLocation(any(PredefinedLocation.class));
-        doReturn(Observable.just(new PredefinedLocation("name", 1234))).when(mMockDataManager).getLastPredefinedLocation();
+        doReturn(Observable.just(new PredefinedLocation("name"))).when(mMockDataManager).getLastPredefinedLocation();
         //Act
         addLocationViewModel.submitLocationToDatabase(locName, coordinate);
         mTestScheduler.triggerActions();

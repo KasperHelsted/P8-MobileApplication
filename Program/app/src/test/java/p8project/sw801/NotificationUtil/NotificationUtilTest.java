@@ -17,6 +17,7 @@ import static junit.framework.Assert.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
 public class NotificationUtilTest {
@@ -45,8 +46,8 @@ public class NotificationUtilTest {
         //Act
         notificationUtil.CreateNotification("title", "content");
         //Assert
-        Mockito.when(mockContext.getSystemService(mockContext.NOTIFICATION_SERVICE)).thenReturn(notificationUtil);
-        doAnswer((Answer) invocation -> {
+        when(mockContext.getSystemService(Context.NOTIFICATION_SERVICE)).thenReturn(notificationUtil);
+        doAnswer(invocation -> {
             Object arg0 = invocation.getArgument(0);
             Object arg1 = invocation.getArgument(1);
 

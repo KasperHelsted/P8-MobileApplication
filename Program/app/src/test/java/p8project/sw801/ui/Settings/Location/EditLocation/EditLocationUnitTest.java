@@ -20,7 +20,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.verify;
 
-@RunWith(MockitoJUnitRunner.class)
+@RunWith(MockitoJUnitRunner.Silent.class)
 public class EditLocationUnitTest {
     @Mock
     EditLocationNavigator editLocationNavigator;
@@ -55,8 +55,12 @@ public class EditLocationUnitTest {
 
     @Test
     public void getLocationFromId(){
+        PredefinedLocation predefinedLocation = new PredefinedLocation("name");
+        predefinedLocation.setCoordinateId(1);
+        predefinedLocation.setId(1);
+
         //Arrange
-        doReturn(Observable.just(new PredefinedLocation("name", 123))).when(mMockDataManager).getPredefinedLocationById(any(int.class));
+        doReturn(Observable.just(predefinedLocation)).when(mMockDataManager).getPredefinedLocationById(any(int.class));
         doReturn(Observable.just(new Coordinate(12.21, 34.43))).when(mMockDataManager).getCoordinateById(any(Integer.class));
 
         //Act
@@ -91,7 +95,7 @@ public class EditLocationUnitTest {
 
         Coordinate coordinate = new Coordinate(12.21, 34.43);
         String locName = "name";
-        PredefinedLocation predefinedLocation = new PredefinedLocation("name", 1234);
+        PredefinedLocation predefinedLocation = new PredefinedLocation("name");
         //Act
         editLocationViewModel.updatePredefinedLoc(coordinate, locName, predefinedLocation);
         mTestScheduler.triggerActions();
