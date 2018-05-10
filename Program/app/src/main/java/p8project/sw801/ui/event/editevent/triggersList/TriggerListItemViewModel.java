@@ -2,10 +2,12 @@ package p8project.sw801.ui.event.editevent.triggersList;
 
 import android.databinding.ObservableField;
 
+import p8project.sw801.R;
 import p8project.sw801.data.model.db.Trigger;
 
 public class TriggerListItemViewModel {
-    public final ObservableField<String> tester = new ObservableField<>();
+    public final ObservableField<String> triggerDescription = new ObservableField<>();
+    public final ObservableField<Integer> triggerImage = new ObservableField<>();
 
     private final TriggerListItemViewModelListener mListener;
 
@@ -15,7 +17,9 @@ public class TriggerListItemViewModel {
         this.mTrigger = trigger;
         this.mListener = listener;
 
-        tester.set(trigger.getNotificationText());
+        triggerDescription.set(trigger.getNotificationText());
+
+        triggerImage.set(trigger.getNotification() ? R.drawable.ic_devices_other_black_18dp : R.drawable.ic_email_black_18dp);
     }
 
     public void onItemClick() {

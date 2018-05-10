@@ -134,7 +134,6 @@ public class When implements Serializable {
     // Position 1 = At Location
     // Position 2 = Near Location
     // Position 3 = Leaving Location
-    // Position 4 = Predefined Location
 
     public void setLocationCondition(Integer locationCondition) {
         this.locationCondition = locationCondition;

@@ -53,9 +53,9 @@ public class MySmartDeviceAdapter extends RecyclerView.Adapter<BaseViewHolder> {
     public BaseViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         switch (viewType) {
             case VIEW_TYPE_NORMAL:
-                ItemMySmartDeviceViewBinding blogViewBinding = ItemMySmartDeviceViewBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
+                ItemMySmartDeviceViewBinding smartDeviceViewBinding = ItemMySmartDeviceViewBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
 
-                return new MySmartDeviceViewHolder(blogViewBinding);
+                return new MySmartDeviceViewHolder(smartDeviceViewBinding);
             case VIEW_TYPE_EMPTY:
             default:
                 ItemMySmartDeviceEmptyViewBinding emptyViewBinding = ItemMySmartDeviceEmptyViewBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
