@@ -1,14 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
-
 
     <data>
 
         <variable
             name="viewModel"
             type="p8project.sw801.ui.event.editevent.triggersList.TriggerListItemViewModel" />
-
     </data>
 
     <RelativeLayout
@@ -17,24 +16,33 @@
         android:background="@drawable/spinner_border"
         android:orientation="vertical">
 
+        <ImageView
+            android:id="@+id/imageTriggerType"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="8dp"
+            android:contentDescription="@string/image_holder"
+            app:imageUrl="@{viewModel.triggerImage}" />
+
         <TextView
             android:id="@+id/addEventTrigger"
             android:layout_width="match_parent"
             android:layout_height="50dp"
+            android:layout_marginStart="6dp"
+            android:layout_toEndOf="@id/imageTriggerType"
             android:gravity="center_vertical"
-            android:text="@{viewModel.tester}"
+            android:text="@{viewModel.triggerDescription}"
             tools:text="SAMPLE DEVICE NAME" />
 
         <Button
             android:layout_width="30dp"
-            android:padding="5dp"
             android:layout_height="30dp"
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
             android:layout_marginEnd="10dp"
             android:background="@drawable/ic_delete_black_18dp"
-            android:onClick="@{() -> viewModel.deleteTrigger()}" />
-
-
+            android:onClick="@{() -> viewModel.deleteTrigger()}"
+            android:padding="5dp" />
     </RelativeLayout>
 </layout>

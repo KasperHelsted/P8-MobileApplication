@@ -214,6 +214,11 @@ public class AppDataManager implements DataManager {
     }
 
     @Override
+    public Observable<PredefinedLocation> getPredefinedLocationByCoordinateId(Integer id) {
+        return mDbHelper.getPredefinedLocationByCoordinateId(id);
+    }
+
+    @Override
     public Observable<PredefinedLocation> getLastPredefinedLocation() {
         return mDbHelper.getLastPredefinedLocation();
     }
