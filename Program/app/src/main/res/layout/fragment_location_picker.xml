@@ -41,7 +41,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:entries="@{viewModel.predefinedLocations}"
-                android:onItemSelected="@{viewModel.setPredefinedLocation}"
+                android:onItemSelected="@{viewModel::setPredefinedLocation}"
                 app:layout_constraintTop_toBottomOf="@+id/pleaseSelectPredefinedLocation" />
 
             <Button
