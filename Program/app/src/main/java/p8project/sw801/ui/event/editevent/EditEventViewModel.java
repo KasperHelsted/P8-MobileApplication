@@ -39,7 +39,6 @@ public class EditEventViewModel extends BaseViewModel<EditEventNavigator> {
 
     public ObservableField<String> locationString = new ObservableField<>();
 
-
     public ObservableInt startTime = new ObservableInt();
     public ObservableInt endTime = new ObservableInt();
 
