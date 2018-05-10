@@ -89,7 +89,7 @@
             android:layout_width="0dp"
             android:layout_height="61dp"
             android:layout_marginStart="16dp"
-            app:currentTime="@={viewModel.startTime}"
+            app:currentTime="@={viewModel.endTime}"
             app:layout_constraintEnd_toStartOf="@+id/editTextTimeBetween"
             app:layout_constraintHorizontal_bias="0.211"
             app:layout_constraintStart_toStartOf="parent"
