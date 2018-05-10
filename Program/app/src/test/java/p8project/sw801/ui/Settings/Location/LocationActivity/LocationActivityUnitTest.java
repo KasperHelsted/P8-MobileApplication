@@ -79,7 +79,7 @@ public class LocationActivityUnitTest {
     @Test
     public void onLocationClicked(){
         //Arrange
-        PredefinedLocation predefinedLocation = new PredefinedLocation("name", 123);
+        PredefinedLocation predefinedLocation = new PredefinedLocation("name");
         //Act
         locationViewModel.onLocationClicked(predefinedLocation);
         //Assert
@@ -88,7 +88,7 @@ public class LocationActivityUnitTest {
     @Test
     public void removePredefinedLocation(){
         //Arrange
-        PredefinedLocation predefinedLocation = new PredefinedLocation("name", 123);
+        PredefinedLocation predefinedLocation = new PredefinedLocation("name");
         doReturn(Observable.just(true)).when(mMockDataManager).deletePredefinedLocation(any(PredefinedLocation.class));
         //Act
         locationViewModel.removePredefinedLocation(predefinedLocation);
