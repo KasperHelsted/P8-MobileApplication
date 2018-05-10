@@ -1,15 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
+
         <import type="android.view.View" />
 
         <variable
             name="viewModel"
             type="p8project.sw801.ui.Settings.EditGlobalMuteSetting.EditGlobalMuteSettingViewModel" />
     </data>
+
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -74,25 +75,24 @@
             app:layout_constraintTop_toBottomOf="@+id/textInputLayout" />
 
         <p8project.sw801.ui.custom.TimePicker.TimePicker
-            android:id="@+id/editTextTimeBetween"
-            android:layout_width="0dp"
-            android:layout_height="61dp"
-            android:layout_marginEnd="16dp"
-            app:currentTime="@={viewModel.startTime}"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/editTextTimeBetween2"
-            app:layout_constraintTop_toBottomOf="@+id/textViewBetween" />
-
-
-        <p8project.sw801.ui.custom.TimePicker.TimePicker
             android:id="@+id/editTextTimeBetween2"
             android:layout_width="0dp"
             android:layout_height="61dp"
             android:layout_marginStart="16dp"
-            app:currentTime="@={viewModel.endTime}"
+            app:currentTime="@={viewModel.startTime}"
             app:layout_constraintEnd_toStartOf="@+id/editTextTimeBetween"
             app:layout_constraintHorizontal_bias="0.211"
             app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textViewBetween" />
+
+        <p8project.sw801.ui.custom.TimePicker.TimePicker
+            android:id="@+id/editTextTimeBetween"
+            android:layout_width="0dp"
+            android:layout_height="61dp"
+            android:layout_marginEnd="16dp"
+            app:currentTime="@={viewModel.endTime}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/editTextTimeBetween2"
             app:layout_constraintTop_toBottomOf="@+id/textViewBetween" />
 
         <TextView
