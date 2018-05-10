@@ -73,48 +73,28 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textInputLayout" />
 
-
-        <EditText
+        <p8project.sw801.ui.custom.TimePicker.TimePicker
             android:id="@+id/editTextTimeBetween"
             android:layout_width="0dp"
             android:layout_height="61dp"
             android:layout_marginEnd="16dp"
-            android:drawableEnd="@drawable/ic_schedule_black_18dp"
-            android:ems="10"
-            android:focusable="false"
-            android:inputType="text"
-            android:onClick="@{() -> viewModel.pickEndTime()}"
-            android:text="@{viewModel.endTime}"
+            app:currentTime="@={viewModel.startTime}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/editTextTimeBetween2"
             app:layout_constraintTop_toBottomOf="@+id/textViewBetween" />
 
-        <EditText
+
+        <p8project.sw801.ui.custom.TimePicker.TimePicker
             android:id="@+id/editTextTimeBetween2"
             android:layout_width="0dp"
             android:layout_height="61dp"
             android:layout_marginStart="16dp"
-            android:drawableEnd="@drawable/ic_schedule_black_18dp"
-            android:ems="10"
-            android:focusable="false"
-            android:inputType="text"
-            android:onClick="@{() -> viewModel.pickStartTime()}"
-            android:text="@{viewModel.startTime}"
+            app:currentTime="@={viewModel.startTime}"
             app:layout_constraintEnd_toStartOf="@+id/editTextTimeBetween"
             app:layout_constraintHorizontal_bias="0.211"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textViewBetween" />
-        <!--
-                <TextView
-                    android:id="@+id/textViewLocation"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginTop="8dp"
-                    android:text="Location:"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/editTextTimeBetween" />
-        -->
+
         <TextView
             android:id="@+id/textViewComment"
             android:layout_width="wrap_content"

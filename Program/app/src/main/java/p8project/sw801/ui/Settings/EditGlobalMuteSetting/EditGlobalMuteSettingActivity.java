@@ -15,8 +15,6 @@ import dagger.android.support.HasSupportFragmentInjector;
 import p8project.sw801.BR;
 import p8project.sw801.R;
 import p8project.sw801.databinding.ActivityEditGlobalMuteBinding;
-import p8project.sw801.ui.Settings.AddGlobalMuteSetting.Dialog.CustomTimePickerCallback;
-import p8project.sw801.ui.Settings.AddGlobalMuteSetting.Dialog.TimePickerDialog;
 import p8project.sw801.ui.base.BaseActivity;
 import p8project.sw801.ui.base.BaseViewModel;
 
@@ -24,7 +22,7 @@ import p8project.sw801.ui.base.BaseViewModel;
  * Created by clubd on 21-03-2018.
  */
 
-public class EditGlobalMuteSettingActivity extends BaseActivity<ActivityEditGlobalMuteBinding, EditGlobalMuteSettingViewModel> implements EditGlobalMuteSettingNavigator, HasSupportFragmentInjector,CustomTimePickerCallback {
+public class EditGlobalMuteSettingActivity extends BaseActivity<ActivityEditGlobalMuteBinding, EditGlobalMuteSettingViewModel> implements EditGlobalMuteSettingNavigator, HasSupportFragmentInjector {
 
     /**
      * MVVM setup
@@ -59,6 +57,7 @@ public class EditGlobalMuteSettingActivity extends BaseActivity<ActivityEditGlob
 
     /**
      * Sets up the activity for editting by getting the id from the intent and load the data
+     *
      * @param savedInstanceState
      */
     @Override
@@ -73,18 +72,8 @@ public class EditGlobalMuteSettingActivity extends BaseActivity<ActivityEditGlob
     }
 
     /**
-     * 'Displays the viewmodel
-     * @param viewModel instance of the viewmodel
-     */
-    @Override
-    public void showTimePickerDialog(BaseViewModel viewModel) {
-        callback = viewModel;
-
-        TimePickerDialog.newInstance().show(getSupportFragmentManager());
-    }
-
-    /**
      * Method to make toast
+     *
      * @param msg msg to display in toast
      */
     @Override
@@ -94,6 +83,7 @@ public class EditGlobalMuteSettingActivity extends BaseActivity<ActivityEditGlob
 
     /**
      * Close the activity
+     *
      * @param v
      */
     public void closeAddGlobalMute(View v) {
@@ -102,21 +92,12 @@ public class EditGlobalMuteSettingActivity extends BaseActivity<ActivityEditGlob
 
     /**
      * Start a new intent without result
+     *
      * @param context context of intent
      * @return status of the intent
      */
     public static Intent newIntent(Context context) {
         Intent intent = new Intent(context, EditGlobalMuteSettingActivity.class);
         return intent;
-    }
-
-    /**
-     * When the user finishes selecting time
-     * a callback to viewmodel to update data is sent
-     * @param datTime time as long
-     */
-    @Override
-    public void onTimeSet(long datTime) {
-        callback.callbackTimePicker(datTime);
     }
 }
