@@ -2,6 +2,7 @@ package p8project.sw801.ui.event.addevent;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import p8project.sw801.data.DataManager;
 import p8project.sw801.data.model.db.Coordinate;
 import p8project.sw801.data.model.db.Event;
@@ -18,7 +19,8 @@ public class AddEventViewModel extends BaseViewModel<AddEventNavigator> {
 
     /**
      * Constructor for the class.
-     * @param dataManager The active instance of the datamanager.
+     *
+     * @param dataManager       The active instance of the datamanager.
      * @param schedulerProvider The active instance of the schedulerProvider.
      */
     public AddEventViewModel(DataManager dataManager, SchedulerProvider schedulerProvider) {
@@ -56,6 +58,7 @@ public class AddEventViewModel extends BaseViewModel<AddEventNavigator> {
     /**
      * Method called when a user clicks on a time picker.
      * Uses the navigator to call a method in the AddEvent activity class.
+     *
      * @param i Variables used to distinguish between the two different timepickers.
      */
     public void showTimePickerDialog(int i) {
@@ -74,9 +77,10 @@ public class AddEventViewModel extends BaseViewModel<AddEventNavigator> {
     /**
      * Method called from the activity to save all required data for an event in the database.
      * This method fetches the id of the event object and calls methods to save the when and list of triggers using the event id.
-     * @param when The when object describing the time and location of the notification to trigger.
+     *
+     * @param when     The when object describing the time and location of the notification to trigger.
      * @param trigList List of triggers for the smart devices.
-     * @param pred The predefined location chosen by the user.
+     * @param pred     The predefined location chosen by the user.
      */
     public void submitEventToDatabase(When when, List<Trigger> trigList, PredefinedLocation pred) {
         if (pred != null) {
@@ -98,6 +102,7 @@ public class AddEventViewModel extends BaseViewModel<AddEventNavigator> {
 
     /**
      * Method used to save an event object in the database.
+     *
      * @param event The event object that is saved in the database.
      */
     public void saveEvent(Event event) {
@@ -106,15 +111,18 @@ public class AddEventViewModel extends BaseViewModel<AddEventNavigator> {
                 getDataManager().insertEvent(event).subscribeOn(
                         getSchedulerProvider().io()
                 ).observeOn(getSchedulerProvider().ui())
-                        .subscribe()
+                        .subscribe(response -> {
+                            getNavigator().notitfyActivity();
+                        })
         );
     }
 
     /**
      * Method used to insert a coordinate object into the database.
      * Called as part of inserting an event and the associated data to the database.
-     * @param when The when object describing the time and location of the notification to trigger.
-     * @param trigList List of triggers for the smart devices.
+     *
+     * @param when       The when object describing the time and location of the notification to trigger.
+     * @param trigList   List of triggers for the smart devices.
      * @param coordinate The coordinate for a location chosen by the user.
      */
     public void saveCoordinate(When when, List<Trigger> trigList, Coordinate coordinate) {
@@ -130,7 +138,8 @@ public class AddEventViewModel extends BaseViewModel<AddEventNavigator> {
 
     /**
      * Fetches the save coordinate object from the database and attaches this to the when object used in a later function.
-     * @param when The when object describing the time and location of the notification to trigger.
+     *
+     * @param when     The when object describing the time and location of the notification to trigger.
      * @param trigList List of triggers for the smart devices.
      */
     public void getCoordinateId(When when, List<Trigger> trigList) {
@@ -147,7 +156,8 @@ public class AddEventViewModel extends BaseViewModel<AddEventNavigator> {
 
     /**
      * Method used to save the list of triggers for an event.
-     * @param tList List of triggers for the smart devices.
+     *
+     * @param tList   List of triggers for the smart devices.
      * @param eventId The id of the event associated with the triggers.
      */
     public void saveTriggers(List<Trigger> tList, Event eventId) {
@@ -160,13 +170,16 @@ public class AddEventViewModel extends BaseViewModel<AddEventNavigator> {
                 getDataManager().insertAllTriggers(tListWithId).subscribeOn(
                         getSchedulerProvider().io()
                 ).observeOn(getSchedulerProvider().ui())
-                        .subscribe()
+                        .subscribe(response -> {
+                            getNavigator().notitfyActivity();
+                        })
         );
     }
 
     /**
      * Method used to save the When object for an event.
-     * @param when The when object describing the time and location of the notification to trigger.
+     *
+     * @param when    The when object describing the time and location of the notification to trigger.
      * @param eventId The id of the event.
      */
     public void saveWhen(When when, Event eventId) {
@@ -184,6 +197,7 @@ public class AddEventViewModel extends BaseViewModel<AddEventNavigator> {
     /**
      * Method used to fetch an EventWithData object that contains all relevant data to an object such as the when object and list of tiggers.
      * This object is used to create the relevant alarms and notification for the event.
+     *
      * @param e The event object inserted previous.
      */
     public void geteventwithdata(Event e) {

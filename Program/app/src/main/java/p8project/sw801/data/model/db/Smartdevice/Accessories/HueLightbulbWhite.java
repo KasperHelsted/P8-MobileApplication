@@ -3,6 +3,7 @@ package p8project.sw801.data.model.db.Smartdevice.Accessories;
 import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.ForeignKey;
+import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.Index;
 import android.arch.persistence.room.PrimaryKey;
 
@@ -34,6 +35,17 @@ public class HueLightbulbWhite {
 
     @ColumnInfo(name= "smartDeviceId")
     private Integer smartDeviceId;
+
+    @Ignore
+    public HueLightbulbWhite() {
+    }
+
+    public HueLightbulbWhite(Integer hueBridgeId, String deviceName, String deviceId, Integer smartDeviceId) {
+        this.hueBridgeId = hueBridgeId;
+        this.deviceName = deviceName;
+        this.deviceId = deviceId;
+        this.smartDeviceId = smartDeviceId;
+    }
 
     public Integer getId() {
         return id;
@@ -73,5 +85,29 @@ public class HueLightbulbWhite {
 
     public void setDeviceId(String deviceId) {
         this.deviceId = deviceId;
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        // Checks if object is from same instance
+        if (this == object)
+            return true;
+
+        // Checks if object is null or if the two classes is of same type
+        if (object == null || getClass() != object.getClass())
+            return false;
+
+        // We can assume that the object we are comparing is of same type so we can cast
+        HueLightbulbWhite that = (HueLightbulbWhite) object;
+
+        // This checks if it's the same object but initialized at two different times
+        if (this.id != null && that.id != null)
+            return this.id.equals(that.id);
+
+        // Here we can compare two objects before they have unique primary keys and are inserted into the database
+        if (this.hueBridgeId.equals(that.hueBridgeId) && this.deviceName.equals(that.deviceName) && this.deviceId.equals(that.deviceId) && this.smartDeviceId.equals(that.smartDeviceId))
+            return true;
+
+        return false;
     }
 }

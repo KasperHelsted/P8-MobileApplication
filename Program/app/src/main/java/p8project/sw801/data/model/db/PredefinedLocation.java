@@ -62,4 +62,28 @@ public class PredefinedLocation {
     public String toString() {
         return this.getName();
     }
+
+    @Override
+    public boolean equals(Object object) {
+        // Checks if object is from same instance
+        if (this == object)
+            return true;
+
+        // Checks if object is null or if the two classes is of same type
+        if (object == null || getClass() != object.getClass())
+            return false;
+
+        // We can assume that the object we are comparing is of same type so we can cast
+        PredefinedLocation that = (PredefinedLocation) object;
+
+        // This checks if it's the same object but initialized at two different times
+        if (this.id != null && that.id != null)
+            return this.id.equals(that.id);
+
+        // Here we can compare two objects before they have unique primary keys and are inserted into the database
+        if (this.name.equals(that.name) && this.coordinateId.equals(that.coordinateId))
+            return true;
+
+        return false;
+    }
 }

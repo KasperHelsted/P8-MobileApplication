@@ -17,7 +17,14 @@ public final class NestUtilities {
     public static NestAPI nestAPI;
     public static boolean ready = false;
 
-
+    /**
+     * Starts the nest communication from a specific context and allows usage
+     * of nestAPI from calling location by using the globally defined 'nestApi'.
+     *
+     * Authentification is performed with an EventListener that returns a status and updates accordingly
+     * @param ctx context to give access to nest api
+     * @param nestHub The nest with information to connect to
+     */
     public static void InitializeNestForCurrentContext(Context ctx, NestHub nestHub) {
         NestToken nestToken = new NestToken(nestHub.getBearerToken(),nestHub.getExpires());
         Firebase.setAndroidContext(ctx);

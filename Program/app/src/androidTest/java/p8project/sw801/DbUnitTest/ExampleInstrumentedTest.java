@@ -1,4 +1,4 @@
-package p8project.sw801;
+package p8project.sw801.DbUnitTest;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;

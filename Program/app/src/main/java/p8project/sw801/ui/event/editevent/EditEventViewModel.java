@@ -52,7 +52,13 @@ public class EditEventViewModel extends BaseViewModel<EditEventNavigator> {
     public final ObservableList<Trigger> eventTriggersObservableArrayList = new ObservableArrayList<>();
     private final MutableLiveData<List<Trigger>> eventTriggersListLiveData;
 
-
+    /**
+     * Constructor for viewmodel
+     * Sets up the data
+     *
+     * @param dataManager       db instance
+     * @param schedulerProvider schedulers
+     */
     public EditEventViewModel(DataManager dataManager, SchedulerProvider schedulerProvider) {
         super(dataManager, schedulerProvider);
 
@@ -73,6 +79,14 @@ public class EditEventViewModel extends BaseViewModel<EditEventNavigator> {
         }};
     }
 
+    /**
+     * Converts hours and minutes to an integer
+     *
+     * @param hour   hour value
+     * @param minute minute value
+     * @return time as int
+     * @throws ParseException Exception if it all fails
+     */
     private int hourAndMinuteToInt(Integer hour, Integer minute) throws ParseException {
         @SuppressLint("DefaultLocale")
         Date date = timeFormat.parse(
@@ -82,6 +96,12 @@ public class EditEventViewModel extends BaseViewModel<EditEventNavigator> {
         return (int) date.getTime();
     }
 
+    /**
+     * Populates the view from the data
+     *
+     * @throws IOException    if reading the data went wrong
+     * @throws ParseException if parsing the data went wrong
+     */
     private void populate() throws IOException, ParseException {
         eventName.set(this.event.getName());
 
@@ -145,6 +165,11 @@ public class EditEventViewModel extends BaseViewModel<EditEventNavigator> {
         );
     }
 
+    /**
+     * Loads the event from the stored data
+     *
+     * @param eventId id to load event from
+     */
     void loadInitialEvent(int eventId) {
         if (eventId == -1)
             ((EditEvent) getNavigator()).finish();
@@ -175,6 +200,11 @@ public class EditEventViewModel extends BaseViewModel<EditEventNavigator> {
         eventTriggersObservableArrayList.addAll(triggerList);
     }
 
+    /**
+     * Get current eventtrigger data
+     *
+     * @return List of triggers
+     */
     public MutableLiveData<List<Trigger>> getEventTriggersListLiveData() {
         return eventTriggersListLiveData;
     }

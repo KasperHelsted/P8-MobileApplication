@@ -82,13 +82,13 @@ public interface DbHelper {
 
     Observable<Boolean> isGlobalMuteEmpty();
 
-    Observable<Boolean> insertGlobalMute(final GlobalMute globalMute);
+    Observable<Boolean> insertGlobalMute(GlobalMute globalMute);
 
-    Observable<Boolean> insertAllGlobalMutes(final GlobalMute... globalMutes);
+    Observable<Boolean> insertAllGlobalMutes(GlobalMute... globalMutes);
 
-    Observable<Boolean> updateGlobalMute(final GlobalMute globalMute);
+    Observable<Boolean> updateGlobalMute(GlobalMute globalMute);
 
-    Observable<Boolean> deleteGlobalMute(final GlobalMute globalMute);
+    Observable<Boolean> deleteGlobalMute(GlobalMute globalMute);
     //</editor-fold>
 
     //<editor-fold desc="PredefinedLocations">
