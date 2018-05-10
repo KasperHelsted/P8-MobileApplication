@@ -247,6 +247,11 @@ public class AppDbHelper implements DbHelper {
     }
 
     @Override
+    public Observable<PredefinedLocation> getPredefinedLocationByCoordinateId(Integer id) {
+        return Observable.fromCallable(() -> mAppDatabase.predefinedLocationDao().loadByCoordinateId(id));
+    }
+
+    @Override
     public Observable<PredefinedLocation> getLastPredefinedLocation() {
         return Observable.fromCallable(() -> mAppDatabase.predefinedLocationDao().getLast());
     }

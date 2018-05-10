@@ -146,7 +146,9 @@
                         android:layout_height="45dp"
                         android:background="@drawable/spinner_border"
                         android:drawableEnd="@drawable/ic_map_black_18dp"
-                        android:gravity="center_vertical" />
+                        android:gravity="center_vertical"
+                        android:text="@{viewModel.locationString}"
+                        android:onClick="@{() -> viewModel.chooseLocation()}" />
                 </android.support.constraint.ConstraintLayout>
 
                 <!--

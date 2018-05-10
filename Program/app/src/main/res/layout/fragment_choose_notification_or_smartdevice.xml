@@ -37,36 +37,30 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
-            <!--
-            android:onClick="@{() -> viewModel.addNotificationMethod()}"
-            -->
+
             <Button
                 android:id="@+id/buttonAddNotification"
                 android:layout_width="150dp"
                 android:layout_height="wrap_content"
-
                 android:layout_marginEnd="16dp"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="8dp"
+                android:onClick="@{() -> viewModel.addNotification()}"
                 android:text="Add notification"
                 android:theme="@style/CustomStyleButton"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/editTextNotification" />
 
-            <!--
-
-                android:onClick="@{() -> viewModel.openAddSmartDeviceList()}"
--->
             <Button
                 android:id="@+id/buttonSmartDevice"
                 android:layout_width="150dp"
                 android:layout_height="59dp"
-
                 android:layout_marginBottom="16dp"
                 android:layout_marginEnd="16dp"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
+                android:onClick="@{() -> viewModel.openAddSmartDeviceList()}"
                 android:text="Trigger Smart Device"
                 android:theme="@style/CustomStyleButton"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -97,6 +91,7 @@
                 android:ems="10"
                 android:hint="Write a notification message"
                 android:inputType="textPersonName"
+                android:text="@={viewModel.notificationText}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textViewAddNot" />

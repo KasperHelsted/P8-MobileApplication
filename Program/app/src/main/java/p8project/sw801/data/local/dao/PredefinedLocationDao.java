@@ -26,6 +26,9 @@ public interface PredefinedLocationDao {
     @Query("SELECT * FROM predefinedlocation WHERE id == :predefinedLocationId LIMIT 1")
     PredefinedLocation loadById(Integer predefinedLocationId);
 
+    @Query("SELECT * FROM predefinedlocation WHERE coordinateId == :coordinateId LIMIT 1")
+    PredefinedLocation loadByCoordinateId(Integer coordinateId);
+
     @Query("SELECT COUNT(*) from predefinedlocation")
     Integer countPredefinedLocations();
 

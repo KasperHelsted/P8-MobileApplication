@@ -27,8 +27,7 @@ import p8project.sw801.ui.event.createeventmap.CreateEventMap;
 import p8project.sw801.utils.CommonUtils;
 
 
-
-public class AddLocationSettingActivity extends BaseActivity<ActivityAddLocationSettingBinding,AddLocationViewModel> implements AddLocationNavigator, HasSupportFragmentInjector {
+public class AddLocationSettingActivity extends BaseActivity<ActivityAddLocationSettingBinding, AddLocationViewModel> implements AddLocationNavigator, HasSupportFragmentInjector {
     private ActivityAddLocationSettingBinding mActivityAddLocationSettingBinding;
     @Inject
     AddLocationViewModel mAddLocationViewModel;
@@ -49,6 +48,7 @@ public class AddLocationSettingActivity extends BaseActivity<ActivityAddLocation
     DispatchingAndroidInjector<Fragment> fragmentDispatchingAndroidInjector;
     @Inject
     ViewModelProvider.Factory mViewModelFactory;
+
     @Override
     public int getBindingVariable() {
         return BR.viewModel;
@@ -66,6 +66,7 @@ public class AddLocationSettingActivity extends BaseActivity<ActivityAddLocation
 
     /**
      * Setup the view and MVVM
+     *
      * @param savedInstanceState state of the app
      */
     @Override
@@ -80,13 +81,14 @@ public class AddLocationSettingActivity extends BaseActivity<ActivityAddLocation
      * Setup from ui components to fields
      */
     private void setupBindings() {
-        addressTextView  = mActivityAddLocationSettingBinding.addLocation;
+        addressTextView = mActivityAddLocationSettingBinding.addLocation;
         confirmButton = mActivityAddLocationSettingBinding.buttonSavePredefinedLocation;
         nameTextView = mActivityAddLocationSettingBinding.textInputGlobalMuteName;
     }
 
     /**
      * daggger
+     *
      * @return dagger injector
      */
     @Override
@@ -100,7 +102,7 @@ public class AddLocationSettingActivity extends BaseActivity<ActivityAddLocation
     @Override
     public void openCreateMapActivity() {
         Intent intent = CreateEventMap.newIntent(AddLocationSettingActivity.this);
-        startActivityForResult(intent,42);
+        startActivityForResult(intent, 42);
     }
 
     /**
@@ -109,40 +111,40 @@ public class AddLocationSettingActivity extends BaseActivity<ActivityAddLocation
     @Override
     public void submitLocationClick() {
         String locName = nameTextView.getText().toString();
-        try{
-            if (!CommonUtils.isNullOrEmpty(locName)&& coords.getLongitude() != 0 && coords !=null){
-                mAddLocationViewModel.submitLocationToDatabase(locName,coords);
-            }
-            else {
+        try {
+            if (!CommonUtils.isNullOrEmpty(locName) && coords.getLongitude() != 0 && coords != null) {
+                mAddLocationViewModel.submitLocationToDatabase(locName, coords);
+            } else {
                 Toast.makeText(this, "You must specify a name", Toast.LENGTH_SHORT).show();
             }
-        }catch (NullPointerException e){
+        } catch (NullPointerException e) {
             Toast.makeText(this, "You must set a location", Toast.LENGTH_SHORT).show();
-        } catch (OnErrorNotImplementedException f){
-        Toast.makeText(this, "You must set a location", Toast.LENGTH_SHORT).show();
-    }
+        } catch (OnErrorNotImplementedException f) {
+            Toast.makeText(this, "You must set a location", Toast.LENGTH_SHORT).show();
+        }
     }
 
     /**
      * Finishes current activity and sends activity information to the Location page
+     *
      * @param pred
      */
     @Override
-    public void openLocationActivty(PredefinedLocation pred)
-    {
+    public void openLocationActivty(PredefinedLocation pred) {
         Intent resultIntent = new Intent();
-        resultIntent.putExtra("predId",pred.getId());
+        resultIntent.putExtra("predId", pred.getId());
         resultIntent.putExtra("predName", pred.getName());
-        resultIntent.putExtra("predCoordId",pred.getCoordinateId());
+        resultIntent.putExtra("predCoordId", pred.getCoordinateId());
         setResult(Activity.RESULT_OK, resultIntent);
         finish();
     }
 
     /**
      * method to catch intent results
+     *
      * @param requestCode the request identifier
-     * @param resultCode status of the result
-     * @param data intent with data
+     * @param resultCode  status of the result
+     * @param data        intent with data
      */
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {

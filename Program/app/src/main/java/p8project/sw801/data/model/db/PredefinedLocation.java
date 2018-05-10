@@ -26,7 +26,14 @@ public class PredefinedLocation {
 
     @ColumnInfo(name = "coordinateId")
     private Integer coordinateId;
-    
+
+    public PredefinedLocation() {
+    }
+
+    public PredefinedLocation(String name) {
+        this.name = name;
+    }
+
     public Integer getId() {
         return id;
     }

@@ -5,5 +5,5 @@ public interface ChooseNotificationOrSmartDeviceNavigator {
 
     void openAddSmartDeviceList();
 
-    void addNotification();
+    void addNotification(String notificationText);
 }
