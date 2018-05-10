@@ -3,6 +3,7 @@ package p8project.sw801.data.model.db;
 import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.ForeignKey;
+import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.Index;
 import android.arch.persistence.room.PrimaryKey;
 
@@ -46,6 +47,20 @@ public class Trigger {
 
     @ColumnInfo(name = "value")
     private Integer value;
+
+    @Ignore
+    public Trigger() {
+    }
+
+    public Trigger(Integer eventId, Integer smartDeviceId, Integer accessorieId, Boolean notification, String notificationText, Integer action, Integer value) {
+        this.eventId = eventId;
+        this.smartDeviceId = smartDeviceId;
+        this.accessorieId = accessorieId;
+        this.notification = notification;
+        this.notificationText = notificationText;
+        this.action = action;
+        this.value = value;
+    }
 
 
     public Integer getId() {
@@ -123,5 +138,28 @@ public class Trigger {
         this.value = value;
     }
 
+    @Override
+    public boolean equals(Object object) {
+        // Checks if object is from same instance
+        if (this == object)
+            return true;
+
+        // Checks if object is null or if the two classes is of same type
+        if (object == null || getClass() != object.getClass())
+            return false;
+
+        // We can assume that the object we are comparing is of same type so we can cast
+        Trigger that = (Trigger) object;
+
+        // This checks if it's the same object but initialized at two different times
+        if (this.id != null && that.id != null)
+            return this.id.equals(that.id);
+
+        // Here we can compare two objects before they have unique primary keys and are inserted into the database
+        if (this.eventId.equals(that.eventId) && this.smartDeviceId.equals(that.smartDeviceId) && this.accessorieId.equals(that.accessorieId) && this.notification.equals(that.notification) && this.notificationText.equals(that.notificationText) && this.action.equals(that.action) && this.value.equals(that.value))
+            return true;
+
+        return false;
+    }
 
 }

@@ -4,7 +4,6 @@ import dagger.Module;
 import dagger.android.ContributesAndroidInjector;
 import p8project.sw801.ui.Settings.AddGlobalMuteSetting.AddGlobalMuteSettingActivity;
 import p8project.sw801.ui.Settings.AddGlobalMuteSetting.AddGlobalMuteSettingModule;
-import p8project.sw801.ui.Settings.AddGlobalMuteSetting.Dialog.TimePickerProvider;
 import p8project.sw801.ui.Settings.EditGlobalMuteSetting.EditGlobalMuteSettingActivity;
 import p8project.sw801.ui.Settings.EditGlobalMuteSetting.EditGlobalMuteSettingModule;
 import p8project.sw801.ui.Settings.GlobalMuteSetting.GlobalMuteSettingActivity;
@@ -31,11 +30,12 @@ import p8project.sw801.ui.event.addeventnest.AddEventNest;
 import p8project.sw801.ui.event.addeventnest.AddEventNestModule;
 import p8project.sw801.ui.event.addeventsmartdevice.AddEventSmartDevice;
 import p8project.sw801.ui.event.addeventsmartdevice.AddEventSmartDeviceModule;
+import p8project.sw801.ui.event.choosenotificationorsmartdevice.ChooseNotificationOrSmartDeviceProvider;
 import p8project.sw801.ui.event.createeventmap.CreateEventMap;
 import p8project.sw801.ui.event.createeventmap.CreateEventMapModule;
 import p8project.sw801.ui.event.editevent.EditEvent;
 import p8project.sw801.ui.event.editevent.EditEventModule;
-import p8project.sw801.ui.event.editevent.EditEventProvider;
+import p8project.sw801.ui.event.locationpicker.LocationPickerProvider;
 import p8project.sw801.ui.event.notificationorsmartdevice.NotificationOrSmartdeviceProvider;
 import p8project.sw801.ui.main.Fragments.HomeFragment.HomeFragmentProvider;
 import p8project.sw801.ui.main.Fragments.MyEventsFragment.MyEventsFragmentProvider;
@@ -75,7 +75,11 @@ public abstract class ActivityBuilder {
     @ContributesAndroidInjector(modules = EditLocationModule.class)
     abstract EditLocationSettingActivity bindEditLocationSettingActivity();
 
-    @ContributesAndroidInjector(modules = EditEventModule.class)
+    @ContributesAndroidInjector(modules = {
+            EditEventModule.class,
+            ChooseNotificationOrSmartDeviceProvider.class,
+            LocationPickerProvider.class
+    })
     abstract EditEvent bindEditEvent();
 
     @ContributesAndroidInjector(modules = CreateEventMapModule.class)
@@ -94,14 +98,12 @@ public abstract class ActivityBuilder {
     abstract AddEventNest bindAddEventNest();
 
     @ContributesAndroidInjector(modules = {
-            AddGlobalMuteSettingModule.class,
-            TimePickerProvider.class
+            AddGlobalMuteSettingModule.class
     })
     abstract AddGlobalMuteSettingActivity bindAddGlobalMuteSettingActivity();
 
     @ContributesAndroidInjector(modules = {
-            EditGlobalMuteSettingModule.class,
-            TimePickerProvider.class
+            EditGlobalMuteSettingModule.class
     })
     abstract EditGlobalMuteSettingActivity bindEditGlobalMuteSettingActivity();
 

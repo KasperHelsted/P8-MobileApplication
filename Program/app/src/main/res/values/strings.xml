@@ -57,4 +57,10 @@
     <string name="daypicker_friday">F</string>
     <string name="daypicker_saturday">S</string>
     <string name="daypicker_sunday">S</string>
+
+    <string name="image_holder">Normal image holder</string>
+
+    <string name="location_picker_select_from_map">Select freely from map</string>
+    <string name="location_picker_create_new_location">Create new predefinedLocation</string>
+    <string name="location_picker_select_location">Please select a predefined location:</string>
 </resources>

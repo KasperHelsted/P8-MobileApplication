@@ -3,6 +3,7 @@ package p8project.sw801.data.model.db;
 import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.ForeignKey;
+import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.Index;
 import android.arch.persistence.room.PrimaryKey;
 
@@ -26,7 +27,15 @@ public class PredefinedLocation {
 
     @ColumnInfo(name = "coordinateId")
     private Integer coordinateId;
-    
+
+    @Ignore
+    public PredefinedLocation() {
+    }
+
+    public PredefinedLocation(String name) {
+        this.name = name;
+    }
+
     public Integer getId() {
         return id;
     }
@@ -54,5 +63,29 @@ public class PredefinedLocation {
     @Override
     public String toString() {
         return this.getName();
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        // Checks if object is from same instance
+        if (this == object)
+            return true;
+
+        // Checks if object is null or if the two classes is of same type
+        if (object == null || getClass() != object.getClass())
+            return false;
+
+        // We can assume that the object we are comparing is of same type so we can cast
+        PredefinedLocation that = (PredefinedLocation) object;
+
+        // This checks if it's the same object but initialized at two different times
+        if (this.id != null && that.id != null)
+            return this.id.equals(that.id);
+
+        // Here we can compare two objects before they have unique primary keys and are inserted into the database
+        if (this.name.equals(that.name) && this.coordinateId.equals(that.coordinateId))
+            return true;
+
+        return false;
     }
 }

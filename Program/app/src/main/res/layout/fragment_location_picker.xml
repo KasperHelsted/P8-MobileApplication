@@ -1,0 +1,65 @@
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="viewModel"
+            type="p8project.sw801.ui.event.locationpicker.LocationPickerViewModel" />
+    </data>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        tools:context="p8project.sw801.ui.event.locationpicker.LocationPicker">
+
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:background="@drawable/spinner_border"
+            android:clickable="true"
+            android:focusable="true">
+
+            <TextView
+                android:id="@+id/pleaseSelectPredefinedLocation"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="20dp"
+                android:layout_marginStart="20dp"
+                android:gravity="center"
+                android:paddingBottom="8dp"
+                android:paddingTop="8dp"
+                android:text="@string/location_picker_select_location" />
+
+            <Spinner
+                android:id="@+id/choosePredefinedLocation"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:entries="@{viewModel.predefinedLocations}"
+                android:onItemSelected="@{viewModel::setPredefinedLocation}"
+                app:layout_constraintTop_toBottomOf="@+id/pleaseSelectPredefinedLocation" />
+
+            <Button
+                android:id="@+id/createNewPredefinedLocation"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:onClick="@{() -> viewModel.createNewPredefinedLocation()}"
+                android:text="@string/location_picker_create_new_location"
+                android:theme="@style/CustomStyleButton"
+                app:layout_constraintTop_toBottomOf="@id/choosePredefinedLocation" />
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:onClick="@{() -> viewModel.createFromMap()}"
+                android:text="@string/location_picker_select_from_map"
+                android:theme="@style/CustomStyleButton"
+                app:layout_constraintTop_toBottomOf="@id/createNewPredefinedLocation" />
+        </android.support.constraint.ConstraintLayout>
+    </FrameLayout>
+</layout>

@@ -3,6 +3,7 @@ package p8project.sw801.data.model.db;
 import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.ForeignKey;
+import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.Index;
 import android.arch.persistence.room.PrimaryKey;
 
@@ -61,6 +62,22 @@ public class When implements Serializable {
     @ColumnInfo(name = "endMinute")
     private Integer endMinute;
 
+    @Ignore
+    public When() {
+    }
+
+    public When(Integer coordinateId, Integer eventId, Integer timeCondition, Integer locationCondition, byte[] weekdays, Integer startHour, Integer startMinute, Integer endHour, Integer endMinute) {
+        this.coordinateId = coordinateId;
+        this.eventId = eventId;
+        this.timeCondition = timeCondition;
+        this.locationCondition = locationCondition;
+        this.weekdays = weekdays;
+        this.startHour = startHour;
+        this.startMinute = startMinute;
+        this.endHour = endHour;
+        this.endMinute = endMinute;
+    }
+
     public byte[] getWeekdays() {
         return weekdays;
     }
@@ -117,7 +134,6 @@ public class When implements Serializable {
     // Position 1 = At Location
     // Position 2 = Near Location
     // Position 3 = Leaving Location
-    // Position 4 = Predefined Location
 
     public void setLocationCondition(Integer locationCondition) {
         this.locationCondition = locationCondition;
@@ -179,5 +195,34 @@ public class When implements Serializable {
 
     public void setEndMinute(int endMinute) {
         this.endMinute = endMinute;
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        // Checks if object is from same instance
+        if (this == object)
+            return true;
+
+        // Checks if object is null or if the two classes is of same type
+        if (object == null || getClass() != object.getClass())
+            return false;
+
+        // We can assume that the object we are comparing is of same type so we can cast
+        When that = (When) object;
+
+        // This checks if it's the same object but initialized at two different times
+        if (this.id != null && that.id != null)
+            return this.id.equals(that.id);
+
+        // Here we can compare two objects before they have unique primary keys and are inserted into the database
+        if (this.coordinateId.equals(that.coordinateId) && this.eventId.equals(that.eventId)
+                && this.timeCondition.equals(that.timeCondition) &&
+                this.locationCondition.equals(that.locationCondition) &&
+                this.weekdays.equals(that.weekdays) && this.startHour.equals(that.startHour) &&
+                this.startMinute.equals(that.startMinute) && this.endHour.equals(that.endHour) &&
+                this.endMinute.equals(that.endMinute))
+            return true;
+
+        return false;
     }
 }

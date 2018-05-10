@@ -83,7 +83,7 @@ public class TimePicker extends LinearLayout {
             },
                     getCalender().get(Calendar.HOUR_OF_DAY),
                     getCalender().get(Calendar.MINUTE),
-                    false
+                    true
             );
 
             mTimePicker.setTitle("Select Time");
