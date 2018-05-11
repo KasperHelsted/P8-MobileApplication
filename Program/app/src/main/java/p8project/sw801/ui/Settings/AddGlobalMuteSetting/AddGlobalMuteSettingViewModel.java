@@ -4,6 +4,7 @@ import android.databinding.ObservableArrayList;
 import android.databinding.ObservableField;
 import android.databinding.ObservableInt;
 import android.databinding.ObservableList;
+import android.util.Log;
 
 import p8project.sw801.data.DataManager;
 import p8project.sw801.data.model.db.GlobalMute;
@@ -29,17 +30,22 @@ public class AddGlobalMuteSettingViewModel extends BaseViewModel<AddGlobalMuteSe
      */
     public AddGlobalMuteSettingViewModel(DataManager dataManager, SchedulerProvider schedulerProvider) {
         super(dataManager, schedulerProvider);
+
+        Log.i("sw801", String.valueOf(startTime));
     }
-    
+
     /**
      * Method called to submit the new global mute.
      * Multiple checks are performed to ensure that all required fields are filled.
      */
     public void submitGlobalMuteClick() {
+        System.out.println("startTime: " + startTime.get());
+        System.out.println("endTime: " + endTime.get());
+
         if (globulMuteName.get() == null || globulMuteName.get().isEmpty()) {
             getNavigator().sendNotification("Name cannot be empty");
             return;
-        } else if (startTime.get() == 0 || endTime.get() == 0) {
+        } else if (startTime.get() == -1 || endTime.get() == -1) {
             getNavigator().sendNotification("Time interval must be set");
             return;
         }

@@ -10,7 +10,6 @@ import android.databinding.InverseBindingMethods;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 
@@ -27,7 +26,7 @@ import p8project.sw801.R;
                 attribute = "currentTime",
                 event = "android:textAttrChanged",
                 method = "getCurrentTime"
-        ),
+        )
 })
 public class TimePicker extends LinearLayout {
     @SuppressLint("SimpleDateFormat")
@@ -36,7 +35,7 @@ public class TimePicker extends LinearLayout {
 
     private EditText mEditText;
 
-    static InverseBindingListener mListener;
+    private InverseBindingListener mListener;
 
 
     public TimePicker(Context context) {
@@ -140,8 +139,12 @@ public class TimePicker extends LinearLayout {
         return this.currentTime;
     }
 
+    public void bind(InverseBindingListener mListener) {
+        this.mListener = mListener;
+    }
+
     @BindingAdapter("android:textAttrChanged")
-    public static void setTextWatcher(View view, final InverseBindingListener textAttrChanged) {
-        mListener = textAttrChanged;
+    public static void setTextWatcher(TimePicker view, final InverseBindingListener textAttrChanged) {
+        view.bind(textAttrChanged);
     }
 }

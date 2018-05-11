@@ -137,7 +137,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="22dp"
-            android:text="Or - Find a Philips Hue Brigde:"
+            android:text="Or - Find a Philips Hue Bridge:"
             android:textColor="@color/black"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/button_nestconfirm" />

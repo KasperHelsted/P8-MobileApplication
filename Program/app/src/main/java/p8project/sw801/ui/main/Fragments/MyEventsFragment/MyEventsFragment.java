@@ -17,16 +17,16 @@ import javax.inject.Inject;
 import p8project.sw801.BR;
 import p8project.sw801.R;
 import p8project.sw801.data.model.db.Event;
-import p8project.sw801.databinding.ActivityMyEventsBinding;
+import p8project.sw801.databinding.FragmentMyEventsBinding;
 import p8project.sw801.ui.base.BaseFragment;
 import p8project.sw801.ui.event.MyEventAdapter;
 import p8project.sw801.ui.event.addevent.AddEvent;
 
-public class MyEventsFragment extends BaseFragment<ActivityMyEventsBinding, MyEventsFragmentViewModel> implements MyEventsFragmentNavigator {
+public class MyEventsFragment extends BaseFragment<FragmentMyEventsBinding, MyEventsFragmentViewModel> implements MyEventsFragmentNavigator {
 
     @Inject
     MyEventsFragmentViewModel mMyEventsFragmentViewModel;
-    private ActivityMyEventsBinding mActivityMyEventsBinding;
+    private FragmentMyEventsBinding mFragmentMyEventsBinding;
 
     private ListView listview;
     private ActionBarDrawerToggle actionBarDrawerToggle;
@@ -46,8 +46,9 @@ public class MyEventsFragment extends BaseFragment<ActivityMyEventsBinding, MyEv
 
     /**
      * On create view method for MyEventFragment. Instantiates and sets up all required fields for the page.
-     * @param inflater The infater used from the activity to inflate this fragment.
-     * @param container The container containing this fragment.
+     *
+     * @param inflater           The infater used from the activity to inflate this fragment.
+     * @param container          The container containing this fragment.
      * @param savedInstanceState The saved instance state if there is one.
      * @return The inflated view.
      */
@@ -56,8 +57,8 @@ public class MyEventsFragment extends BaseFragment<ActivityMyEventsBinding, MyEv
                              Bundle savedInstanceState) {
 
         super.onCreateView(inflater, container, savedInstanceState);
-        mActivityMyEventsBinding = getViewDataBinding();
-        view = mActivityMyEventsBinding.getRoot();
+        mFragmentMyEventsBinding = getViewDataBinding();
+        view = mFragmentMyEventsBinding.getRoot();
         mMyEventsFragmentViewModel.setNavigator(this);
         setUp();
         return view;
@@ -66,10 +67,10 @@ public class MyEventsFragment extends BaseFragment<ActivityMyEventsBinding, MyEv
     /**
      * Method used to create the page. This method sets the adapter for the listview containing the events created by the user.
      */
-    public void setUp(){
+    public void setUp() {
 
 
-        listview = (ListView) mActivityMyEventsBinding.listViewMyEvents;
+        listview = (ListView) mFragmentMyEventsBinding.listViewMyEvents;
 
         //------Creation of list of Events
         myEvents = new ArrayList<Event>();
@@ -82,7 +83,7 @@ public class MyEventsFragment extends BaseFragment<ActivityMyEventsBinding, MyEv
             //------Creation of list of smart devices
 
 
-            ImageView add = mActivityMyEventsBinding.imageViewMyeventadd;
+            ImageView add = mFragmentMyEventsBinding.imageViewMyeventadd;
         }
 
 
@@ -98,6 +99,7 @@ public class MyEventsFragment extends BaseFragment<ActivityMyEventsBinding, MyEv
 
     /**
      * Method used to delete an event and its associated objects.
+     *
      * @param event The Event object to be deleted.
      */
     @Override
@@ -112,7 +114,8 @@ public class MyEventsFragment extends BaseFragment<ActivityMyEventsBinding, MyEv
 
     /**
      * Method used to update an event object in the database.
-     * @param event The event object to be updated.
+     *
+     * @param event     The event object to be updated.
      * @param condition The boolean condition describing if the event is active.
      */
     public void updateEvent(Event event, Boolean condition) {
@@ -130,6 +133,7 @@ public class MyEventsFragment extends BaseFragment<ActivityMyEventsBinding, MyEv
 
     /**
      * Constructor for the fragment.
+     *
      * @return
      */
     public static MyEventsFragment newInstance() {
@@ -141,6 +145,7 @@ public class MyEventsFragment extends BaseFragment<ActivityMyEventsBinding, MyEv
 
     /**
      * Gets the binding variable.
+     *
      * @return The binding variable.
      */
     @Override
@@ -150,22 +155,21 @@ public class MyEventsFragment extends BaseFragment<ActivityMyEventsBinding, MyEv
 
     /**
      * Get id for the layout for this page.
+     *
      * @return Layout id.
      */
     @Override
     public int getLayoutId() {
-        return R.layout.activity_my_events;
+        return R.layout.fragment_my_events;
     }
 
     /**
      * Get the instance of the view model.
+     *
      * @return Instance of the view model.
      */
     @Override
     public MyEventsFragmentViewModel getViewModel() {
         return mMyEventsFragmentViewModel;
     }
-
-
-
 }

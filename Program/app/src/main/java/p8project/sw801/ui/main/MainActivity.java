@@ -16,7 +16,9 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.view.MenuItem;
+
 import javax.inject.Inject;
+
 import dagger.android.AndroidInjector;
 import dagger.android.DispatchingAndroidInjector;
 import dagger.android.support.HasSupportFragmentInjector;
@@ -49,6 +51,7 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
     /**
      * On create method for MainActivity. Instantiates and sets up all required fields for the page.
      * initializes the viewPager and BurgerMenu
+     *
      * @param savedInstanceState The saved instance state if there is one.
      */
     @Override
@@ -64,6 +67,7 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
     }
 
     //--------------------------Burger menu Start-------------------------------------
+
     /**
      * Method used to setup the BurgerMenu.
      */
@@ -81,8 +85,8 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
 
     /**
      * Method used to return the value of the selected item
+     *
      * @param item MenuItem: The selected item.
-     * @return true - If successfully handled the menu item
      * @return superclass implementation called with the selected item
      */
     @Override
@@ -96,6 +100,7 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
     /**
      * Listener for handling events on navigation items for the BurgerMenu. Called when an item in the navigation menu is selected.
      * Navigates to the selected items activity or fragment and closes the drawer
+     *
      * @param item MenuItem: The selected item
      * @return true to display the item as the selected item
      */
@@ -164,6 +169,7 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
 
     /**
      * Creates a new MainActivity intent.
+     *
      * @param context The current context of the application.
      * @return The created intent.
      */
@@ -174,6 +180,7 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
 
     /**
      * Gets the binding variable.
+     *
      * @return The binding variable.
      */
     @Override
@@ -183,6 +190,7 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
 
     /**
      * Get id for the layout for this page.
+     *
      * @return Layout id.
      */
     @Override
@@ -192,6 +200,7 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
 
     /**
      * Get the instance of the view model.
+     *
      * @return Instance of the view model.
      */
     @Override
@@ -202,6 +211,7 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
 
     /**
      * Set the tab of the ViewPager as the current item
+     *
      * @param tab
      */
     public void setView(int tab) {
@@ -259,6 +269,23 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
     @Override
     public void buttonMySmartDevicesOnClick() {
         setView(2);
+    }
+
+
+    @Override
+    public void onBackPressed() {
+        if (mActivityMainBinding.mainViewpager.getCurrentItem() == 0) {
+            new AlertDialog.Builder(this)
+                    .setTitle("Close the application")
+                    .setMessage("Do you really want to close NotifyMe?")
+                    .setIcon(android.R.drawable.ic_dialog_alert)
+                    .setPositiveButton(android.R.string.yes, (dialog, whichButton) -> {
+                        finish();
+                    })
+                    .setNegativeButton(android.R.string.no, null).show();
+        } else {
+            setView(0);
+        }
     }
 }
 

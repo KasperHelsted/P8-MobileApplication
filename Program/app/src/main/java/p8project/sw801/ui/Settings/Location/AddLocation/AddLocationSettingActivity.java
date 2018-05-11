@@ -157,7 +157,7 @@ public class AddLocationSettingActivity extends BaseActivity<ActivityAddLocation
                     address = addressBundle.getParcelable("address");
                     loc = locationBundle.getParcelable("location");
                     coords = new Coordinate(loc);
-                    addressTextView.setText(address.getAddressLine(0) + ", " + address.getAddressLine(1) + ", " + address.getAddressLine(2));
+                    addressTextView.setText(address.getAddressLine(0));
                 }
                 break;
             }
