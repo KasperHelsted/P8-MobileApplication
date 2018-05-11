@@ -4,7 +4,10 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
@@ -34,7 +37,8 @@ public class AddEventNest extends BaseActivity<ActivityAddEventNestBinding, AddE
     private Button turnOffButton;
     private Button confirmButtom;
     private SeekBar seekBarNest;
-    private TextView seekbarTextView;
+    private EditText seekbarEditText;
+    private SeekBar.OnSeekBarChangeListener mSeekBarChangeListener;
 
     /**
      * On create method for AddEvent. Instantiates and sets up all required fields for the page.
@@ -49,21 +53,27 @@ public class AddEventNest extends BaseActivity<ActivityAddEventNestBinding, AddE
         fetchData();
         setUp();
 
+
     }
 
     /**
      * Sets up the different components on the page
      */
     public void setUp(){
+
         deviceNameTextView.setText("Device: " + mySmartDevice.getDeviceName());
         assesoryNameTextView.setText("Thermostat: " + myAccessory.getName());
         seekBarNest.setProgress(20);
-        seekbarTextView.setText(String.valueOf(seekBarNest.getProgress()));
+        seekbarEditText.setText(String.valueOf(seekBarNest.getProgress()));
 
-        seekBarNest.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+        mSeekBarChangeListener = new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                seekbarTextView.setText(String.valueOf(progress));
+                seekbarEditText.setText(String.valueOf(progress));
+                if (seekbarEditText.getText() != null){
+                    seekbarEditText.setSelection(seekbarEditText.getText().length());
+                }
+
             }
 
             @Override
@@ -75,7 +85,11 @@ public class AddEventNest extends BaseActivity<ActivityAddEventNestBinding, AddE
             public void onStopTrackingTouch(SeekBar seekBar) {
 
             }
-        });
+        };
+
+        seekBarNest.setOnSeekBarChangeListener(mSeekBarChangeListener);
+
+        seekbarEditText.addTextChangedListener(new MyTextWatcher(seekbarEditText));
     }
 
     /**
@@ -103,7 +117,7 @@ public class AddEventNest extends BaseActivity<ActivityAddEventNestBinding, AddE
         turnOffButton = mActivityAddEventNestBinding.buttonNestOff;
         confirmButtom = mActivityAddEventNestBinding.buttonConfirmTemp;
         seekBarNest = mActivityAddEventNestBinding.seekBarNest;
-        seekbarTextView = mActivityAddEventNestBinding.textViewSeekBarNest;
+        seekbarEditText = mActivityAddEventNestBinding.editTextSeekBarNest;
     }
 
     /**
@@ -197,4 +211,58 @@ public class AddEventNest extends BaseActivity<ActivityAddEventNestBinding, AddE
         Intent intent = new Intent(context, AddEventNest.class);
         return intent;
     }
+
+    /**
+     * Custom TextWatcher used to enable a user to enter a value in the text field and also change the seekbar
+     */
+    public class MyTextWatcher implements TextWatcher {
+        private EditText et;
+
+        // Pass the EditText instance to TextWatcher by constructor
+        public MyTextWatcher(EditText et) {
+            this.et = et;
+        }
+
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+            if (et.getText()!= null){
+
+
+            String strEnteredVal = et.getText().toString();
+            if (!strEnteredVal.equals("")) {
+                int num = Integer.parseInt(strEnteredVal);
+                if (num > 50) {
+                    et.removeTextChangedListener(this);
+                    et.setText("50");
+                    seekBarNest.setProgress(50);
+                    et.addTextChangedListener(this);
+                } else if (num < 0) {
+                    et.removeTextChangedListener(this);
+                    et.setText(String.valueOf(0));
+                    seekBarNest.setProgress(0);
+                    et.addTextChangedListener(this);
+                } else {
+                    et.removeTextChangedListener(this);
+                    et.setText(String.valueOf(num));
+                    seekBarNest.setProgress(num);
+                    et.addTextChangedListener(this);
+                }
+
+
+            }
+            }
+        }
+    }
 }
+
+

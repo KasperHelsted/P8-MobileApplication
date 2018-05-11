@@ -35,9 +35,11 @@
                 android:onClick="@{() -> viewModel.buttonCreateEventOnClick()}"
                 android:text="Create event"
                 android:theme="@style/CustomStyleButton"
+                android:drawableRight="@drawable/baseline_add_alert_white_18"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
+
 
             <Button
                 android:id="@+id/buttonMySmartDevices"
@@ -50,6 +52,7 @@
                 android:onClick="@{() -> viewModel.buttonMySmartDevicesOnClick()}"
                 android:text="My Smart Devices"
                 android:theme="@style/CustomStyleButton"
+                android:drawableRight="@drawable/baseline_devices_other_white_18"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/buttonMyEvents" />
@@ -64,6 +67,7 @@
                 android:gravity="center"
                 android:onClick="@{() -> viewModel.buttonMyEventsOnClick()}"
                 android:text="My Events"
+                android:drawableRight="@drawable/baseline_event_white_18"
                 android:theme="@style/CustomStyleButton"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -80,6 +84,7 @@
                 android:onClick="@{() -> viewModel.buttonSettingsOnClick()}"
                 android:text="Settings"
                 android:theme="@style/CustomStyleButton"
+                android:drawableRight="@drawable/baseline_settings_white_18"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/buttonMySmartDevices" />
