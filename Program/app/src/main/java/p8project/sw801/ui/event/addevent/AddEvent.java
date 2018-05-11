@@ -441,6 +441,20 @@ public class AddEvent extends BaseActivity<ActivityAddEventBinding, AddEventView
     }
 
     /**
+     * Method used to trigger an alert when deleting a trigger.
+     *
+     * @param pos The position of the trigger in the ListView
+     */
+    public void deleteNotificationOrTrigger(int pos) {
+        new android.support.v7.app.AlertDialog.Builder(this)
+                .setTitle("Delete notifcation/trigger")
+                .setMessage("Do you really want to delete the notification/trigger?")
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .setPositiveButton(android.R.string.yes, (dialog, whichButton) -> deleteItem(pos))
+                .setNegativeButton(android.R.string.no, null).show();
+    }
+
+    /**
      * Method called when the user submits the event. This method checks all entered information to ensure that all required fields are entered.
      * Further this method calls the methods from the ViewModel to save the event.
      */
