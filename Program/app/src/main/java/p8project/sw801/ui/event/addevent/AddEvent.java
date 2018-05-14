@@ -6,18 +6,23 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.app.TimePickerDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.location.Address;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.format.DateFormat;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
@@ -208,6 +213,39 @@ public class AddEvent extends BaseActivity<ActivityAddEventBinding, AddEventView
             }
         });
         coordinate = null;
+
+        setHideKeyboardOnTouch(this, findViewById(R.id.scrollView));
+    }
+
+    public static void setHideKeyboardOnTouch(final Context context, View view) {
+        //Set up touch listener for non-text box views to hide keyboard.
+        try {
+            //Set up touch listener for non-text box views to hide keyboard.
+            if (!(view instanceof EditText || view instanceof ScrollView)) {
+
+                view.setOnTouchListener(new View.OnTouchListener() {
+
+                    public boolean onTouch(View v, MotionEvent event) {
+                        InputMethodManager in = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
+                        in.hideSoftInputFromWindow(v.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+                        return false;
+                    }
+
+                });
+            }
+            //If a layout container, iterate over children and seed recursion.
+            if (view instanceof ViewGroup) {
+
+                for (int i = 0; i < ((ViewGroup) view).getChildCount(); i++) {
+
+                    View innerView = ((ViewGroup) view).getChildAt(i);
+
+                    setHideKeyboardOnTouch(context, innerView);
+                }
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -438,6 +476,20 @@ public class AddEvent extends BaseActivity<ActivityAddEventBinding, AddEventView
     public void deleteItem(int pos) {
         addMyEvents.remove(pos);
         refreshData();
+    }
+
+    /**
+     * Method used to trigger an alert when deleting a trigger.
+     *
+     * @param pos The position of the trigger in the ListView
+     */
+    public void deleteNotificationOrTrigger(int pos) {
+        new android.support.v7.app.AlertDialog.Builder(this)
+                .setTitle("Delete notifcation/trigger")
+                .setMessage("Do you really want to delete the notification/trigger?")
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .setPositiveButton(android.R.string.yes, (dialog, whichButton) -> deleteItem(pos))
+                .setNegativeButton(android.R.string.no, null).show();
     }
 
     /**
