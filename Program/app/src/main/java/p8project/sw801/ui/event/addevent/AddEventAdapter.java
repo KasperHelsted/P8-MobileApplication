@@ -1,6 +1,7 @@
 package p8project.sw801.ui.AddEvent;
 
 import android.content.Context;
+import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +11,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 import p8project.sw801.R;
+import p8project.sw801.data.model.db.Event;
 import p8project.sw801.data.model.db.Trigger;
 import p8project.sw801.ui.event.addevent.AddEvent;
 
@@ -51,7 +53,6 @@ public class AddEventAdapter extends BaseAdapter {
             row = inflater.inflate(R.layout.activity_add_event_list_smartdevices_layout, parent, false);
         }
 
-
         TextView title;
         title = (TextView) row.findViewById(R.id.addEventTrigger);
 
@@ -61,7 +62,7 @@ public class AddEventAdapter extends BaseAdapter {
         t.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ((AddEvent)mContext).deleteItem(position);
+                ((AddEvent)mContext).deleteNotificationOrTrigger(position);
             }
         });
         return (row);
