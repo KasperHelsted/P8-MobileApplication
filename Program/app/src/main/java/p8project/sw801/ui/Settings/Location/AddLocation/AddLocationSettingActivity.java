@@ -25,6 +25,7 @@ import p8project.sw801.databinding.ActivityAddLocationSettingBinding;
 import p8project.sw801.ui.base.BaseActivity;
 import p8project.sw801.ui.event.createeventmap.CreateEventMap;
 import p8project.sw801.utils.CommonUtils;
+import p8project.sw801.utils.KeyBoardUtil;
 
 
 public class AddLocationSettingActivity extends BaseActivity<ActivityAddLocationSettingBinding, AddLocationViewModel> implements AddLocationNavigator, HasSupportFragmentInjector {
@@ -75,6 +76,7 @@ public class AddLocationSettingActivity extends BaseActivity<ActivityAddLocation
         mActivityAddLocationSettingBinding = getViewDataBinding();
         mAddLocationViewModel.setNavigator(this);
         setupBindings();
+        KeyBoardUtil.setHideKeyboardOnTouch(this, findViewById(R.id.addlocationpage));
     }
 
     /**

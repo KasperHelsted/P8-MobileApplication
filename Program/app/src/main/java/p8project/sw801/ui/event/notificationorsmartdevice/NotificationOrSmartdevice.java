@@ -18,6 +18,7 @@ import p8project.sw801.databinding.FragmentNotificationOrSmartdeviceBinding;
 import p8project.sw801.ui.base.BaseFragment;
 import p8project.sw801.ui.event.addevent.AddEvent;
 import p8project.sw801.ui.event.addeventsmartdevice.AddEventSmartDevice;
+import p8project.sw801.utils.KeyBoardUtil;
 
 public class NotificationOrSmartdevice extends BaseFragment<FragmentNotificationOrSmartdeviceBinding, NotificationOrSmartdeviceViewModel> implements NotificationOrSmartdeviceNavigator {
 
@@ -45,6 +46,8 @@ public class NotificationOrSmartdevice extends BaseFragment<FragmentNotification
         mNotificationOrSmartdeviceViewModel.setNavigator(this);
         addEvent = (AddEvent) getActivity();
         notification = mFragmentNotificationOrSmartdeviceBinding.editTextNotification;
+
+        KeyBoardUtil.setHideKeyboardOnTouch(getContext(), view.findViewById(R.id.notificationorsmartdevice));
         return view;
     }
 

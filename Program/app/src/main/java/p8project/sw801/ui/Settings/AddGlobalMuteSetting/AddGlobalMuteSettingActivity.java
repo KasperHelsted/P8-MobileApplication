@@ -2,6 +2,7 @@ package p8project.sw801.ui.Settings.AddGlobalMuteSetting;
 
 import android.content.Context;
 import android.content.Intent;
+import android.inputmethodservice.KeyboardView;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.View;
@@ -17,6 +18,7 @@ import p8project.sw801.R;
 import p8project.sw801.databinding.ActivityAddGlobalMuteBinding;
 import p8project.sw801.ui.base.BaseActivity;
 import p8project.sw801.ui.base.BaseViewModel;
+import p8project.sw801.utils.KeyBoardUtil;
 
 
 /**
@@ -43,6 +45,7 @@ public class AddGlobalMuteSettingActivity extends BaseActivity<ActivityAddGlobal
         super.onCreate(savedInstanceState);
         mAddGlobalMuteSettingViewModel.setNavigator(this);
         mActivityAddGlobalMuteBinding = getViewDataBinding();
+        KeyBoardUtil.setHideKeyboardOnTouch(this, findViewById(R.id.globalmutepage));
     }
 
     /**

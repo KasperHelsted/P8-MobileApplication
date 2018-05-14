@@ -54,6 +54,7 @@ import p8project.sw801.ui.custom.PHPushlinkActivity;
 import p8project.sw801.ui.custom.PHWizardAlertDialog;
 import p8project.sw801.utils.CommonUtils;
 import p8project.sw801.utils.HueUtilities;
+import p8project.sw801.utils.KeyBoardUtil;
 
 
 public class AddSmartDeviceActivity extends BaseActivity<ActivityAddSmartDeviceBinding, AddSmartDeviceViewModel> implements AdapterView.OnItemClickListener, AddSmartDeviceNavigator, HasSupportFragmentInjector {
@@ -124,6 +125,8 @@ public class AddSmartDeviceActivity extends BaseActivity<ActivityAddSmartDeviceB
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        KeyBoardUtil.setHideKeyboardOnTouch(this, findViewById(R.id.addsmartdevicepage));
+
         //MVVM Bindings
         mActivityAddSmartDeviceBinding = getViewDataBinding();
         mSmartDeviceViewModel.setNavigator(this);

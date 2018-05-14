@@ -50,6 +50,7 @@ import p8project.sw801.ui.base.BaseActivity;
 import p8project.sw801.ui.event.createeventmap.CreateEventMap;
 import p8project.sw801.ui.event.notificationorsmartdevice.NotificationOrSmartdevice;
 import p8project.sw801.utils.CommonUtils;
+import p8project.sw801.utils.KeyBoardUtil;
 import p8project.sw801.utils.TimeBasedNotifications.TimeBasedNotification;
 
 
@@ -95,6 +96,7 @@ public class AddEvent extends BaseActivity<ActivityAddEventBinding, AddEventView
         super.onCreate(savedInstanceState);
         mActivityAddEventBinding = getViewDataBinding();
         mAddEventViewModel.setNavigator(this);
+        KeyBoardUtil.setHideKeyboardOnTouch(this, findViewById(R.id.event_activity_layout));
         //Setup bindings
         setupBindings();
         //---Calls the mark functions to mark a day in the day picker.

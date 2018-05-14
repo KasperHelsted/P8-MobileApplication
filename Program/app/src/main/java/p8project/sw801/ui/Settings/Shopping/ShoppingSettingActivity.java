@@ -25,6 +25,7 @@ import p8project.sw801.R;
 import p8project.sw801.data.model.db.Chain;
 import p8project.sw801.databinding.ActivityShoppingSettingBinding;
 import p8project.sw801.ui.base.BaseActivity;
+import p8project.sw801.utils.KeyBoardUtil;
 
 public class ShoppingSettingActivity extends BaseActivity<ActivityShoppingSettingBinding,ShoppingSettingViewModel> implements ShoppingSettingNavigator {
 
@@ -47,6 +48,7 @@ public class ShoppingSettingActivity extends BaseActivity<ActivityShoppingSettin
         mActivityShoppingSettingBinding = getViewDataBinding();
         mShoppingSettingViewModel.setNavigator(this);
         setupBindings();
+        KeyBoardUtil.setHideKeyboardOnTouch(this, findViewById(R.id.shoppingsettingpage));
     }
 
     /**
