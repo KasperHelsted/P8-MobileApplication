@@ -7,6 +7,7 @@ import android.databinding.ObservableField;
 import android.databinding.ObservableInt;
 import android.databinding.ObservableList;
 import android.location.Address;
+import android.util.Log;
 
 import java.io.IOException;
 import java.text.ParseException;
@@ -129,6 +130,8 @@ public class EditEventViewModel extends BaseViewModel<EditEventNavigator> {
     }
 
     private void checkForPredefinedLocation(Integer coordianteId) {
+        if(coordianteId == null)
+            return;
         getCompositeDisposable().add(
                 getDataManager().getPredefinedLocationByCoordinateId(
                         coordianteId
@@ -171,17 +174,20 @@ public class EditEventViewModel extends BaseViewModel<EditEventNavigator> {
      */
     void loadInitialEvent(int eventId) {
         if (eventId == -1)
-            ((EditEvent) getNavigator()).finish();
+            getNavigator().cancelEditEvent();
 
         getCompositeDisposable().add(
                 getDataManager().getEventWithData(
                         eventId
                 ).subscribeOn(
                         getSchedulerProvider().io()
-                ).subscribeOn(
-                        getSchedulerProvider().ui()
                 ).subscribe(
                         eventWithData -> {
+                            if (eventWithData == null) {
+                                getNavigator().cancelEditEvent();
+                                return;
+                            }
+
                             this.event = eventWithData.event;
                             this.when = eventWithData.whens.get(0).when;
 

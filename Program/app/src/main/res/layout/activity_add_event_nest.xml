@@ -135,22 +135,24 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="8dp"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="32dp"
             android:max="50"
-            app:layout_constraintEnd_toStartOf="@+id/textViewSeekBarNest"
+            app:layout_constraintEnd_toStartOf="@+id/editTextSeekBarNest"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textViewOrNest2" />
 
-        <TextView
-            android:id="@+id/textViewSeekBarNest"
+        <EditText
+            android:id="@+id/editTextSeekBarNest"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="16dp"
             android:layout_marginRight="16dp"
             android:layout_marginTop="15dp"
+            android:digits="0123456789"
+            android:inputType="number"
+            android:imeOptions="actionDone"
             android:text="TextView"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textViewOrNest2" />
