@@ -6,6 +6,7 @@ import android.location.Address;
 import android.location.Geocoder;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.widget.Toast;
@@ -22,6 +23,7 @@ import dagger.android.DispatchingAndroidInjector;
 import dagger.android.support.HasSupportFragmentInjector;
 import p8project.sw801.BR;
 import p8project.sw801.R;
+import p8project.sw801.data.model.db.Event;
 import p8project.sw801.data.model.db.PredefinedLocation;
 import p8project.sw801.data.model.db.Trigger;
 import p8project.sw801.databinding.ActivityEditEventBinding;
@@ -116,6 +118,15 @@ public class EditEvent extends BaseActivity<ActivityEditEventBinding, EditEventV
     @Override
     public void deleteTrigger(Trigger trigger) {
         mEditEventViewModel.deleteTrigger(trigger);
+    }
+
+    public void deleteEvent(Event event) {
+        new AlertDialog.Builder(this)
+                .setTitle("Delete event")
+                .setMessage("Do you really want to delete the event: " + event.getName() + "?")
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .setPositiveButton(android.R.string.yes, (dialog, whichButton) -> getViewModel().deleteEventFromDatabase(event))
+                .setNegativeButton(android.R.string.no, null).show();
     }
 
     @Override

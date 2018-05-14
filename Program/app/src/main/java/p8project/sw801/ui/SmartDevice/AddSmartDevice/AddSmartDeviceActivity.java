@@ -63,7 +63,7 @@ public class AddSmartDeviceActivity extends BaseActivity<ActivityAddSmartDeviceB
     private AccessPointListAdapter adapter;
     private boolean lastSearchWasIPScan = false;
     //Class scope SDK access
-    private PHHueSDK phHueSDK;
+    private PHHueSDK phHueSDK =null;
     //Mvvm injects
     @Inject
     AddSmartDeviceViewModel mSmartDeviceViewModel;
@@ -131,9 +131,15 @@ public class AddSmartDeviceActivity extends BaseActivity<ActivityAddSmartDeviceB
         mActivityAddSmartDeviceBinding = getViewDataBinding();
         mSmartDeviceViewModel.setNavigator(this);
         //Setup the hue SDK
-        phHueSDK = PHHueSDK.create();
-        phHueSDK.setAppName("NotifyMe");
-        phHueSDK.setDeviceName(android.os.Build.MODEL);
+        if (phHueSDK == null){
+            phHueSDK = PHHueSDK.create();
+            phHueSDK.setAppName("NotifyMe");
+            phHueSDK.setDeviceName(android.os.Build.MODEL);
+            phHueSDK.getNotificationManager().registerSDKListener(phsdkListener);
+
+        }
+
+
 
         //ViewBindings
         brigdeListview = mActivityAddSmartDeviceBinding.bridgeList;
@@ -146,7 +152,6 @@ public class AddSmartDeviceActivity extends BaseActivity<ActivityAddSmartDeviceB
         mActivity = this;
 
         //Register a SDK listener for actions related to connection
-        phHueSDK.getNotificationManager().registerSDKListener(phsdkListener);
         //Initial setup of listview
         adapter = new AccessPointListAdapter(getApplicationContext(), phHueSDK.getAccessPointsFound());
         brigdeListview.setOnItemClickListener(this);
