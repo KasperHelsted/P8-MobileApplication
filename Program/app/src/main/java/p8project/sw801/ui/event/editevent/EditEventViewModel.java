@@ -304,6 +304,52 @@ public class EditEventViewModel extends BaseViewModel<EditEventNavigator> {
         );
     }
 
+    /**
+     * Method used to delete the When objects associated with an event.
+     * @param id The event id.
+     */
+    private void deleteWhens(Integer id) {
+        getCompositeDisposable().add(
+                getDataManager().deleteWhenByEventId(
+                        id
+                ).subscribeOn(
+                        getSchedulerProvider().io()
+                ).subscribe());
+    }
+    /**
+     * Method used to delete the Trigger objects associated with an event.
+     * @param id The event id.
+     */
+    private void deleteTriggers(Integer id) {
+        getCompositeDisposable().add(
+                getDataManager().deleteTriggerByEventId(
+                        id
+                ).subscribeOn(
+                        getSchedulerProvider().io()
+                ).subscribe());
+    }
+
+    /**
+     * Method used to delete the event object.
+     * Further this method are calling other methods to delete the When and Trigger objects associated with the event.
+     * @param event The event object
+     */
+    void deleteEventFromDatabase(Event event) {
+        Integer id = event.getId();
+
+        getCompositeDisposable().add(
+                getDataManager().deleteEvent(
+                        event
+                ).subscribeOn(
+                        getSchedulerProvider().io()
+                ).subscribe(deleted -> {
+                    this.deleteTriggers(id);
+                    this.deleteWhens(id);
+                    this.close();
+                })
+        );
+    }
+
     public void tester() {
         if (this.eventName.get().equals("") || this.eventName.get() == null) {
             getNavigator().makeToast("A name for the event should be set.");
@@ -340,6 +386,10 @@ public class EditEventViewModel extends BaseViewModel<EditEventNavigator> {
 
     public void close() {
         getNavigator().cancelEditEvent();
+    }
+
+    public void deleteEvent() {
+        getNavigator().deleteEvent(event);
     }
 
 }
