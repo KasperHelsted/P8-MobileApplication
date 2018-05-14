@@ -43,6 +43,10 @@
         <activity android:name=".ui.SmartDevice.EditSmartDevice.EditSmartDeviceActivity" />
         <activity android:name=".ui.SmartDevice.AddSmartDevice.AddSmartDeviceActivity" />
 
+        <service android:name=".utils.ProximityBasedNotifications.ProximityService"></service>
+        <service android:name=".utils.TimeBasedNotifications.TimeService"></service>
+        <service android:name=".utils.Location.LocationUpdate"></service>
+
         <receiver android:name=".utils.TimeBasedNotifications.AlarmReceiver" />
         <receiver android:name=".utils.ProximityBasedNotifications.ProximityReceiver" />
 

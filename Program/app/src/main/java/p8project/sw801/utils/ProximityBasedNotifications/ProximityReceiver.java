@@ -27,6 +27,7 @@ import p8project.sw801.ui.base.BaseService;
 import p8project.sw801.utils.HueUtilities;
 import p8project.sw801.utils.Nest.NestUtilities;
 import p8project.sw801.utils.NotificationUtil;
+import p8project.sw801.utils.TimeBasedNotifications.TimeBasedNotification;
 
 public class ProximityReceiver extends BroadcastReceiver {
 
@@ -88,12 +89,12 @@ public class ProximityReceiver extends BroadcastReceiver {
                 //If the user is entering/At a location
                 if (when.getLocationCondition() != 0 && when.getLocationCondition() != 3 && entering) {
                     Log.i("PROXIMITY", "Entering");
-                    triggerFunction(triggerWithSmartDevices, eventWithData.event.getName(), context);
+                    triggerFunction(eventWithData, eventWithData.event.getName(), context);
 
                     //If the user is leaving a location
                 } else if (when.getLocationCondition() == 3 && !entering) {
                     Log.i("PROXIMITY", "Leaving");
-                    triggerFunction(triggerWithSmartDevices, eventWithData.event.getName(), context);
+                    triggerFunction(eventWithData, eventWithData.event.getName(), context);
 
                 }
         }
@@ -102,11 +103,18 @@ public class ProximityReceiver extends BroadcastReceiver {
     /**
      * Method called when triggering the functionality of notifications.
      * This functionality is to create notifications for the phone, trigger hue related actions and trigger nest related actions.
-     * @param triggerList The list of triggers.
+     * @param eventWithData The event with data object
      * @param eventName The name of the event. Used for the notification that are posted to the user.
      * @param context The context of the applicaiton. Used for posting notifications.
      */
-    public void triggerFunction(List<TriggerWithSmartDevice> triggerList, String eventName, Context context) {
+    public void triggerFunction(EventWithData eventWithData, String eventName, Context context) {
+
+        //Delete set alarms and remake. Used to ensure repeated triggering
+        //TimeBasedNotification.cancelAlarm(eventWithData, context);
+        //TimeBasedNotification.setAlarm(context, eventWithData);
+
+        List<TriggerWithSmartDevice> triggerList = eventWithData.triggers;
+
 
         //Initializes the Notification utility, hue bridge and nest hub objects.
         NotificationUtil notificationUtil = new NotificationUtil(context);

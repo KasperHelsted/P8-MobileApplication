@@ -20,6 +20,7 @@ import p8project.sw801.data.local.RelationEntity.EventWithData;
 import p8project.sw801.data.local.RelationEntity.WhenWithCoordinate;
 import p8project.sw801.data.local.db.AppDatabase;
 import p8project.sw801.ui.base.BaseService;
+import p8project.sw801.utils.Location.LocationUpdate;
 import p8project.sw801.utils.ProximityBasedNotifications.ProximityService;
 
 public final class TimeBasedNotification {
@@ -38,6 +39,9 @@ public final class TimeBasedNotification {
         ctx.startService(in);
         Intent i = new Intent(ctx, ProximityService.class);
         ctx.startService(i);
+        Intent loc = new Intent(ctx, LocationUpdate.class);
+        ctx.startService(loc);
+
 
         //Creates a new connection to the database to fetch the newest EventWithData object in case the user have updated it since they created the event the first time.
         AppDatabase db = baseService.getDatabase(ctx);
@@ -52,13 +56,16 @@ public final class TimeBasedNotification {
             AlarmManager am = (AlarmManager) ctx.getSystemService(Context.ALARM_SERVICE);
             //Get instance of the calendar
             Calendar calendar = Calendar.getInstance();
+
             //Initialize the interval for the alarm
             long intervalMillis = 0;
             //If there is not a time for the event
-            if (time.when.getTimeCondition() == 1 || time.when.getTimeCondition() == 0) {
-                calendar.set(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH), calendar.get(Calendar.HOUR_OF_DAY + 1), 00, 00);
+            if (time.when.getTimeCondition() == 1 && time.when.getStartHour() >= calendar.get(Calendar.HOUR_OF_DAY)|| time.when.getTimeCondition() == 0) {
+                calendar.set(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DATE), calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE), 00);
+                calendar.add(Calendar.MINUTE, 3);
+
             } else {
-                calendar.set(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH), time.when.getStartHour(), time.when.getStartMinute(), 00);
+                calendar.set(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DATE), time.when.getStartHour(), time.when.getStartMinute(), 00);
             }
             List<Integer> weekdayList = null;
             try {
@@ -77,7 +84,7 @@ public final class TimeBasedNotification {
                 PendingIntent sender = PendingIntent.getBroadcast(ctx, eventWithData.event.gethashcode(), intent, PendingIntent.FLAG_CANCEL_CURRENT);
                 am.setRepeating(AlarmManager.RTC_WAKEUP, timeHelper(0, calendar.getTimeInMillis()), intervalMillis, sender);
                 SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ", Locale.US);
-                Log.i("Alarm", "Alarm added at: " + sdf.format(new Date()));
+                Log.i("Alarm", "Alarm added at: " + sdf.format(new Date())+ "With time:´" + sdf.format(calendar.getTimeInMillis()));
             } else {
                 //Else alarm on specific days in the week
                 intervalMillis = 24 * 3600 * 1000 * 7;

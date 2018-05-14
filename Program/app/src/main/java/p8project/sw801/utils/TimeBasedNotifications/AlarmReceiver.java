@@ -77,7 +77,7 @@ public class AlarmReceiver extends BroadcastReceiver {
             //Further the first check is to see if the current time is in the span of a global mute setting meaning that it is not allowed to trigger.
             if (eventWithData.event.getActive() && !proximityReceiver.globalMuted(globalMuteList, time)) {
                 if (when.getLocationCondition() == 0) {
-                    proximityReceiver.triggerFunction(triggerWithSmartDevices, eventWithData.event.getName(), context);
+                    proximityReceiver.triggerFunction(eventWithData, eventWithData.event.getName(), context);
                     Log.i("log", "Time only received");
                 } else if (when.getTimeCondition() == 0) {
                     Log.i("log", "Proximity only received");
