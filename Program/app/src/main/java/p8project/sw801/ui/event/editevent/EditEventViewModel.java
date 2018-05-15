@@ -7,7 +7,6 @@ import android.databinding.ObservableField;
 import android.databinding.ObservableInt;
 import android.databinding.ObservableList;
 import android.location.Address;
-import android.util.Log;
 
 import java.io.IOException;
 import java.text.ParseException;
@@ -130,7 +129,7 @@ public class EditEventViewModel extends BaseViewModel<EditEventNavigator> {
     }
 
     private void checkForPredefinedLocation(Integer coordianteId) {
-        if(coordianteId == null)
+        if (coordianteId == null)
             return;
         getCompositeDisposable().add(
                 getDataManager().getPredefinedLocationByCoordinateId(
@@ -138,11 +137,9 @@ public class EditEventViewModel extends BaseViewModel<EditEventNavigator> {
                 ).subscribeOn(
                         getSchedulerProvider().io()
                 ).subscribe(predefinedLocation -> {
-                    if (predefinedLocation == null) {
-                        reverseCoordinate(coordianteId);
-                    } else {
-                        locationString.set(predefinedLocation.getName());
-                    }
+                    locationString.set(predefinedLocation.getName());
+                }, throwable -> {
+                    reverseCoordinate(coordianteId);
                 })
         );
     }
@@ -154,15 +151,13 @@ public class EditEventViewModel extends BaseViewModel<EditEventNavigator> {
                 ).subscribeOn(
                         getSchedulerProvider().io()
                 ).subscribe(coordiante -> {
-                    if (coordiante != null) {
-                        locationString.set(
-                                getNavigator().reverseGeocode(
-                                        coordiante.getLatitude(),
-                                        coordiante.getLongitude()
-                                )
-                        );
-
-                    }
+                    locationString.set(
+                            getNavigator().reverseGeocode(
+                                    coordiante.getLatitude(),
+                                    coordiante.getLongitude()
+                            )
+                    );
+                }, throwable -> {
                 })
         );
     }
@@ -183,11 +178,6 @@ public class EditEventViewModel extends BaseViewModel<EditEventNavigator> {
                         getSchedulerProvider().io()
                 ).subscribe(
                         eventWithData -> {
-                            if (eventWithData == null) {
-                                getNavigator().cancelEditEvent();
-                                return;
-                            }
-
                             this.event = eventWithData.event;
                             this.when = eventWithData.whens.get(0).when;
 
@@ -195,6 +185,8 @@ public class EditEventViewModel extends BaseViewModel<EditEventNavigator> {
                                 this.triggers.add(triggerWithSmartDevice.trigger);
 
                             populate();
+                        }, throwable -> {
+                            getNavigator().cancelEditEvent();
                         }
                 )
         );
@@ -306,6 +298,7 @@ public class EditEventViewModel extends BaseViewModel<EditEventNavigator> {
 
     /**
      * Method used to delete the When objects associated with an event.
+     *
      * @param id The event id.
      */
     private void deleteWhens(Integer id) {
@@ -316,8 +309,10 @@ public class EditEventViewModel extends BaseViewModel<EditEventNavigator> {
                         getSchedulerProvider().io()
                 ).subscribe());
     }
+
     /**
      * Method used to delete the Trigger objects associated with an event.
+     *
      * @param id The event id.
      */
     private void deleteTriggers(Integer id) {
@@ -332,6 +327,7 @@ public class EditEventViewModel extends BaseViewModel<EditEventNavigator> {
     /**
      * Method used to delete the event object.
      * Further this method are calling other methods to delete the When and Trigger objects associated with the event.
+     *
      * @param event The event object
      */
     void deleteEventFromDatabase(Event event) {

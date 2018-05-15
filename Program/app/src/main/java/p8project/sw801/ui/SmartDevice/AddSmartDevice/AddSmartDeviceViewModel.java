@@ -21,24 +21,27 @@ public class AddSmartDeviceViewModel extends BaseViewModel<AddSmartDeviceNavigat
     /**
      * Navigator method from the SearchBridgeButton
      */
-    public void searchBridge(){
+    public void searchBridge() {
         getNavigator().searchForBridge();
     }
 
     /**
      * Navigator method from the searchNest button
+     *
      * @param nestHubs List of existing nest hubs
      */
-    public void searchNest(List<NestHub> nestHubs){getNavigator().searchForNest(nestHubs);}
+    public void searchNest(List<NestHub> nestHubs) {
+        getNavigator().searchForNest(nestHubs);
+    }
 
     /**
      * Method to insert the Nest into the database
      * Public Viewmodel method that starts the process
-     * @param nestHub Nesthub with data from the Activity
+     *
+     * @param nestHub            Nesthub with data from the Activity
      * @param nestThermostatList List of Thermostats to add  to the database
      */
-    public void insertNest(NestHub nestHub, List<NestThermostat> nestThermostatList)
-    {
+    public void insertNest(NestHub nestHub, List<NestThermostat> nestThermostatList) {
         SmartDevice sd = new SmartDevice();
         sd.setInternalIdentifier(2);
         sd.setDeviceName("Nest");
@@ -48,7 +51,7 @@ public class AddSmartDeviceViewModel extends BaseViewModel<AddSmartDeviceNavigat
                 ).subscribeOn(getSchedulerProvider().io())
                         .observeOn(getSchedulerProvider().ui())
                         .subscribe(response -> {
-                            getSmartdeviceIDfromNest(nestHub,nestThermostatList);
+                            getSmartdeviceIDfromNest(nestHub, nestThermostatList);
                         })
         );
     }
@@ -56,30 +59,31 @@ public class AddSmartDeviceViewModel extends BaseViewModel<AddSmartDeviceNavigat
     /**
      * Internal method to continue insertNest dataflow
      * Receives the ID from the inserted Smartdevice
-     * @param nestHub Nesthub with data from the Activity
+     *
+     * @param nestHub            Nesthub with data from the Activity
      * @param nestThermostatList List of Thermostats to add  to the database
      */
-    private void getSmartdeviceIDfromNest(NestHub nestHub, List<NestThermostat> nestThermostatList){
+    private void getSmartdeviceIDfromNest(NestHub nestHub, List<NestThermostat> nestThermostatList) {
         getCompositeDisposable().add(
                 getDataManager().getLastSmartDevice(
 
                 ).subscribeOn(getSchedulerProvider().io())
                         .observeOn(getSchedulerProvider().ui())
                         .subscribe(response -> {
-                            if (response != null){
-                                insertNesttodb(nestHub, nestThermostatList,response.getId());
-                            }
+                            insertNesttodb(nestHub, nestThermostatList, response.getId());
+                        }, throwable -> {
                         })
         );
     }
 
     /**
      * Method that inserts the Nest into the database
-     * @param nestHub Nesthub with data from the Activity
+     *
+     * @param nestHub            Nesthub with data from the Activity
      * @param nestThermostatList List of Thermostats to add  to the database
-     * @param smartDeviceId The received SmartDevice from earlier in the dataflow
+     * @param smartDeviceId      The received SmartDevice from earlier in the dataflow
      */
-    public void insertNesttodb(NestHub nestHub, List<NestThermostat> nestThermostatList, int smartDeviceId){
+    public void insertNesttodb(NestHub nestHub, List<NestThermostat> nestThermostatList, int smartDeviceId) {
         nestHub.setSmartDeviceId(smartDeviceId);
         getCompositeDisposable().add(
                 getDataManager().insertNestHub(
@@ -87,38 +91,39 @@ public class AddSmartDeviceViewModel extends BaseViewModel<AddSmartDeviceNavigat
                 ).subscribeOn(getSchedulerProvider().io())
                         .observeOn(getSchedulerProvider().ui())
                         .subscribe(response -> {
-                            getNestId(smartDeviceId,nestThermostatList);
+                            getNestId(smartDeviceId, nestThermostatList);
                         })
         );
     }
 
     /**
      * Receives the Nest ID
-     * @param smartDeviceId smartdevice ID to pass on
+     *
+     * @param smartDeviceId      smartdevice ID to pass on
      * @param nestThermostatList List of thermostats to add to the Db
      */
-    private void getNestId(int smartDeviceId,List<NestThermostat> nestThermostatList){
+    private void getNestId(int smartDeviceId, List<NestThermostat> nestThermostatList) {
         getCompositeDisposable().add(
                 getDataManager().getLastInsertedNestHub(
 
                 ).subscribeOn(getSchedulerProvider().io())
                         .observeOn(getSchedulerProvider().ui())
                         .subscribe(response -> {
-                            if (response != null){
-                                insertThermostats(nestThermostatList,smartDeviceId,response.getId());
-                            }
+                            insertThermostats(nestThermostatList, smartDeviceId, response.getId());
+                        }, throwable -> {
                         })
         );
     }
 
     /**
      * Adds the thermostats to the nest and inserts them into the database
+     *
      * @param nestThermostatList List of thermostats to insert into db
-     * @param smartdeviceId Nest smartdevice id
-     * @param nestId Nest's id
+     * @param smartdeviceId      Nest smartdevice id
+     * @param nestId             Nest's id
      */
-    private void insertThermostats(List<NestThermostat> nestThermostatList, int smartdeviceId, int nestId){
-        for(NestThermostat nt : nestThermostatList) {
+    private void insertThermostats(List<NestThermostat> nestThermostatList, int smartdeviceId, int nestId) {
+        for (NestThermostat nt : nestThermostatList) {
             nt.setSmartDeviceId(smartdeviceId);
             nt.setNestHubId(nestId);
 
@@ -138,58 +143,57 @@ public class AddSmartDeviceViewModel extends BaseViewModel<AddSmartDeviceNavigat
     /**
      * Receives all existing nests or NULL to the activity
      */
-    public void NestExists(){
-        List<NestHub> nestHubs  = new ArrayList<>();
+    public void NestExists() {
+        List<NestHub> nestHubs = new ArrayList<>();
         getCompositeDisposable().add(
                 getDataManager().getAllNestHubs(
 
                 ).subscribeOn(getSchedulerProvider().io())
                         .observeOn(getSchedulerProvider().ui())
                         .subscribe(response -> {
-                            if (response != null && !response.isEmpty()){
-                                nestHubs.addAll(response);
-                                searchNest(nestHubs);
-                            }
-                            else{
-                                searchNest(null);
-                            }
+                            nestHubs.addAll(response);
+                            searchNest(nestHubs);
+                        }, throwable -> {
+                            searchNest(null);
                         })
         );
     }
 
     /**
      * Handles initial dataflow of inserting a Hue bridge
-     * @param smartDevice Smartdevice with data to insert
-     * @param hueBridge Bridge with data
+     *
+     * @param smartDevice        Smartdevice with data to insert
+     * @param hueBridge          Bridge with data
      * @param lightbulbWhiteList List of LightBulbs
      */
-    public void smartDeviceinsertHandler(SmartDevice smartDevice, HueBridge hueBridge, List<HueLightbulbWhite> lightbulbWhiteList){
+    public void smartDeviceinsertHandler(SmartDevice smartDevice, HueBridge hueBridge, List<HueLightbulbWhite> lightbulbWhiteList) {
         getCompositeDisposable().add(
                 getDataManager().insertSmartDevice(
                         smartDevice
                 ).subscribeOn(getSchedulerProvider().io())
                         .observeOn(getSchedulerProvider().ui())
                         .subscribe(response -> {
-                            getSmartdeviceID(hueBridge,lightbulbWhiteList);
+                            getSmartdeviceID(hueBridge, lightbulbWhiteList);
                         })
         );
     }
 
     /**
      * Receives smart devices id
-     * @param hueBridge huebridge data
+     *
+     * @param hueBridge          huebridge data
      * @param lightbulbWhiteList lightbulb data
      */
-    private void getSmartdeviceID(HueBridge hueBridge, List<HueLightbulbWhite> lightbulbWhiteList){
+    private void getSmartdeviceID(HueBridge hueBridge, List<HueLightbulbWhite> lightbulbWhiteList) {
         getCompositeDisposable().add(
                 getDataManager().getLastSmartDevice(
 
                 ).subscribeOn(getSchedulerProvider().io())
                         .observeOn(getSchedulerProvider().ui())
                         .subscribe(response -> {
-                            if (response != null){
-                                insertBridge(hueBridge,response.getId(), lightbulbWhiteList);
-                            }
+                            insertBridge(hueBridge, response.getId(), lightbulbWhiteList);
+                        }, throwable -> {
+
                         })
         );
     }
@@ -197,8 +201,7 @@ public class AddSmartDeviceViewModel extends BaseViewModel<AddSmartDeviceNavigat
     /**
      * Receives all hue bridges from the database
      */
-    public void getBridges()
-    {
+    public void getBridges() {
         List<HueBridge> smartDeviceList = new ArrayList<>();
         getCompositeDisposable().add(
                 getDataManager().getAllHueBridges(
@@ -206,21 +209,22 @@ public class AddSmartDeviceViewModel extends BaseViewModel<AddSmartDeviceNavigat
                 ).subscribeOn(getSchedulerProvider().io())
                         .observeOn(getSchedulerProvider().ui())
                         .subscribe(response -> {
-                            if(response != null && !response.isEmpty()){
-                                smartDeviceList.addAll(response);
-                            }
+                            smartDeviceList.addAll(response);
                             getNavigator().setupBridges(smartDeviceList);
+                        }, throwable -> {
+
                         })
         );
     }
 
     /**
      * Inserts the hue bridge into the database
-     * @param bridge bridge instance
-     * @param smartDeviceId smartdevice ID of bridge
+     *
+     * @param bridge             bridge instance
+     * @param smartDeviceId      smartdevice ID of bridge
      * @param lightbulbWhiteList list of lightbulbs
      */
-    public void insertBridge(HueBridge bridge, int smartDeviceId, List<HueLightbulbWhite> lightbulbWhiteList){
+    public void insertBridge(HueBridge bridge, int smartDeviceId, List<HueLightbulbWhite> lightbulbWhiteList) {
         bridge.setSmartDeviceId(smartDeviceId);
         getCompositeDisposable().add(
                 getDataManager().insertHueBridge(
@@ -228,7 +232,7 @@ public class AddSmartDeviceViewModel extends BaseViewModel<AddSmartDeviceNavigat
                 ).subscribeOn(getSchedulerProvider().io())
                         .observeOn(getSchedulerProvider().ui())
                         .subscribe(response -> {
-                            getBridgeId(smartDeviceId,lightbulbWhiteList);
+                            getBridgeId(smartDeviceId, lightbulbWhiteList);
                         })
         );
     }
@@ -236,31 +240,33 @@ public class AddSmartDeviceViewModel extends BaseViewModel<AddSmartDeviceNavigat
     /**
      * Receives the bridge Id
      * Continues the dataflow
-     * @param smartDeviceId smartdevice id of the bridge
+     *
+     * @param smartDeviceId      smartdevice id of the bridge
      * @param lightbulbWhiteList list of lightbulbs
      */
-    private void getBridgeId(int smartDeviceId,List<HueLightbulbWhite> lightbulbWhiteList){
+    private void getBridgeId(int smartDeviceId, List<HueLightbulbWhite> lightbulbWhiteList) {
         getCompositeDisposable().add(
                 getDataManager().getLastInsertedHueBridge(
 
                 ).subscribeOn(getSchedulerProvider().io())
                         .observeOn(getSchedulerProvider().ui())
                         .subscribe(response -> {
-                            if (response != null){
-                               insertLightbulbs(lightbulbWhiteList,smartDeviceId,response.getId());
-                            }
+                            insertLightbulbs(lightbulbWhiteList, smartDeviceId, response.getId());
+                        }, throwable -> {
+
                         })
         );
     }
 
     /**
      * Inserts the lightbulbs to the associated bridge
+     *
      * @param lightbulbWhiteList list of lightbulbs
-     * @param smartdeviceId smartdeviceid of the bridge
-     * @param bridgeId id of the bridge
+     * @param smartdeviceId      smartdeviceid of the bridge
+     * @param bridgeId           id of the bridge
      */
-    private void insertLightbulbs(List<HueLightbulbWhite> lightbulbWhiteList, int smartdeviceId, int bridgeId){
-        for(HueLightbulbWhite hbw : lightbulbWhiteList) {
+    private void insertLightbulbs(List<HueLightbulbWhite> lightbulbWhiteList, int smartdeviceId, int bridgeId) {
+        for (HueLightbulbWhite hbw : lightbulbWhiteList) {
             hbw.setHueBridgeId(bridgeId);
             hbw.setSmartDeviceId(smartdeviceId);
 

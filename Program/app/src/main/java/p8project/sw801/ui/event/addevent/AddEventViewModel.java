@@ -37,11 +37,10 @@ public class AddEventViewModel extends BaseViewModel<AddEventNavigator> {
                         getSchedulerProvider().io()
                 ).observeOn(getSchedulerProvider().ui())
                         .subscribe(response -> {
-                            if (response == null) {
-                                throw new NullPointerException("DENNE ER NULL");
-                            }
                             predefinedLocationList.addAll(response);
                             getNavigator().displayPredefinedLocations(predefinedLocationList);
+                        }, throwable -> {
+                            throw new NullPointerException("DENNE ER NULL");
                         })
         );
 

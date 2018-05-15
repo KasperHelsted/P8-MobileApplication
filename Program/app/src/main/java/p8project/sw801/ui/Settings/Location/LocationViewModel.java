@@ -16,23 +16,24 @@ public class LocationViewModel extends BaseViewModel<LocationNavigator> {
 
     /**
      * Clickevent for location clicked
+     *
      * @param predefinedLocation
      */
-    public void onLocationClicked(PredefinedLocation predefinedLocation){
+    public void onLocationClicked(PredefinedLocation predefinedLocation) {
         getNavigator().onLocationClicked(predefinedLocation);
     }
 
     /**
      * Clickevent for creating new location
      */
-    public void createLocation(){
+    public void createLocation() {
         getNavigator().createLocation();
     }
 
     /**
      * Receives the latest predefined locationdata and renders it on the page
      */
-    public void getLatestPredefinedLocationData(){
+    public void getLatestPredefinedLocationData() {
         final ObservableArrayList<PredefinedLocation> predefinedLocationList = new ObservableArrayList<>();
 
         getCompositeDisposable().add(
@@ -40,10 +41,9 @@ public class LocationViewModel extends BaseViewModel<LocationNavigator> {
                 ).subscribeOn(getSchedulerProvider().io())
                         .observeOn(getSchedulerProvider().ui())
                         .subscribe(response -> {
-                            if (response != null){
-                                predefinedLocationList.addAll(response);
-                                renderList(predefinedLocationList);
-                            }
+                            predefinedLocationList.addAll(response);
+                            renderList(predefinedLocationList);
+                        }, throwable -> {
                         })
         );
 
@@ -51,17 +51,19 @@ public class LocationViewModel extends BaseViewModel<LocationNavigator> {
 
     /**
      * Sends the newest data to the view
+     *
      * @param predefinedLocationList list of predefined lcoations to send
      */
-    private void renderList(List<PredefinedLocation> predefinedLocationList){
+    private void renderList(List<PredefinedLocation> predefinedLocationList) {
         getNavigator().createList(predefinedLocationList);
     }
 
     /**
      * Removes a predefined location from the db
+     *
      * @param pred a location to delete
      */
-    public void removePredefinedLocation(PredefinedLocation pred){
+    public void removePredefinedLocation(PredefinedLocation pred) {
         getCompositeDisposable().add(
                 getDataManager().deletePredefinedLocation(
                         pred

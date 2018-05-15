@@ -19,7 +19,8 @@ public class MySmartDeviceViewModel extends BaseViewModel<MySmartDeviceNavigator
 
     /**
      * Constructor for the class. Calls a method that fetches all smart devices stored in the database.
-     * @param dataManager The active instance of the datamanager.
+     *
+     * @param dataManager       The active instance of the datamanager.
      * @param schedulerProvider The active instance of the schedulerProvider.
      */
     public MySmartDeviceViewModel(DataManager dataManager, SchedulerProvider schedulerProvider) {
@@ -32,6 +33,7 @@ public class MySmartDeviceViewModel extends BaseViewModel<MySmartDeviceNavigator
 
     /**
      * Method used to refresh the list of smart devices displayed to the user.
+     *
      * @param mySmartDevices
      */
     public void addMySmartDevicesItemsToList(List<SmartDevice> mySmartDevices) {
@@ -49,9 +51,7 @@ public class MySmartDeviceViewModel extends BaseViewModel<MySmartDeviceNavigator
                 .subscribeOn(getSchedulerProvider().io())
                 .observeOn(getSchedulerProvider().ui())
                 .subscribe(mySmartDevices -> {
-                    if (mySmartDevices != null) {
-                        mySmartDevicesListLiveData.setValue(mySmartDevices);
-                    }
+                    mySmartDevicesListLiveData.setValue(mySmartDevices);
 
                     setIsLoading(false);
                 }, throwable -> {
@@ -61,6 +61,7 @@ public class MySmartDeviceViewModel extends BaseViewModel<MySmartDeviceNavigator
 
     /**
      * Returns the list of all smart devices.
+     *
      * @return The list of all smart devices.
      */
     public MutableLiveData<List<SmartDevice>> getMySmartDevicesListLiveData() {
@@ -78,6 +79,7 @@ public class MySmartDeviceViewModel extends BaseViewModel<MySmartDeviceNavigator
     /**
      * Method used to delete a hue bridge associated with a specific smart device id.
      * Called when the user deletes a smart device.
+     *
      * @param id The id of the deleted smart device.
      */
     protected void deleteHueBridge(Integer id) {
@@ -90,6 +92,7 @@ public class MySmartDeviceViewModel extends BaseViewModel<MySmartDeviceNavigator
     /**
      * Method used to delete all white hue lights associated with a specific smart device id.
      * Called when the user deletes a smart device.
+     *
      * @param id The id of the deleted smart device.
      */
     protected void deleteHueLightbulbWhite(Integer id) {
@@ -102,6 +105,7 @@ public class MySmartDeviceViewModel extends BaseViewModel<MySmartDeviceNavigator
     /**
      * Method used to delete all RGB hue lights associated with a specific smart device id.
      * Called when the user deletes a smart device.
+     *
      * @param id The id of the deleted smart device.
      */
     protected void deleteHueLightbulbRGB(Integer id) {
@@ -114,6 +118,7 @@ public class MySmartDeviceViewModel extends BaseViewModel<MySmartDeviceNavigator
     /**
      * Method used to delete a nest hub associated with a specific smart device id.
      * Called when the user deletes a smart device.
+     *
      * @param id The id of the deleted smart device.
      */
     protected void deleteNestHub(Integer id) {
@@ -126,6 +131,7 @@ public class MySmartDeviceViewModel extends BaseViewModel<MySmartDeviceNavigator
     /**
      * Method used to delete all nest thermostats associated with a specific smart device id.
      * Called when the user deletes a smart device.
+     *
      * @param id The id of the deleted smart device.
      */
     protected void deleteNestThermostat(Integer id) {
@@ -138,6 +144,7 @@ public class MySmartDeviceViewModel extends BaseViewModel<MySmartDeviceNavigator
     /**
      * Method used to delete all triggers associated with a specific smart device id.
      * Called when the user deletes a smart device.
+     *
      * @param id The id of the deleted smart device.
      */
     protected void deleteTriggers(Integer id) {
@@ -151,6 +158,7 @@ public class MySmartDeviceViewModel extends BaseViewModel<MySmartDeviceNavigator
      * Method used to delete a specific smart device.
      * Called when the user deletes a smart device.
      * This method calls the other deletion methods to ensure that all data relevant to the smart device is deleted.
+     *
      * @param smartDevice The smart device object to be deleted.
      */
     public void deleteDevice(SmartDevice smartDevice) {
