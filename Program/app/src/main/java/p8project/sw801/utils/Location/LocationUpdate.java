@@ -24,8 +24,8 @@ public class LocationUpdate extends Service {
         if (locationManager == null){
             locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
         }
-        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 60000, 0, locationListener);
-        locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 60000, 0, locationListener);
+        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 30000, 10, locationListener);
+        locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 30000, 10, locationListener);
         return START_STICKY;
     }
 
