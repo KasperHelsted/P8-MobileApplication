@@ -65,7 +65,7 @@ public class AddSmartDeviceUnitTest {
     }
 
     @Test
-    public void insertNest(){
+    public void insertNest() {
         //Arrange
         NestHub nestHub = new NestHub("1", 1, "12", "123", 12l);
         nestHub.setId(1);
@@ -93,8 +93,9 @@ public class AddSmartDeviceUnitTest {
         //Assert
         verify(addSmartDeviceNavigator).ChangeToSmartDevice();
     }
+
     @Test
-    public void getBridges(){
+    public void getBridges() {
         //Arrange
         List<HueBridge> hueBridgeList = new ArrayList<>();
         HueBridge hueBridge = new HueBridge();
@@ -107,8 +108,9 @@ public class AddSmartDeviceUnitTest {
         //Assert
         verify(addSmartDeviceNavigator).setupBridges(hueBridgeList);
     }
+
     @Test
-    public void insertBridge(){
+    public void insertBridge() {
         //Arrange
         HueBridge hueBridge = new HueBridge();
         hueBridge.setId(1);
@@ -126,8 +128,9 @@ public class AddSmartDeviceUnitTest {
         //Assert
         //Does not return anything
     }
+
     @Test
-    public void insertNesttodb(){
+    public void insertNesttodb() {
         //Arrange
         NestHub nestHub = new NestHub("1", 1, "12", "123", 12l);
         nestHub.setId(1);
@@ -150,8 +153,9 @@ public class AddSmartDeviceUnitTest {
         //Assert
         verify(addSmartDeviceNavigator).ChangeToSmartDevice();
     }
+
     @Test
-    public void NestExists(){
+    public void NestExists() {
         //Arrange
         List<NestHub> nestHubs = new ArrayList<>();
         doReturn(Observable.just(nestHubs)).when(mMockDataManager).getAllNestHubs();
@@ -161,16 +165,18 @@ public class AddSmartDeviceUnitTest {
         //Assert
         verify(addSmartDeviceNavigator).searchForNest(null);
     }
+
     @Test
-    public void searchBridge(){
+    public void searchBridge() {
         //Arrange
         //Act
         addSmartDeviceViewModel.searchBridge();
         //Assert
         verify(addSmartDeviceNavigator).searchForBridge();
     }
+
     @Test
-    public void searchNest(){
+    public void searchNest() {
         //Arrange
         List<NestHub> nestHubs = new ArrayList<>();
         //Act
@@ -178,8 +184,9 @@ public class AddSmartDeviceUnitTest {
         //Assert
         verify(addSmartDeviceNavigator).searchForNest(any(List.class));
     }
+
     @Test
-    public void smartDeviceinsertHandler(){
+    public void smartDeviceinsertHandler() {
         //Arrange
         SmartDevice smartDevice = new SmartDevice("Name", true, 1);
         smartDevice.setId(1);
@@ -205,7 +212,6 @@ public class AddSmartDeviceUnitTest {
 
 
     }
-
 
 
 }

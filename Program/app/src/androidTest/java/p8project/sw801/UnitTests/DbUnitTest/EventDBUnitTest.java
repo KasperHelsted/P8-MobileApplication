@@ -37,7 +37,7 @@ public class EventDBUnitTest {
     }
 
     @Test
-    public void testGetLastEvent() throws Exception{
+    public void testGetLastEvent() throws Exception {
         // arrange
         Event event = new Event();
         event.setName("testGetLastEvent");
@@ -68,7 +68,7 @@ public class EventDBUnitTest {
     }
 
     @Test
-    public void testInsertAllEvents() throws Exception{
+    public void testInsertAllEvents() throws Exception {
         // arrange
         Event event1 = new Event();
         Event event2 = new Event();
@@ -80,18 +80,18 @@ public class EventDBUnitTest {
         event2.setId(2);
 
         // act
-        this.mEventDao.insertAll(event1,event2);
+        this.mEventDao.insertAll(event1, event2);
 
         // assert
         Event dbEvent1 = this.mEventDao.loadById(1);
         Event dbEvent2 = this.mEventDao.loadById(2);
-        assertEquals(dbEvent1.getId(),event1.getId());
-        assertEquals(dbEvent2.getId(),event2.getId());
+        assertEquals(dbEvent1.getId(), event1.getId());
+        assertEquals(dbEvent2.getId(), event2.getId());
 
     }
 
     @Test
-    public void testGetAllEvents() throws Exception{
+    public void testGetAllEvents() throws Exception {
         // arrange
         Event event1 = new Event();
         Event event2 = new Event();
@@ -101,20 +101,20 @@ public class EventDBUnitTest {
         event2.setActive(true);
         event2.setName("testGetAllEvents - Event2");
         event2.setId(2);
-        this.mEventDao.insertAll(event1,event2);
+        this.mEventDao.insertAll(event1, event2);
         List<Event> eventList;
 
         // act
         eventList = this.mEventDao.getAll();
 
         // assert
-        assertEquals(eventList.get(0).getName(),event1.getName());
-        assertEquals(eventList.get(1).getName(),event2.getName());
+        assertEquals(eventList.get(0).getName(), event1.getName());
+        assertEquals(eventList.get(1).getName(), event2.getName());
 
     }
 
     @Test
-    public void testCountEvents() throws Exception{
+    public void testCountEvents() throws Exception {
         // arrange
         Event event1 = new Event();
         Event event2 = new Event();
@@ -124,7 +124,7 @@ public class EventDBUnitTest {
         event2.setActive(true);
         event2.setName("testCountEvents - Event2");
         event2.setId(2);
-        this.mEventDao.insertAll(event1,event2);
+        this.mEventDao.insertAll(event1, event2);
         int eventCountExpected;
         int eventCountActual = 2;
 
@@ -132,12 +132,12 @@ public class EventDBUnitTest {
         eventCountExpected = this.mEventDao.count();
 
         // assert
-        assertEquals(eventCountExpected,eventCountActual);
+        assertEquals(eventCountExpected, eventCountActual);
 
     }
 
     @Test
-    public void testDeleteEvent() throws Exception{
+    public void testDeleteEvent() throws Exception {
         // arrange
         Event event = new Event();
         event.setActive(true);
@@ -156,7 +156,7 @@ public class EventDBUnitTest {
     }
 
     @Test
-    public void testUpdateEvent() throws Exception{
+    public void testUpdateEvent() throws Exception {
         // arrange
         Event event = new Event();
         event.setActive(true);
@@ -171,12 +171,12 @@ public class EventDBUnitTest {
 
         // assert
         Event actual = this.mEventDao.loadById(1);
-        assertEquals(expected,actual.getName());
+        assertEquals(expected, actual.getName());
 
     }
 
     @Test
-    public void testLoadEventById() throws Exception{
+    public void testLoadEventById() throws Exception {
         // arrange
         Event event = new Event();
         Event dbEvent;
@@ -189,12 +189,12 @@ public class EventDBUnitTest {
         dbEvent = this.mEventDao.loadById(1);
 
         // assert
-        assertEquals(dbEvent.getId(),event.getId());
+        assertEquals(dbEvent.getId(), event.getId());
 
     }
 
     @Test
-    public void testLoadAllEventsById() throws Exception{
+    public void testLoadAllEventsById() throws Exception {
         // arrange
         Event event1 = new Event();
         Event event2 = new Event();
@@ -207,17 +207,17 @@ public class EventDBUnitTest {
         Integer[] eventIds = new Integer[2];
         eventIds[0] = event1.getId();
         eventIds[1] = event2.getId();
-        this.mEventDao.insertAll(event1,event2);
+        this.mEventDao.insertAll(event1, event2);
 
         // act
         List<Event> dbListEvents = this.mEventDao.loadAllByIds(eventIds);
 
         // assert
-        assertEquals(dbListEvents.get(0).getId(),event1.getId());
-        assertEquals(dbListEvents.get(1).getId(),event2.getId());
+        assertEquals(dbListEvents.get(0).getId(), event1.getId());
+        assertEquals(dbListEvents.get(1).getId(), event2.getId());
 
     }
 
 
-    }
+}
 

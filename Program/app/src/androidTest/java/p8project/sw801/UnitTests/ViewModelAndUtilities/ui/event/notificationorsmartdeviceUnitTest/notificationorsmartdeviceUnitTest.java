@@ -58,7 +58,7 @@ public class notificationorsmartdeviceUnitTest {
     }
 
     @Test
-    public void addNotificationMethod(){
+    public void addNotificationMethod() {
         //Arrange
         //Act
         notificationOrSmartdeviceViewModel.addNotificationMethod();
@@ -66,11 +66,10 @@ public class notificationorsmartdeviceUnitTest {
         verify(notificationOrSmartdeviceNavigator).addNotification();
 
 
-
     }
 
     @Test
-    public void openAddSmartDeviceList(){
+    public void openAddSmartDeviceList() {
         //Arrange
         //Act
         notificationOrSmartdeviceViewModel.openAddSmartDeviceList();

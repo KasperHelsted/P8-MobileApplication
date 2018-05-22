@@ -45,7 +45,7 @@ public class CreateEventMapVMUnitTest {
     }
 
     @Test
-    public void testCancelButtonCreateEventMap(){
+    public void testCancelButtonCreateEventMap() {
         //Arrange
         //Act
         mCreateEventMapViewModel.cancleButton();
@@ -54,7 +54,7 @@ public class CreateEventMapVMUnitTest {
     }
 
     @Test
-    public void testConfirmButtonCreateEventMap(){
+    public void testConfirmButtonCreateEventMap() {
         //Arrange
         //Act
         mCreateEventMapViewModel.confirmButton();

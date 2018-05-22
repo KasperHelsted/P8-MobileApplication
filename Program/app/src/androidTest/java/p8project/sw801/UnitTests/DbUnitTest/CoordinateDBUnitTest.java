@@ -132,11 +132,11 @@ public class CoordinateDBUnitTest {
         List<Coordinate> dbCoordinate = this.mCoordinateDao.getLast(2);
 
         // assert
-        assertEquals(dbCoordinate.get(0).getLatitude(), coordinate3.getLatitude(),0);
-        assertEquals(dbCoordinate.get(0).getLongitude(), coordinate3.getLongitude(),0);
+        assertEquals(dbCoordinate.get(0).getLatitude(), coordinate3.getLatitude(), 0);
+        assertEquals(dbCoordinate.get(0).getLongitude(), coordinate3.getLongitude(), 0);
 
-        assertEquals(dbCoordinate.get(1).getLatitude(), coordinate2.getLatitude(),0);
-        assertEquals(dbCoordinate.get(1).getLongitude(), coordinate2.getLongitude(),0);
+        assertEquals(dbCoordinate.get(1).getLatitude(), coordinate2.getLatitude(), 0);
+        assertEquals(dbCoordinate.get(1).getLongitude(), coordinate2.getLongitude(), 0);
     }
 
     @Test
@@ -150,8 +150,8 @@ public class CoordinateDBUnitTest {
         Coordinate dbCoordinate = this.mCoordinateDao.getLast();
 
         // assert
-        assertEquals(dbCoordinate.getLatitude(), coordinate1.getLatitude(),0);
-        assertEquals(dbCoordinate.getLongitude(), coordinate1.getLongitude(),0);
+        assertEquals(dbCoordinate.getLatitude(), coordinate1.getLatitude(), 0);
+        assertEquals(dbCoordinate.getLongitude(), coordinate1.getLongitude(), 0);
     }
 
     @Test
@@ -194,17 +194,17 @@ public class CoordinateDBUnitTest {
         List<Coordinate> dbCoordinate = this.mCoordinateDao.loadAllByIds(ids);
 
         // assert
-        assertEquals(dbCoordinate.get(3).getLatitude(), coordinate3.getLatitude(),0);
-        assertEquals(dbCoordinate.get(3).getLongitude(), coordinate3.getLongitude(),0);
+        assertEquals(dbCoordinate.get(3).getLatitude(), coordinate3.getLatitude(), 0);
+        assertEquals(dbCoordinate.get(3).getLongitude(), coordinate3.getLongitude(), 0);
 
-        assertEquals(dbCoordinate.get(2).getLatitude(), coordinate2.getLatitude(),0);
-        assertEquals(dbCoordinate.get(2).getLongitude(), coordinate2.getLongitude(),0);
+        assertEquals(dbCoordinate.get(2).getLatitude(), coordinate2.getLatitude(), 0);
+        assertEquals(dbCoordinate.get(2).getLongitude(), coordinate2.getLongitude(), 0);
 
-        assertEquals(dbCoordinate.get(1).getLatitude(), coordinate1.getLatitude(),0);
-        assertEquals(dbCoordinate.get(1).getLongitude(), coordinate1.getLongitude(),0);
+        assertEquals(dbCoordinate.get(1).getLatitude(), coordinate1.getLatitude(), 0);
+        assertEquals(dbCoordinate.get(1).getLongitude(), coordinate1.getLongitude(), 0);
 
-        assertEquals(dbCoordinate.get(0).getLatitude(), coordinate.getLatitude(),0);
-        assertEquals(dbCoordinate.get(0).getLongitude(), coordinate.getLongitude(),0);
+        assertEquals(dbCoordinate.get(0).getLatitude(), coordinate.getLatitude(), 0);
+        assertEquals(dbCoordinate.get(0).getLongitude(), coordinate.getLongitude(), 0);
     }
 
     @Test
@@ -220,24 +220,18 @@ public class CoordinateDBUnitTest {
         List<Coordinate> dbCoordinate = this.mCoordinateDao.getAll();
 
         // assert
-        assertEquals(dbCoordinate.get(3).getLatitude(), coordinate3.getLatitude(),0);
-        assertEquals(dbCoordinate.get(3).getLongitude(), coordinate3.getLongitude(),0);
+        assertEquals(dbCoordinate.get(3).getLatitude(), coordinate3.getLatitude(), 0);
+        assertEquals(dbCoordinate.get(3).getLongitude(), coordinate3.getLongitude(), 0);
 
-        assertEquals(dbCoordinate.get(2).getLatitude(), coordinate2.getLatitude(),0);
-        assertEquals(dbCoordinate.get(2).getLongitude(), coordinate2.getLongitude(),0);
+        assertEquals(dbCoordinate.get(2).getLatitude(), coordinate2.getLatitude(), 0);
+        assertEquals(dbCoordinate.get(2).getLongitude(), coordinate2.getLongitude(), 0);
 
-        assertEquals(dbCoordinate.get(1).getLatitude(), coordinate1.getLatitude(),0);
-        assertEquals(dbCoordinate.get(1).getLongitude(), coordinate1.getLongitude(),0);
+        assertEquals(dbCoordinate.get(1).getLatitude(), coordinate1.getLatitude(), 0);
+        assertEquals(dbCoordinate.get(1).getLongitude(), coordinate1.getLongitude(), 0);
 
-        assertEquals(dbCoordinate.get(0).getLatitude(), coordinate.getLatitude(),0);
-        assertEquals(dbCoordinate.get(0).getLongitude(), coordinate.getLongitude(),0);
+        assertEquals(dbCoordinate.get(0).getLatitude(), coordinate.getLatitude(), 0);
+        assertEquals(dbCoordinate.get(0).getLongitude(), coordinate.getLongitude(), 0);
     }
-
-
-
-
-
-
 
 
 }

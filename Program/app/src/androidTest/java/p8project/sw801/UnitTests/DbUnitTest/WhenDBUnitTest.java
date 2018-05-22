@@ -47,15 +47,15 @@ public class WhenDBUnitTest {
         When when2 = new When();
         when1.setId(1);
         when2.setId(2);
-        this.mWhenDao.insertAll(when1,when2);
+        this.mWhenDao.insertAll(when1, when2);
         List<When> whenList;
 
         // act
         whenList = this.mWhenDao.getAll();
 
         // assert
-        assertEquals(whenList.get(0).getId(),when1.getId());
-        assertEquals(whenList.get(1).getId(),when2.getId());
+        assertEquals(whenList.get(0).getId(), when1.getId());
+        assertEquals(whenList.get(1).getId(), when2.getId());
 
     }
 
@@ -69,15 +69,15 @@ public class WhenDBUnitTest {
         Integer[] whenIds = new Integer[2];
         whenIds[0] = when1.getId();
         whenIds[1] = when2.getId();
-        this.mWhenDao.insertAll(when1,when2);
+        this.mWhenDao.insertAll(when1, when2);
         List<When> whenList;
 
         // act
         whenList = this.mWhenDao.loadAllByIds(whenIds);
 
         // assert
-        assertEquals(whenList.get(0).getId(),when1.getId());
-        assertEquals(whenList.get(1).getId(),when2.getId());
+        assertEquals(whenList.get(0).getId(), when1.getId());
+        assertEquals(whenList.get(1).getId(), when2.getId());
 
     }
 
@@ -93,7 +93,7 @@ public class WhenDBUnitTest {
         dbWhen = this.mWhenDao.loadById(1);
 
         // assert
-        assertEquals(dbWhen.getId(),when1.getId());
+        assertEquals(dbWhen.getId(), when1.getId());
 
     }
 
@@ -104,7 +104,7 @@ public class WhenDBUnitTest {
         When when2 = new When();
         when1.setId(1);
         when2.setId(2);
-        this.mWhenDao.insertAll(when1,when2);
+        this.mWhenDao.insertAll(when1, when2);
         int whenCountExpected = 2;
         int whenCountActual;
 
@@ -112,7 +112,7 @@ public class WhenDBUnitTest {
         whenCountActual = this.mWhenDao.count();
 
         // assert
-        assertEquals(whenCountExpected,whenCountActual);
+        assertEquals(whenCountExpected, whenCountActual);
 
     }
 
@@ -133,7 +133,7 @@ public class WhenDBUnitTest {
         int actualWhens = this.mWhenDao.count();
 
         // assert
-        assertEquals(expectedWhens,actualWhens);
+        assertEquals(expectedWhens, actualWhens);
 
     }
 
@@ -146,13 +146,13 @@ public class WhenDBUnitTest {
         when2.setId(2);
 
         // act
-        this.mWhenDao.insertAll(when1,when2);
+        this.mWhenDao.insertAll(when1, when2);
 
         // assert
         When dbWhen1 = this.mWhenDao.loadById(1);
         When dbWhen2 = this.mWhenDao.loadById(2);
-        assertEquals(dbWhen1.getId(),when1.getId());
-        assertEquals(dbWhen2.getId(),when2.getId());
+        assertEquals(dbWhen1.getId(), when1.getId());
+        assertEquals(dbWhen2.getId(), when2.getId());
 
     }
 
@@ -167,7 +167,7 @@ public class WhenDBUnitTest {
 
         // assert
         When dbWhen = this.mWhenDao.loadById(1);
-        assertEquals(dbWhen.getId(),when1.getId());
+        assertEquals(dbWhen.getId(), when1.getId());
 
     }
 
@@ -188,7 +188,7 @@ public class WhenDBUnitTest {
         // assert
         When actualWhen = this.mWhenDao.loadById(1);
         int actualId = actualWhen.getEndHour();
-        assertEquals(actualId,expected);
+        assertEquals(actualId, expected);
 
     }
 
@@ -205,7 +205,7 @@ public class WhenDBUnitTest {
         int actualWhens = this.mWhenDao.count();
 
         // assert
-        assertEquals(expectedWhens,actualWhens);
+        assertEquals(expectedWhens, actualWhens);
 
     }
 }

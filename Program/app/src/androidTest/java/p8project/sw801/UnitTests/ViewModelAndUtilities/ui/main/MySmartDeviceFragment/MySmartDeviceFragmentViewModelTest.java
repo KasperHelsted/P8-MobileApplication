@@ -70,7 +70,7 @@ public class MySmartDeviceFragmentViewModelTest {
     }
 
     @Test
-    public void addSmartDevice(){
+    public void addSmartDevice() {
         //Arrange
         //Act
         mySmartDeviceViewModel.addSmartDevice();
@@ -79,9 +79,9 @@ public class MySmartDeviceFragmentViewModelTest {
     }
 
     @Test
-    public void addMySmartDevicesItemsToList(){
+    public void addMySmartDevicesItemsToList() {
         //Arrange
-        List<SmartDevice> smartDevices= new ArrayList<>();
+        List<SmartDevice> smartDevices = new ArrayList<>();
         smartDevices.add(new SmartDevice("Name", Boolean.TRUE, 1));
         //Act
         mySmartDeviceViewModel.addMySmartDevicesItemsToList(smartDevices);
@@ -90,7 +90,7 @@ public class MySmartDeviceFragmentViewModelTest {
     }
 
     @Test
-    public void deleteDevice(){
+    public void deleteDevice() {
         //Arrange
         SmartDevice smartDevice = new SmartDevice("Name", Boolean.TRUE, 1);
         smartDevice.setId(1);

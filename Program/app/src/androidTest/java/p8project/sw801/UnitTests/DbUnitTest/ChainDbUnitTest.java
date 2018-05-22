@@ -65,7 +65,6 @@ public class ChainDbUnitTest {
         assertTrue(dbChain.contains(chain1));
 
 
-
     }
 
     @Test

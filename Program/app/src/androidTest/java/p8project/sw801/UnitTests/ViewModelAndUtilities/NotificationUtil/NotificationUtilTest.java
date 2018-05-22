@@ -36,7 +36,7 @@ public class NotificationUtilTest {
     }
 
     @Test
-    public void CreateNotification(){
+    public void CreateNotification() {
         //Arrange
         String Title = "title";
         String Content = "content";
@@ -52,7 +52,8 @@ public class NotificationUtilTest {
 
             assertEquals(Title, arg0);
             assertEquals(Content, arg1);
-            return null;})
+            return null;
+        })
                 .when(notificationUtil).CreateNotification(any(String.class), any(String.class));
     }
 }

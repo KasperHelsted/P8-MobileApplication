@@ -49,15 +49,15 @@ public class SmartDeviceDBUnitTest {
         smartDevice2.setDeviceName("testGetAllSmartDevices - SmartDevice 2");
         smartDevice2.setId(2);
         smartDevice2.setInternalIdentifier(2);
-        this.mSmartDeviceDao.insertAll(smartDevice1,smartDevice2);
+        this.mSmartDeviceDao.insertAll(smartDevice1, smartDevice2);
         List<SmartDevice> smartDeviceList;
 
         // act
         smartDeviceList = this.mSmartDeviceDao.getAll();
 
         // assert
-        assertEquals(smartDeviceList.get(0).getDeviceName(),smartDevice1.getDeviceName());
-        assertEquals(smartDeviceList.get(1).getDeviceName(),smartDevice2.getDeviceName());
+        assertEquals(smartDeviceList.get(0).getDeviceName(), smartDevice1.getDeviceName());
+        assertEquals(smartDeviceList.get(1).getDeviceName(), smartDevice2.getDeviceName());
 
     }
 
@@ -77,15 +77,15 @@ public class SmartDeviceDBUnitTest {
         Integer[] smartDeviceIds = new Integer[2];
         smartDeviceIds[0] = smartDevice1.getId();
         smartDeviceIds[1] = smartDevice2.getId();
-        this.mSmartDeviceDao.insertAll(smartDevice1,smartDevice2);
+        this.mSmartDeviceDao.insertAll(smartDevice1, smartDevice2);
         List<SmartDevice> smartDeviceList;
 
         // act
         smartDeviceList = this.mSmartDeviceDao.loadAllByIds(smartDeviceIds);
 
         // assert
-        assertEquals(smartDeviceList.get(0).getId(),smartDevice1.getId());
-        assertEquals(smartDeviceList.get(1).getId(),smartDevice2.getId());
+        assertEquals(smartDeviceList.get(0).getId(), smartDevice1.getId());
+        assertEquals(smartDeviceList.get(1).getId(), smartDevice2.getId());
 
 
     }
@@ -105,7 +105,7 @@ public class SmartDeviceDBUnitTest {
         dbSmartDevice = this.mSmartDeviceDao.loadById(1);
 
         // assert
-        assertEquals(dbSmartDevice.getId(),smartDevice1.getId());
+        assertEquals(dbSmartDevice.getId(), smartDevice1.getId());
 
     }
 
@@ -123,7 +123,7 @@ public class SmartDeviceDBUnitTest {
         SmartDevice getLastSmartDevice = this.mSmartDeviceDao.getLast();
 
         // assert
-        assertEquals(getLastSmartDevice.getDeviceName(),smartDevice1.getDeviceName());
+        assertEquals(getLastSmartDevice.getDeviceName(), smartDevice1.getDeviceName());
 
     }
 
@@ -140,7 +140,7 @@ public class SmartDeviceDBUnitTest {
         smartDevice2.setDeviceName("testCountSmartDevices - SmartDevice 2");
         smartDevice2.setId(2);
         smartDevice2.setInternalIdentifier(2);
-        this.mSmartDeviceDao.insertAll(smartDevice1,smartDevice2);
+        this.mSmartDeviceDao.insertAll(smartDevice1, smartDevice2);
         int smartDeviceCountExpected;
         int smartDeviceCountActual = 2;
 
@@ -148,7 +148,7 @@ public class SmartDeviceDBUnitTest {
         smartDeviceCountExpected = this.mSmartDeviceDao.count();
 
         // assert
-        assertEquals(smartDeviceCountExpected,smartDeviceCountActual);
+        assertEquals(smartDeviceCountExpected, smartDeviceCountActual);
 
     }
 
@@ -167,13 +167,13 @@ public class SmartDeviceDBUnitTest {
         smartDevice2.setInternalIdentifier(2);
 
         // act
-        this.mSmartDeviceDao.insertAll(smartDevice1,smartDevice2);
+        this.mSmartDeviceDao.insertAll(smartDevice1, smartDevice2);
 
         // assert
         SmartDevice dbSmartDevice1 = this.mSmartDeviceDao.loadById(1);
         SmartDevice dbSmartDevice2 = this.mSmartDeviceDao.loadById(2);
-        assertEquals(dbSmartDevice1.getId(),smartDevice1.getId());
-        assertEquals(dbSmartDevice2.getId(),smartDevice2.getId());
+        assertEquals(dbSmartDevice1.getId(), smartDevice1.getId());
+        assertEquals(dbSmartDevice2.getId(), smartDevice2.getId());
 
     }
 
@@ -191,7 +191,7 @@ public class SmartDeviceDBUnitTest {
 
         // assert
         SmartDevice dbSmartDevice = this.mSmartDeviceDao.getLast();
-        assertEquals(dbSmartDevice.getDeviceName(),smartDevice1.getDeviceName());
+        assertEquals(dbSmartDevice.getDeviceName(), smartDevice1.getDeviceName());
 
     }
 
@@ -212,7 +212,7 @@ public class SmartDeviceDBUnitTest {
 
         // assert
         SmartDevice actual = this.mSmartDeviceDao.loadById(1);
-        assertEquals(expected,actual.getDeviceName());
+        assertEquals(expected, actual.getDeviceName());
 
     }
 
@@ -233,8 +233,8 @@ public class SmartDeviceDBUnitTest {
         int actualSmartDevices = this.mSmartDeviceDao.count();
 
         // assert
-        assertEquals(expectedSmartDevices,actualSmartDevices);
+        assertEquals(expectedSmartDevices, actualSmartDevices);
 
     }
-    }
+}
 

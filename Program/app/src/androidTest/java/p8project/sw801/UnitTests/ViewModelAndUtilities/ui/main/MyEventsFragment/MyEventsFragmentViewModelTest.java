@@ -51,7 +51,6 @@ public class MyEventsFragmentViewModelTest {
         TestSchedulerProvider testSchedulerProvider = new TestSchedulerProvider(mTestScheduler);
 
 
-
         List<Event> events = new ArrayList<>();
         events.add(new Event("Name", true));
 
@@ -62,7 +61,6 @@ public class MyEventsFragmentViewModelTest {
         myEventsFragmentViewModel = new MyEventsFragmentViewModel(mMockDataManager, testSchedulerProvider);
         myEventsFragmentViewModel.setNavigator(myEventsFragmentCallback);
     }
-
 
 
     @After
@@ -85,8 +83,9 @@ public class MyEventsFragmentViewModelTest {
         //Assert
         verify(myEventsFragmentCallback).updatelist();
     }
+
     @Test
-    public void fetchFromDatabase(){
+    public void fetchFromDatabase() {
 
         //Act
         myEventsFragmentViewModel.addNewEvent();
@@ -96,7 +95,7 @@ public class MyEventsFragmentViewModelTest {
     }
 
     @Test
-    public void updateEvent(){
+    public void updateEvent() {
         //Arrange
         Event e = new Event();
         e.setName("Name");
@@ -111,7 +110,7 @@ public class MyEventsFragmentViewModelTest {
     }
 
     @Test
-    public void addNewEvent(){
+    public void addNewEvent() {
         //Arrange
         //Act
         myEventsFragmentViewModel.addNewEvent();

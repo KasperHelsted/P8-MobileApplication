@@ -37,7 +37,7 @@ public class PredefinedLocationDBUnitTest {
     }
 
     @Test
-    public void testGetAllPredefinedLocations() throws Exception{
+    public void testGetAllPredefinedLocations() throws Exception {
         // arrange
         PredefinedLocation predefinedLocation1 = new PredefinedLocation();
         PredefinedLocation predefinedLocation2 = new PredefinedLocation();
@@ -48,20 +48,20 @@ public class PredefinedLocationDBUnitTest {
         predefinedLocation2.setName("testGetAllPredefinedLocations - PredefinedLocation 2");
         predefinedLocation2.setId(2);
         //CoordinateId not set because of foreign key error
-        this.mPredefinedDao.insertAll(predefinedLocation1,predefinedLocation2);
+        this.mPredefinedDao.insertAll(predefinedLocation1, predefinedLocation2);
         List<PredefinedLocation> predefinedLocationList;
 
         // act
         predefinedLocationList = this.mPredefinedDao.getAll();
 
         // assert
-        assertEquals(predefinedLocationList.get(0).getName(),predefinedLocation1.getName());
-        assertEquals(predefinedLocationList.get(1).getName(),predefinedLocation2.getName());
+        assertEquals(predefinedLocationList.get(0).getName(), predefinedLocation1.getName());
+        assertEquals(predefinedLocationList.get(1).getName(), predefinedLocation2.getName());
 
     }
 
     @Test
-    public void testLoadAllPredefinedLocationsByIds() throws Exception{
+    public void testLoadAllPredefinedLocationsByIds() throws Exception {
         // arrange
         PredefinedLocation predefinedLocation1 = new PredefinedLocation();
         PredefinedLocation predefinedLocation2 = new PredefinedLocation();
@@ -75,18 +75,18 @@ public class PredefinedLocationDBUnitTest {
         Integer[] predefinedLocationsIds = new Integer[2];
         predefinedLocationsIds[0] = predefinedLocation1.getId();
         predefinedLocationsIds[1] = predefinedLocation2.getId();
-        this.mPredefinedDao.insertAll(predefinedLocation1,predefinedLocation2);
+        this.mPredefinedDao.insertAll(predefinedLocation1, predefinedLocation2);
 
         // act
         List<PredefinedLocation> dbListPredefinedLocations = this.mPredefinedDao.loadAllByIds(predefinedLocationsIds);
 
         // assert
-        assertEquals(dbListPredefinedLocations.get(0).getId(),predefinedLocation1.getId());
-        assertEquals(dbListPredefinedLocations.get(1).getId(),predefinedLocation2.getId());
+        assertEquals(dbListPredefinedLocations.get(0).getId(), predefinedLocation1.getId());
+        assertEquals(dbListPredefinedLocations.get(1).getId(), predefinedLocation2.getId());
     }
 
     @Test
-    public void testLoadPredefinedLocationsById() throws Exception{
+    public void testLoadPredefinedLocationsById() throws Exception {
         // arrange
         PredefinedLocation predefinedLocation = new PredefinedLocation();
         PredefinedLocation dbPredefinedLocation;
@@ -99,11 +99,11 @@ public class PredefinedLocationDBUnitTest {
         dbPredefinedLocation = this.mPredefinedDao.loadById(1);
 
         // assert
-        assertEquals(dbPredefinedLocation.getId(),predefinedLocation.getId());
+        assertEquals(dbPredefinedLocation.getId(), predefinedLocation.getId());
     }
 
     @Test
-    public void testCountPredefinedLocations() throws Exception{
+    public void testCountPredefinedLocations() throws Exception {
         // arrange
         PredefinedLocation predefinedLocation1 = new PredefinedLocation();
         PredefinedLocation predefinedLocation2 = new PredefinedLocation();
@@ -114,7 +114,7 @@ public class PredefinedLocationDBUnitTest {
         predefinedLocation2.setName("testCountPredefinedLocations - PredefinedLocation 2");
         predefinedLocation2.setId(2);
         //CoordinateId not set because of foreign key error
-        this.mPredefinedDao.insertAll(predefinedLocation1,predefinedLocation2);
+        this.mPredefinedDao.insertAll(predefinedLocation1, predefinedLocation2);
         int predefinedLocationCountExpected;
         int predefinedLocationCountActual = 2;
 
@@ -122,11 +122,11 @@ public class PredefinedLocationDBUnitTest {
         predefinedLocationCountExpected = this.mPredefinedDao.countPredefinedLocations();
 
         // assert
-        assertEquals(predefinedLocationCountExpected,predefinedLocationCountActual);
+        assertEquals(predefinedLocationCountExpected, predefinedLocationCountActual);
     }
 
     @Test
-    public void testInsertAllPredefinedLocations() throws Exception{
+    public void testInsertAllPredefinedLocations() throws Exception {
         // arrange
         PredefinedLocation predefinedLocation1 = new PredefinedLocation();
         PredefinedLocation predefinedLocation2 = new PredefinedLocation();
@@ -139,17 +139,17 @@ public class PredefinedLocationDBUnitTest {
         //CoordinateId not set because of foreign key error
 
         // act
-        this.mPredefinedDao.insertAll(predefinedLocation1,predefinedLocation2);
+        this.mPredefinedDao.insertAll(predefinedLocation1, predefinedLocation2);
 
         // assert
         PredefinedLocation dbPredefinedLocation1 = this.mPredefinedDao.loadById(1);
         PredefinedLocation dbPredefinedLocation2 = this.mPredefinedDao.loadById(2);
-        assertEquals(dbPredefinedLocation1.getId(),predefinedLocation1.getId());
-        assertEquals(dbPredefinedLocation2.getId(),predefinedLocation2.getId());
+        assertEquals(dbPredefinedLocation1.getId(), predefinedLocation1.getId());
+        assertEquals(dbPredefinedLocation2.getId(), predefinedLocation2.getId());
     }
 
     @Test
-    public void testInsertPredefinedLocation() throws Exception{
+    public void testInsertPredefinedLocation() throws Exception {
         // arrange
         PredefinedLocation predefinedLocation = new PredefinedLocation();
         predefinedLocation.setName("testInsertPredefinedLocation - PredefinedLocation 1");
@@ -161,11 +161,11 @@ public class PredefinedLocationDBUnitTest {
 
         // assert
         PredefinedLocation dbPredefinedLocation = this.mPredefinedDao.loadById(1);
-        assertEquals(predefinedLocation.getName(),dbPredefinedLocation.getName());
+        assertEquals(predefinedLocation.getName(), dbPredefinedLocation.getName());
     }
 
     @Test
-    public void testUpdatePredefinedLocation() throws Exception{
+    public void testUpdatePredefinedLocation() throws Exception {
         // arrange
         PredefinedLocation predefinedLocation = new PredefinedLocation();
         predefinedLocation.setName("testUpdatePredefinedLocation - PredefinedLocation 1");
@@ -180,12 +180,12 @@ public class PredefinedLocationDBUnitTest {
 
         // assert
         PredefinedLocation actual = this.mPredefinedDao.loadById(1);
-        assertEquals(expected,actual.getName());
+        assertEquals(expected, actual.getName());
 
     }
 
     @Test
-    public void testDeletePredefinedLocation() throws Exception{
+    public void testDeletePredefinedLocation() throws Exception {
         // arrange
         PredefinedLocation predefinedLocation = new PredefinedLocation();
         predefinedLocation.setName("testUpdatePredefinedLocation - PredefinedLocation 1");
@@ -199,7 +199,7 @@ public class PredefinedLocationDBUnitTest {
         Integer actualPredefinedLocations = this.mPredefinedDao.countPredefinedLocations();
 
         // assert
-        assertEquals(actualPredefinedLocations,expectedPredefinedLocations);
+        assertEquals(actualPredefinedLocations, expectedPredefinedLocations);
     }
 
 }

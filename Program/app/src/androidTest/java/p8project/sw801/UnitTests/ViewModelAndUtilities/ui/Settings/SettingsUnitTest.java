@@ -52,8 +52,9 @@ public class SettingsUnitTest {
         settingsViewModel = null;
         settingsNavigator = null;
     }
+
     @Test
-    public void navigateToGlobalMute(){
+    public void navigateToGlobalMute() {
         //Arrange
         //Act
         settingsViewModel.navigateToGlobalMute();
@@ -61,16 +62,18 @@ public class SettingsUnitTest {
         verify(settingsNavigator).navigateToGlobalMute();
 
     }
+
     @Test
-    public void navigateToPredefinedLocation(){
+    public void navigateToPredefinedLocation() {
         //Arrange
         //Act
         settingsViewModel.navigateToPredefinedLocation();
         //Assert
         verify(settingsNavigator).navigateToPredefinedLocation();
     }
+
     @Test
-    public void navigateToPreferedShopping(){
+    public void navigateToPreferedShopping() {
         //Arrange
         //Act
         settingsViewModel.navigateToPreferedShopping();

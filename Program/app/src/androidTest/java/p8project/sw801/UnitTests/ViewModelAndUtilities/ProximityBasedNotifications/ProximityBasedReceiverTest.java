@@ -77,7 +77,7 @@ public class ProximityBasedReceiverTest {
 
             assertEquals(triggerWithSmartDevices, arg0);
             assertEquals("Testname", arg1);
-            assertEquals(mockContext,arg2);
+            assertEquals(mockContext, arg2);
 
             return null;
         }).when(proximityReceiver).triggerFunction(any(List.class), any(String.class), any(Context.class));

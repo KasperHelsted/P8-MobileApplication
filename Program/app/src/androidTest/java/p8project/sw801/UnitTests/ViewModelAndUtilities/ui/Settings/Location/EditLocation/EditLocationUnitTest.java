@@ -51,7 +51,6 @@ public class EditLocationUnitTest {
         editLocationViewModel.setNavigator(editLocationNavigator);
 
 
-
     }
 
     @After
@@ -62,7 +61,7 @@ public class EditLocationUnitTest {
     }
 
     @Test
-    public void getLocationFromId(){
+    public void getLocationFromId() {
         PredefinedLocation predefinedLocation = new PredefinedLocation("name");
         predefinedLocation.setCoordinateId(1);
         predefinedLocation.setId(1);
@@ -78,24 +77,27 @@ public class EditLocationUnitTest {
         verify(editLocationNavigator).renderFields(any(PredefinedLocation.class), any(Coordinate.class));
 
     }
+
     @Test
-    public void showMapActivity(){
+    public void showMapActivity() {
         //Arrange
         //Act
         editLocationViewModel.showMapActivity();
         //Assert
         verify(editLocationNavigator).openCreateMapActivity();
     }
+
     @Test
-    public void submitEditLocationClick(){
+    public void submitEditLocationClick() {
         //Arrange
         //Act
         editLocationViewModel.submitEditLocationClick();
         //Assert
         verify(editLocationNavigator).submitEditLocationClick();
     }
+
     @Test
-    public void updatePredefinedLoc(){
+    public void updatePredefinedLoc() {
         //Arrange
         doReturn(Observable.just(true)).when(mMockDataManager).updateCoordinate(any(Coordinate.class));
         doReturn(Observable.just(true)).when(mMockDataManager).updatePredefinedLocation(any(PredefinedLocation.class));

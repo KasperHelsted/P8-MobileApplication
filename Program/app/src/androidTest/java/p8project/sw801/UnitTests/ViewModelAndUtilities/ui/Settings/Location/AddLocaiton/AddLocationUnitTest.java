@@ -50,7 +50,6 @@ public class AddLocationUnitTest {
         addLocationViewModel.setNavigator(addLocationNavigator);
 
 
-
     }
 
     @After
@@ -61,7 +60,7 @@ public class AddLocationUnitTest {
     }
 
     @Test
-    public void openLocationActivty(){
+    public void openLocationActivty() {
         //Arrange
         PredefinedLocation predefinedLocation = new PredefinedLocation("Location");
         //Act
@@ -69,8 +68,9 @@ public class AddLocationUnitTest {
         //Assert
         verify(addLocationNavigator).openLocationActivty(predefinedLocation);
     }
+
     @Test
-    public void showMapActivity(){
+    public void showMapActivity() {
         //Arrange
         //Act
         addLocationViewModel.showMapActivity();
@@ -78,8 +78,9 @@ public class AddLocationUnitTest {
         verify(addLocationNavigator).openCreateMapActivity();
 
     }
+
     @Test
-    public void submitLocationClick(){
+    public void submitLocationClick() {
         //Arrange
         //Act
         addLocationViewModel.submitLocationClick();
@@ -88,15 +89,16 @@ public class AddLocationUnitTest {
 
 
     }
+
     @Test
-    public void submitLocationToDatabase(){
+    public void submitLocationToDatabase() {
         //Arrange
         String locName = "Name";
         Coordinate coordinate = new Coordinate(21.12, 34.65);
 
 
         doReturn(Observable.just(true)).when(mMockDataManager).insertCoordinate(any(Coordinate.class));
-        doReturn(Observable.just(new Coordinate(21.21,34.43))).when(mMockDataManager).getLast();
+        doReturn(Observable.just(new Coordinate(21.21, 34.43))).when(mMockDataManager).getLast();
         doReturn(Observable.just(true)).when(mMockDataManager).insertPredefinedLocation(any(PredefinedLocation.class));
         doReturn(Observable.just(new PredefinedLocation("name"))).when(mMockDataManager).getLastPredefinedLocation();
         //Act
@@ -106,7 +108,6 @@ public class AddLocationUnitTest {
         verify(addLocationNavigator).openLocationActivty(any(PredefinedLocation.class));
 
     }
-
 
 
 }

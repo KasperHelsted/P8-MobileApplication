@@ -45,7 +45,7 @@ public class AddEventHueVMUnitTest {
     }
 
     @Test
-    public void testTurnOnClickAddEventHue(){
+    public void testTurnOnClickAddEventHue() {
         //Arrange
         //Act
         mAddEventHueViewModel.turnOnClick();
@@ -54,7 +54,7 @@ public class AddEventHueVMUnitTest {
     }
 
     @Test
-    public void testTurnOffClickAddEventHue(){
+    public void testTurnOffClickAddEventHue() {
         //Arrange
         //Act
         mAddEventHueViewModel.turnOffClick();
@@ -63,7 +63,7 @@ public class AddEventHueVMUnitTest {
     }
 
     @Test
-    public void testSetBrightnessClickAddEventHue(){
+    public void testSetBrightnessClickAddEventHue() {
         //Arrange
         //Act
         mAddEventHueViewModel.setBrightnessClick();

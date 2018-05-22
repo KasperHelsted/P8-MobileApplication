@@ -130,8 +130,8 @@ public class EventWithDataDbUnitTest {
         assertEquals(dbEventWithData.get(0).event.getId(), event.getId());
         assertEquals(dbEventWithData.get(1).event.getId(), event1.getId());
         assertEquals(dbEventWithData.get(0).whens.get(0).coordinate.get(0).getLongitude(), coordinate.getLongitude(), 0);
-        assertEquals(dbEventWithData.get(0).triggers.get(0).smartDeviceWithDataList.get(0).hueLightbulbWhiteList.get(0).getDeviceName(), bulb. getDeviceName());
-        assertEquals(dbEventWithData.get(0).triggers.get(1).smartDeviceWithDataList.get(0).hueLightbulbWhiteList.get(0).getDeviceName(), bulb1. getDeviceName());
+        assertEquals(dbEventWithData.get(0).triggers.get(0).smartDeviceWithDataList.get(0).hueLightbulbWhiteList.get(0).getDeviceName(), bulb.getDeviceName());
+        assertEquals(dbEventWithData.get(0).triggers.get(1).smartDeviceWithDataList.get(0).hueLightbulbWhiteList.get(0).getDeviceName(), bulb1.getDeviceName());
 
 
     }
@@ -195,8 +195,8 @@ public class EventWithDataDbUnitTest {
         // assert
         assertEquals(dbEventWithData.event.getId(), event.getId());
         assertEquals(dbEventWithData.whens.get(0).coordinate.get(0).getLongitude(), coordinate.getLongitude(), 0);
-        assertEquals(dbEventWithData.triggers.get(0).smartDeviceWithDataList.get(0).hueLightbulbWhiteList.get(0).getDeviceName(), bulb. getDeviceName());
-        assertEquals(dbEventWithData.triggers.get(1).smartDeviceWithDataList.get(0).hueLightbulbWhiteList.get(0).getDeviceName(), bulb1. getDeviceName());
+        assertEquals(dbEventWithData.triggers.get(0).smartDeviceWithDataList.get(0).hueLightbulbWhiteList.get(0).getDeviceName(), bulb.getDeviceName());
+        assertEquals(dbEventWithData.triggers.get(1).smartDeviceWithDataList.get(0).hueLightbulbWhiteList.get(0).getDeviceName(), bulb1.getDeviceName());
     }
 
 

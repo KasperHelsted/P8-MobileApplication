@@ -68,7 +68,6 @@ public class GlobalMuteSettingUnitTest {
         globalMuteSettingViewModel.setNavigator(globalMuteSettingNavigator);
 
 
-
     }
 
     @After
@@ -89,6 +88,7 @@ public class GlobalMuteSettingUnitTest {
         //Assert
 
     }
+
     @Test
     public void deleteGlobalMute() {
         //Arrange
@@ -103,10 +103,11 @@ public class GlobalMuteSettingUnitTest {
         verify(globalMuteSettingNavigator, times(2)).updatelist();
 
     }
+
     @Test
     public void RenderList() {
         //Arrange
-        List<GlobalMute> globalMuteList= new ArrayList<>();
+        List<GlobalMute> globalMuteList = new ArrayList<>();
         globalMuteList.add(new GlobalMute(
                 "Name",
                 100L,
@@ -119,6 +120,7 @@ public class GlobalMuteSettingUnitTest {
         //Assert
 
     }
+
     @Test
     public void showAddGlobalMuteSetting() {
         //Arrange

@@ -38,7 +38,7 @@ public class GlobalMuteDBUnitTest {
     }
 
     @Test
-    public void testGetAllGlobalMute() throws Exception{
+    public void testGetAllGlobalMute() throws Exception {
         // arrange
         GlobalMute globalMute1 = new GlobalMute();
         globalMute1.setName("testGlobalMuteGetAll - GlobalMute 1");
@@ -56,20 +56,20 @@ public class GlobalMuteDBUnitTest {
         globalMute2.setNote("Unit test");
         //PredefinedLocationId not set because of foreign key error
 
-        this.mGlobalMuteDao.insertAll(globalMute1,globalMute2);
+        this.mGlobalMuteDao.insertAll(globalMute1, globalMute2);
         List<GlobalMute> globalMuteList;
 
         // act
         globalMuteList = this.mGlobalMuteDao.getAll();
 
         // assert
-        assertEquals(globalMuteList.get(0).getId(),globalMute1.getId());
-        assertEquals(globalMuteList.get(1).getId(),globalMute2.getId());
+        assertEquals(globalMuteList.get(0).getId(), globalMute1.getId());
+        assertEquals(globalMuteList.get(1).getId(), globalMute2.getId());
 
     }
 
     @Test
-    public void testLoadAllGlobalMutesByIds() throws Exception{
+    public void testLoadAllGlobalMutesByIds() throws Exception {
         // arrange
         GlobalMute globalMute1 = new GlobalMute();
         GlobalMute globalMute2 = new GlobalMute();
@@ -89,19 +89,19 @@ public class GlobalMuteDBUnitTest {
         Integer[] globalMuteIds = new Integer[2];
         globalMuteIds[0] = globalMute1.getId();
         globalMuteIds[1] = globalMute2.getId();
-        this.mGlobalMuteDao.insertAll(globalMute1,globalMute2);
+        this.mGlobalMuteDao.insertAll(globalMute1, globalMute2);
 
         // act
         List<GlobalMute> dbListEvents = this.mGlobalMuteDao.loadAllByIds(globalMuteIds);
 
         // assert
-        assertEquals(dbListEvents.get(0).getId(),globalMute1.getId());
-        assertEquals(dbListEvents.get(1).getId(),globalMute2.getId());
+        assertEquals(dbListEvents.get(0).getId(), globalMute1.getId());
+        assertEquals(dbListEvents.get(1).getId(), globalMute2.getId());
 
     }
 
     @Test
-    public void testLoadGlobalMuteById() throws Exception{
+    public void testLoadGlobalMuteById() throws Exception {
         // arrange
         GlobalMute globalMute = new GlobalMute();
         GlobalMute dbGlobalMute;
@@ -117,12 +117,12 @@ public class GlobalMuteDBUnitTest {
         dbGlobalMute = this.mGlobalMuteDao.loadById(1);
 
         // assert
-        assertEquals(dbGlobalMute.getId(),globalMute.getId());
+        assertEquals(dbGlobalMute.getId(), globalMute.getId());
 
     }
 
     @Test
-    public void testCountGlobalMutes() throws Exception{
+    public void testCountGlobalMutes() throws Exception {
         // arrange
         GlobalMute globalMute1 = new GlobalMute();
         GlobalMute globalMute2 = new GlobalMute();
@@ -139,7 +139,7 @@ public class GlobalMuteDBUnitTest {
         globalMute2.setEndTime(System.currentTimeMillis() + 15);
         globalMute2.setNote("Unit test");
 
-        this.mGlobalMuteDao.insertAll(globalMute1,globalMute2);
+        this.mGlobalMuteDao.insertAll(globalMute1, globalMute2);
         int eventCountExpected;
         int eventCountActual = 2;
 
@@ -147,12 +147,12 @@ public class GlobalMuteDBUnitTest {
         eventCountExpected = this.mGlobalMuteDao.count();
 
         // assert
-        assertEquals(eventCountExpected,eventCountActual);
+        assertEquals(eventCountExpected, eventCountActual);
 
     }
 
     @Test
-    public void testInsertAllGlobalMutes() throws Exception{
+    public void testInsertAllGlobalMutes() throws Exception {
         // arrange
         GlobalMute globalMute1 = new GlobalMute();
         GlobalMute globalMute2 = new GlobalMute();
@@ -170,18 +170,18 @@ public class GlobalMuteDBUnitTest {
         globalMute2.setNote("Unit test");
 
         // act
-        this.mGlobalMuteDao.insertAll(globalMute1,globalMute2);
+        this.mGlobalMuteDao.insertAll(globalMute1, globalMute2);
 
         // assert
         GlobalMute dbGlobalMute1 = this.mGlobalMuteDao.loadById(1);
         GlobalMute dbGlobalMute2 = this.mGlobalMuteDao.loadById(2);
-        assertEquals(dbGlobalMute1.getId(),globalMute1.getId());
-        assertEquals(dbGlobalMute2.getId(),globalMute2.getId());
+        assertEquals(dbGlobalMute1.getId(), globalMute1.getId());
+        assertEquals(dbGlobalMute2.getId(), globalMute2.getId());
 
     }
 
     @Test
-    public void testInsertGlobalMute() throws Exception{
+    public void testInsertGlobalMute() throws Exception {
         // arrange
         GlobalMute globalMute = new GlobalMute();
         globalMute.setName("testInsertGlobalMute - GlobalMute 1");
@@ -196,13 +196,13 @@ public class GlobalMuteDBUnitTest {
 
         // assert
         GlobalMute dbGlobalMute = this.mGlobalMuteDao.loadById(1);
-        assertEquals(dbGlobalMute.getName(),globalMute.getName());
+        assertEquals(dbGlobalMute.getName(), globalMute.getName());
 
 
     }
 
     @Test
-    public void testUpdateGlobalMute() throws Exception{
+    public void testUpdateGlobalMute() throws Exception {
         // arrange
         GlobalMute globalMute = new GlobalMute();
         globalMute.setName("testUpdateGlobalMute - GlobalMute 1");
@@ -220,13 +220,13 @@ public class GlobalMuteDBUnitTest {
 
         // assert
         GlobalMute actual = this.mGlobalMuteDao.loadById(1);
-        assertEquals(expected,actual.getName());
+        assertEquals(expected, actual.getName());
 
     }
 
 
     @Test
-    public void testDeleteGlobalMute() throws Exception{
+    public void testDeleteGlobalMute() throws Exception {
         // arrange
         GlobalMute globalMute = new GlobalMute();
         globalMute.setName("testDeleteGlobalMute - GlobalMute 1");
@@ -244,7 +244,7 @@ public class GlobalMuteDBUnitTest {
         Integer actualGlobalMutes = this.mGlobalMuteDao.count();
 
         // assert
-        assertEquals(expectedGlobalMutes,actualGlobalMutes);
+        assertEquals(expectedGlobalMutes, actualGlobalMutes);
 
     }
 

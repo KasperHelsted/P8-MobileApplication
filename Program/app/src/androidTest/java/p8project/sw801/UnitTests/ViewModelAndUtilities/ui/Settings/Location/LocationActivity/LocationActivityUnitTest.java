@@ -52,7 +52,6 @@ public class LocationActivityUnitTest {
         locationViewModel.setNavigator(locationNavigator);
 
 
-
     }
 
     @After
@@ -63,15 +62,16 @@ public class LocationActivityUnitTest {
     }
 
     @Test
-    public void createLocation(){
+    public void createLocation() {
         //Arrange
         //Act
         locationViewModel.createLocation();
         //Assert
         verify(locationNavigator).createLocation();
     }
+
     @Test
-    public void getLatestPredefinedLocationData(){
+    public void getLatestPredefinedLocationData() {
         //Arrange
         List<PredefinedLocation> locationList = new ArrayList<>();
         doReturn(Observable.just(locationList)).when(mMockDataManager).getAllPredefinedLocations();
@@ -81,8 +81,9 @@ public class LocationActivityUnitTest {
         //Assert
         verify(locationNavigator).createList(any(List.class));
     }
+
     @Test
-    public void onLocationClicked(){
+    public void onLocationClicked() {
         //Arrange
         PredefinedLocation predefinedLocation = new PredefinedLocation("name");
         //Act
@@ -90,8 +91,9 @@ public class LocationActivityUnitTest {
         //Assert
         verify(locationNavigator).onLocationClicked(any(PredefinedLocation.class));
     }
+
     @Test
-    public void removePredefinedLocation(){
+    public void removePredefinedLocation() {
         //Arrange
         PredefinedLocation predefinedLocation = new PredefinedLocation("name");
         doReturn(Observable.just(true)).when(mMockDataManager).deletePredefinedLocation(any(PredefinedLocation.class));

@@ -45,7 +45,7 @@ public class AddEventNestVMUnitTest {
     }
 
     @Test
-    public void testTurnOnClickAddEventNest(){
+    public void testTurnOnClickAddEventNest() {
         //Arrange
         //Act
         mAddEventNestViewModel.turnOnClick();
@@ -54,7 +54,7 @@ public class AddEventNestVMUnitTest {
     }
 
     @Test
-    public void testTurnOffClickAddEventNest(){
+    public void testTurnOffClickAddEventNest() {
         //Arrange
         //Act
         mAddEventNestViewModel.turnOffClick();
@@ -63,7 +63,7 @@ public class AddEventNestVMUnitTest {
     }
 
     @Test
-    public void testSetTempClickAddEventNest(){
+    public void testSetTempClickAddEventNest() {
         //Arrange
         //Act
         mAddEventNestViewModel.setTempClick();

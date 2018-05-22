@@ -63,7 +63,7 @@ public class editEventUnitTest {
     }
 
     @Test
-    public void addEvent(){
+    public void addEvent() {
         //Arrange
         //Act
         editEventViewModel.addEvent();
@@ -72,7 +72,7 @@ public class editEventUnitTest {
     }
 
     @Test
-    public void chooseLocation(){
+    public void chooseLocation() {
         //Arrange
         //Act
         editEventViewModel.chooseLocation();
@@ -81,7 +81,7 @@ public class editEventUnitTest {
     }
 
     @Test
-    public void close(){
+    public void close() {
         //Arrange
         //Act
         editEventViewModel.close();
@@ -90,7 +90,7 @@ public class editEventUnitTest {
     }
 
     @Test
-    public void deleteTrigger(){
+    public void deleteTrigger() {
         //Arrange
         Trigger t = new Trigger();
         doReturn(Observable.just(true)).when(mMockDataManager).deleteTrigger(any(Trigger.class));

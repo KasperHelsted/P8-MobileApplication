@@ -66,10 +66,10 @@ public class AddEventVMUnitTest {
         mAddEventViewModel = new AddEventViewModel(mMockDataManager, testSchedulerProvider);
         mAddEventViewModel.setNavigator(mAddEventCallback);
 
-        Event event =  new Event(name,active);
+        Event event = new Event(name, active);
         event.setId(1);
 
-        PredefinedLocation predefinedLocation =  new PredefinedLocation();
+        PredefinedLocation predefinedLocation = new PredefinedLocation();
         predefinedLocation.setName(predefinedLocationName);
         predefinedLocation.setCoordinateId(1);
 
@@ -123,7 +123,7 @@ public class AddEventVMUnitTest {
     }
 
     @Test
-    public void testShowNotificationOrSmartdeviceAddEvent(){
+    public void testShowNotificationOrSmartdeviceAddEvent() {
         //Arrange
         //Act
         mAddEventViewModel.showNotificationOrSmartdevice();
@@ -132,7 +132,7 @@ public class AddEventVMUnitTest {
     }
 
     @Test
-    public void testShowTimePickerDialogAddEvent(){
+    public void testShowTimePickerDialogAddEvent() {
         //Arrange
         //Act
         mAddEventViewModel.showTimePickerDialog(1);
@@ -142,7 +142,7 @@ public class AddEventVMUnitTest {
 
 
     @Test
-    public void testsubmitEventClickAddEvent(){
+    public void testsubmitEventClickAddEvent() {
         //Arrange
         //Act
         mAddEventViewModel.submitEventClick();
@@ -151,7 +151,7 @@ public class AddEventVMUnitTest {
     }
 
     @Test
-    public void testSubmitEventToDatabaseAddEvent(){
+    public void testSubmitEventToDatabaseAddEvent() {
         //Arrange
         Event e = new Event(name, active);
         e.setId(1);
@@ -163,15 +163,15 @@ public class AddEventVMUnitTest {
 
             Object arg0 = invocation.getArgument(0);
 
-            assertEquals(arg0,new Event(name,active));
+            assertEquals(arg0, new Event(name, active));
             return null;
         }).when(mMockDataManager).getLastEvent();
 
         //Act
-        try{
+        try {
             mAddEventViewModel.saveTriggers(t, e);
             mAddEventViewModel.saveWhen(w, e);
-        }catch (NullPointerException ex){
+        } catch (NullPointerException ex) {
             //Catching the null pointer exception thrown by the scheduler provider being a mock object.
         }
     }
@@ -189,7 +189,7 @@ public class AddEventVMUnitTest {
     }
 
     @Test
-    public void testSaveCoordinateAddEvent(){
+    public void testSaveCoordinateAddEvent() {
         //Arrange
         Coordinate c = new Coordinate(testLatitude, testLongitude);
         When w = new When();
@@ -200,20 +200,20 @@ public class AddEventVMUnitTest {
 
             Object arg0 = invocation.getArgument(0);
 
-            assertEquals(arg0,new Coordinate(testLatitude, testLongitude));
+            assertEquals(arg0, new Coordinate(testLatitude, testLongitude));
             return null;
         }).when(mMockDataManager).insertCoordinate(any(Coordinate.class));
 
         //Act
-        try{
+        try {
             mAddEventViewModel.saveCoordinate(w, t, c);
-        }catch (NullPointerException ex){
+        } catch (NullPointerException ex) {
             //Catching the null pointer exception thrown by the scheduler provider being a mock object.
         }
     }
 
     @Test
-    public void testGetCoordinateIdAddEvent(){
+    public void testGetCoordinateIdAddEvent() {
         //Arrange
         Coordinate c = new Coordinate(testLatitude, testLongitude);
         When w = new When();
@@ -224,14 +224,14 @@ public class AddEventVMUnitTest {
 
             Object arg0 = invocation.getArgument(0);
 
-            assertEquals(arg0,new Coordinate(testLatitude, testLongitude));
+            assertEquals(arg0, new Coordinate(testLatitude, testLongitude));
             return null;
         }).when(mMockDataManager).getLast();
 
         //Act
-        try{
+        try {
             mAddEventViewModel.submitEventToDatabase(w, t, null);
-        }catch (NullPointerException ex){
+        } catch (NullPointerException ex) {
             //Catching the null pointer exception thrown by the scheduler provider being a mock object.
         }
     }
@@ -255,7 +255,7 @@ public class AddEventVMUnitTest {
     }
 
     @Test
-    public void testSaveWhenAddEvent(){
+    public void testSaveWhenAddEvent() {
         //Arrange
 
         When w = new When();
@@ -268,14 +268,14 @@ public class AddEventVMUnitTest {
 
             Object arg0 = invocation.getArgument(0);
 
-            assertEquals(arg0,new When());
+            assertEquals(arg0, new When());
             return null;
         }).when(mMockDataManager).insertWhen(any(When.class));
 
         //Act
-        try{
+        try {
             mAddEventViewModel.geteventwithdata(e);
-        }catch (NullPointerException ex){
+        } catch (NullPointerException ex) {
             //Catching the null pointer exception thrown by the scheduler provider being a mock object.
         }
     }
@@ -294,14 +294,14 @@ public class AddEventVMUnitTest {
 
             Object arg0 = invocation.getArgument(0);
 
-            assertEquals(arg0,new EventWithData());
+            assertEquals(arg0, new EventWithData());
             return null;
         }).when(mMockDataManager).getEventWithData(1);
 
         //Act
-        try{
+        try {
             mAddEventCallback.createNotifications(eWData);
-        }catch (NullPointerException ex){
+        } catch (NullPointerException ex) {
             //Catching the null pointer exception thrown by the scheduler provider being a mock object.
         }
     }

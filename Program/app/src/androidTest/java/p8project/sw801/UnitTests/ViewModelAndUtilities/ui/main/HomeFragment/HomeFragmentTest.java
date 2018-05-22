@@ -56,15 +56,16 @@ public class HomeFragmentTest {
     }
 
     @Test
-    public void buttonCreateEventOnClick(){
+    public void buttonCreateEventOnClick() {
         //Arrange
         //Act
         homeFragmentViewModel.buttonCreateEventOnClick();
         //Assert
         verify(homeFragmentNavigator).buttonCreateEventOnClick();
     }
+
     @Test
-    public void buttonMyEventsOnClick(){
+    public void buttonMyEventsOnClick() {
         //Arrange
         //Act
         homeFragmentViewModel.buttonMyEventsOnClick();
@@ -72,8 +73,9 @@ public class HomeFragmentTest {
         verify(homeFragmentNavigator).buttonMyEventsOnClick();
 
     }
+
     @Test
-    public void buttonMySmartDevicesOnClick(){
+    public void buttonMySmartDevicesOnClick() {
         //Arrange
         //Act
         homeFragmentViewModel.buttonMySmartDevicesOnClick();
@@ -81,8 +83,9 @@ public class HomeFragmentTest {
         verify(homeFragmentNavigator).buttonMySmartDevicesOnClick();
 
     }
+
     @Test
-    public void buttonSettingsOnClick(){
+    public void buttonSettingsOnClick() {
         //Arrange
         //Act
         homeFragmentViewModel.buttonSettingsOnClick();

@@ -55,7 +55,7 @@ public class AddEventAccessoryVMUnitTest {
     }
 
     @Test
-    public void testGetListFromDbAddEventAccessory(){
+    public void testGetListFromDbAddEventAccessory() {
         //Arrange
         SmartDevice s = new SmartDevice();
         s.setId(1);
