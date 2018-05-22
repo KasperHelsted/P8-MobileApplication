@@ -36,7 +36,7 @@ public final class KeyBoardUtil {
                     setHideKeyboardOnTouch(context, innerView);
                 }
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }

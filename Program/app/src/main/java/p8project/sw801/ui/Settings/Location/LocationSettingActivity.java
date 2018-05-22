@@ -26,18 +26,24 @@ import p8project.sw801.ui.Settings.Location.AddLocation.AddLocationSettingActivi
 import p8project.sw801.ui.Settings.Location.EditLocation.EditLocationSettingActivity;
 import p8project.sw801.ui.base.BaseActivity;
 
-public class LocationSettingActivity extends BaseActivity<ActivityLocationSettingBinding,LocationViewModel> implements LocationNavigator, HasSupportFragmentInjector {
-    private ActivityLocationSettingBinding mActivityLocationSettingBinding;
+public class LocationSettingActivity extends BaseActivity<ActivityLocationSettingBinding, LocationViewModel> implements LocationNavigator, HasSupportFragmentInjector {
     @Inject
     LocationViewModel mLocationViewModel;
     @Inject
     DispatchingAndroidInjector<Fragment> fragmentDispatchingAndroidInjector;
     @Inject
     ViewModelProvider.Factory mViewModelFactory;
-
+    View view;
+    private ActivityLocationSettingBinding mActivityLocationSettingBinding;
+    /**
+     * Instances fields to access ui components
+     */
+    private ListView listView;
+    private ImageView imageView;
+    private TextView textView;
+    private LocationSettingAdapter locationSettingAdapter;
 
     /**
-     *
      * MVVM setup
      */
     @Override
@@ -56,16 +62,8 @@ public class LocationSettingActivity extends BaseActivity<ActivityLocationSettin
     }
 
     /**
-     * Instances fields to access ui components
-     */
-    private ListView listView;
-    private ImageView imageView;
-    private TextView textView;
-    View view;
-    private LocationSettingAdapter locationSettingAdapter;
-
-    /**
      * Setup of the page
+     *
      * @param savedInstanceState the state of the app
      */
     @Override
@@ -82,7 +80,7 @@ public class LocationSettingActivity extends BaseActivity<ActivityLocationSettin
     /**
      * Updates the listview with location data
      */
-    private void updateListView(){
+    private void updateListView() {
         mLocationViewModel.getLatestPredefinedLocationData();
     }
 
@@ -98,6 +96,7 @@ public class LocationSettingActivity extends BaseActivity<ActivityLocationSettin
 
     /**
      * Dagger injector
+     *
      * @return androidinjector
      */
     @Override
@@ -107,13 +106,14 @@ public class LocationSettingActivity extends BaseActivity<ActivityLocationSettin
 
     /**
      * Clickevent for edit a location
+     *
      * @param predefinedLocation location to be edited
      */
     @Override
     public void onLocationClicked(PredefinedLocation predefinedLocation) {
         Intent intent = new Intent(LocationSettingActivity.this, EditLocationSettingActivity.class);
-        intent.putExtra("id",predefinedLocation.getId());
-        startActivityForResult(intent,1);
+        intent.putExtra("id", predefinedLocation.getId());
+        startActivityForResult(intent, 1);
     }
 
     /**
@@ -122,16 +122,17 @@ public class LocationSettingActivity extends BaseActivity<ActivityLocationSettin
     @Override
     public void createLocation() {
         Intent intent = new Intent(LocationSettingActivity.this, AddLocationSettingActivity.class);
-        startActivityForResult(intent,2);
+        startActivityForResult(intent, 2);
     }
 
     /**
      * Method used to create and update the list of locations
+     *
      * @param predefinedLocationList new list of locations
      */
     @Override
     public void createList(List<PredefinedLocation> predefinedLocationList) {
-        locationSettingAdapter = new LocationSettingAdapter(view.getContext(), (ArrayList<PredefinedLocation>) predefinedLocationList,LocationSettingActivity.this);
+        locationSettingAdapter = new LocationSettingAdapter(view.getContext(), (ArrayList<PredefinedLocation>) predefinedLocationList, LocationSettingActivity.this);
         locationSettingAdapter.notifyDataSetChanged();
         listView.deferNotifyDataSetChanged();
         listView.setAdapter(locationSettingAdapter);
@@ -149,24 +150,23 @@ public class LocationSettingActivity extends BaseActivity<ActivityLocationSettin
 
     /**
      * method to handle activity results
+     *
      * @param requestCode the code of request
-     * @param resultCode The status of the result of a request
-     * @param data the intent with data from the request
+     * @param resultCode  The status of the result of a request
+     * @param data        the intent with data from the request
      */
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         switch (requestCode) {
             case (1): {
-                if (resultCode == Activity.RESULT_OK)
-                {
+                if (resultCode == Activity.RESULT_OK) {
                     updateListView();
                 }
                 break;
             }
-            case(2):{
-                if (resultCode == Activity.RESULT_OK)
-                {
+            case (2): {
+                if (resultCode == Activity.RESULT_OK) {
                     updateListView();
                 }
             }
@@ -175,10 +175,11 @@ public class LocationSettingActivity extends BaseActivity<ActivityLocationSettin
 
     /**
      * When the page restones its state, make sure the data is update
+     *
      * @param savedInstanceState the state of the app
      */
     @Override
-    protected void onRestoreInstanceState(Bundle savedInstanceState){
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
         updateListView();
     }
 

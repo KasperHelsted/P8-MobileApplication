@@ -3,7 +3,6 @@ package p8project.sw801.ui.Settings.GlobalMuteSetting;
 import android.databinding.ObservableArrayList;
 import android.databinding.ObservableList;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import p8project.sw801.data.DataManager;
@@ -29,6 +28,7 @@ public class GlobalMuteSettingViewModel extends BaseViewModel<GlobalMuteSettingN
 
     /**
      * Observable field of global mutes
+     *
      * @return
      */
     public ObservableList<GlobalMute> getGlobalMuteObservableList() {
@@ -52,6 +52,7 @@ public class GlobalMuteSettingViewModel extends BaseViewModel<GlobalMuteSettingN
 
     /**
      * Updates the list of globalmutes and sends it for rendering
+     *
      * @param globalMutes
      */
     public void RenderList(List<GlobalMute> globalMutes) {
@@ -62,6 +63,7 @@ public class GlobalMuteSettingViewModel extends BaseViewModel<GlobalMuteSettingN
 
     /**
      * Deletes the globalmute from the db
+     *
      * @param globalMute globalmute to delete
      */
     public void deleteGlobalMute(GlobalMute globalMute) {

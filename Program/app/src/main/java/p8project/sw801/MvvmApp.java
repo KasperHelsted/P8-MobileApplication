@@ -22,9 +22,10 @@ import com.androidnetworking.AndroidNetworking;
 import com.androidnetworking.interceptors.HttpLoggingInterceptor;
 
 import javax.inject.Inject;
-import p8project.sw801.di.component.DaggerAppComponent;
+
 import dagger.android.DispatchingAndroidInjector;
 import dagger.android.HasActivityInjector;
+import p8project.sw801.di.component.DaggerAppComponent;
 
 /**
  * Created by amitshekhar on 10/07/17.

@@ -28,14 +28,15 @@ public class AlarmReceiver extends BroadcastReceiver {
 
     /**
      * Method called when a time based alarm is triggered. Create a new proximity based alarm if the Event specifies it else calls a function to trigger to relevant smart devices.
+     *
      * @param context The context of the application.
-     * @param intent The pending intent used when creating the alarm.
+     * @param intent  The pending intent used when creating the alarm.
      */
     @Override
     public void onReceive(Context context, Intent intent) {
 
         //Get data from the transfered intent
-        String jsonMyObject ="";
+        String jsonMyObject = "";
         Bundle result = intent.getExtras();
         if (result != null) {
             jsonMyObject = result.getString("eventWithDate");

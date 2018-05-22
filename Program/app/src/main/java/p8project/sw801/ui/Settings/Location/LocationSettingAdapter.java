@@ -17,14 +17,14 @@ import p8project.sw801.data.model.db.PredefinedLocation;
  * Created by clubd on 20-03-2018.
  */
 
-public class  LocationSettingAdapter extends BaseAdapter {
+public class LocationSettingAdapter extends BaseAdapter {
 
     private Context mContext;
     private ArrayList<PredefinedLocation> Title;
     private LocationSettingActivity _locationSettingActivity;
 
 
-    public LocationSettingAdapter(Context context, ArrayList<PredefinedLocation> text1,LocationSettingActivity locationSettingActivity) {
+    public LocationSettingAdapter(Context context, ArrayList<PredefinedLocation> text1, LocationSettingActivity locationSettingActivity) {
         mContext = context;
         Title = text1;
         _locationSettingActivity = locationSettingActivity;
@@ -74,7 +74,6 @@ public class  LocationSettingAdapter extends BaseAdapter {
                 notifyDataSetChanged();
             }
         });
-
 
 
         return (row);

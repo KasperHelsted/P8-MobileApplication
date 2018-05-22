@@ -14,15 +14,12 @@ import p8project.sw801.utils.rx.SchedulerProvider;
 public class EditGlobalMuteSettingViewModel extends BaseViewModel<EditGlobalMuteSettingNavigator> {
 
     public final ObservableList<PredefinedLocation> predefinedLocations = new ObservableArrayList<>();
-
-    private GlobalMute globalMute = new GlobalMute();
-
     public final ObservableField<String> globulMuteName = new ObservableField<>("");
     public final ObservableInt predefinedLocation = new ObservableInt(0);
     public final ObservableField<String> comment = new ObservableField<>("");
-
     public final ObservableInt startTime = new ObservableInt();
     public final ObservableInt endTime = new ObservableInt();
+    private GlobalMute globalMute = new GlobalMute();
 
     public EditGlobalMuteSettingViewModel(DataManager dataManager, SchedulerProvider schedulerProvider) {
         super(dataManager, schedulerProvider);

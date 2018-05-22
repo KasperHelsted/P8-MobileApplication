@@ -3,9 +3,6 @@ package p8project.sw801.ui.Settings.GlobalMuteSetting;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
-import android.view.View;
-import android.widget.ImageView;
 import android.widget.ListView;
 
 import java.util.ArrayList;
@@ -14,16 +11,10 @@ import javax.inject.Inject;
 
 import p8project.sw801.BR;
 import p8project.sw801.R;
-import p8project.sw801.data.model.db.Event;
 import p8project.sw801.data.model.db.GlobalMute;
 import p8project.sw801.databinding.ActivityGlobalMuteBinding;
-
 import p8project.sw801.ui.Settings.AddGlobalMuteSetting.AddGlobalMuteSettingActivity;
-
 import p8project.sw801.ui.base.BaseActivity;
-import p8project.sw801.ui.event.MyEventAdapter;
-import p8project.sw801.ui.event.addevent.AddEvent;
-import p8project.sw801.ui.main.Fragments.MyEventsFragment.MyEventsFragment;
 
 public class GlobalMuteSettingActivity extends BaseActivity<ActivityGlobalMuteBinding, GlobalMuteSettingViewModel> implements GlobalMuteSettingNavigator {
 
@@ -32,10 +23,9 @@ public class GlobalMuteSettingActivity extends BaseActivity<ActivityGlobalMuteBi
      */
     @Inject
     GlobalMuteSettingViewModel mGlobalMuteSettingViewModel;
-    private ActivityGlobalMuteBinding mActivityGlobalMuteBinding;
-
-    private ListView listview;
     ArrayList<GlobalMute> globalMuteSettings;
+    private ActivityGlobalMuteBinding mActivityGlobalMuteBinding;
+    private ListView listview;
 
     @Override
     public int getBindingVariable() {
@@ -67,20 +57,21 @@ public class GlobalMuteSettingActivity extends BaseActivity<ActivityGlobalMuteBi
     /**
      * updates the list of global mutes
      */
-    public void updatelist(){
+    public void updatelist() {
         setUp();
     }
 
     /**
      * Asks the user if they are sure they want to delete a global mute and responds
+     *
      * @param globalMute globalmute to delete
      */
-    public void deleteGlobalMute(GlobalMute globalMute){
+    public void deleteGlobalMute(GlobalMute globalMute) {
         new AlertDialog.Builder(this)
                 .setTitle("Delete Globalmute")
                 .setMessage("Do you really want to delete the Global mute: " + globalMute.getName() + "?")
                 .setIcon(android.R.drawable.ic_dialog_alert)
-                .setPositiveButton(android.R.string.yes, (dialog, whichButton) ->mGlobalMuteSettingViewModel.deleteGlobalMute(globalMute))
+                .setPositiveButton(android.R.string.yes, (dialog, whichButton) -> mGlobalMuteSettingViewModel.deleteGlobalMute(globalMute))
                 .setNegativeButton(android.R.string.no, null).show();
     }
 
@@ -91,23 +82,22 @@ public class GlobalMuteSettingActivity extends BaseActivity<ActivityGlobalMuteBi
     @Override
     public void openAddGlobalMuteSettingActivity() {
         Intent intent = AddGlobalMuteSettingActivity.newIntent(GlobalMuteSettingActivity.this);
-        startActivityForResult(intent,0);
+        startActivityForResult(intent, 0);
     }
 
     /**
      * Setup of MVVM + update of list of globalmutes
      */
-    private void setUp(){
+    private void setUp() {
         listview = mActivityGlobalMuteBinding.listViewMyglobalmutesettings;
 
         //------Creation of list of smart devices
         globalMuteSettings = new ArrayList<GlobalMute>();
         globalMuteSettings.addAll(mGlobalMuteSettingViewModel.getGlobalMuteObservableList());
 
-        if (globalMuteSettings == null){
+        if (globalMuteSettings == null) {
 
-        }
-        else{
+        } else {
             GlobalMuteSettingAdapter myAdapter = new GlobalMuteSettingAdapter(this, globalMuteSettings);
             listview.setAdapter(myAdapter);
         }

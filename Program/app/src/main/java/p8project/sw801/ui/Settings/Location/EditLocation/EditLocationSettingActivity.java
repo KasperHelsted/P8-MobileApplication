@@ -26,7 +26,13 @@ import p8project.sw801.ui.base.BaseActivity;
 import p8project.sw801.ui.event.createeventmap.CreateEventMap;
 import p8project.sw801.utils.CommonUtils;
 
-public class EditLocationSettingActivity extends BaseActivity<ActivityEditLocationSettingBinding,EditLocationViewModel> implements EditLocationNavigator, HasSupportFragmentInjector {
+public class EditLocationSettingActivity extends BaseActivity<ActivityEditLocationSettingBinding, EditLocationViewModel> implements EditLocationNavigator, HasSupportFragmentInjector {
+    @Inject
+    EditLocationViewModel mEditLocationViewModel;
+    @Inject
+    DispatchingAndroidInjector<Fragment> fragmentDispatchingAndroidInjector;
+    @Inject
+    ViewModelProvider.Factory mViewModelFactory;
     private Bundle addressBundle;
     private Bundle locationBundle;
     private Address address;
@@ -36,17 +42,11 @@ public class EditLocationSettingActivity extends BaseActivity<ActivityEditLocati
     private Coordinate coords;
     private Location loc;
     private PredefinedLocation predLoc;
-
     /**
      * MVVM fields and setup of MVVM
      */
     private ActivityEditLocationSettingBinding mActivityEditLocationSettingBinding;
-    @Inject
-    EditLocationViewModel mEditLocationViewModel;
-    @Inject
-    DispatchingAndroidInjector<Fragment> fragmentDispatchingAndroidInjector;
-    @Inject
-    ViewModelProvider.Factory mViewModelFactory;
+
     @Override
     public int getBindingVariable() {
         return BR.viewModel;
@@ -64,6 +64,7 @@ public class EditLocationSettingActivity extends BaseActivity<ActivityEditLocati
 
     /**
      * 'Setup of MVVM bindings and data at the start of activity
+     *
      * @param savedInstanceState the state of the app
      */
     @Override
@@ -81,7 +82,7 @@ public class EditLocationSettingActivity extends BaseActivity<ActivityEditLocati
      * Setup of UI elements -> fields
      */
     private void setUpBindings() {
-        addressTextView  = mActivityEditLocationSettingBinding.addLocation;
+        addressTextView = mActivityEditLocationSettingBinding.addLocation;
         confirmButton = mActivityEditLocationSettingBinding.buttonEditLocationSettingConfirm;
         nameTextView = mActivityEditLocationSettingBinding.textInputLocationName;
     }
@@ -89,26 +90,26 @@ public class EditLocationSettingActivity extends BaseActivity<ActivityEditLocati
     /**
      * Receives the location id from the intent and receives the location object from the db
      */
-    private void getLocationToEdit(){
+    private void getLocationToEdit() {
         //Receives data from DB based on ID
-        int id = getIntent().getIntExtra("id",0);
+        int id = getIntent().getIntExtra("id", 0);
         mEditLocationViewModel.getLocationFromId(id);
     }
 
     /**
      * Renders the fields of the editpage with the location data
+     *
      * @param predefinedLocation location object
-     * @param coordinate coordinate object corresponding to the predefined location
+     * @param coordinate         coordinate object corresponding to the predefined location
      */
-    public void renderFields(PredefinedLocation predefinedLocation, Coordinate coordinate){
-        if (predefinedLocation != null){
+    public void renderFields(PredefinedLocation predefinedLocation, Coordinate coordinate) {
+        if (predefinedLocation != null) {
             nameTextView.setText(predefinedLocation.getName());
             coords = coordinate;
             predLoc = predefinedLocation;
-            Address add = CommonUtils.convertCoordinateToAddress(coordinate.getLatitude(),coordinate.getLongitude(),this);
+            Address add = CommonUtils.convertCoordinateToAddress(coordinate.getLatitude(), coordinate.getLongitude(), this);
             addressTextView.setText(add.getAddressLine(0) + ", " + add.getAddressLine(1) + ", " + add.getAddressLine(2));
-        }
-        else{
+        } else {
             nameTextView.setText("null");
             addressTextView.setText("null");
         }
@@ -124,17 +125,19 @@ public class EditLocationSettingActivity extends BaseActivity<ActivityEditLocati
 
     }
 
-    /**'
+    /**
+     * '
      * Opens the createEventMap activity for the user to choose a location
      */
     @Override
     public void openCreateMapActivity() {
         Intent intent = CreateEventMap.newIntent(EditLocationSettingActivity.this);
-        startActivityForResult(intent,13);
+        startActivityForResult(intent, 13);
     }
 
     /**
      * Dagger
+     *
      * @return androidinjector for dagger to use
      */
     @Override
@@ -148,26 +151,26 @@ public class EditLocationSettingActivity extends BaseActivity<ActivityEditLocati
      */
     @Override
     public void submitEditLocationClick() {
-        try{
+        try {
             String locName = nameTextView.getText().toString();
-            if (!CommonUtils.isNullOrEmpty(locName) && coords.getLongitude() != 0){
-                mEditLocationViewModel.updatePredefinedLoc(coords, locName,predLoc);
-            }
-            else {
+            if (!CommonUtils.isNullOrEmpty(locName) && coords.getLongitude() != 0) {
+                mEditLocationViewModel.updatePredefinedLoc(coords, locName, predLoc);
+            } else {
                 Toast.makeText(this, "You must specify a name", Toast.LENGTH_SHORT).show();
             }
-        }catch (NullPointerException e){
+        } catch (NullPointerException e) {
             Toast.makeText(this, "You must set a location", Toast.LENGTH_SHORT).show();
-        }catch (OnErrorNotImplementedException f){
+        } catch (OnErrorNotImplementedException f) {
             Toast.makeText(this, "You must set a location", Toast.LENGTH_SHORT).show();
         }
     }
 
     /**
      * Method that catches the result of an intent created in this activity
+     *
      * @param requestCode code specified for the result
-     * @param resultCode result status code
-     * @param data intent with data
+     * @param resultCode  result status code
+     * @param data        intent with data
      */
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {

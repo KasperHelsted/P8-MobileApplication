@@ -27,7 +27,6 @@ import p8project.sw801.ui.base.BaseService;
 import p8project.sw801.utils.HueUtilities;
 import p8project.sw801.utils.Nest.NestUtilities;
 import p8project.sw801.utils.NotificationUtil;
-import p8project.sw801.utils.TimeBasedNotifications.TimeBasedNotification;
 
 public class ProximityReceiver extends BroadcastReceiver {
 
@@ -36,8 +35,9 @@ public class ProximityReceiver extends BroadcastReceiver {
 
     /**
      * Method called when a proximity alert is posted. This method then calls the trigger function if the current time is not in the span of a global mute setting.
+     *
      * @param context The context of the application. Needed for the notifications.
-     * @param intent The posted proximity alert intent. This intent contains the EventWithData object.
+     * @param intent  The posted proximity alert intent. This intent contains the EventWithData object.
      */
     @Override
     public void onReceive(Context context, Intent intent) {
@@ -103,9 +103,10 @@ public class ProximityReceiver extends BroadcastReceiver {
     /**
      * Method called when triggering the functionality of notifications.
      * This functionality is to create notifications for the phone, trigger hue related actions and trigger nest related actions.
+     *
      * @param eventWithData The event with data object
-     * @param eventName The name of the event. Used for the notification that are posted to the user.
-     * @param context The context of the applicaiton. Used for posting notifications.
+     * @param eventName     The name of the event. Used for the notification that are posted to the user.
+     * @param context       The context of the applicaiton. Used for posting notifications.
      */
     public void triggerFunction(EventWithData eventWithData, String eventName, Context context) {
 
@@ -215,24 +216,24 @@ public class ProximityReceiver extends BroadcastReceiver {
                     }
                     break;
                 case 4:
-                    for (NestThermostat nestThermostat : t.smartDeviceWithDataList.get(0).nestThermostatList){
-                        if (t.trigger.getAccessorieId() == nestThermostat.getId()){
+                    for (NestThermostat nestThermostat : t.smartDeviceWithDataList.get(0).nestThermostatList) {
+                        if (t.trigger.getAccessorieId() == nestThermostat.getId()) {
                             uniqueId = nestThermostat.getDeviceId();
                         }
                     }
                     NestUtilities.nestAPI.thermostats.setHVACMode(uniqueId, "heat-cool");
                     break;
                 case 5:
-                    for (NestThermostat nestThermostat : t.smartDeviceWithDataList.get(0).nestThermostatList){
-                        if (t.trigger.getAccessorieId() == nestThermostat.getId()){
+                    for (NestThermostat nestThermostat : t.smartDeviceWithDataList.get(0).nestThermostatList) {
+                        if (t.trigger.getAccessorieId() == nestThermostat.getId()) {
                             uniqueId = nestThermostat.getDeviceId();
                         }
                     }
                     NestUtilities.nestAPI.thermostats.setHVACMode(uniqueId, "off");
                     break;
                 case 6:
-                    for (NestThermostat nestThermostat : t.smartDeviceWithDataList.get(0).nestThermostatList){
-                        if (t.trigger.getAccessorieId() == nestThermostat.getId()){
+                    for (NestThermostat nestThermostat : t.smartDeviceWithDataList.get(0).nestThermostatList) {
+                        if (t.trigger.getAccessorieId() == nestThermostat.getId()) {
                             uniqueId = nestThermostat.getDeviceId();
                         }
                     }
@@ -251,14 +252,15 @@ public class ProximityReceiver extends BroadcastReceiver {
 
     /**
      * Method used to check if the time for the current trigger is in the span of a global mute setting.
+     *
      * @param globalMuteList The list of global mutes.
-     * @param time The current time.
+     * @param time           The current time.
      * @return
      */
-    public Boolean globalMuted(List<GlobalMute> globalMuteList, long time){
+    public Boolean globalMuted(List<GlobalMute> globalMuteList, long time) {
         Boolean muted = false;
-        for (GlobalMute globalmute: globalMuteList) {
-            if (globalmute.getStartTime() <= time && globalmute.getEndTime() >= time){
+        for (GlobalMute globalmute : globalMuteList) {
+            if (globalmute.getStartTime() <= time && globalmute.getEndTime() >= time) {
                 muted = true;
                 return muted;
             }

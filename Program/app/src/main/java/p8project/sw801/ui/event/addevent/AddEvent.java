@@ -91,6 +91,37 @@ public class AddEvent extends BaseActivity<ActivityAddEventBinding, AddEventView
     private Event newEvent;
     private When newWhen;
 
+    public static void setHideKeyboardOnTouch(final Context context, View view) {
+        //Set up touch listener for non-text box views to hide keyboard.
+        try {
+            //Set up touch listener for non-text box views to hide keyboard.
+            if (!(view instanceof EditText || view instanceof ScrollView)) {
+
+                view.setOnTouchListener(new View.OnTouchListener() {
+
+                    public boolean onTouch(View v, MotionEvent event) {
+                        InputMethodManager in = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
+                        in.hideSoftInputFromWindow(v.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+                        return false;
+                    }
+
+                });
+            }
+            //If a layout container, iterate over children and seed recursion.
+            if (view instanceof ViewGroup) {
+
+                for (int i = 0; i < ((ViewGroup) view).getChildCount(); i++) {
+
+                    View innerView = ((ViewGroup) view).getChildAt(i);
+
+                    setHideKeyboardOnTouch(context, innerView);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     /**
      * On create method for AddEvent. Instantiates and sets up all required fields for the page.
      *
@@ -215,37 +246,6 @@ public class AddEvent extends BaseActivity<ActivityAddEventBinding, AddEventView
         coordinate = null;
 
         setHideKeyboardOnTouch(this, findViewById(R.id.scrollView));
-    }
-
-    public static void setHideKeyboardOnTouch(final Context context, View view) {
-        //Set up touch listener for non-text box views to hide keyboard.
-        try {
-            //Set up touch listener for non-text box views to hide keyboard.
-            if (!(view instanceof EditText || view instanceof ScrollView)) {
-
-                view.setOnTouchListener(new View.OnTouchListener() {
-
-                    public boolean onTouch(View v, MotionEvent event) {
-                        InputMethodManager in = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
-                        in.hideSoftInputFromWindow(v.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
-                        return false;
-                    }
-
-                });
-            }
-            //If a layout container, iterate over children and seed recursion.
-            if (view instanceof ViewGroup) {
-
-                for (int i = 0; i < ((ViewGroup) view).getChildCount(); i++) {
-
-                    View innerView = ((ViewGroup) view).getChildAt(i);
-
-                    setHideKeyboardOnTouch(context, innerView);
-                }
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 
     /**

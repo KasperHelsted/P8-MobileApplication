@@ -29,11 +29,21 @@ public class EditGlobalMuteSettingActivity extends BaseActivity<ActivityEditGlob
      */
     @Inject
     EditGlobalMuteSettingViewModel mEditGlobalMuteSettingViewModel;
-    private ActivityEditGlobalMuteBinding mActivityEditGlobalMuteBinding;
-
     @Inject
     DispatchingAndroidInjector<Fragment> fragmentDispatchingAndroidInjector;
+    private ActivityEditGlobalMuteBinding mActivityEditGlobalMuteBinding;
     private BaseViewModel callback;
+
+    /**
+     * Start a new intent without result
+     *
+     * @param context context of intent
+     * @return status of the intent
+     */
+    public static Intent newIntent(Context context) {
+        Intent intent = new Intent(context, EditGlobalMuteSettingActivity.class);
+        return intent;
+    }
 
     @Override
     public int getBindingVariable() {
@@ -88,16 +98,5 @@ public class EditGlobalMuteSettingActivity extends BaseActivity<ActivityEditGlob
      */
     public void closeAddGlobalMute(View v) {
         finish();
-    }
-
-    /**
-     * Start a new intent without result
-     *
-     * @param context context of intent
-     * @return status of the intent
-     */
-    public static Intent newIntent(Context context) {
-        Intent intent = new Intent(context, EditGlobalMuteSettingActivity.class);
-        return intent;
     }
 }

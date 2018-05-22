@@ -26,12 +26,23 @@ public class MyEventsFragment extends BaseFragment<FragmentMyEventsBinding, MyEv
 
     @Inject
     MyEventsFragmentViewModel mMyEventsFragmentViewModel;
-    private FragmentMyEventsBinding mFragmentMyEventsBinding;
-
-    private ListView listview;
-    private ActionBarDrawerToggle actionBarDrawerToggle;
     ArrayList<Event> myEvents;
     View view;
+    private FragmentMyEventsBinding mFragmentMyEventsBinding;
+    private ListView listview;
+    private ActionBarDrawerToggle actionBarDrawerToggle;
+
+    /**
+     * Constructor for the fragment.
+     *
+     * @return
+     */
+    public static MyEventsFragment newInstance() {
+        Bundle args = new Bundle();
+        MyEventsFragment fragment = new MyEventsFragment();
+        fragment.setArguments(args);
+        return fragment;
+    }
 
     /**
      * Method used on resume.
@@ -129,18 +140,6 @@ public class MyEventsFragment extends BaseFragment<FragmentMyEventsBinding, MyEv
     public void addNewEvent() {
         Intent intent = new Intent(this.getContext(), AddEvent.class);
         startActivity(intent);
-    }
-
-    /**
-     * Constructor for the fragment.
-     *
-     * @return
-     */
-    public static MyEventsFragment newInstance() {
-        Bundle args = new Bundle();
-        MyEventsFragment fragment = new MyEventsFragment();
-        fragment.setArguments(args);
-        return fragment;
     }
 
     /**

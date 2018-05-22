@@ -8,7 +8,7 @@ import p8project.sw801.utils.rx.SchedulerProvider;
 @Module
 public class MyEventsFragmentModule {
     @Provides
-    MyEventsFragmentViewModel provideMyEventsViewModel (DataManager dataManager, SchedulerProvider schedulerProvider) {
+    MyEventsFragmentViewModel provideMyEventsViewModel(DataManager dataManager, SchedulerProvider schedulerProvider) {
         return new MyEventsFragmentViewModel(dataManager, schedulerProvider);
     }
 }

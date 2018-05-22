@@ -18,10 +18,18 @@ import p8project.sw801.ui.custom.FragmentCallback;
 import p8project.sw801.ui.event.createeventmap.CreateEventMap;
 
 public class LocationPicker extends BaseFragment<FragmentLocationPickerBinding, LocationPickerViewModel> implements LocationPickerNavigator {
+    public static final String TAG = LocationPicker.class.getSimpleName();
     @Inject
     LocationPickerViewModel mLocationPickerViewModel;
 
-    public static final String TAG = LocationPicker.class.getSimpleName();
+    public static LocationPicker newInstance() {
+        Bundle args = new Bundle();
+
+        LocationPicker fragment = new LocationPicker();
+        fragment.setArguments(args);
+
+        return fragment;
+    }
 
     @Override
     public int getBindingVariable() {
@@ -36,15 +44,6 @@ public class LocationPicker extends BaseFragment<FragmentLocationPickerBinding, 
     @Override
     public LocationPickerViewModel getViewModel() {
         return mLocationPickerViewModel;
-    }
-
-    public static LocationPicker newInstance() {
-        Bundle args = new Bundle();
-
-        LocationPicker fragment = new LocationPicker();
-        fragment.setArguments(args);
-
-        return fragment;
     }
 
     @Override

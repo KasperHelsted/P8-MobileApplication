@@ -33,7 +33,19 @@ public class AddEventHue extends BaseActivity<ActivityAddEventHueBinding, AddEve
     private TextView seekBarTextView;
 
     /**
+     * Creates a new AddEventAccessory intent.
+     *
+     * @param context The current context of the application.
+     * @return The created intent.
+     */
+    public static Intent newIntent(Context context) {
+        Intent intent = new Intent(context, AddEventHue.class);
+        return intent;
+    }
+
+    /**
      * On create method for AddEvent. Instantiates and sets up all required fields for the page.
+     *
      * @param savedInstanceState The saved instance state.
      */
     @Override
@@ -49,9 +61,9 @@ public class AddEventHue extends BaseActivity<ActivityAddEventHueBinding, AddEve
     /**
      * Fetches the data passed from the previous activity.
      */
-    private void fetchData(){
-        String jsonMyObject ="";
-        String jsonMyAccessory="";
+    private void fetchData() {
+        String jsonMyObject = "";
+        String jsonMyAccessory = "";
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             jsonMyObject = extras.getString("device");
@@ -64,7 +76,7 @@ public class AddEventHue extends BaseActivity<ActivityAddEventHueBinding, AddEve
     /**
      * Sets up the different components on the page
      */
-    public void setUp(){
+    public void setUp() {
         deviceNameTextView.setText("Device: " + mySmartDevice.getDeviceName());
         accessoryNameTextView.setText("Light: " + myAccessory.getDeviceName());
         seekBar.setProgress(125);
@@ -91,7 +103,7 @@ public class AddEventHue extends BaseActivity<ActivityAddEventHueBinding, AddEve
     /**
      * Setup bindings between the elements in the xml and the variables used to access these.
      */
-    private void bindings(){
+    private void bindings() {
         deviceNameTextView = mActivityAddEventHueBinding.textViewSmartDeviceName;
         accessoryNameTextView = mActivityAddEventHueBinding.textViewAccessoryName;
         seekBar = mActivityAddEventHueBinding.seekBar2;
@@ -102,7 +114,7 @@ public class AddEventHue extends BaseActivity<ActivityAddEventHueBinding, AddEve
      * Method used when the user chooses the turn light on option. This method creates a trigger object and returns this to the previous activity.
      */
     @Override
-    public void turnOn(){
+    public void turnOn() {
         Trigger t = new Trigger();
         t.setNotification(true);
         t.setNotificationText(mySmartDevice.getDeviceName() + " " + myAccessory.getDeviceName() + " Turn on");
@@ -116,14 +128,13 @@ public class AddEventHue extends BaseActivity<ActivityAddEventHueBinding, AddEve
         finish();
 
 
-
     }
 
     /**
      * Method used when the user chooses the turn light off option. This method creates a trigger object and returns this to the previous activity.
      */
     @Override
-    public void turnOff(){
+    public void turnOff() {
         Trigger t = new Trigger();
         t.setNotification(true);
         t.setNotificationText(mySmartDevice.getDeviceName() + " " + myAccessory.getDeviceName() + " Turn off");
@@ -141,7 +152,7 @@ public class AddEventHue extends BaseActivity<ActivityAddEventHueBinding, AddEve
      * Method used when the user chooses the brightness option. This method creates a trigger object and returns this to the previous activity.
      */
     @Override
-    public void setBrightness(){
+    public void setBrightness() {
         Trigger t = new Trigger();
         t.setNotification(true);
         t.setNotificationText(mySmartDevice.getDeviceName() + " " + myAccessory.getDeviceName() + " Adjust brightness to: " + seekBar.getProgress());
@@ -158,6 +169,7 @@ public class AddEventHue extends BaseActivity<ActivityAddEventHueBinding, AddEve
 
     /**
      * Gets the binding variable.
+     *
      * @return The binding variable.
      */
     @Override
@@ -167,6 +179,7 @@ public class AddEventHue extends BaseActivity<ActivityAddEventHueBinding, AddEve
 
     /**
      * Get id for the layout for this page.
+     *
      * @return Layout id.
      */
     @Override
@@ -176,20 +189,11 @@ public class AddEventHue extends BaseActivity<ActivityAddEventHueBinding, AddEve
 
     /**
      * Get the instance of the view model.
+     *
      * @return Instance of the view model.
      */
     @Override
     public AddEventHueViewModel getViewModel() {
         return mAddEventHueViewModel;
-    }
-
-    /**
-     * Creates a new AddEventAccessory intent.
-     * @param context The current context of the application.
-     * @return The created intent.
-     */
-    public static Intent newIntent(Context context) {
-        Intent intent = new Intent(context, AddEventHue.class);
-        return intent;
     }
 }

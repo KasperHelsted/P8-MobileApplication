@@ -1,4 +1,5 @@
 package p8project.sw801.Library;
+
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -7,20 +8,19 @@ import java.util.Properties;
 
 /**
  * HueProperties.java
- *
+ * <p>
  * Stores the last known connected IP Address and the last known username.
  * This facilitates automatic bridge connection.
- *
+ * <p>
  * Also, as the username (for the whitelist) is a random string,  this prevents the need to
  * pushlink every time the app is started (as the username is read from the properties file).
- *
  */
 public final class HueProperties {
 
-    private static final String LAST_CONNECTED_IP   = "LastIPAddress";
-    private static final String USER_NAME           = "WhiteListUsername";
-    private static final String PROPS_FILE_NAME     = "MyHue.properties";
-    private static Properties props=null;
+    private static final String LAST_CONNECTED_IP = "LastIPAddress";
+    private static final String USER_NAME = "WhiteListUsername";
+    private static final String PROPS_FILE_NAME = "MyHue.properties";
+    private static Properties props = null;
 
     private HueProperties() {
     }
@@ -51,8 +51,8 @@ public final class HueProperties {
     }
 
     public static void loadProperties() {
-        if (props==null) {
-            props=new Properties();
+        if (props == null) {
+            props = new Properties();
             FileInputStream in;
 
             try {

@@ -33,7 +33,7 @@ public class HueLightbulbWhite {
     @ColumnInfo(name = "deviceId")
     private String deviceId;
 
-    @ColumnInfo(name= "smartDeviceId")
+    @ColumnInfo(name = "smartDeviceId")
     private Integer smartDeviceId;
 
     @Ignore

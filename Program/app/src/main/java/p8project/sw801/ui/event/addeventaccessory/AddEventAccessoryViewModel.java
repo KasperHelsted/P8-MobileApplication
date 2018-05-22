@@ -2,8 +2,10 @@ package p8project.sw801.ui.event.addeventaccessory;
 
 import android.databinding.ObservableArrayList;
 import android.databinding.ObservableList;
+
 import java.util.ArrayList;
 import java.util.List;
+
 import p8project.sw801.data.DataManager;
 import p8project.sw801.data.model.db.SmartDevice;
 import p8project.sw801.data.model.db.Smartdevice.Accessories.HueLightbulbWhite;
@@ -18,7 +20,8 @@ public class AddEventAccessoryViewModel extends BaseViewModel<AddEventAccessoryN
 
     /**
      * Constructor for the class.
-     * @param dataManager The active instance of the datamanager.
+     *
+     * @param dataManager       The active instance of the datamanager.
      * @param schedulerProvider The active instance of the schedulerProvider.
      */
     public AddEventAccessoryViewModel(DataManager dataManager, SchedulerProvider schedulerProvider) {
@@ -28,6 +31,7 @@ public class AddEventAccessoryViewModel extends BaseViewModel<AddEventAccessoryN
 
     /**
      * Fetches either a list of hue light or nest thermostats from the database.
+     *
      * @param smartDevice The smart devices chosen from the previous activity. The id of this is used to fetch all associated accessories for this smart device.
      */
     public void getListFromDb(SmartDevice smartDevice) {
@@ -59,6 +63,7 @@ public class AddEventAccessoryViewModel extends BaseViewModel<AddEventAccessoryN
 
     /**
      * Method used to update the list used in the activity for hue lights.
+     *
      * @param e The list of hue lights.
      */
     public void RenderListHue(List<HueLightbulbWhite> e) {
@@ -69,6 +74,7 @@ public class AddEventAccessoryViewModel extends BaseViewModel<AddEventAccessoryN
 
     /**
      * Method used to update the list used in the activity for nest thermostats.
+     *
      * @param e The list of nest thermostats.
      */
     public void RenderListNest(List<NestThermostat> e) {
@@ -79,6 +85,7 @@ public class AddEventAccessoryViewModel extends BaseViewModel<AddEventAccessoryN
 
     /**
      * Returns the observable list of hue lights
+     *
      * @return The observable list of hue lights
      */
     public ObservableList<HueLightbulbWhite> getHueObservableList() {
@@ -87,6 +94,7 @@ public class AddEventAccessoryViewModel extends BaseViewModel<AddEventAccessoryN
 
     /**
      * Returns the observable list of nest thermostats
+     *
      * @return The observable list of nest thermostats
      */
     public ObservableList<NestThermostat> getNestObservableList() {

@@ -5,16 +5,12 @@ import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.PrimaryKey;
 
-import com.philips.lighting.model.PHBridge;
-
-import p8project.sw801.data.model.db.SmartDevice;
-
 /**
  * Created by Kasper Helsted on 3/21/2018.
  */
 
 @Entity
-public class HueBridge{
+public class HueBridge {
     @PrimaryKey(autoGenerate = true)
     private Integer id;
 

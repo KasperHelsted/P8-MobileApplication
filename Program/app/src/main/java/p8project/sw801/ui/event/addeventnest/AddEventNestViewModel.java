@@ -12,16 +12,22 @@ public class AddEventNestViewModel extends BaseViewModel<AddEventNestNavigator> 
     /**
      * Method called when the user click the turn on thermostat button
      */
-    public void turnOnClick(){getNavigator().turnOn();}
+    public void turnOnClick() {
+        getNavigator().turnOn();
+    }
 
     /**
      * Method called when the user click the turn off thermostat button
      */
-    public void turnOffClick(){getNavigator().turnOff();}
+    public void turnOffClick() {
+        getNavigator().turnOff();
+    }
 
     /**
      * Method called when the user click the set temperature button
      */
-    public void setTempClick(){getNavigator().setTemp();}
+    public void setTempClick() {
+        getNavigator().setTemp();
+    }
 
 }

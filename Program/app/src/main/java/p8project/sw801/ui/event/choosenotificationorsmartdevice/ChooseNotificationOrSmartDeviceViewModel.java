@@ -17,7 +17,7 @@ public class ChooseNotificationOrSmartDeviceViewModel extends BaseViewModel<Choo
         getNavigator().openAddSmartDeviceList();
     }
 
-    public void addNotification(){
+    public void addNotification() {
         getNavigator().addNotification(notificationText.get());
     }
 }

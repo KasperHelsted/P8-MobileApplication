@@ -7,7 +7,7 @@ import android.arch.persistence.room.Transaction;
 
 import java.util.List;
 
-import p8project.sw801.data.local.RelationEntity.*;
+import p8project.sw801.data.local.RelationEntity.EventWithData;
 
 /**
  * Created by Kasper Helsted on 3/22/2018.

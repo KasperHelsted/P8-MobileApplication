@@ -19,16 +19,30 @@ import p8project.sw801.ui.main.MainActivity;
 
 
 public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeFragmentViewModel> implements HomeFragmentNavigator {
+    public static final String TAG = HomeFragment.class.getSimpleName();
     @Inject
     HomeFragmentViewModel mHomeFragmentViewModel;
     private FragmentHomeBinding mFragmentHomeBinding;
 
-    public static final String TAG = HomeFragment.class.getSimpleName();
+    /**
+     * Constructor for the fragment.
+     *
+     * @return
+     */
+    public static HomeFragment newInstance() {
+        Bundle args = new Bundle();
+
+        HomeFragment fragment = new HomeFragment();
+        fragment.setArguments(args);
+
+        return fragment;
+    }
 
     /**
      * On create view method for HomeFragment. Instantiates and sets up all required fields for the page.
-     * @param inflater The infater used from the activity to inflate this fragment.
-     * @param container The container containing this fragment.
+     *
+     * @param inflater           The infater used from the activity to inflate this fragment.
+     * @param container          The container containing this fragment.
      * @param savedInstanceState The saved instance state if there is one.
      * @return The inflated view.
      */
@@ -45,20 +59,8 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeFragment
     }
 
     /**
-     * Constructor for the fragment.
-     * @return
-     */
-    public static HomeFragment newInstance() {
-        Bundle args = new Bundle();
-
-        HomeFragment fragment = new HomeFragment();
-        fragment.setArguments(args);
-
-        return fragment;
-    }
-
-    /**
      * Gets the binding variable.
+     *
      * @return The binding variable.
      */
     @Override
@@ -68,6 +70,7 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeFragment
 
     /**
      * Get id for the layout for this page.
+     *
      * @return Layout id.
      */
     @Override
@@ -77,6 +80,7 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeFragment
 
     /**
      * Get the instance of the view model.
+     *
      * @return Instance of the view model.
      */
     @Override

@@ -10,25 +10,25 @@ import android.content.ContextWrapper;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
+
 import p8project.sw801.R;
 import p8project.sw801.ui.main.MainActivity;
 
 
 public class NotificationUtil extends ContextWrapper {
-    //For SDK 22
-    private NotificationManager mNotifyManager ;
-    private Notification mNotify;
-
-    //For SDK 26
-    private NotificationManager mManager;
     public static final String ANDROID_CHANNEL_ID = "p8project.sw801.ANDROID";
     public static final String ANDROID_CHANNEL_NAME = "ANDROID CHANNEL";
-
+    //For SDK 22
+    private NotificationManager mNotifyManager;
+    private Notification mNotify;
+    //For SDK 26
+    private NotificationManager mManager;
     private Intent notifyIntent;
     private PendingIntent notifyPendingIntent;
 
     /**
      * Creation of class, sets the context of the class
+     *
      * @param base context of caller
      */
     public NotificationUtil(Context base) {
@@ -39,7 +39,7 @@ public class NotificationUtil extends ContextWrapper {
     /**
      * Creates notification intent
      */
-    private void creationOfIntent(){
+    private void creationOfIntent() {
         notifyIntent = new Intent(this, MainActivity.class);
         // Set the Activity to start in a new, empty task
         notifyIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
@@ -50,7 +50,8 @@ public class NotificationUtil extends ContextWrapper {
 
     /**
      * Creates the android notification
-     * @param title title of notification
+     *
+     * @param title   title of notification
      * @param content content of the notification
      */
     public void CreateNotification(String title, String content) {
@@ -66,8 +67,7 @@ public class NotificationUtil extends ContextWrapper {
                     .setContentIntent(notifyPendingIntent);
             mNotify = mNotificationBuilder.build();
             ShowNotify();
-        }
-        else{
+        } else {
             createChannels();
             Notification.Builder mNotificationBuilder = new Notification.Builder(getApplicationContext(), ANDROID_CHANNEL_ID)
                     .setContentTitle(title)
@@ -82,7 +82,7 @@ public class NotificationUtil extends ContextWrapper {
      * Create notification for sub SDK 26
      */
     //SDK < 26
-    private void ShowNotify(){
+    private void ShowNotify() {
         mNotifyManager.notify(0, mNotify);
     }
 
@@ -107,6 +107,7 @@ public class NotificationUtil extends ContextWrapper {
 
     /**
      * Receives notification manager
+     *
      * @return notification manager instance
      */
     private NotificationManager getManager() {

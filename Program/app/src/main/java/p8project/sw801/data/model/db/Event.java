@@ -32,7 +32,7 @@ public class Event {
         this.active = active;
     }
 
-    public int gethashcode(){
+    public int gethashcode() {
         int hash = 1;
         hash = hash * 17 + id;
         hash = hash * 31 + name.hashCode();
@@ -55,9 +55,13 @@ public class Event {
         this.name = name;
     }
 
-    public Boolean getActive() {return active;}
+    public Boolean getActive() {
+        return active;
+    }
 
-    public void setActive(Boolean active) {this.active = active;}
+    public void setActive(Boolean active) {
+        this.active = active;
+    }
 
     @Override
     public boolean equals(Object object) {

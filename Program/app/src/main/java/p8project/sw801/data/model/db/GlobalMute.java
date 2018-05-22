@@ -117,7 +117,7 @@ public class GlobalMute {
         // Here we can compare two objects before they have unique primary keys and are inserted into the database
         if (this.name.equals(that.name) && this.startTime.equals(that.startTime) && this.endTime.equals(that.endTime) && this.note.equals(that.note))
             return true;
-        
+
         return false;
     }
 

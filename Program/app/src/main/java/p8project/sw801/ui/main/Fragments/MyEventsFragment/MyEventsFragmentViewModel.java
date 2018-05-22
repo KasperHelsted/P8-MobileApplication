@@ -17,7 +17,8 @@ public class MyEventsFragmentViewModel extends BaseViewModel<MyEventsFragmentNav
 
     /**
      * Constructor for the class.
-     * @param dataManager The active instance of the datamanager.
+     *
+     * @param dataManager       The active instance of the datamanager.
      * @param schedulerProvider The active instance of the schedulerProvider.
      */
     public MyEventsFragmentViewModel(DataManager dataManager, SchedulerProvider schedulerProvider) {
@@ -74,7 +75,7 @@ public class MyEventsFragmentViewModel extends BaseViewModel<MyEventsFragmentNav
     /**
      * Updates an event in the database and calls a method to update the view.
      *
-     * @param event The updated Event object.
+     * @param event     The updated Event object.
      * @param condition The boolean condition used to set if the event is active.
      */
     public void updateEvent(Event event, Boolean condition) {
@@ -91,6 +92,7 @@ public class MyEventsFragmentViewModel extends BaseViewModel<MyEventsFragmentNav
 
     /**
      * Method used to delete the When objects associated with an event.
+     *
      * @param id The event id.
      */
     private void deleteWhens(Integer id) {
@@ -101,8 +103,10 @@ public class MyEventsFragmentViewModel extends BaseViewModel<MyEventsFragmentNav
                         getSchedulerProvider().io()
                 ).subscribe());
     }
+
     /**
      * Method used to delete the Trigger objects associated with an event.
+     *
      * @param id The event id.
      */
     private void deleteTriggers(Integer id) {
@@ -113,9 +117,11 @@ public class MyEventsFragmentViewModel extends BaseViewModel<MyEventsFragmentNav
                         getSchedulerProvider().io()
                 ).subscribe());
     }
+
     /**
      * Method used to delete the event object.
      * Further this method are calling other methods to delete the When and Trigger objects associated with the event.
+     *
      * @param event The event object
      */
     void deleteEventFromDatabase(Event event) {

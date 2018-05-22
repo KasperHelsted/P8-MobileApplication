@@ -8,7 +8,7 @@ import p8project.sw801.utils.rx.SchedulerProvider;
 @Module
 public class HomeFragmentModule {
     @Provides
-    HomeFragmentViewModel provideHomeFragmentViewModel (DataManager dataManager, SchedulerProvider schedulerProvider) {
+    HomeFragmentViewModel provideHomeFragmentViewModel(DataManager dataManager, SchedulerProvider schedulerProvider) {
         return new HomeFragmentViewModel(dataManager, schedulerProvider);
     }
 }
