@@ -37,6 +37,7 @@ public class MainViewModel extends BaseViewModel<MainNavigator> {
 
     /**
      * Method for inserting Chain in the database
+     *
      * @param baseChain Generic implementation of handling insertion of chains
      */
     private void insertChain(BaseChain baseChain) {
@@ -53,6 +54,7 @@ public class MainViewModel extends BaseViewModel<MainNavigator> {
 
     /**
      * Method for inserting multiple stores in the database
+     *
      * @param baseChain Generic implementation of handling insertion of stores
      */
     private void insertStores(BaseChain baseChain) {
@@ -72,6 +74,7 @@ public class MainViewModel extends BaseViewModel<MainNavigator> {
 
     /**
      * Method for inserting a single store in the database
+     *
      * @param store custom store object
      */
     private void insertStore(Store store) {

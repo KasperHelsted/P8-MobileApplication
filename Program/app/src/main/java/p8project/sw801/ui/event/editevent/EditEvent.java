@@ -47,6 +47,16 @@ public class EditEvent extends BaseActivity<ActivityEditEventBinding, EditEventV
     @Inject
     DispatchingAndroidInjector<Fragment> fragmentDispatchingAndroidInjector;
 
+    /**
+     * Dynamic method to create new intent
+     *
+     * @param context Context
+     * @return intent status
+     */
+    public static Intent newIntent(Context context) {
+        Intent intent = new Intent(context, EditEvent.class);
+        return intent;
+    }
 
     @Override
     public int getBindingVariable() {
@@ -92,17 +102,6 @@ public class EditEvent extends BaseActivity<ActivityEditEventBinding, EditEventV
                 .addToBackStack(ChooseNotificationOrSmartDevice.TAG)
                 .add(R.id.placementfragment, ChooseNotificationOrSmartDevice.newInstance(), ChooseNotificationOrSmartDevice.TAG)
                 .commit();
-    }
-
-    /**
-     * Dynamic method to create new intent
-     *
-     * @param context Context
-     * @return intent status
-     */
-    public static Intent newIntent(Context context) {
-        Intent intent = new Intent(context, EditEvent.class);
-        return intent;
     }
 
     @Override

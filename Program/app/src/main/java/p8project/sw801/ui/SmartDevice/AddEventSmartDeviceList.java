@@ -12,7 +12,6 @@ import android.widget.ListView;
 import java.util.ArrayList;
 
 import p8project.sw801.R;
-
 import p8project.sw801.ui.event.addeventaccessory.AddEventAccessory;
 
 
@@ -36,16 +35,17 @@ public class AddEventSmartDeviceList extends AppCompatActivity {
             }
         });
     }
-    private void populateList(){
+
+    private void populateList() {
         arrayList.add("Hue - Smart Lights");
         arrayList.add("Nest - Termostat");
-        ArrayAdapter adapter = new ArrayAdapter(this,R.layout.activity_add_event_list_layout, arrayList);
+        ArrayAdapter adapter = new ArrayAdapter(this, R.layout.activity_add_event_list_layout, arrayList);
         listView.setAdapter(adapter);
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == 1){
+        if (requestCode == 1) {
             Bundle result = data.getBundleExtra("key");
             Intent returnIntent = new Intent();
             returnIntent.putExtra("key", result);

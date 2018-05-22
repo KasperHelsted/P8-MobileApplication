@@ -31,7 +31,19 @@ public class AddEventSmartDevice extends BaseActivity<ActivityAddEventSmartDevic
     private ListView listView;
 
     /**
+     * Creates a new AddEventAccessory intent.
+     *
+     * @param context The current context of the application.
+     * @return The created intent.
+     */
+    public static Intent newIntent(Context context) {
+        Intent intent = new Intent(context, AddEventSmartDevice.class);
+        return intent;
+    }
+
+    /**
      * On create method for AddEventSmartDevice. Instantiates and sets up all required fields for the page.
+     *
      * @param savedInstanceState The saved instance state.
      */
     @Override
@@ -43,6 +55,7 @@ public class AddEventSmartDevice extends BaseActivity<ActivityAddEventSmartDevic
 
     /**
      * Gets the binding variable.
+     *
      * @return The binding variable.
      */
     @Override
@@ -52,6 +65,7 @@ public class AddEventSmartDevice extends BaseActivity<ActivityAddEventSmartDevic
 
     /**
      * Get id for the layout for this page.
+     *
      * @return Layout id.
      */
     @Override
@@ -61,6 +75,7 @@ public class AddEventSmartDevice extends BaseActivity<ActivityAddEventSmartDevic
 
     /**
      * Get the instance of the view model.
+     *
      * @return Instance of the view model.
      */
     @Override
@@ -69,19 +84,9 @@ public class AddEventSmartDevice extends BaseActivity<ActivityAddEventSmartDevic
     }
 
     /**
-     * Creates a new AddEventAccessory intent.
-     * @param context The current context of the application.
-     * @return The created intent.
-     */
-    public static Intent newIntent(Context context) {
-        Intent intent = new Intent(context, AddEventSmartDevice.class);
-        return intent;
-    }
-
-    /**
      * Method used to create the page. This method sets the adapter for the listview.
      */
-    private void setUp(){
+    private void setUp() {
         arrayList = new ArrayList<>();
 
         listView = mActivityAddEventSmartDeviceListBinding.listViewSmartDevice;
@@ -104,21 +109,22 @@ public class AddEventSmartDevice extends BaseActivity<ActivityAddEventSmartDevic
      * Method used to update the list showing the smart devices
      */
     @Override
-    public void updatelist(){
+    public void updatelist() {
         setUp();
     }
 
     /**
      * Method used to catch the results from other activites that have been created from this one.
      * The returned result is either a trigger for a hue light or a trigger for a nest thermostat. This result is passed on to the activity that started this one.
+     *
      * @param requestCode The code used when creating the returned activity.
-     * @param resultCode The result code from the returned activity.
-     * @param data The intent attached to the returning activity.
+     * @param resultCode  The result code from the returned activity.
+     * @param data        The intent attached to the returning activity.
      */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (data != null && requestCode == 1){
-            String jsonMyObject ="";
+        if (data != null && requestCode == 1) {
+            String jsonMyObject = "";
             Bundle result = data.getExtras();
             if (result != null) {
                 jsonMyObject = result.getString("key");
@@ -130,7 +136,6 @@ public class AddEventSmartDevice extends BaseActivity<ActivityAddEventSmartDevic
             finish();
         }
     }
-
 
 
 }

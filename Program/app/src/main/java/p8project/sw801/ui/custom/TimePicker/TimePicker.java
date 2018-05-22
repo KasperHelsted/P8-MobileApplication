@@ -48,6 +48,11 @@ public class TimePicker extends LinearLayout {
         initializeViews(context);
     }
 
+    @BindingAdapter("android:textAttrChanged")
+    public static void setTextWatcher(TimePicker view, final InverseBindingListener textAttrChanged) {
+        view.bind(textAttrChanged);
+    }
+
     private void initializeViews(Context context) {
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
@@ -124,6 +129,10 @@ public class TimePicker extends LinearLayout {
         return cal;
     }
 
+    public int getCurrentTime() {
+        return this.currentTime;
+    }
+
     public void setCurrentTime(int time) {
         if (time == 0)
             return;
@@ -135,16 +144,7 @@ public class TimePicker extends LinearLayout {
             mListener.onChange();
     }
 
-    public int getCurrentTime() {
-        return this.currentTime;
-    }
-
     public void bind(InverseBindingListener mListener) {
         this.mListener = mListener;
-    }
-
-    @BindingAdapter("android:textAttrChanged")
-    public static void setTextWatcher(TimePicker view, final InverseBindingListener textAttrChanged) {
-        view.bind(textAttrChanged);
     }
 }

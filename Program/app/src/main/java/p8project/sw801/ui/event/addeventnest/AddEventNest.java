@@ -41,14 +41,26 @@ public class AddEventNest extends BaseActivity<ActivityAddEventNestBinding, AddE
     private SeekBar.OnSeekBarChangeListener mSeekBarChangeListener;
 
     /**
+     * Creates a new AddEventAccessory intent.
+     *
+     * @param context The current context of the application.
+     * @return The created intent.
+     */
+    public static Intent newIntent(Context context) {
+        Intent intent = new Intent(context, AddEventNest.class);
+        return intent;
+    }
+
+    /**
      * On create method for AddEvent. Instantiates and sets up all required fields for the page.
+     *
      * @param savedInstanceState The saved instance state.
      */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mAddEventNestViewModel.setNavigator(this);
-        mActivityAddEventNestBinding  = getViewDataBinding();
+        mActivityAddEventNestBinding = getViewDataBinding();
         bindings();
         fetchData();
         setUp();
@@ -59,7 +71,7 @@ public class AddEventNest extends BaseActivity<ActivityAddEventNestBinding, AddE
     /**
      * Sets up the different components on the page
      */
-    public void setUp(){
+    public void setUp() {
 
         deviceNameTextView.setText("Device: " + mySmartDevice.getDeviceName());
         assesoryNameTextView.setText("Thermostat: " + myAccessory.getName());
@@ -70,7 +82,7 @@ public class AddEventNest extends BaseActivity<ActivityAddEventNestBinding, AddE
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 seekbarEditText.setText(String.valueOf(progress));
-                if (seekbarEditText.getText() != null){
+                if (seekbarEditText.getText() != null) {
                     seekbarEditText.setSelection(seekbarEditText.getText().length());
                 }
 
@@ -95,9 +107,9 @@ public class AddEventNest extends BaseActivity<ActivityAddEventNestBinding, AddE
     /**
      * Fetches the data passed from the previous activity.
      */
-    private void fetchData(){
-        String jsonMyObject ="";
-        String jsonMyAccessory="";
+    private void fetchData() {
+        String jsonMyObject = "";
+        String jsonMyAccessory = "";
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             jsonMyObject = extras.getString("device");
@@ -110,7 +122,7 @@ public class AddEventNest extends BaseActivity<ActivityAddEventNestBinding, AddE
     /**
      * Setup bindings between the elements in the xml and the variables used to access these.
      */
-    private void bindings(){
+    private void bindings() {
         deviceNameTextView = mActivityAddEventNestBinding.textViewSmartDeviceNameNest;
         assesoryNameTextView = mActivityAddEventNestBinding.textViewAccessoryNameNest;
         turnOnButton = mActivityAddEventNestBinding.buttonNestOn;
@@ -124,7 +136,7 @@ public class AddEventNest extends BaseActivity<ActivityAddEventNestBinding, AddE
      * Method used when the user chooses the turn thermostat on option. This method creates a trigger object and returns this to the previous activity.
      */
     @Override
-    public void turnOn(){
+    public void turnOn() {
         Trigger t = new Trigger();
         t.setNotification(true);
         t.setNotificationText(mySmartDevice.getDeviceName() + " " + myAccessory.getName() + " Turn on");
@@ -142,7 +154,7 @@ public class AddEventNest extends BaseActivity<ActivityAddEventNestBinding, AddE
      * Method used when the user chooses the turn thermostat off option. This method creates a trigger object and returns this to the previous activity.
      */
     @Override
-    public void turnOff(){
+    public void turnOff() {
         Trigger t = new Trigger();
         t.setNotification(true);
         t.setNotificationText(mySmartDevice.getDeviceName() + " " + myAccessory.getName() + " Turn off");
@@ -160,7 +172,7 @@ public class AddEventNest extends BaseActivity<ActivityAddEventNestBinding, AddE
      * Method used when the user chooses the turn thermostat on option. This method creates a trigger object and returns this to the previous activity.
      */
     @Override
-    public void setTemp(){
+    public void setTemp() {
         Trigger t = new Trigger();
         t.setNotification(true);
         t.setNotificationText(mySmartDevice.getDeviceName() + " " + myAccessory.getName() + " Adjust temperature to: " + seekBarNest.getProgress());
@@ -177,6 +189,7 @@ public class AddEventNest extends BaseActivity<ActivityAddEventNestBinding, AddE
 
     /**
      * Gets the binding variable.
+     *
      * @return The binding variable.
      */
     @Override
@@ -186,6 +199,7 @@ public class AddEventNest extends BaseActivity<ActivityAddEventNestBinding, AddE
 
     /**
      * Get id for the layout for this page.
+     *
      * @return Layout id.
      */
     @Override
@@ -195,21 +209,12 @@ public class AddEventNest extends BaseActivity<ActivityAddEventNestBinding, AddE
 
     /**
      * Get the instance of the view model.
+     *
      * @return Instance of the view model.
      */
     @Override
     public AddEventNestViewModel getViewModel() {
         return mAddEventNestViewModel;
-    }
-
-    /**
-     * Creates a new AddEventAccessory intent.
-     * @param context The current context of the application.
-     * @return The created intent.
-     */
-    public static Intent newIntent(Context context) {
-        Intent intent = new Intent(context, AddEventNest.class);
-        return intent;
     }
 
     /**
@@ -235,31 +240,31 @@ public class AddEventNest extends BaseActivity<ActivityAddEventNestBinding, AddE
 
         @Override
         public void afterTextChanged(Editable s) {
-            if (et.getText()!= null){
+            if (et.getText() != null) {
 
 
-            String strEnteredVal = et.getText().toString();
-            if (!strEnteredVal.equals("")) {
-                int num = Integer.parseInt(strEnteredVal);
-                if (num > 50) {
-                    et.removeTextChangedListener(this);
-                    et.setText("50");
-                    seekBarNest.setProgress(50);
-                    et.addTextChangedListener(this);
-                } else if (num < 0) {
-                    et.removeTextChangedListener(this);
-                    et.setText(String.valueOf(0));
-                    seekBarNest.setProgress(0);
-                    et.addTextChangedListener(this);
-                } else {
-                    et.removeTextChangedListener(this);
-                    et.setText(String.valueOf(num));
-                    seekBarNest.setProgress(num);
-                    et.addTextChangedListener(this);
+                String strEnteredVal = et.getText().toString();
+                if (!strEnteredVal.equals("")) {
+                    int num = Integer.parseInt(strEnteredVal);
+                    if (num > 50) {
+                        et.removeTextChangedListener(this);
+                        et.setText("50");
+                        seekBarNest.setProgress(50);
+                        et.addTextChangedListener(this);
+                    } else if (num < 0) {
+                        et.removeTextChangedListener(this);
+                        et.setText(String.valueOf(0));
+                        seekBarNest.setProgress(0);
+                        et.addTextChangedListener(this);
+                    } else {
+                        et.removeTextChangedListener(this);
+                        et.setText(String.valueOf(num));
+                        seekBarNest.setProgress(num);
+                        et.addTextChangedListener(this);
+                    }
+
+
                 }
-
-
-            }
             }
         }
     }

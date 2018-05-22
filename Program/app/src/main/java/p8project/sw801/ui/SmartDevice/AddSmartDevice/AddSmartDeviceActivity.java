@@ -59,16 +59,17 @@ import p8project.sw801.utils.KeyBoardUtil;
 
 public class AddSmartDeviceActivity extends BaseActivity<ActivityAddSmartDeviceBinding, AddSmartDeviceViewModel> implements AdapterView.OnItemClickListener, AddSmartDeviceNavigator, HasSupportFragmentInjector {
 
-    //Adapter for listing HueAccessPoints
-    private AccessPointListAdapter adapter;
-    private boolean lastSearchWasIPScan = false;
-    //Class scope SDK access
-    private PHHueSDK phHueSDK = null;
+    public static final int AUTH_TOKEN_REQUEST_CODE = 27015;
     //Mvvm injects
     @Inject
     AddSmartDeviceViewModel mSmartDeviceViewModel;
     @Inject
     DispatchingAndroidInjector<Fragment> fragmentDispatchingAndroidInjector;
+    //Adapter for listing HueAccessPoints
+    private AccessPointListAdapter adapter;
+    private boolean lastSearchWasIPScan = false;
+    //Class scope SDK access
+    private PHHueSDK phHueSDK = null;
     //Mvvm view binding
     private ActivityAddSmartDeviceBinding mActivityAddSmartDeviceBinding;
     //Initializting a bridge object for null checking
@@ -87,80 +88,6 @@ public class AddSmartDeviceActivity extends BaseActivity<ActivityAddSmartDeviceB
     private NestAPI nestAPI;
     private TextInputLayout TextInputSecret;
     private TextInputLayout TextInputClientId;
-    public static final int AUTH_TOKEN_REQUEST_CODE = 27015;
-
-
-    /**
-     * MVVM method for bindings
-     *
-     * @return The viewmodel bindings
-     */
-    @Override
-    public int getBindingVariable() {
-        return BR.viewModel;
-    }
-
-    /**
-     * Specififies the view corresponding to the class
-     *
-     * @return the ID of the layout
-     */
-    @Override
-    public int getLayoutId() {
-        return R.layout.activity_add_smart_device;
-    }
-
-    /**
-     * Gets the viewmodel and bindings
-     *
-     * @return A viewmodel instance of the class
-     */
-    @Override
-    public AddSmartDeviceViewModel getViewModel() {
-        return mSmartDeviceViewModel;
-    }
-
-    /**
-     * '
-     * The first method called when the Acvitvity is created
-     * Used to initialize the SDK's and setup MVVM
-     *
-     * @param savedInstanceState the state
-     */
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        KeyBoardUtil.setHideKeyboardOnTouch(this, findViewById(R.id.addsmartdevicepage));
-
-        //MVVM Bindings
-        mActivityAddSmartDeviceBinding = getViewDataBinding();
-        mSmartDeviceViewModel.setNavigator(this);
-        //Setup the hue SDK
-        if (phHueSDK == null) {
-            phHueSDK = PHHueSDK.create();
-            phHueSDK.setAppName(getResources().getString(R.string.app_name));
-            phHueSDK.setDeviceName(android.os.Build.MODEL);
-            phHueSDK.getNotificationManager().registerSDKListener(phsdkListener);
-
-        }
-
-
-        //ViewBindings
-        brigdeListview = mActivityAddSmartDeviceBinding.bridgeList;
-        searchBridge = mActivityAddSmartDeviceBinding.findNewBridge;
-        searchNest = mActivityAddSmartDeviceBinding.buttonNestconfirm;
-        TextInputClientId = mActivityAddSmartDeviceBinding.textInputLayout2;
-        TextInputSecret = mActivityAddSmartDeviceBinding.textInputLayout3;
-
-        mActivity = this;
-
-        //Register a SDK listener for actions related to connection
-        //Initial setup of listview
-        adapter = new AccessPointListAdapter(getApplicationContext(), phHueSDK.getAccessPointsFound());
-        brigdeListview.setOnItemClickListener(this);
-        brigdeListview.setAdapter(adapter);
-    }
-
     /**
      * Hue SDK listener
      * used to establish connections and handle errors coming from the bridge
@@ -326,6 +253,77 @@ public class AddSmartDeviceActivity extends BaseActivity<ActivityAddSmartDeviceB
             }
         }
     };
+
+    /**
+     * MVVM method for bindings
+     *
+     * @return The viewmodel bindings
+     */
+    @Override
+    public int getBindingVariable() {
+        return BR.viewModel;
+    }
+
+    /**
+     * Specififies the view corresponding to the class
+     *
+     * @return the ID of the layout
+     */
+    @Override
+    public int getLayoutId() {
+        return R.layout.activity_add_smart_device;
+    }
+
+    /**
+     * Gets the viewmodel and bindings
+     *
+     * @return A viewmodel instance of the class
+     */
+    @Override
+    public AddSmartDeviceViewModel getViewModel() {
+        return mSmartDeviceViewModel;
+    }
+
+    /**
+     * '
+     * The first method called when the Acvitvity is created
+     * Used to initialize the SDK's and setup MVVM
+     *
+     * @param savedInstanceState the state
+     */
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        KeyBoardUtil.setHideKeyboardOnTouch(this, findViewById(R.id.addsmartdevicepage));
+
+        //MVVM Bindings
+        mActivityAddSmartDeviceBinding = getViewDataBinding();
+        mSmartDeviceViewModel.setNavigator(this);
+        //Setup the hue SDK
+        if (phHueSDK == null) {
+            phHueSDK = PHHueSDK.create();
+            phHueSDK.setAppName(getResources().getString(R.string.app_name));
+            phHueSDK.setDeviceName(android.os.Build.MODEL);
+            phHueSDK.getNotificationManager().registerSDKListener(phsdkListener);
+
+        }
+
+
+        //ViewBindings
+        brigdeListview = mActivityAddSmartDeviceBinding.bridgeList;
+        searchBridge = mActivityAddSmartDeviceBinding.findNewBridge;
+        searchNest = mActivityAddSmartDeviceBinding.buttonNestconfirm;
+        TextInputClientId = mActivityAddSmartDeviceBinding.textInputLayout2;
+        TextInputSecret = mActivityAddSmartDeviceBinding.textInputLayout3;
+
+        mActivity = this;
+
+        //Register a SDK listener for actions related to connection
+        //Initial setup of listview
+        adapter = new AccessPointListAdapter(getApplicationContext(), phHueSDK.getAccessPointsFound());
+        brigdeListview.setOnItemClickListener(this);
+        brigdeListview.setAdapter(adapter);
+    }
 
     /**
      * Method that either connects to the existing bridge, using its accesspoint or searches for a new bridge accesspoint

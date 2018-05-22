@@ -4,7 +4,6 @@ import android.arch.persistence.room.Embedded;
 import android.arch.persistence.room.Relation;
 
 import java.util.List;
-import java.util.Set;
 
 import p8project.sw801.data.model.db.SmartDevice;
 import p8project.sw801.data.model.db.Trigger;

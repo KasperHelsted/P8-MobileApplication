@@ -34,6 +34,7 @@ import java.util.List;
 import java.util.Locale;
 
 import p8project.sw801.R;
+
 /**
  * Created by amitshekhar on 10/07/17.
  */
@@ -80,7 +81,8 @@ public final class CommonUtils {
         progressDialog.setCanceledOnTouchOutside(false);
         return progressDialog;
     }
-    public static Address convertCoordinateToAddress(double lat, double lon, Context context){
+
+    public static Address convertCoordinateToAddress(double lat, double lon, Context context) {
         Geocoder geocoder;
         Address address = null;
         geocoder = new Geocoder(context, Locale.getDefault());
@@ -92,6 +94,7 @@ public final class CommonUtils {
         }
         return address;
     }
+
     public static boolean isNullOrEmpty(String s) {
         return s == null || s.length() == 0;
     }

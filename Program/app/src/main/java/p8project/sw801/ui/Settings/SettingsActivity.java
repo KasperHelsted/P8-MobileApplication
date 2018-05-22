@@ -19,22 +19,19 @@ import p8project.sw801.ui.Settings.Location.LocationSettingActivity;
 import p8project.sw801.ui.Settings.Shopping.ShoppingSettingActivity;
 import p8project.sw801.ui.base.BaseActivity;
 
-public class SettingsActivity extends BaseActivity<ActivitySettingsBinding,SettingsViewModel> implements SettingsNavigator,HasSupportFragmentInjector{
-    private ActivitySettingsBinding activitySettingsBinding;
-
+public class SettingsActivity extends BaseActivity<ActivitySettingsBinding, SettingsViewModel> implements SettingsNavigator, HasSupportFragmentInjector {
     @Inject
     SettingsViewModel mSettingsViewModel;
     @Inject
     DispatchingAndroidInjector<Fragment> fragmentDispatchingAndroidInjector;
     @Inject
     ViewModelProvider.Factory mViewModelFactory;
-
+    private ActivitySettingsBinding activitySettingsBinding;
     private EditText editTextGlobul;
     private EditText editTextLoc;
     private EditText editTextShop;
 
     /**
-     *
      * @return the mvvm viewmodel
      */
     @Override
@@ -44,6 +41,7 @@ public class SettingsActivity extends BaseActivity<ActivitySettingsBinding,Setti
 
     /**
      * Specifices the view the activity belongs to
+     *
      * @return the viewId
      */
     @Override
@@ -52,7 +50,6 @@ public class SettingsActivity extends BaseActivity<ActivitySettingsBinding,Setti
     }
 
     /**
-     *
      * @return a viewmodel instance
      */
     @Override
@@ -63,6 +60,7 @@ public class SettingsActivity extends BaseActivity<ActivitySettingsBinding,Setti
     /**
      * Used to setup the page for first entry
      * handles MVVM bindings
+     *
      * @param savedInstanceState the state of the application
      */
     @Override
@@ -78,7 +76,7 @@ public class SettingsActivity extends BaseActivity<ActivitySettingsBinding,Setti
     /**
      * Connects UI elements to accessiable fields
      */
-    private void setup(){
+    private void setup() {
         editTextGlobul = activitySettingsBinding.editTextGlobalmute;
         editTextLoc = activitySettingsBinding.editTextPredefinedlocationsettings;
         editTextShop = activitySettingsBinding.editTextPreferredshoppingsettings;
@@ -86,7 +84,6 @@ public class SettingsActivity extends BaseActivity<ActivitySettingsBinding,Setti
     }
 
     /**
-     *
      * @return The androidinjector for dagger
      */
     @Override

@@ -2,7 +2,6 @@ package p8project.sw801.ui.Settings.AddGlobalMuteSetting;
 
 import android.content.Context;
 import android.content.Intent;
-import android.inputmethodservice.KeyboardView;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.View;
@@ -29,11 +28,21 @@ public class AddGlobalMuteSettingActivity extends BaseActivity<ActivityAddGlobal
 
     @Inject
     AddGlobalMuteSettingViewModel mAddGlobalMuteSettingViewModel;
-    private ActivityAddGlobalMuteBinding mActivityAddGlobalMuteBinding;
-
     @Inject
     DispatchingAndroidInjector<Fragment> fragmentDispatchingAndroidInjector;
+    private ActivityAddGlobalMuteBinding mActivityAddGlobalMuteBinding;
     private BaseViewModel callback;
+
+    /**
+     * Method used to create a new intent of AddGlobalMuteSettingActicity
+     *
+     * @param context The context of the application.
+     * @return The created intent
+     */
+    public static Intent newIntent(Context context) {
+        Intent intent = new Intent(context, AddGlobalMuteSettingActivity.class);
+        return intent;
+    }
 
     /**
      * On create method for AddGlobalMuteSetting. Instantiates the bindings of the viewmodel.
@@ -105,17 +114,6 @@ public class AddGlobalMuteSettingActivity extends BaseActivity<ActivityAddGlobal
      */
     public void closeAddGlobalMute(View v) {
         finish();
-    }
-
-    /**
-     * Method used to create a new intent of AddGlobalMuteSettingActicity
-     *
-     * @param context The context of the application.
-     * @return The created intent
-     */
-    public static Intent newIntent(Context context) {
-        Intent intent = new Intent(context, AddGlobalMuteSettingActivity.class);
-        return intent;
     }
 }
 

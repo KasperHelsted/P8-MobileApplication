@@ -40,25 +40,34 @@ import p8project.sw801.databinding.ActivityCreateEventMapBinding;
 import p8project.sw801.ui.base.BaseActivity;
 
 public class CreateEventMap extends BaseActivity<ActivityCreateEventMapBinding, CreateEventMapViewModel> implements CreateEventMapNavigator, OnMapReadyCallback, GoogleMap.OnMyLocationButtonClickListener, GoogleMap.OnMyLocationClickListener, HasSupportFragmentInjector {
+    private static final int PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1;
     @Inject
     CreateEventMapViewModel mCreateEventMapViewModel;
-    private ActivityCreateEventMapBinding mActivityCreateEventMapBinding;
-
     @Inject
     DispatchingAndroidInjector<Fragment> fragmentDispatchingAndroidInjector;
-
-
+    private ActivityCreateEventMapBinding mActivityCreateEventMapBinding;
     private EditText editText;
     private Address a;
     private Geocoder geocoder;
     private Marker marker;
     private GoogleMap gmap;
     private Location location;
-    private static final int PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1;
     private boolean mLocationPermissionGranted = false;
 
     /**
+     * Creates a new AddEventAccessory intent.
+     *
+     * @param context The current context of the application.
+     * @return The created intent.
+     */
+    public static Intent newIntent(Context context) {
+        Intent intent = new Intent(context, CreateEventMap.class);
+        return intent;
+    }
+
+    /**
      * On create method for AddEventSmartDevice. Instantiates and sets up all required fields for the page.
+     *
      * @param savedInstanceState The saved instance state.
      */
     @Override
@@ -106,6 +115,7 @@ public class CreateEventMap extends BaseActivity<ActivityCreateEventMapBinding, 
 
     /**
      * Gets the binding variable.
+     *
      * @return The binding variable.
      */
     @Override
@@ -115,6 +125,7 @@ public class CreateEventMap extends BaseActivity<ActivityCreateEventMapBinding, 
 
     /**
      * Get id for the layout for this page.
+     *
      * @return Layout id.
      */
     @Override
@@ -124,6 +135,7 @@ public class CreateEventMap extends BaseActivity<ActivityCreateEventMapBinding, 
 
     /**
      * Get the instance of the view model.
+     *
      * @return Instance of the view model.
      */
     @Override
@@ -133,6 +145,7 @@ public class CreateEventMap extends BaseActivity<ActivityCreateEventMapBinding, 
 
     /**
      * Method called when the map is rendered. This method set the options for the map and places a mark in either the user location if it is known or in a default location.
+     *
      * @param googleMap The instance of the map
      */
     @Override
@@ -147,7 +160,7 @@ public class CreateEventMap extends BaseActivity<ActivityCreateEventMapBinding, 
                 marker.remove();
                 marker = gmap.addMarker(new MarkerOptions().position(latLng).title("Chosen position"));
                 a = convertCoordinateToAddress(latLng);
-                if (a != null){
+                if (a != null) {
                     editText.setText(a.getAddressLine(0));
                 }
             }
@@ -156,7 +169,8 @@ public class CreateEventMap extends BaseActivity<ActivityCreateEventMapBinding, 
     }
 
     /**
-     *Method used to convert a coordinate set to an address.
+     * Method used to convert a coordinate set to an address.
+     *
      * @param latLng The latitude and longitude of a point.
      * @return An address object containing the address and latitude and longitude of the point.
      */
@@ -167,9 +181,9 @@ public class CreateEventMap extends BaseActivity<ActivityCreateEventMapBinding, 
         double lon = latLng.longitude;
         try {
             List<Address> addressList = geocoder.getFromLocation(lat, lon, 1);
-            if (addressList != null){
-            address = addressList.get(0);
-            }else{
+            if (addressList != null) {
+                address = addressList.get(0);
+            } else {
                 Toast.makeText(this, "Could not get address try again", Toast.LENGTH_SHORT).show();
             }
         } catch (Exception e) {
@@ -179,7 +193,7 @@ public class CreateEventMap extends BaseActivity<ActivityCreateEventMapBinding, 
     }
 
     /**
-     *Method used to prepare the map when it is rendered.
+     * Method used to prepare the map when it is rendered.
      */
     private void prepMap() {
         // Get current location
@@ -192,7 +206,7 @@ public class CreateEventMap extends BaseActivity<ActivityCreateEventMapBinding, 
         location = locationManager.getLastKnownLocation(locationManager.getBestProvider(criteria, false));
 
 
-        if (location == null){
+        if (location == null) {
             location = mCreateEventMapViewModel.setDefaultLocation();
         }
 
@@ -204,7 +218,7 @@ public class CreateEventMap extends BaseActivity<ActivityCreateEventMapBinding, 
 
         a = convertCoordinateToAddress(currentLoc);
         //Write address in textfield
-        if (a != null){
+        if (a != null) {
             editText.setText(a.getAddressLine(0));
         }
 
@@ -217,6 +231,7 @@ public class CreateEventMap extends BaseActivity<ActivityCreateEventMapBinding, 
 
     /**
      * Method used when clicking the users own position on the map
+     *
      * @param location
      */
     @Override
@@ -226,6 +241,7 @@ public class CreateEventMap extends BaseActivity<ActivityCreateEventMapBinding, 
 
     /**
      * Method called when clicking on the center on my location button on the map
+     *
      * @return Returns false used by the google map
      */
     @Override
@@ -257,8 +273,9 @@ public class CreateEventMap extends BaseActivity<ActivityCreateEventMapBinding, 
     /**
      * Method used to catch the the returning activity asking the user for location permisssion.
      * If the permission is not granted this page will close.
-     * @param requestCode The request code used for the permission activity.
-     * @param permissions A string with the return permission.
+     *
+     * @param requestCode  The request code used for the permission activity.
+     * @param permissions  A string with the return permission.
      * @param grantResults An integer array with a values describing the permissions granted.
      */
     @Override
@@ -273,8 +290,7 @@ public class CreateEventMap extends BaseActivity<ActivityCreateEventMapBinding, 
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     mLocationPermissionGranted = true;
                     prepMap();
-                }
-                else{
+                } else {
                     Intent resultIntent = new Intent();
                     setResult(Activity.RESULT_CANCELED, resultIntent);
                     finish();
@@ -282,18 +298,10 @@ public class CreateEventMap extends BaseActivity<ActivityCreateEventMapBinding, 
             }
         }
     }
-    /**
-     * Creates a new AddEventAccessory intent.
-     * @param context The current context of the application.
-     * @return The created intent.
-     */
-    public static Intent newIntent(Context context) {
-        Intent intent = new Intent(context, CreateEventMap.class);
-        return intent;
-    }
 
     /**
      * Fragment injector used when creating new fragments to inflate.
+     *
      * @return The fragment injector
      */
     @Override

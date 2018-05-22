@@ -3,10 +3,7 @@ package p8project.sw801.ui.event.addevent;
 import java.util.List;
 
 import p8project.sw801.data.local.RelationEntity.EventWithData;
-import p8project.sw801.data.model.db.Event;
 import p8project.sw801.data.model.db.PredefinedLocation;
-import p8project.sw801.data.model.db.Trigger;
-import p8project.sw801.data.model.db.When;
 
 public interface AddEventNavigator {
 
@@ -19,7 +16,9 @@ public interface AddEventNavigator {
     void notitfyActivity();
 
     void submitEventClick();
+
     void displayPredefinedLocations(List<PredefinedLocation> predefinedLocationList);
+
     void updateActiveLocation(PredefinedLocation loc);
 
 

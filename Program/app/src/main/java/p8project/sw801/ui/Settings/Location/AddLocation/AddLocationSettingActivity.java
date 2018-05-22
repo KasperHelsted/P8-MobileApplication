@@ -29,10 +29,16 @@ import p8project.sw801.utils.KeyBoardUtil;
 
 
 public class AddLocationSettingActivity extends BaseActivity<ActivityAddLocationSettingBinding, AddLocationViewModel> implements AddLocationNavigator, HasSupportFragmentInjector {
-    private ActivityAddLocationSettingBinding mActivityAddLocationSettingBinding;
     @Inject
     AddLocationViewModel mAddLocationViewModel;
-
+    /**
+     * MVVM setup
+     */
+    @Inject
+    DispatchingAndroidInjector<Fragment> fragmentDispatchingAndroidInjector;
+    @Inject
+    ViewModelProvider.Factory mViewModelFactory;
+    private ActivityAddLocationSettingBinding mActivityAddLocationSettingBinding;
     private Bundle addressBundle;
     private Bundle locationBundle;
     private Address address;
@@ -41,14 +47,6 @@ public class AddLocationSettingActivity extends BaseActivity<ActivityAddLocation
     private Button confirmButton;
     private Coordinate coords;
     private Location loc;
-
-    /**
-     * MVVM setup
-     */
-    @Inject
-    DispatchingAndroidInjector<Fragment> fragmentDispatchingAndroidInjector;
-    @Inject
-    ViewModelProvider.Factory mViewModelFactory;
 
     @Override
     public int getBindingVariable() {

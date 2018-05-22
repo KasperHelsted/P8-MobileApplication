@@ -4,6 +4,8 @@ import p8project.sw801.data.model.db.PredefinedLocation;
 
 public interface AddLocationNavigator {
     void openCreateMapActivity();
+
     void submitLocationClick();
+
     void openLocationActivty(PredefinedLocation predefinedLocation);
 }

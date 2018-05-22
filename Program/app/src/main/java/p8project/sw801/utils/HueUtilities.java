@@ -21,55 +21,11 @@ import p8project.sw801.data.model.db.Smartdevice.Controllers.HueBridge;
 import p8project.sw801.ui.custom.PHWizardAlertDialog;
 
 public final class HueUtilities {
-    public static PHHueSDK phHueSDK = null;
     public static final String TAG = "NotifyUs";
+    public static PHHueSDK phHueSDK = null;
     private static PHBridge bridge = null;
     private static Context context = null;
     private static boolean lastSearchWasIPScan = false;
-
-
-    /**
-     * Sets up the SDK for initial usage
-     * Creates an instance with appropriate information and registers an SDKListener
-     */
-    public static void setupSDK() {
-        if (phHueSDK == null) {
-            phHueSDK = PHHueSDK.create();
-            phHueSDK.setAppName(TAG);
-            phHueSDK.setDeviceName(android.os.Build.MODEL);
-            phHueSDK.getNotificationManager().registerSDKListener(phsdkListener);
-        }
-
-    }
-
-    /**
-     * Takes a bridge object and attempts to connect to bridge
-     *
-     * @param mhueBridge Bridge object to connect to
-     * @return a boolean value indicating success of connection
-     */
-    public static boolean connectToBridge(HueBridge mhueBridge) {
-        PHAccessPoint lastAccessPoint = new PHAccessPoint();
-        lastAccessPoint.setIpAddress(mhueBridge.getDeviceIP());
-        lastAccessPoint.setUsername(mhueBridge.getUsername());
-        PHBridge connectedBridge = phHueSDK.getSelectedBridge();
-        if (connectedBridge != null) {
-            String connectedIP = connectedBridge.getResourceCache().getBridgeConfiguration().getIpAddress();
-            if (connectedIP != null) {   // We are already connected here:-
-                phHueSDK.disableHeartbeat(connectedBridge);
-                phHueSDK.disconnect(connectedBridge);
-            }
-        }
-        try {
-            phHueSDK.connect(lastAccessPoint);
-        } catch (PHHueException e) {
-            return true;
-        } catch (IllegalArgumentException f) {
-            return false;
-        }
-        return true;
-    }
-
     /**
      * An eventlistener from the HueSDK, used to update information from the bridge
      * and to connect and confirm connection and reconnect on failure
@@ -190,6 +146,48 @@ public final class HueUtilities {
 
         }
     };
+
+    /**
+     * Sets up the SDK for initial usage
+     * Creates an instance with appropriate information and registers an SDKListener
+     */
+    public static void setupSDK() {
+        if (phHueSDK == null) {
+            phHueSDK = PHHueSDK.create();
+            phHueSDK.setAppName(TAG);
+            phHueSDK.setDeviceName(android.os.Build.MODEL);
+            phHueSDK.getNotificationManager().registerSDKListener(phsdkListener);
+        }
+
+    }
+
+    /**
+     * Takes a bridge object and attempts to connect to bridge
+     *
+     * @param mhueBridge Bridge object to connect to
+     * @return a boolean value indicating success of connection
+     */
+    public static boolean connectToBridge(HueBridge mhueBridge) {
+        PHAccessPoint lastAccessPoint = new PHAccessPoint();
+        lastAccessPoint.setIpAddress(mhueBridge.getDeviceIP());
+        lastAccessPoint.setUsername(mhueBridge.getUsername());
+        PHBridge connectedBridge = phHueSDK.getSelectedBridge();
+        if (connectedBridge != null) {
+            String connectedIP = connectedBridge.getResourceCache().getBridgeConfiguration().getIpAddress();
+            if (connectedIP != null) {   // We are already connected here:-
+                phHueSDK.disableHeartbeat(connectedBridge);
+                phHueSDK.disconnect(connectedBridge);
+            }
+        }
+        try {
+            phHueSDK.connect(lastAccessPoint);
+        } catch (PHHueException e) {
+            return true;
+        } catch (IllegalArgumentException f) {
+            return false;
+        }
+        return true;
+    }
 
     /**
      * Change the lightstate of a specific light connected to the bridge

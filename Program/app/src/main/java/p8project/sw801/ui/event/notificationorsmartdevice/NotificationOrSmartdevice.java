@@ -22,19 +22,30 @@ import p8project.sw801.utils.KeyBoardUtil;
 
 public class NotificationOrSmartdevice extends BaseFragment<FragmentNotificationOrSmartdeviceBinding, NotificationOrSmartdeviceViewModel> implements NotificationOrSmartdeviceNavigator {
 
+    public static final String TAG = NotificationOrSmartdevice.class.getSimpleName();
     @Inject
     NotificationOrSmartdeviceViewModel mNotificationOrSmartdeviceViewModel;
     private FragmentNotificationOrSmartdeviceBinding mFragmentNotificationOrSmartdeviceBinding;
-
-    public static final String TAG = NotificationOrSmartdevice.class.getSimpleName();
-
     private EditText notification;
     private AddEvent addEvent;
 
     /**
+     * Constructor for the fragment.
+     *
+     * @return
+     */
+    public static NotificationOrSmartdevice newInstance() {
+        Bundle args = new Bundle();
+        NotificationOrSmartdevice fragment = new NotificationOrSmartdevice();
+        fragment.setArguments(args);
+        return fragment;
+    }
+
+    /**
      * On create view method for NotificationOrSmartdevice. Instantiates and sets up all required fields for the page.
-     * @param inflater The infater used from the activity to inflate this fragment.
-     * @param container The container containing this fragment.
+     *
+     * @param inflater           The infater used from the activity to inflate this fragment.
+     * @param container          The container containing this fragment.
      * @param savedInstanceState The saved instance state if there is one.
      * @return The inflated view.
      */
@@ -52,18 +63,8 @@ public class NotificationOrSmartdevice extends BaseFragment<FragmentNotification
     }
 
     /**
-     * Constructor for the fragment.
-     * @return
-     */
-    public static NotificationOrSmartdevice newInstance() {
-        Bundle args = new Bundle();
-        NotificationOrSmartdevice fragment = new NotificationOrSmartdevice();
-        fragment.setArguments(args);
-        return fragment;
-    }
-
-    /**
      * Gets the binding variable.
+     *
      * @return The binding variable.
      */
     @Override
@@ -73,6 +74,7 @@ public class NotificationOrSmartdevice extends BaseFragment<FragmentNotification
 
     /**
      * Get id for the layout for this page.
+     *
      * @return Layout id.
      */
     @Override
@@ -82,6 +84,7 @@ public class NotificationOrSmartdevice extends BaseFragment<FragmentNotification
 
     /**
      * Get the instance of the view model.
+     *
      * @return Instance of the view model.
      */
     @Override
@@ -112,27 +115,28 @@ public class NotificationOrSmartdevice extends BaseFragment<FragmentNotification
      */
     @Override
     public void addNotification() {
-            Trigger t = new Trigger();
-            t.setNotificationText(notification.getText().toString());
-            t.setNotification(false);
-            t.setAction(0);
-            addEvent.addMyEvents.add(t);
-            addEvent.refreshData();
-            getActivity().getSupportFragmentManager().beginTransaction().remove(NotificationOrSmartdevice.this).commit();
+        Trigger t = new Trigger();
+        t.setNotificationText(notification.getText().toString());
+        t.setNotification(false);
+        t.setAction(0);
+        addEvent.addMyEvents.add(t);
+        addEvent.refreshData();
+        getActivity().getSupportFragmentManager().beginTransaction().remove(NotificationOrSmartdevice.this).commit();
     }
 
     /**
      * Method used to catch the results from other activites that have been created from this one.
      * The returned result is either a trigger for a hue light or a trigger for a nest thermostat. This result is added to the list of trigger from the AddEvent page.
+     *
      * @param requestCode The code used when creating the returned activity.
-     * @param resultCode The result code from the returned activity.
-     * @param data The intent attached to the returning activity.
+     * @param resultCode  The result code from the returned activity.
+     * @param data        The intent attached to the returning activity.
      */
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (data != null && requestCode == 0) {
-            String jsonMyObject ="";
+            String jsonMyObject = "";
             Bundle result = data.getExtras();
             if (result != null) {
                 jsonMyObject = result.getString("key");

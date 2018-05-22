@@ -6,7 +6,6 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.widget.ProgressBar;
-import android.widget.Toast;
 
 import com.philips.lighting.hue.sdk.PHAccessPoint;
 import com.philips.lighting.hue.sdk.PHHueSDK;
@@ -16,52 +15,28 @@ import com.philips.lighting.model.PHBridge;
 import com.philips.lighting.model.PHHueParsingError;
 
 import java.util.List;
+
 import p8project.sw801.R;
 
 /**
  * Activity which gives hint for manual pushlink. needs to add <activity
  * android:theme="@android:style/Theme.Dialog" /> in manifest file
- * 
- * 
  */
 
 public class PHPushlinkActivity extends Activity {
+    private static final int MAX_TIME = 30;
     private ProgressBar pbar;
-    private static final int MAX_TIME=30;
     private PHHueSDK phHueSDK;
     private boolean isDialogShowing;
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.pushlink);
-        setTitle(R.string.txt_pushlink);
-        isDialogShowing=false;
-        phHueSDK = PHHueSDK.getInstance();
-        
-        pbar = (ProgressBar) findViewById(R.id.countdownPB);
-        pbar.setMax(MAX_TIME);
-        
-        phHueSDK.getNotificationManager().registerSDKListener(listener);
-    }
-
-    @Override
-    protected void onStop(){
-        super.onStop();
-        phHueSDK.getNotificationManager().unregisterSDKListener(listener);
-    }
-
-    public void incrementProgress() {
-        pbar.incrementProgressBy(1);
-    }
-    
     private PHSDKListener listener = new PHSDKListener() {
 
         @Override
-        public void onAccessPointsFound(List<PHAccessPoint> arg0) {}
+        public void onAccessPointsFound(List<PHAccessPoint> arg0) {
+        }
 
         @Override
-        public void onAuthenticationRequired(PHAccessPoint arg0) {}
+        public void onAuthenticationRequired(PHAccessPoint arg0) {
+        }
 
         @Override
         public void onBridgeConnected(PHBridge bridge, String username) {
@@ -69,24 +44,27 @@ public class PHPushlinkActivity extends Activity {
         }
 
         @Override
-        public void onCacheUpdated(List<Integer> arg0, PHBridge bridge) {}
+        public void onCacheUpdated(List<Integer> arg0, PHBridge bridge) {
+        }
 
         @Override
-        public void onConnectionLost(PHAccessPoint arg0) {}
+        public void onConnectionLost(PHAccessPoint arg0) {
+        }
 
         @Override
-        public void onConnectionResumed(PHBridge arg0) {finish();}
+        public void onConnectionResumed(PHBridge arg0) {
+            finish();
+        }
 
         @Override
         public void onError(int code, final String message) {
             if (code == PHMessageType.PUSHLINK_BUTTON_NOT_PRESSED) {
                 incrementProgress();
-            }
-            else if (code == PHMessageType.PUSHLINK_AUTHENTICATION_FAILED) {
+            } else if (code == PHMessageType.PUSHLINK_AUTHENTICATION_FAILED) {
                 incrementProgress();
 
                 if (!isDialogShowing) {
-                    isDialogShowing=true;
+                    isDialogShowing = true;
                     PHPushlinkActivity.this.runOnUiThread(new Runnable() {
 
                         @Override
@@ -104,21 +82,46 @@ public class PHPushlinkActivity extends Activity {
                         }
                     });
                 }
-                
+
             }
 
         } // End of On Error
 
         @Override
-        public void onParsingErrors(List<PHHueParsingError> parsingErrorsList) {}
+        public void onParsingErrors(List<PHHueParsingError> parsingErrorsList) {
+        }
     };
-    
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.pushlink);
+        setTitle(R.string.txt_pushlink);
+        isDialogShowing = false;
+        phHueSDK = PHHueSDK.getInstance();
+
+        pbar = (ProgressBar) findViewById(R.id.countdownPB);
+        pbar.setMax(MAX_TIME);
+
+        phHueSDK.getNotificationManager().registerSDKListener(listener);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        phHueSDK.getNotificationManager().unregisterSDKListener(listener);
+    }
+
+    public void incrementProgress() {
+        pbar.incrementProgressBy(1);
+    }
+
     @Override
     public void onDestroy() {
         super.onDestroy();
-        if (listener !=null) {
+        if (listener != null) {
             phHueSDK.getNotificationManager().unregisterSDKListener(listener);
         }
     }
-    
+
 }

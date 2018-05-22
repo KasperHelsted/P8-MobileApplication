@@ -27,29 +27,22 @@ import p8project.sw801.ui.custom.DayPicker;
 import p8project.sw801.utils.rx.SchedulerProvider;
 
 public class EditEventViewModel extends BaseViewModel<EditEventNavigator> {
-    @SuppressLint("SimpleDateFormat")
-    private SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm");
-
+    public final ObservableList<Trigger> eventTriggersObservableArrayList = new ObservableArrayList<>();
+    private final MutableLiveData<List<Trigger>> eventTriggersListLiveData;
     public ArrayList<String> locationConditions;
     public ArrayList<String> whenConditions;
-
     public ObservableField<String> eventName = new ObservableField<>();
     public ObservableInt locationCondition = new ObservableInt(0);
     public ObservableInt whenCondition = new ObservableInt(0);
-
     public ObservableField<String> locationString = new ObservableField<>();
-
     public ObservableInt startTime = new ObservableInt();
     public ObservableInt endTime = new ObservableInt();
-
     public DayPicker dayPicker = new DayPicker();
-
+    @SuppressLint("SimpleDateFormat")
+    private SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm");
     private Event event;
     private When when;
     private List<Trigger> triggers = new ArrayList<>();
-
-    public final ObservableList<Trigger> eventTriggersObservableArrayList = new ObservableArrayList<>();
-    private final MutableLiveData<List<Trigger>> eventTriggersListLiveData;
 
     /**
      * Constructor for viewmodel

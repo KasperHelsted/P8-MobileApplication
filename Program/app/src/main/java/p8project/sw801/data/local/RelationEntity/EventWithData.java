@@ -6,7 +6,6 @@ import android.arch.persistence.room.Relation;
 import java.util.List;
 
 import p8project.sw801.data.model.db.Event;
-import p8project.sw801.data.model.db.SmartDevice;
 import p8project.sw801.data.model.db.Trigger;
 import p8project.sw801.data.model.db.When;
 

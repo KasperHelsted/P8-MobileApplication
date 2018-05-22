@@ -40,7 +40,19 @@ public class AddEventAccessory extends BaseActivity<ActivityAddEventAccessoryBin
     private SmartDevice mSmartDevice;
 
     /**
+     * Creates a new AddEventAccessory intent.
+     *
+     * @param context The current context of the application.
+     * @return The created intent.
+     */
+    public static Intent newIntent(Context context) {
+        Intent intent = new Intent(context, AddEventAccessory.class);
+        return intent;
+    }
+
+    /**
      * On create method for AddEvent. Instantiates and sets up all required fields for the page.
+     *
      * @param savedInstanceState The saved instance state.
      */
     @Override
@@ -54,6 +66,7 @@ public class AddEventAccessory extends BaseActivity<ActivityAddEventAccessoryBin
 
     /**
      * Gets the binding variable.
+     *
      * @return The binding variable.
      */
     @Override
@@ -63,6 +76,7 @@ public class AddEventAccessory extends BaseActivity<ActivityAddEventAccessoryBin
 
     /**
      * Get id for the layout for this page.
+     *
      * @return Layout id.
      */
     @Override
@@ -72,6 +86,7 @@ public class AddEventAccessory extends BaseActivity<ActivityAddEventAccessoryBin
 
     /**
      * Get the instance of the view model.
+     *
      * @return Instance of the view model.
      */
     @Override
@@ -80,24 +95,14 @@ public class AddEventAccessory extends BaseActivity<ActivityAddEventAccessoryBin
     }
 
     /**
-     * Creates a new AddEventAccessory intent.
-     * @param context The current context of the application.
-     * @return The created intent.
-     */
-    public static Intent newIntent(Context context) {
-        Intent intent = new Intent(context, AddEventAccessory.class);
-        return intent;
-    }
-
-    /**
      * Method used to create the page. This method sets the adapter for the listview depending on which smart device have been chosen from the previous activity.
      */
-    private void setUp(){
+    private void setUp() {
         TextView textView = mActivityAddEventAccessoryBinding.textViewAccessory;
         textView.setText(mSmartDevice.getDeviceName());
         listView = mActivityAddEventAccessoryBinding.listViewAccessory;
 
-        if (mSmartDevice.getInternalIdentifier() == 1){
+        if (mSmartDevice.getInternalIdentifier() == 1) {
             hueArrayList.addAll(mAddEventAccessoryViewModel.getHueObservableList());
 
             //Adapter code
@@ -117,7 +122,7 @@ public class AddEventAccessory extends BaseActivity<ActivityAddEventAccessoryBin
             });
 
 
-        }else if (mSmartDevice.getInternalIdentifier() == 2){
+        } else if (mSmartDevice.getInternalIdentifier() == 2) {
             nestThermostatArrayList.addAll(mAddEventAccessoryViewModel.getNestObservableList());
 
             customNestAdapter c = new customNestAdapter(this, nestThermostatArrayList);
@@ -135,17 +140,15 @@ public class AddEventAccessory extends BaseActivity<ActivityAddEventAccessoryBin
         }
 
 
-
-
-
     }
 
     /**
      * Method used to get the smart device object passed from the previous activity.
+     *
      * @return Returns the smart device object.
      */
-    public SmartDevice decode(){
-        String jsonMyObject ="";
+    public SmartDevice decode() {
+        String jsonMyObject = "";
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             jsonMyObject = extras.getString("device");
@@ -158,8 +161,33 @@ public class AddEventAccessory extends BaseActivity<ActivityAddEventAccessoryBin
      * Method used to update the list showed on the page
      */
     @Override
-    public void updatelist(){
+    public void updatelist() {
         setUp();
+    }
+
+    /**
+     * Method used to catch the results from other activites that have been created from this one.
+     * The returned result is either a trigger for a hue light or a trigger for a nest thermostat. This result is passed on to the activity that started this one.
+     *
+     * @param requestCode The code used when creating the returned activity.
+     * @param resultCode  The result code from the returned activity.
+     * @param data        The intent attached to the returning activity.
+     */
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (data != null && requestCode == 1) {
+            String jsonMyObject = "";
+            Bundle result = data.getExtras();
+            if (result != null) {
+                jsonMyObject = result.getString("key");
+            }
+            Trigger t = new Gson().fromJson(jsonMyObject, Trigger.class);
+            Intent resultintent = new Intent();
+            resultintent.putExtra("key", new Gson().toJson(t));
+            setResult(Activity.RESULT_OK, resultintent);
+
+            finish();
+        }
     }
 
     /**
@@ -237,30 +265,6 @@ public class AddEventAccessory extends BaseActivity<ActivityAddEventAccessoryBin
             TextView t = row.findViewById(R.id.textview_addEventSmartDeviceList);
             t.setText(Title.get(position).getName());
             return (row);
-        }
-    }
-
-    /**
-     * Method used to catch the results from other activites that have been created from this one.
-     * The returned result is either a trigger for a hue light or a trigger for a nest thermostat. This result is passed on to the activity that started this one.
-     * @param requestCode The code used when creating the returned activity.
-     * @param resultCode The result code from the returned activity.
-     * @param data The intent attached to the returning activity.
-     */
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (data != null && requestCode == 1) {
-            String jsonMyObject ="";
-            Bundle result = data.getExtras();
-            if (result != null) {
-                jsonMyObject = result.getString("key");
-            }
-            Trigger t = new Gson().fromJson(jsonMyObject, Trigger.class);
-            Intent resultintent = new Intent();
-            resultintent.putExtra("key", new Gson().toJson(t));
-            setResult(Activity.RESULT_OK, resultintent);
-
-            finish();
         }
     }
 

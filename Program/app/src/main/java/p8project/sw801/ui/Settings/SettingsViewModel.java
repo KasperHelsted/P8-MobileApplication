@@ -13,13 +13,15 @@ public class SettingsViewModel extends BaseViewModel<SettingsNavigator> {
      * Navigators that handles clickEvents from the UI to activity code
      * In this case all of them are Events that open up new activities -> Navigators
      */
-    public void navigateToGlobalMute(){
+    public void navigateToGlobalMute() {
         getNavigator().navigateToGlobalMute();
     }
-    public void navigateToPredefinedLocation(){
+
+    public void navigateToPredefinedLocation() {
         getNavigator().navigateToPredefinedLocation();
     }
-    public void navigateToPreferedShopping(){
+
+    public void navigateToPreferedShopping() {
         getNavigator().navigateToPreferedShopping();
     }
 }

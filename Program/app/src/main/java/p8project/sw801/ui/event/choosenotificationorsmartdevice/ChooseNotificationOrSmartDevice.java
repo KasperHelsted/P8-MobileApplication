@@ -14,17 +14,24 @@ import p8project.sw801.ui.custom.FragmentCallback;
 import p8project.sw801.ui.event.addeventsmartdevice.AddEventSmartDevice;
 
 public class ChooseNotificationOrSmartDevice extends BaseFragment<FragmentChooseNotificationOrSmartdeviceBinding, ChooseNotificationOrSmartDeviceViewModel> implements ChooseNotificationOrSmartDeviceNavigator {
+    public static final String TAG = ChooseNotificationOrSmartDevice.class.getSimpleName();
     @Inject
     ChooseNotificationOrSmartDeviceViewModel mChooseNotificationOrSmartDeviceViewModel;
 
-    public static final String TAG = ChooseNotificationOrSmartDevice.class.getSimpleName();
+    public static ChooseNotificationOrSmartDevice newInstance() {
+        Bundle args = new Bundle();
+
+        ChooseNotificationOrSmartDevice fragment = new ChooseNotificationOrSmartDevice();
+        fragment.setArguments(args);
+
+        return fragment;
+    }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mChooseNotificationOrSmartDeviceViewModel.setNavigator(this);
     }
-
 
     @Override
     public int getBindingVariable() {
@@ -39,15 +46,6 @@ public class ChooseNotificationOrSmartDevice extends BaseFragment<FragmentChoose
     @Override
     public ChooseNotificationOrSmartDeviceViewModel getViewModel() {
         return mChooseNotificationOrSmartDeviceViewModel;
-    }
-
-    public static ChooseNotificationOrSmartDevice newInstance() {
-        Bundle args = new Bundle();
-
-        ChooseNotificationOrSmartDevice fragment = new ChooseNotificationOrSmartDevice();
-        fragment.setArguments(args);
-
-        return fragment;
     }
 
     @Override

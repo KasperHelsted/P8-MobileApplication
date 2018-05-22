@@ -5,7 +5,10 @@ import p8project.sw801.data.model.db.PredefinedLocation;
 
 public interface EditLocationNavigator {
     void submitEditLocationClick();
+
     void openCreateMapActivity();
+
     void renderFields(PredefinedLocation predefinedLocation, Coordinate coordinate);
+
     void openLocationActivty();
 }

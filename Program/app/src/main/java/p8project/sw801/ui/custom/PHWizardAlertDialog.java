@@ -12,14 +12,12 @@ import p8project.sw801.R;
 
 /**
  * Generic class for Alert and Progress dialogs wizard
- * 
- * 
  */
 
 public final class PHWizardAlertDialog {
 
-    private ProgressDialog pdialog;
     private static PHWizardAlertDialog dialogs;
+    private ProgressDialog pdialog;
 
     private PHWizardAlertDialog() {
 
@@ -33,47 +31,22 @@ public final class PHWizardAlertDialog {
     }
 
     /**
-     * 
      * @param activityContext
      * @param resID
-     * @param btnNameResId  String resource id for button name
+     * @param btnNameResId    String resource id for button name
      */
     public static void showErrorDialog(Context activityContext, String msg, int btnNameResId) {
         AlertDialog.Builder builder = new AlertDialog.Builder(activityContext);
         builder.setTitle(R.string.title_activity_my_smart_device).setMessage(msg).setPositiveButton(btnNameResId, null);
         AlertDialog alert = builder.create();
-        alert.getWindow().setSoftInputMode( WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
-        if (! ((Activity) activityContext).isFinishing()) {
+        alert.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
+        if (!((Activity) activityContext).isFinishing()) {
             alert.show();
         }
-       
+
     }
 
     /**
-     * Stops running progress-bar
-     */
-    public void closeProgressDialog() {
-
-        if (pdialog != null) {
-            pdialog.dismiss();
-            pdialog = null;
-        }
-    }
-
-    /**
-     * Shows progress-bar
-     * 
-     * @param resID
-     * @param act
-     */
-    public void showProgressDialog(int resID, Context ctx) {
-        String message = ctx.getString(resID);
-        pdialog = ProgressDialog.show(ctx, null, message, true, true);
-        pdialog.setCancelable(false);
-    }
-
-    /**
-     * 
      * @param activityContext
      * @param msg
      * @param btnNameResId
@@ -93,6 +66,29 @@ public final class PHWizardAlertDialog {
         AlertDialog alert = builder.create();
         alert.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
         alert.show();
+    }
+
+    /**
+     * Stops running progress-bar
+     */
+    public void closeProgressDialog() {
+
+        if (pdialog != null) {
+            pdialog.dismiss();
+            pdialog = null;
+        }
+    }
+
+    /**
+     * Shows progress-bar
+     *
+     * @param resID
+     * @param act
+     */
+    public void showProgressDialog(int resID, Context ctx) {
+        String message = ctx.getString(resID);
+        pdialog = ProgressDialog.show(ctx, null, message, true, true);
+        pdialog.setCancelable(false);
     }
 
 }

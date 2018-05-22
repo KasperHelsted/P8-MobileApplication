@@ -43,10 +43,23 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
     private MainViewModel mMainViewModel;
     private ActivityMainBinding mActivityMainBinding;
 
+    /**
+     * Creates a new MainActivity intent.
+     *
+     * @param context The current context of the application.
+     * @return The created intent.
+     */
+    public static Intent newIntent(Context context) {
+        Intent intent = new Intent(context, MainActivity.class);
+        return intent;
+    }
+
     @Override
     public AndroidInjector<Fragment> supportFragmentInjector() {
         return fragmentDispatchingAndroidInjector;
     }
+
+    //--------------------------Burger menu Start-------------------------------------
 
     /**
      * On create method for MainActivity. Instantiates and sets up all required fields for the page.
@@ -65,8 +78,6 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
 
         mMainViewModel.firstRunSeeding();
     }
-
-    //--------------------------Burger menu Start-------------------------------------
 
     /**
      * Method used to setup the BurgerMenu.
@@ -96,6 +107,7 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
         }
         return super.onOptionsItemSelected(item);
     }
+    //--------------------------Burger menu End-------------------------------------
 
     /**
      * Listener for handling events on navigation items for the BurgerMenu. Called when an item in the navigation menu is selected.
@@ -156,7 +168,6 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
         startActivity(intent);
         return false;
     }
-    //--------------------------Burger menu End-------------------------------------
 
     /**
      * Method used on resume.
@@ -165,17 +176,6 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
     @Override
     protected void onResume() {
         super.onResume();
-    }
-
-    /**
-     * Creates a new MainActivity intent.
-     *
-     * @param context The current context of the application.
-     * @return The created intent.
-     */
-    public static Intent newIntent(Context context) {
-        Intent intent = new Intent(context, MainActivity.class);
-        return intent;
     }
 
     /**

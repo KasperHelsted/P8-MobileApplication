@@ -17,7 +17,7 @@ import p8project.sw801.R;
 
 /**
  * This class provides adapter view for a list of Found Bridges.
- * 
+ *
  * @author SteveyO.
  */
 public class AccessPointListAdapter extends BaseAdapter {
@@ -25,20 +25,10 @@ public class AccessPointListAdapter extends BaseAdapter {
     private List<PHAccessPoint> accessPoints;
 
     /**
-     * View holder class for access point list.
-     * 
-     * @author SteveyO.
-     */
-    class BridgeListItem {
-        private TextView bridgeIp;
-        private TextView bridgeMac;
-    }
-
-    /**
      * creates instance of {@link AccessPointListAdapter} class.
-     * 
-     * @param context           the Context object.
-     * @param accessPoints      an array list of {@link PHAccessPoint} object to display.
+     *
+     * @param context      the Context object.
+     * @param accessPoints an array list of {@link PHAccessPoint} object to display.
      */
     public AccessPointListAdapter(Context context, List<PHAccessPoint> accessPoints) {
         // Cache the LayoutInflate to avoid asking for a new one each time.
@@ -48,11 +38,11 @@ public class AccessPointListAdapter extends BaseAdapter {
 
     /**
      * Get a View that displays the data at the specified position in the data set.
-     * 
-     * @param position      The row index.
-     * @param convertView   The row view.
-     * @param parent        The view group.
-     * @return              A View corresponding to the data at the specified position.
+     *
+     * @param position    The row index.
+     * @param convertView The row view.
+     * @param parent      The view group.
+     * @return A View corresponding to the data at the specified position.
      */
     public View getView(final int position, View convertView, ViewGroup parent) {
 
@@ -80,9 +70,9 @@ public class AccessPointListAdapter extends BaseAdapter {
 
     /**
      * Get the row id associated with the specified position in the list.
-     * 
-     * @param position  The row index.
-     * @return          The id of the item at the specified position.
+     *
+     * @param position The row index.
+     * @return The id of the item at the specified position.
      */
     @Override
     public long getItemId(int position) {
@@ -91,7 +81,7 @@ public class AccessPointListAdapter extends BaseAdapter {
 
     /**
      * How many items are in the data set represented by this Adapter.
-     * 
+     *
      * @return Count of items.
      */
     @Override
@@ -101,9 +91,9 @@ public class AccessPointListAdapter extends BaseAdapter {
 
     /**
      * Get the data item associated with the specified position in the data set.
-     * 
-     * @param position      Position of the item whose data we want within the adapter's data set.
-     * @return              The data at the specified position.
+     *
+     * @param position Position of the item whose data we want within the adapter's data set.
+     * @return The data at the specified position.
      */
     @Override
     public Object getItem(int position) {
@@ -112,13 +102,23 @@ public class AccessPointListAdapter extends BaseAdapter {
 
     /**
      * Update date of the list view and refresh listview.
-     * 
-     * @param accessPoints      An array list of {@link PHAccessPoint} objects.
+     *
+     * @param accessPoints An array list of {@link PHAccessPoint} objects.
      */
     public void updateData(List<PHAccessPoint> accessPoints) {
         this.accessPoints = accessPoints;
         notifyDataSetChanged();
         Toast.makeText(mInflater.getContext(), "Please click a Bridge IP to connect", Toast.LENGTH_LONG).show();
+    }
+
+    /**
+     * View holder class for access point list.
+     *
+     * @author SteveyO.
+     */
+    class BridgeListItem {
+        private TextView bridgeIp;
+        private TextView bridgeMac;
     }
 
 }

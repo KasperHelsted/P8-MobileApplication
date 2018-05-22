@@ -7,7 +7,8 @@ import p8project.sw801.utils.rx.SchedulerProvider;
 public class HomeFragmentViewModel extends BaseViewModel<HomeFragmentNavigator> {
     /**
      * Constructor for the class.
-     * @param dataManager The active instance of the datamanager.
+     *
+     * @param dataManager       The active instance of the datamanager.
      * @param schedulerProvider The active instance of the schedulerProvider.
      */
     public HomeFragmentViewModel(DataManager dataManager, SchedulerProvider schedulerProvider) {

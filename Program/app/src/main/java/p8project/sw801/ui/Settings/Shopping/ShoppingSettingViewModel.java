@@ -12,16 +12,17 @@ import p8project.sw801.ui.base.BaseViewModel;
 import p8project.sw801.utils.rx.SchedulerProvider;
 
 public class ShoppingSettingViewModel extends BaseViewModel<ShoppingSettingNavigator> {
+    public final ObservableBoolean favorite = new ObservableBoolean(false);
     /**
      * Observable fields for chain data and the favourites
      */
     private final ObservableArrayList<Chain> listOfChains = new ObservableArrayList<>();
-    public final ObservableBoolean favorite = new ObservableBoolean(false);
 
     /**
      * Constructor for the viewmodel
      * Updates the view with data from the database
-     * @param dataManager the database
+     *
+     * @param dataManager       the database
      * @param schedulerProvider class that controls which scheduler is used
      */
     public ShoppingSettingViewModel(DataManager dataManager, SchedulerProvider schedulerProvider) {
@@ -32,7 +33,7 @@ public class ShoppingSettingViewModel extends BaseViewModel<ShoppingSettingNavig
     /**
      * Receives the data from the database
      */
-    public void getListFromDb(){
+    public void getListFromDb() {
 
         //Fetch list from database
         getCompositeDisposable().add(
@@ -47,9 +48,10 @@ public class ShoppingSettingViewModel extends BaseViewModel<ShoppingSettingNavig
 
     /**
      * Seends the list of chains to the activity to render
+     *
      * @param chainList list of chains
      */
-    public void RenderList(List<Chain> chainList){
+    public void RenderList(List<Chain> chainList) {
         listOfChains.clear();
         listOfChains.addAll(chainList);
         getNavigator().updateShoppingList();
@@ -57,6 +59,7 @@ public class ShoppingSettingViewModel extends BaseViewModel<ShoppingSettingNavig
 
     /**
      * Observable that contains the current list of chains
+     *
      * @return
      */
     public ObservableList<Chain> getChainsObservableList() {
@@ -66,24 +69,23 @@ public class ShoppingSettingViewModel extends BaseViewModel<ShoppingSettingNavig
     /**
      * Observable for the favourites - Checked
      */
-    public void checked()
-    {
+    public void checked() {
         favorite.set(true);
     }
 
     /**
      * Observable for the favourites - unchecked
      */
-    public void unchecked()
-    {
+    public void unchecked() {
         favorite.set(false);
     }
 
     /**
      * Update method for a chain
+     *
      * @param chain one chain to update
      */
-    public void updateChain(Chain chain){
+    public void updateChain(Chain chain) {
         getCompositeDisposable().add(
                 getDataManager().updateChain(chain).subscribeOn(
                         getSchedulerProvider().io()

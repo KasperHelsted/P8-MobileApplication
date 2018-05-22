@@ -6,7 +6,6 @@ import dagger.Module;
 import dagger.Provides;
 import p8project.sw801.ViewModelProviderFactory;
 import p8project.sw801.data.DataManager;
-import p8project.sw801.ui.Settings.Location.LocationViewModel;
 import p8project.sw801.utils.rx.SchedulerProvider;
 
 @Module

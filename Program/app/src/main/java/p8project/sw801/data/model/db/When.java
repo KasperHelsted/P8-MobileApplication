@@ -12,10 +12,8 @@ import java.io.ByteArrayOutputStream;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
-import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import static android.arch.persistence.room.ForeignKey.CASCADE;
@@ -86,18 +84,7 @@ public class When implements Serializable {
         this.weekdays = weekdays;
     }
 
-    public void setListWeekDays(List<Integer> list) throws IOException{
-        // write to byte array
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        DataOutputStream out = new DataOutputStream(baos);
-        for (int element : list) {
-            out.writeUTF(Integer.toString(element));
-        }
-        byte[] bytes = baos.toByteArray();
-        setWeekdays(bytes);
-    }
-
-    public List<Integer> getListWeekDays() throws IOException{
+    public List<Integer> getListWeekDays() throws IOException {
         List<Integer> l = new ArrayList<>();
 
         byte[] bytes = getWeekdays();
@@ -111,6 +98,16 @@ public class When implements Serializable {
         return l;
     }
 
+    public void setListWeekDays(List<Integer> list) throws IOException {
+        // write to byte array
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        DataOutputStream out = new DataOutputStream(baos);
+        for (int element : list) {
+            out.writeUTF(Integer.toString(element));
+        }
+        byte[] bytes = baos.toByteArray();
+        setWeekdays(bytes);
+    }
 
     public Integer getTimeCondition() {
         return timeCondition;
@@ -138,7 +135,6 @@ public class When implements Serializable {
     public void setLocationCondition(Integer locationCondition) {
         this.locationCondition = locationCondition;
     }
-
 
 
     public Integer getId() {

@@ -13,7 +13,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
-
 import p8project.sw801.R;
 import p8project.sw801.data.model.db.GlobalMute;
 import p8project.sw801.ui.Settings.EditGlobalMuteSetting.EditGlobalMuteSettingActivity;
@@ -46,7 +45,7 @@ public class GlobalMuteSettingAdapter extends BaseAdapter {
         return position;
     }
 
-    private String timeConverter(long input){
+    private String timeConverter(long input) {
         Calendar cal = Calendar.getInstance();
         cal.setTime(new Date(input));
 
@@ -54,9 +53,10 @@ public class GlobalMuteSettingAdapter extends BaseAdapter {
                 cal.get(Calendar.HOUR_OF_DAY), cal.get(Calendar.MINUTE)
         );
     }
-    private String stringFormatting(String name,String timeFormattedString,int spaces){
+
+    private String stringFormatting(String name, String timeFormattedString, int spaces) {
         String finalString = name;
-        while (finalString.length() != spaces){
+        while (finalString.length() != spaces) {
             finalString = finalString + " ";
         }
         finalString = finalString + timeFormattedString;
