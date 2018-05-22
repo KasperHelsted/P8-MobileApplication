@@ -192,7 +192,6 @@ public class AddEvent extends BaseActivity<ActivityAddEventBinding, AddEventView
 
             @Override
             public void onNothingSelected(AdapterView<?> parentView) {
-                // your code here
             }
 
         });
@@ -211,7 +210,6 @@ public class AddEvent extends BaseActivity<ActivityAddEventBinding, AddEventView
 
             @Override
             public void onNothingSelected(AdapterView<?> parentView) {
-                // your code here
             }
         });
         coordinate = null;
@@ -245,7 +243,7 @@ public class AddEvent extends BaseActivity<ActivityAddEventBinding, AddEventView
                     setHideKeyboardOnTouch(context, innerView);
                 }
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }

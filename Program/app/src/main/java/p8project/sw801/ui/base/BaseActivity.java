@@ -30,7 +30,8 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 
 import dagger.android.AndroidInjection;
-import p8project.sw801.utils.*;
+import p8project.sw801.utils.CommonUtils;
+import p8project.sw801.utils.NetworkUtils;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 /**
@@ -119,8 +120,6 @@ public abstract class BaseActivity<T extends ViewDataBinding, V extends BaseView
     }
 
     public void openActivityOnTokenExpire() {
-        //startActivity(LoginActivity.newIntent(this));
-        //finish();
     }
 
     public void performDependencyInjection() {

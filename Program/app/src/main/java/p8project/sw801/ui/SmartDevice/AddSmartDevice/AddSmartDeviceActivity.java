@@ -148,7 +148,6 @@ public class AddSmartDeviceActivity extends BaseActivity<ActivityAddSmartDeviceB
         TextInputClientId = mActivityAddSmartDeviceBinding.textInputLayout2;
         TextInputSecret = mActivityAddSmartDeviceBinding.textInputLayout3;
 
-        //
         mActivity = this;
 
         //Register a SDK listener for actions related to connection
