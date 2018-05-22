@@ -277,7 +277,7 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
         if (mActivityMainBinding.mainViewpager.getCurrentItem() == 0) {
             new AlertDialog.Builder(this)
                     .setTitle("Close the application")
-                    .setMessage("Do you really want to close NotifyMe?")
+                    .setMessage("Do you really want to close " + getResources().getString(R.string.app_name) + "?")
                     .setIcon(android.R.drawable.ic_dialog_alert)
                     .setPositiveButton(android.R.string.yes, (dialog, whichButton) -> {
                         finish();
