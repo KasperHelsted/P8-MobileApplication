@@ -1,15 +1,9 @@
 <resources>
     <string name="app_name">Notify Me</string>
-    <string name="title_home">Home</string>
-    <string name="title_dashboard">Dashboard</string>
-    <string name="title_notifications">Notifications</string>
     <string name="title_activity_my_smart_device">MySmartDeviceActivity</string>
     <string name="title_myevents">My Events</string>
-    <string name="title_mysmartdevices">My Smart Devices</string>
-    <string name="title_menuhome">Home</string>
     <string name="title_menumyevents">My events</string>
     <string name="title_menumysmartdevices">My smart devices</string>
-    <string name="title_menuaddsmartdevice">Add smart device</string>
     <string name="title_menusettings">Settings</string>
     <string name="title_menuaboutus">About us</string>
     <string name="title_menucontactus">Contact us</string>
@@ -24,18 +18,9 @@
     <string name="search_progress">Searching ...</string>
     <string name="button_ok">OK</string>
     <!--Toolbar menus-->
-    <string name="clear">Clear</string>
-    <string name="cut">Cut</string>
-    <string name="copy">Copy</string>
-    <string name="paste">Paste</string>
-    <string name="delete">Delete</string>
-    <string name="share">Share</string>
 
-    <string name="setTimePicker">Choose time</string>
     <string name="anullerTimePicker">Cancel</string>
-    <string name="chooseTimePickerTime">Choose</string>
 
-    <string name="channel_name">Notificationchannel</string>
     <string name="title_activity_add_nest_smart_device">AddNestSmartDevice</string>
 
     <string name="edit_event">Edit Event</string>
@@ -47,7 +32,6 @@
     <string name="select_trigger">Add Event trigger</string>
     <string name="event_initial_time">Time:</string>
     <string name="event_between_time">Between time:</string>
-    <string name="event_create">Create Event</string>
     <string name="event_update">Update Event</string>
 
     <string name="daypicker_monday">M</string>
