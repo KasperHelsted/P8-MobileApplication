@@ -63,10 +63,8 @@ public class EditLocationViewModel extends BaseViewModel<EditLocationNavigator> 
                 ).subscribeOn(getSchedulerProvider().io())
                         .observeOn(getSchedulerProvider().ui())
                         .subscribe(response -> {
-                            System.out.println("Updated Location");
                             getNavigator().openLocationActivty();
                         }, throwable -> {
-                            System.out.println("response was null!");
 
                         })
         );
@@ -83,11 +81,7 @@ public class EditLocationViewModel extends BaseViewModel<EditLocationNavigator> 
                         id
                 ).subscribeOn(getSchedulerProvider().io())
                         .observeOn(getSchedulerProvider().ui())
-                        .subscribe(response -> {
-                            PredefinedLocation predefinedLocation = response;
-                            sendCoordinateFromId(predefinedLocation);
-                        }, throwable -> {
-                            System.out.println("response was null!");
+                        .subscribe(this::sendCoordinateFromId, throwable -> {
                         })
         );
     }
@@ -106,7 +100,6 @@ public class EditLocationViewModel extends BaseViewModel<EditLocationNavigator> 
                         .subscribe(response -> {
                             renderView(predefinedLocation, response);
                         }, throwable -> {
-                            System.out.println("response was null!");
                         })
         );
     }

@@ -194,7 +194,6 @@ public class EditEvent extends BaseActivity<ActivityEditEventBinding, EditEventV
         switch (requestCode) {
             case 0: {
                 removeFragment(LocationPicker.TAG);
-                System.out.println("MAP DATA");
 
                 Bundle addressBundle = data.getBundleExtra("address");
 

@@ -40,7 +40,6 @@ public class AddLocationViewModel extends BaseViewModel<AddLocationNavigator> {
                 ).subscribeOn(getSchedulerProvider().io())
                         .observeOn(getSchedulerProvider().ui())
                         .subscribe(response -> {
-                            System.out.println("Coordinate submitted");
                             createPredefinedLocation(locName);
                         })
         );
@@ -64,7 +63,6 @@ public class AddLocationViewModel extends BaseViewModel<AddLocationNavigator> {
                             pref.setName(locName);
                             submitLocation(pref);
                         }, throwable -> {
-                            System.out.println("response was null!");
                         })
         );
     }

@@ -34,6 +34,7 @@ public class MySmartDeviceFragment extends BaseFragment<FragmentMySmartDeviceBin
 
     /**
      * Constructor for the fragment
+     *
      * @return The fragment
      */
     public static MySmartDeviceFragment newInstance() {
@@ -56,6 +57,7 @@ public class MySmartDeviceFragment extends BaseFragment<FragmentMySmartDeviceBin
 
     /**
      * Gets the binding variable.
+     *
      * @return The binding variable.
      */
     @Override
@@ -65,6 +67,7 @@ public class MySmartDeviceFragment extends BaseFragment<FragmentMySmartDeviceBin
 
     /**
      * Get id for the layout for this page.
+     *
      * @return Layout id.
      */
     @Override
@@ -74,6 +77,7 @@ public class MySmartDeviceFragment extends BaseFragment<FragmentMySmartDeviceBin
 
     /**
      * Get the instance of the view model.
+     *
      * @return Instance of the view model.
      */
     @Override
@@ -83,6 +87,7 @@ public class MySmartDeviceFragment extends BaseFragment<FragmentMySmartDeviceBin
 
     /**
      * On create method for MySmartDeviceFragment.
+     *
      * @param savedInstanceState The saved instance state.
      */
     @Override
@@ -94,8 +99,9 @@ public class MySmartDeviceFragment extends BaseFragment<FragmentMySmartDeviceBin
 
     /**
      * On create view method for MySmartDeviceFragment. Instantiates and sets up all required fields for the page.
-     * @param inflater The infater used from the activity to inflate this fragment.
-     * @param container The container containing this fragment.
+     *
+     * @param inflater           The infater used from the activity to inflate this fragment.
+     * @param container          The container containing this fragment.
      * @param savedInstanceState The saved instance state if there is one.
      * @return The inflated view.
      */
@@ -126,6 +132,7 @@ public class MySmartDeviceFragment extends BaseFragment<FragmentMySmartDeviceBin
     /**
      * Method used when the user presses the delete button on a displayed smart device.
      * Opens a confirmation dialog.
+     *
      * @param smartDevice The smart device object to be deleted.
      */
     @Override
@@ -140,24 +147,25 @@ public class MySmartDeviceFragment extends BaseFragment<FragmentMySmartDeviceBin
 
     /**
      * Toggle method for smart devices.
+     *
      * @param smartDevice The smart device to toggle.
      */
     @Override
     public void toggleSmartDevice(SmartDevice smartDevice) {
-        System.out.println("TOGGLE");
     }
 
     /**
      * On click method for smart devices.
+     *
      * @param smartDevice The clicked smart device.
      */
     @Override
     public void onItemClick(SmartDevice smartDevice) {
-        System.out.println("Click?");
     }
 
     /**
      * Method called to update adapter rendering the list of smart devices.
+     *
      * @param smartDeviceList The new list of smart devices.
      */
     @Override

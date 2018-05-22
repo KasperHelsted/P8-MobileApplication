@@ -39,9 +39,6 @@ public class AddGlobalMuteSettingViewModel extends BaseViewModel<AddGlobalMuteSe
      * Multiple checks are performed to ensure that all required fields are filled.
      */
     public void submitGlobalMuteClick() {
-        System.out.println("startTime: " + startTime.get());
-        System.out.println("endTime: " + endTime.get());
-
         if (globulMuteName.get() == null || globulMuteName.get().isEmpty()) {
             getNavigator().sendNotification("Name cannot be empty");
             return;

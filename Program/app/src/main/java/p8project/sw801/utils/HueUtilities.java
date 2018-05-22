@@ -32,9 +32,8 @@ public final class HueUtilities {
      * Sets up the SDK for initial usage
      * Creates an instance with appropriate information and registers an SDKListener
      */
-    public static void setupSDK()
-    {
-        if (phHueSDK == null){
+    public static void setupSDK() {
+        if (phHueSDK == null) {
             phHueSDK = PHHueSDK.create();
             phHueSDK.setAppName(TAG);
             phHueSDK.setDeviceName(android.os.Build.MODEL);
@@ -45,10 +44,11 @@ public final class HueUtilities {
 
     /**
      * Takes a bridge object and attempts to connect to bridge
+     *
      * @param mhueBridge Bridge object to connect to
      * @return a boolean value indicating success of connection
      */
-    public static boolean connectToBridge(HueBridge mhueBridge){
+    public static boolean connectToBridge(HueBridge mhueBridge) {
         PHAccessPoint lastAccessPoint = new PHAccessPoint();
         lastAccessPoint.setIpAddress(mhueBridge.getDeviceIP());
         lastAccessPoint.setUsername(mhueBridge.getUsername());
@@ -62,11 +62,9 @@ public final class HueUtilities {
         }
         try {
             phHueSDK.connect(lastAccessPoint);
-        }
-        catch (PHHueException e){
+        } catch (PHHueException e) {
             return true;
-        }
-        catch (IllegalArgumentException f){
+        } catch (IllegalArgumentException f) {
             return false;
         }
         return true;
@@ -98,7 +96,6 @@ public final class HueUtilities {
         @Override
         public void onBridgeConnected(PHBridge phBridge, String s) {
             phHueSDK.setSelectedBridge(phBridge);
-            System.out.println("Hueutilities: OnBridgeConnected");
         }
 
         /**
@@ -196,17 +193,16 @@ public final class HueUtilities {
 
     /**
      * Change the lightstate of a specific light connected to the bridge
-     * @param id id of the lightbulb to change
-     * @param hue Hue level
+     *
+     * @param id         id of the lightbulb to change
+     * @param hue        Hue level
      * @param brightness Brightness level
      */
-    public static void changeLightstate(String id, int hue, int brightness){
+    public static void changeLightstate(String id, int hue, int brightness) {
         PHBridge bridge = phHueSDK.getSelectedBridge();
         List<PHLight> allLights = bridge.getResourceCache().getAllLights();
-        for (PHLight light : allLights)
-        {
-            if (light.getUniqueId().equals(id))
-            {
+        for (PHLight light : allLights) {
+            if (light.getUniqueId().equals(id)) {
                 PHLightState lightState = new PHLightState();
                 lightState.setHue(hue);
                 lightState.setBrightness(brightness);
@@ -218,15 +214,14 @@ public final class HueUtilities {
 
     /**
      * Turns a lightbulb to state on
+     *
      * @param id lightbulb id
      */
-    public static void turnLightOn(String id){
+    public static void turnLightOn(String id) {
         PHBridge bridge = phHueSDK.getSelectedBridge();
         List<PHLight> allLights = bridge.getResourceCache().getAllLights();
-        for (PHLight light : allLights)
-        {
-            if (light.getUniqueId().equals( id.toString()))
-            {
+        for (PHLight light : allLights) {
+            if (light.getUniqueId().equals(id.toString())) {
                 PHLightState lightState = new PHLightState();
                 lightState.setOn(true);
                 bridge.updateLightState(light, lightState);
@@ -237,15 +232,14 @@ public final class HueUtilities {
 
     /**
      * Turns a lightbulb to state off
+     *
      * @param id lightbulb id
      */
-    public static void turnLightOff(String id){
+    public static void turnLightOff(String id) {
         PHBridge bridge = phHueSDK.getSelectedBridge();
         List<PHLight> allLights = bridge.getResourceCache().getAllLights();
-        for (PHLight light : allLights)
-        {
-            if (light.getUniqueId().equals(id.toString()))
-            {
+        for (PHLight light : allLights) {
+            if (light.getUniqueId().equals(id.toString())) {
                 PHLightState lightState = new PHLightState();
                 lightState.setOn(false);
                 bridge.updateLightState(light, lightState);

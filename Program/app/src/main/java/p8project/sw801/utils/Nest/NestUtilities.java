@@ -20,35 +20,33 @@ public final class NestUtilities {
     /**
      * Starts the nest communication from a specific context and allows usage
      * of nestAPI from calling location by using the globally defined 'nestApi'.
-     *
+     * <p>
      * Authentification is performed with an EventListener that returns a status and updates accordingly
-     * @param ctx context to give access to nest api
+     *
+     * @param ctx     context to give access to nest api
      * @param nestHub The nest with information to connect to
      */
     public static void InitializeNestForCurrentContext(Context ctx, NestHub nestHub) {
-        NestToken nestToken = new NestToken(nestHub.getBearerToken(),nestHub.getExpires());
+        NestToken nestToken = new NestToken(nestHub.getBearerToken(), nestHub.getExpires());
         Firebase.setAndroidContext(ctx);
         NestAPI nest = NestAPI.getInstance();
         nest.authWithToken(nestToken, new NestListener.AuthListener() {
             @Override
             public void onAuthSuccess() {
-                System.out.println("WE ARE CONNECTED!");
                 ready = true;
                 nestAPI = nest;
             }
 
             @Override
             public void onAuthFailure(NestException e) {
-                System.out.println("WE FAILED TO AUTH!");
             }
 
             @Override
             public void onAuthRevoked() {
-                System.out.println("AUTH REVOKED!");
                 NestAPI.setAndroidContext(ctx);
                 NestAPI nest = NestAPI.getInstance();
-                nest.setConfig(nestHub.getClientId(),nestHub.getSecretId(),"http://localhost:8080/auth/nest/callback");
-                nest.launchAuthFlow((Activity)ctx, AUTH_TOKEN_REQUEST_CODE);
+                nest.setConfig(nestHub.getClientId(), nestHub.getSecretId(), "http://localhost:8080/auth/nest/callback");
+                nest.launchAuthFlow((Activity) ctx, AUTH_TOKEN_REQUEST_CODE);
             }
         });
         nestAPI = nest;

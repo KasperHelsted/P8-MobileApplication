@@ -23,7 +23,6 @@ public class TriggerListItemViewModel {
     }
 
     public void onItemClick() {
-        System.out.println("CLICK");
     }
 
     public void deleteTrigger() {
